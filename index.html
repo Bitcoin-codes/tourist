@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visit Ghana — West Africa's Luxury Gateway & Cultural Experience</title>
+  <meta name="description"
+    content="Discover Ghana's iconic tourist destinations, monkey sanctuaries, UNESCO fortresses, rainforest canopy walks, and vibrant cultural festivals.">
+
+  <!-- SVG Gradient Definitions -->
+  <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+    <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE082" />
+      <stop offset="50%" stop-color="#FFB800" />
+      <stop offset="100%" stop-color="#D47A00" />
+    </linearGradient>
+  </svg>
+
+  <!-- Leaflet CSS for Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- Ambient Background Glow -->
+  <div class="bg-glow-top"></div>
+
+  <!-- HEADER NAVIGATION -->
+  <header class="header">
+    <div class="container nav-wrapper">
+      <a href="#" class="brand-logo">
+        <svg class="brand-pin" viewBox="0 0 24 24">
+          <path
+            d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+        </svg>
+        <span class="visit-text">visit</span><span class="ghana-badge">GHANA</span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#destinations" class="nav-link active">Destinations</a></li>
+          <li><a href="#festivals" class="nav-link">Cultural Festivals</a></li>
+          <li><a href="#map-section" class="nav-link">Interactive Map</a></li>
+          <li><a href="#planner" class="nav-link">Trip Planner</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="header-search">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <path d="M21 21l-4.35-4.35" />
+          </svg>
+          <input type="text" id="search-input" placeholder="Search destinations, monkeys, castles...">
+        </div>
+        <button class="btn-pill-menu" onclick="openInfoModal('practical-info')">
+          <span>Menu</span>
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        <button class="mobile-toggle" aria-label="Toggle Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main>
+
+    <!-- HERO SECTION WITH LUXURY FAN-OUT CARD STACK -->
+    <section class="hero-section">
+      <div class="container">
+        <h1 class="hero-title">Akwaaba! Discover Ghana’s <span class="gradient-text">Timeless Heritage</span> & Natural
+          Wonders.</h1>
+        <p class="hero-subtitle">Immerse yourself in West Africa’s most iconic landscapes, sacred monkey sanctuaries,
+          UNESCO fortresses, wildlife safaris, and royal cultural festivals.</p>
+
+        <!-- Dynamic 3D Stacked Fan-Out Cards -->
+        <div class="hero-card-stack-wrapper">
+          <div class="hero-card-stack">
+            <div class="hero-stack-card" onclick="openDestinationModal('cape-coast-castle')">
+              <img src="assets/images/cape_coast_castle.png" alt="Cape Coast Castle">
+              <div class="card-caption">Cape Coast Castle</div>
+            </div>
+            <div class="hero-stack-card" onclick="openDestinationModal('tafi-atome-monkey-sanctuary')">
+              <img src="assets/images/tafi_atome_monkeys_1.png" alt="Tafi Atome Mona Monkeys Ghana">
+              <div class="card-caption">Tafi Atome Sanctuary</div>
+            </div>
+            <div class="hero-stack-card" onclick="openDestinationModal('mole-national-park')">
+              <img src="assets/images/Mole Wildlife Safari.webp" alt="Mole Elephants Safari">
+              <div class="card-caption">Mole Wildlife Safari</div>
+            </div>
+            <div class="hero-stack-card" onclick="openFestivalModal('aboakyer-festival')">
+              <img src="assets/images/aboakyer_festival.jpg" alt="Aboakyer Deer Hunt Festival Winneba">
+              <div class="card-caption">Aboakyer Festival</div>
+            </div>
+            <div class="hero-stack-card" onclick="openDestinationModal('wli-waterfall')">
+              <img src="assets/images/wli_waterfall.png" alt="Wli Waterfall">
+              <div class="card-caption">Wli Waterfalls</div>
+            </div>
+            <div class="hero-stack-card" onclick="openDestinationModal('kakum-national-park')">
+              <img src="assets/images/kakum_canopy.png" alt="Kakum Canopy Walk">
+              <div class="card-caption">Kakum Canopy Walk</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Glowing Hero Action Buttons -->
+        <div class="hero-actions-bar">
+          <button class="hero-pill-btn" onclick="openInfoModal('getting-around')">
+            <span>Getting Around Ghana</span>
+            <span class="pill-dot-icon">➔</span>
+          </button>
+          <button class="hero-pill-btn" onclick="openInfoModal('flight-visa')">
+            <span>Flight & Visa</span>
+            <span class="pill-dot-icon">➔</span>
+          </button>
+          <button class="hero-pill-btn" onclick="openInfoModal('practical-info')">
+            <span>Practical Information</span>
+            <span class="pill-dot-icon">➔</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- DESTINATIONS SECTION & CATEGORY FILTERS -->
+    <section id="destinations" class="container" style="padding-top: 60px;">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Explore Ghana's Iconic Destinations</h2>
+          <p class="section-desc">Filter by category or use search to discover monkey sanctuaries, fortresses, and
+            natural wonders.</p>
+        </div>
+      </div>
+
+      <!-- Category Tabs -->
+      <div class="category-tabs">
+        <button class="tab-btn active" data-category="all"> All Destinations</button>
+        <button class="tab-btn" data-category="national-parks"> Parks & Sanctuaries</button>
+        <button class="tab-btn" data-category="historical"> Historical Sites</button>
+        <button class="tab-btn" data-category="waterfalls"> Waterfalls</button>
+        <button class="tab-btn" data-category="cultural"> Cultural Landmarks</button>
+      </div>
+
+      <!-- Cards Grid -->
+      <div id="destinations-grid" class="destinations-grid">
+        <!-- Rendered dynamically via app.js -->
+      </div>
+    </section>
+
+    <!-- CULTURAL FESTIVALS EXPANDED SECTION -->
+    <section id="festivals" class="festivals-section container">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Traditional Cultural Festivals</h2>
+          <p class="section-desc">Experience royal processions, harvest celebrations, and ancestral rituals across
+            Ghana's 16 regions.</p>
+        </div>
+      </div>
+
+      <!-- Festival Cards Grid -->
+      <div id="festivals-grid-container" class="festivals-grid">
+        <!-- Rendered dynamically via app.js -->
+      </div>
+    </section>
+
+    <!-- INTERACTIVE MAP SECTION -->
+    <section id="map-section" class="map-section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Interactive Map Explorer</h2>
+            <p class="section-desc">Explore live destination pins across Ghana's regions.</p>
+          </div>
+        </div>
+        <div class="map-container-wrapper">
+          <div id="ghana-map"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CUSTOM ITINERARY PLANNER -->
+    <section id="planner" class="container">
+      <div class="planner-section">
+        <div class="container" style="max-width: 900px;">
+          <h2 style="font-size: 2.8rem; font-weight: 900; text-align: center; color: #FFF;">Plan Your Custom Ghana
+            Itinerary</h2>
+          <p style="text-align: center; color: var(--text-secondary); font-size: 1.15rem; margin-top: 10px;">Tailor your
+            travel schedule based on your visit duration and interest style.</p>
+
+          <div class="planner-box">
+            <div class="planner-controls">
+              <div class="form-group">
+                <label for="planner-days">Trip Duration</label>
+                <select id="planner-days">
+                  <option value="3">3 Days (Express Highlights)</option>
+                  <option value="7" selected>7 Days (Essential Ghana)</option>
+                  <option value="14">14 Days (Grand Explorer)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="planner-style">Travel Style</label>
+                <select id="planner-style">
+                  <option value="culture">Culture & History</option>
+                  <option value="nature">Nature & Eco-Safari</option>
+                  <option value="balanced" selected>Balanced Highlights</option>
+                </select>
+              </div>
+            </div>
+
+            <button class="btn-generate-plan" onclick="generateItinerary()" style="width: 100%;">⚡ Generate My Custom
+              Ghana Itinerary</button>
+
+            <div id="itinerary-results" class="itinerary-results">
+              <!-- Rendered via app.js -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>visitGHANA</h3>
+          <p>The official digital gateway promoting luxury tourism, cultural heritage, and eco-adventures across Ghana,
+            West Africa.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Iconic Destinations</h4>
+          <ul class="footer-links">
+            <li><a href="#destinations" onclick="openDestinationModal('tafi-atome-monkey-sanctuary')">Tafi Atome Monkey
+                Sanctuary</a></li>
+            <li><a href="#destinations" onclick="openDestinationModal('boabeng-fiema-monkey-sanctuary')">Boabeng-Fiema
+                Monkey Sanctuary</a></li>
+            <li><a href="#destinations" onclick="openDestinationModal('cape-coast-castle')">Cape Coast Castle</a></li>
+            <li><a href="#destinations" onclick="openDestinationModal('mole-national-park')">Mole Elephant Safari</a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Festivals & Culture</h4>
+          <ul class="footer-links">
+            <li><a href="#festivals" onclick="openFestivalModal('aboakyer-festival')">Aboakyer Deer Festival</a></li>
+            <li><a href="#festivals" onclick="openFestivalModal('homowo-festival')">Homowo Festival</a></li>
+            <li><a href="#festivals" onclick="openFestivalModal('damba-festival')">Damba Festival</a></li>
+            <li><a href="#festivals" onclick="openFestivalModal('hogbetsotso-festival')">Hogbetsotso Festival</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact & Support</h4>
+          <ul class="footer-links">
+            <li><a href="#">Ghana Tourism Authority</a></li>
+            <li><a href="#">Accra Tourist Center</a></li>
+            <li><a href="#">Emergency: 112 / 191</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 Visit Ghana Digital Tourism Experience. All rights reserved.</p>
+        <p>Built with Passion for Ghana Tourism</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- DESTINATION DETAIL MODAL -->
+  <div id="destination-modal-overlay" class="modal-overlay">
+    <div id="destination-modal-card" class="modal-card">
+      <!-- Injected via app.js -->
+    </div>
+  </div>
+
+  <!-- PRACTICAL INFO MODAL -->
+  <div id="info-modal-overlay" class="modal-overlay">
+    <div id="info-modal-card" class="modal-card">
+      <!-- Injected via app.js -->
+    </div>
+  </div>
+
+  <!-- Leaflet JS for Map -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Custom App JavaScript -->
+  <script src="app.js"></script>
+</body>
+
+</html>

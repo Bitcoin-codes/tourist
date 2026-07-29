@@ -260,6 +260,285 @@ img {
 }
 
 /* ==========================================================================
+   MOBILE NAVIGATION STYLES
+   ========================================================================== */
+
+/* Hamburger Button Base (Hidden on Desktop) */
+.mobile-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 38px;
+  height: 34px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.mobile-toggle span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: var(--text-primary);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Responsive Breakpoint for Mobile & Tablets */
+@media screen and (max-width: 900px) {
+  .nav-wrapper {
+    position: relative;
+  }
+
+  .mobile-toggle {
+    display: flex; /* Show hamburger button */
+  }
+
+  /* Transform Hamburger into an 'X' when active */
+  .mobile-toggle.is-active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .mobile-toggle.is-active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .mobile-toggle.is-active span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* Mobile Slide-down Menu */
+  nav {
+    width: 100%;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: calc(100% + 18px);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+    
+    /* Hidden State */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-12px);
+    transition: var(--transition-smooth);
+    pointer-events: none;
+  }
+
+  /* Active Menu State */
+  .nav-links.nav-active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: all;
+  }
+
+  .nav-links li {
+    width: 100%;
+  }
+
+  .nav-link {
+    display: block;
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 1rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .nav-link:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .nav-link.active::after {
+    display: none; /* Hide desktop bottom line on mobile */
+  }
+
+  .nav-link.active {
+    background: var(--gold-glow-subtle);
+    color: var(--gold-primary);
+  }
+
+  /* Optimize Search & Action Buttons on Mobile */
+  .header-search input {
+    width: 160px;
+    padding-left: 38px;
+  }
+
+  .header-search input:focus {
+    width: 190px;
+  }
+
+  .btn-pill-menu {
+    display: none; /* Hide desktop pill menu button on smaller screens */
+  }
+}
+
+/* Extra small mobile adjustments */
+@media screen and (max-width: 520px) {
+  .brand-logo .visit-text {
+    display: none; /* Hide "vista" text on narrow screens to prevent crowding */
+  }
+
+  .header-search {
+    display: none; /* Move search inside main layout if space is extremely tight */
+  }
+}
+/* Ensure the header container acts as the anchor point for absolute positioning */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(9, 12, 16, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-glass);
+  padding: 18px 0;
+}
+
+/* Hamburger Button Styling */
+.mobile-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  z-index: 1002;
+}
+
+.mobile-toggle span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #ffffff;
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Transform Hamburger into an 'X' */
+.mobile-toggle.is-active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.mobile-toggle.is-active span:nth-child(2) {
+  opacity: 0;
+}
+.mobile-toggle.is-active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Mobile & Tablet Breakpoint */
+@media screen and (max-width: 900px) {
+  .nav-wrapper {
+    position: relative;
+  }
+
+  .mobile-toggle {
+    display: flex; /* Show hamburger button */
+  }
+
+  /* Make nav wrapper stretch relative to header on mobile */
+  nav {
+    position: static;
+  }
+
+  /* Position mobile nav menu relative to the header wrapper */
+  .nav-links {
+    position: absolute;
+    top: calc(100% + 18px);
+    left: 0;
+    right: 0;
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    background: #10151e; /* Solid background so text stands out */
+    border: 1px solid var(--border-gold);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
+    z-index: 1001;
+
+    /* Hidden State */
+    display: none;
+  }
+
+  /* Active Open State */
+  .nav-links.nav-active {
+    display: flex !important;
+  }
+
+  .nav-links li {
+    width: 100%;
+    list-style: none;
+  }
+
+  .nav-link {
+    display: block;
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    border-radius: var(--radius-sm);
+    text-align: left;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    background: var(--gold-glow-subtle);
+    color: var(--gold-primary);
+  }
+
+  .nav-link.active::after {
+    display: none;
+  }
+
+  .btn-pill-menu {
+    display: none; /* Hide default desktop button */
+  }
+
+  .header-search input {
+    width: 140px;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  /* Ensure 'vista' remains visible */
+  .brand-logo .visit-text {
+    display: inline !important;
+  }
+
+  /* Scale down the logo slightly so both words fit comfortably */
+  .brand-logo {
+    font-size: 1.25rem;
+    gap: 6px;
+  }
+
+  /* Scale down the location pin icon */
+  .brand-pin {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* ==========================================================================
    HERO SECTION & FAN-OUT CARD STACK
    ========================================================================== */
 .hero-section {

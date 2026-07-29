@@ -1220,3 +1220,32 @@ function submitToAgent() {
   appendBotMessage(`✅ Your question has been forwarded to our expert team! We'll reply to <strong>${email}</strong> within a few hours. Is there anything else I can help with?`, false);
   pendingEscalationQuestion = '';
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const mobileToggle = document.querySelector('.mobile-toggle');
+  const navLinks = document.querySelector('.nav-links');
+
+  if (mobileToggle && navLinks) {
+    mobileToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      mobileToggle.classList.toggle('is-active');
+      navLinks.classList.toggle('nav-active');
+    });
+
+    // Close menu when clicking any link inside
+    navLinks.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileToggle.classList.remove('is-active');
+        navLinks.classList.remove('nav-active');
+      });
+    });
+
+    // Close menu when clicking anywhere outside header
+    document.addEventListener('click', (e) => {
+      if (!navLinks.contains(e.target) && !mobileToggle.contains(e.target)) {
+        mobileToggle.classList.remove('is-active');
+        navLinks.classList.remove('nav-active');
+      }
+    });
+  }
+});

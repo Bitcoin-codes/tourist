@@ -161,7 +161,7 @@ const DESTINATIONS = [
     categoryName: "Sacred Sanctuary",
     region: "Upper East Region",
     location: "Paga, Burkina Faso Border",
-    image: "assests/images/paga.jpeg",
+    image: "assets/images/paga_crocodile.png",
     rating: 4.6,
     reviews: 580,
     fee: "GHS 50 / $4",
@@ -205,7 +205,7 @@ const DESTINATIONS = [
     categoryName: "Adventure Mountain",
     region: "Volta Region",
     location: "Liati Wote, Gbledi",
-    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
+    image: "assets/images/mount_afadjato.png",
     rating: 4.8,
     reviews: 1100,
     fee: "GHS 70 / $6",
@@ -227,7 +227,7 @@ const DESTINATIONS = [
     categoryName: "Waterfall",
     region: "Eastern Region",
     location: "Yilo Krobo, Koforidua",
-    image: "https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=800&q=80",
+    image: "assets/images/boti_waterfalls.png",
     rating: 4.7,
     reviews: 1250,
     fee: "GHS 80 / $7",
@@ -249,7 +249,7 @@ const DESTINATIONS = [
     categoryName: "UNESCO Heritage Site",
     region: "Central Region",
     location: "Elmina, Central Coast",
-    image: "https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?auto=format&fit=crop&w=800&q=80",
+    image: "assets/images/elmina_castle.png",
     rating: 4.9,
     reviews: 1890,
     fee: "GHS 120 / $10",
@@ -355,7 +355,7 @@ const FESTIVALS = [
     duration: "1 Month Festival Season",
     location: "Accra, Tema, Ningo",
     region: "Greater Accra Region",
-    image: "assets/images/cultural_dancers.png",
+    image: "assets/images/homowo_festival.jpg",
     shortDesc: "Meaning 'hooting at hunger', celebrating victory over historical famine with traditional Kpokpoi food sharing and drumming.",
     fullDesc: "Homowo is the most celebrated festival of the Ga people in Greater Accra. The word 'Homowo' literally translates to 'hooting at hunger'. It commemorates a devastating famine that plagued the Ga ancestors during their migration to Accra before a miraculous bountiful harvest. Chiefs and family heads sprinkle traditional 'Kpokpoi' (steamed cornmeal and palm oil soup) across family ancestral homes and streets while drumming and dancing.",
     keyRituals: ["Kpokpoi Ritual Sprinkling", "Twin Celebrations (Akweley Suma)", "Twin Drumming & Dancing", "Family Reconciliation Feasts"]
@@ -485,7 +485,7 @@ const FESTIVALS = [
     duration: "1 Week",
     location: "Anloga",
     region: "Volta Region",
-    image: "assets/images/cultural_dancers.png",
+    image: "assets/images/hogbetsotso_festival.jpg",
     shortDesc: "Commemorating the historic escape of the Ewe people from ancient tyrannical rule, featuring famous backward walking dances.",
     fullDesc: "Hogbetsotso (pronounced 'Hogbe-tso-tso') is celebrated by the Anlo Ewe people of the Volta Region. It commemorates their historic migration escape from Notsie in present-day Togo to avoid the tyranny of King Agorkoli. During the festival, dancers perform the Agbadza and Atsiagbekor dances, reenacting their backward walking strategy used to deceive pursuers.",
     keyRituals: ["Reenactment of Backward Escape Walk", "Agbadza & Atsiagbekor Dances", "Peace & Reconciliation Purification", "Durbar of Ewe Chiefs"]
@@ -511,13 +511,13 @@ const PRACTICAL_INFO = {
     title: "Getting Around Ghana",
     badge: "Transportation Guide",
     content: `
-      <h4>✈️ Domestic Flights</h4>
+      <h4>Domestic Flights</h4>
       <p>PassionAir and Africa World Airlines (AWA) fly daily between Accra (ACC), Kumasi (KMS), Tamale (TML), and Takoradi (TKD).</p>
       
-      <h4>🚗 Ride Hailing & Taxis</h4>
+      <h4>Ride Hailing & Taxis</h4>
       <p>Uber, Yango, and Bolt operate extensively throughout Greater Accra and Kumasi with cashless options. Local orange-fender taxis are also widely available.</p>
       
-      <h4>🚌 Tro-Tros & Intercity Coaches</h4>
+      <h4>Tro-Tros & Intercity Coaches</h4>
       <p>Tro-tros (shared minibuses) are the quintessential Ghanaian commuting experience. For long distances, VIP Jeoun and STC offer comfortable air-conditioned coaches.</p>
     `
   },
@@ -538,6 +538,7 @@ const PRACTICAL_INFO = {
   "practical-info": {
     title: "Practical Information & Tips",
     badge: "Essential Tourist Tips",
+
     content: `
       <h4> Currency & Mobile Money (MoMo)</h4>
       <p>The currency is the Ghana Cedi (GHS). Mobile Money (MTN MoMo) and cards are used everywhere in cities, but carry cash Cedis when visiting rural waterfalls and parks.</p>
@@ -575,14 +576,14 @@ function renderDestinations() {
 
   const filtered = DESTINATIONS.filter(item => {
     const matchesCat = currentCategory === 'all' || item.category === currentCategory;
-    const matchesSearch = !q || 
-                          item.name.toLowerCase().includes(q) || 
-                          item.location.toLowerCase().includes(q) ||
-                          item.region.toLowerCase().includes(q) ||
-                          item.categoryName.toLowerCase().includes(q) ||
-                          item.shortDesc.toLowerCase().includes(q) ||
-                          item.fullDesc.toLowerCase().includes(q) ||
-                          item.highlights.some(h => h.toLowerCase().includes(q));
+    const matchesSearch = !q ||
+      item.name.toLowerCase().includes(q) ||
+      item.location.toLowerCase().includes(q) ||
+      item.region.toLowerCase().includes(q) ||
+      item.categoryName.toLowerCase().includes(q) ||
+      item.shortDesc.toLowerCase().includes(q) ||
+      item.fullDesc.toLowerCase().includes(q) ||
+      item.highlights.some(h => h.toLowerCase().includes(q));
 
     return matchesCat && matchesSearch;
   });
@@ -646,7 +647,7 @@ function renderFestivals() {
       <div class="festival-card-expanded">
         <div class="festival-card-img">
           <img src="${item.image}" alt="${item.name}" loading="lazy">
-          <span class="festival-month-badge">📅 ${item.month}</span>
+          <span class="festival-month-badge">  ${item.month}</span>
         </div>
         <div class="festival-card-content">
           <div class="festival-culture-tag"> ${item.culture}</div>
@@ -683,14 +684,14 @@ function openFestivalModal(id) {
     <div class="modal-content-body">
       <div class="modal-header-meta">
         <span class="card-badge" style="background: var(--crimson-gradient); color: #FFF; border: none;">👑 ${festival.culture}</span>
-        <span style="font-weight: 700; color: var(--emerald-accent);">📍 ${festival.location}, ${festival.region}</span>
+        <span style="font-weight: 700; color: var(--emerald-accent);">  ${festival.location}, ${festival.region}</span>
       </div>
       <h2 class="modal-title">${festival.name}</h2>
       
       <div class="modal-fact-grid">
         <div class="fact-item">
           <h5>Month / Time of Year</h5>
-          <p>📅 ${festival.month}</p>
+          <p>  ${festival.month}</p>
         </div>
         <div class="fact-item">
           <h5>Duration</h5>
@@ -698,7 +699,7 @@ function openFestivalModal(id) {
         </div>
         <div class="fact-item">
           <h5>Location</h5>
-          <p>📍 ${festival.location}</p>
+          <p>  ${festival.location}</p>
         </div>
         <div class="fact-item">
           <h5>Region</h5>
@@ -711,7 +712,7 @@ function openFestivalModal(id) {
 
       <h4 style="font-size: 1.1rem; margin-bottom: 12px;">Key Rituals & Event Highlights</h4>
       <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px;">
-        ${festival.keyRituals.map(r => `<span style="background: rgba(255, 184, 0, 0.12); color: var(--gold-primary); border: 1px solid var(--border-gold); font-weight: 700; font-size: 0.85rem; padding: 8px 16px; border-radius: 20px;">🥁 ${r}</span>`).join('')}
+        ${festival.keyRituals.map(r => `<span style="background: rgba(255, 184, 0, 0.12); color: var(--gold-primary); border: 1px solid var(--border-gold); font-weight: 700; font-size: 0.85rem; padding: 8px 16px; border-radius: 20px;"> ${r}</span>`).join('')}
       </div>
 
       <div style="display: flex; gap: 12px;">
@@ -735,19 +736,19 @@ function initMap() {
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
-    attribution: '© OpenStreetMap contributors | Visit Ghana'
+    attribution: '© OpenStreetMap contributors | Vista Ghana'
   }).addTo(leafletMap);
 
   DESTINATIONS.forEach(item => {
     const customIcon = L.divIcon({
       className: 'custom-map-pin',
-      html: `<div style="background: var(--gold-gradient); color: #090C10; font-weight: 900; border: 2px solid #FFF; padding: 6px 14px; border-radius: 20px; box-shadow: 0 4px 14px rgba(255, 184, 0, 0.5); font-size: 11px; white-space: nowrap;">📍 ${item.name}</div>`,
+      html: `<div style="background: var(--gold-gradient); color: #090C10; font-weight: 900; border: 2px solid #FFF; padding: 6px 14px; border-radius: 20px; box-shadow: 0 4px 14px rgba(255, 184, 0, 0.5); font-size: 11px; white-space: nowrap;">  ${item.name}</div>`,
       iconSize: [140, 30],
       iconAnchor: [70, 15]
     });
 
     const marker = L.marker([item.lat, item.lng], { icon: customIcon }).addTo(leafletMap);
-    
+
     marker.bindPopup(`
       <div class="popup-card">
         <img src="${item.image}" alt="${item.name}">
@@ -776,7 +777,7 @@ function openDestinationModal(id) {
     <div class="modal-content-body">
       <div class="modal-header-meta">
         <span class="card-badge">${item.categoryName}</span>
-        <span style="font-weight: 700; color: var(--emerald-accent);">📍 ${item.region}</span>
+        <span style="font-weight: 700; color: var(--emerald-accent);"> ${item.region}</span>
       </div>
       <h2 class="modal-title">${item.name}</h2>
       
@@ -795,7 +796,7 @@ function openDestinationModal(id) {
         </div>
         <div class="fact-item">
           <h5>Accessibility</h5>
-          <p>♿ ${item.accessibility}</p>
+          <p>${item.accessibility}</p>
         </div>
       </div>
 
@@ -804,19 +805,19 @@ function openDestinationModal(id) {
 
       <h4 style="font-size: 1.1rem; margin-bottom: 12px;">Key Experience Highlights</h4>
       <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px;">
-        ${item.highlights.map(h => `<span style="background: rgba(255, 184, 0, 0.12); color: var(--gold-primary); border: 1px solid var(--border-gold); font-weight: 700; font-size: 0.85rem; padding: 6px 14px; border-radius: 20px;">✨ ${h}</span>`).join('')}
+        ${item.highlights.map(h => `<span style="background: rgba(255, 184, 0, 0.12); color: var(--gold-primary); border: 1px solid var(--border-gold); font-weight: 700; font-size: 0.85rem; padding: 6px 14px; border-radius: 20px;"> ${h}</span>`).join('')}
       </div>
 
       <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); padding: 20px; border-radius: 16px; margin-bottom: 24px;">
-        <h4 style="font-size: 1rem; margin-bottom: 8px; color: #FFF;">🏨 Nearby Accommodations</h4>
+        <h4 style="font-size: 1rem; margin-bottom: 8px; color: #FFF;"> Nearby Accommodations</h4>
         <p style="font-size: 0.9rem; color: var(--text-secondary);">${item.nearbyHotels.join(' • ')}</p>
-        <h4 style="font-size: 1rem; margin: 16px 0 8px 0; color: #FFF;">📞 Certified Local Tour Guide</h4>
+        <h4 style="font-size: 1rem; margin: 16px 0 8px 0; color: #FFF;"> Certified Local Tour Guide</h4>
         <p style="font-size: 0.9rem; color: var(--gold-primary); font-weight: 800;">${item.guideContact}</p>
       </div>
 
       <div style="display: flex; gap: 12px;">
         <button class="hero-pill-btn" style="flex: 1; justify-content: center;" onclick="showToast('Destination added to your travel plan!')">
-          ➕ Add to My Trip Itinerary
+           Add to My Trip Itinerary
         </button>
         <button class="btn-card-details" style="padding: 14px 24px;" onclick="closeModal('destination-modal-overlay')">Close</button>
       </div>
@@ -875,7 +876,7 @@ function generateItinerary() {
   const days = document.getElementById('planner-days').value;
   const style = document.getElementById('planner-style').value;
   const resultsContainer = document.getElementById('itinerary-results');
-  
+
   if (!resultsContainer) return;
 
   let planHTML = `<h3 style="color: var(--gold-primary); font-size: 1.3rem; margin-bottom: 16px;">Your Custom ${days}-Day Ghana ${style.toUpperCase()} Itinerary</h3>`;
@@ -937,7 +938,7 @@ function showToast(msg) {
     toast.className = 'toast';
     document.body.appendChild(toast);
   }
-  toast.innerHTML = `✨ <span>${msg}</span>`;
+  toast.innerHTML = ` <span>${msg}</span>`;
   toast.classList.add('active');
   setTimeout(() => {
     toast.classList.remove('active');
@@ -969,4 +970,253 @@ function setupEventListeners() {
       e.target.classList.remove('active');
     }
   });
+}
+
+/* ============================================================
+   CONTACT FORM
+   ============================================================ */
+function submitContactForm(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.btn-contact-submit');
+  btn.innerHTML = '<span>Sending...</span>';
+  btn.disabled = true;
+
+  // Simulate sending
+  setTimeout(() => {
+    document.getElementById('contact-success-overlay').classList.add('active');
+    e.target.reset();
+    btn.innerHTML = '<span>Send Message</span><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>';
+    btn.disabled = false;
+  }, 1400);
+}
+
+/* ============================================================
+   AI CHAT ENGINE — Ama, GHANA TOURISM GUIDE
+   ============================================================ */
+
+const CHAT_KB = [
+  {
+    keys: ['hello', 'hi', 'hey', 'akwaaba', 'good morning', 'good afternoon', 'good evening'],
+    reply: "Akwaaba! 🇬🇭 I'm Ama, your personal Ghana tourism AI guide. I can help you with destinations, festivals, visa info, best times to visit, and more. What would you like to know?"
+  },
+  {
+    keys: ['best time', 'when to visit', 'season', 'weather', 'climate'],
+    reply: "<strong>Best Time to Visit Ghana:</strong><br><br>• <strong>Nov – Mar (Dry Season):</strong> Perfect for safaris, coastal sites & Cape Coast Castle. Clear skies and cooler temps.<br>• <strong>Apr – Jun:</strong> Lush green landscapes after rains — ideal for waterfall hikes (Wli Falls!).<br>• <strong>Dec:</strong> Peak festive season with <em>December in GH</em> bringing vibrant parties and events.<br><br>Avoid travelling during harmattan (Dec–Feb in the north) if you want clear photo skies!"
+  },
+  {
+    keys: ['visa', 'passport', 'entry', 'requirements', 'ecowas'],
+    reply: " <strong>Ghana Visa & Entry Requirements:</strong><br><br>• <strong>ECOWAS citizens:</strong> No visa required — free movement across West Africa.<br>• <strong>African Union passport holders:</strong> Visa-free or visa-on-arrival at Kotoka Airport (ACC).<br>• <strong>Other nationalities:</strong> Apply for an e-Visa at <em>evisa.gov.gh</em> before travelling.<br>• <strong>Yellow Fever card</strong> is MANDATORY for all arrivals over 9 months old.<br><br>Need specific country details? Just ask!"
+  },
+  {
+    keys: ['monkey', 'tafi atome', 'mona monkey', 'boabeng', 'fiema', 'sanctuary'],
+    reply: "<strong>Ghana's Monkey Sanctuaries:</strong><br><br><strong>1. Tafi Atome (Volta Region)</strong><br>Sacred Mona monkeys considered divine messengers. You can hand-feed them bananas! Fee: GHS 60. Open 8AM–5PM.<br><br><strong>2. Boabeng-Fiema (Bono East Region)</strong><br>Home to 700+ Mona & rare Pied Colobus monkeys. Has a special monkey cemetery! Fee: GHS 70. Open 8AM–5PM.<br><br>Both are must-visits for nature lovers! 🌿"
+  },
+  {
+    keys: ['cape coast', 'castle', 'slave', 'dungeon', 'door of no return'],
+    reply: "<strong>Cape Coast Castle:</strong><br><br>A powerful UNESCO World Heritage Site on the Atlantic Ocean. Built in 1653, it served as a major hub for the transatlantic slave trade. Highlights include:<br>• The haunting dungeons<br>• The iconic <em>Door of No Return</em><br>• Rooftop cannon ramparts with ocean views<br><br>  Cape Coast, Central Region | Entry: GHS 120 | Hours: 9AM–4:30PM"
+  },
+  {
+    keys: ['kakum', 'canopy', 'rainforest', 'bridge', 'tree top'],
+    reply: "<strong>Kakum National Park:</strong><br><br>One of only 3 places in Africa with a rainforest canopy walkway! 7 suspended bridges 40 metres above the jungle floor stretching 330 metres.<br><br>🐦 Also great for birdwatching & overnight camping.<br>  Near Cape Coast | Fee: GHS 150 | Best time: Early morning 6–9AM."
+  },
+  {
+    keys: ['wli', 'waterfall', 'falls', 'agumatsa', 'hohoe'],
+    reply: "<strong>Wli Waterfalls (Agumatsa Falls):</strong><br><br>The highest waterfall in West Africa at 80+ metres! Located near Hohoe in the Volta Region. Highlights:<br>• Natural swimming pool at the base<br>• Thousands of fruit bats roosting above<br>• Upper falls hike through jungle<br><br>  Hohoe, Volta Region | Fee: GHS 80 | Best: Apr–Oct (peak flow)"
+  },
+  {
+    keys: ['mole', 'elephant', 'safari', 'national park', 'wildlife', 'game reserve'],
+    reply: "<strong>Mole National Park:</strong><br><br>Ghana's largest wildlife reserve! Famous for <em>walking foot safaris</em> alongside wild African elephants — one of Africa's most unique experiences.<br><br>• Also see: baboons, warthogs, antelopes, 344 bird species<br>• Nearby: Larabanga Mosque (oldest in Ghana, built 1421)<br><br>  Damongo, Savannah Region | Entry: GHS 200 | Best: Dec–Apr"
+  },
+  {
+    keys: ['aboakyer', 'deer', 'winneba', 'effutu', 'asafo'],
+    reply: "<strong>Aboakyer Festival (Deer Hunting Festival):</strong><br><br>Celebrated on the <strong>1st Saturday of May</strong> by the Effutu people of Winneba. Two rival Asafo warrior companies race to capture a live bushbuck deer with bare hands — the first to succeed wins glory and presents the deer to the Paramount Chief.<br><br>  Winneba, Central Region | Duration: 1 week"
+  },
+  {
+    keys: ['homowo', 'ga', 'kpokpoi', 'accra', 'hunger'],
+    reply: "<strong>Homowo Festival:</strong><br><br>Celebrated by the Ga people of Accra, <em>Homowo</em> means 'hooting at hunger' — a thanksgiving for surviving a historic famine.<br><br>Chiefs and families sprinkle <em>Kpokpoi</em> (palm nut soup with cornmeal) over homes and streets. Rich with drumming and dancing.<br><br>  Accra, Tema, Ningo | Month: August/September"
+  },
+  {
+    keys: ['hogbetsotso', 'anlo', 'ewe', 'anloga', 'volta', 'notsie'],
+    reply: " <strong>Hogbetsotso Festival:</strong><br><br>Celebrated by the Anlo Ewe people of the Volta Region. It commemorates their daring escape from King Agorkoli of Notsie (present-day Togo). Dancers famously reenact the <em>backward walking</em> strategy used to deceive their pursuers!<br><br>  Anloga, Volta Region | Month: November (1st Saturday)"
+  },
+  {
+    keys: ['damba', 'dagbamba', 'tamale', 'northern', 'horse', 'batakari'],
+    reply: "<strong>Damba Festival:</strong><br><br>One of the grandest festivals in Northern Ghana! Celebrated by the Dagbamba, Gonja & Mamprusi peoples.<br><br>Features: royal horse-dancing displays, talking drum (dondo) performances, and stunning traditional Batakari smocks.<br><br>  Tamale, Yendi, Wa | Month: July–August"
+  },
+  {
+    keys: ['paga', 'crocodile', 'sacred pond', 'upper east'],
+    reply: "<strong>Paga Sacred Crocodile Pond:</strong><br><br>One of Ghana's most unique experiences — wild West African crocodiles that are tame and allow humans to sit on them and take photos! Local legend says every resident's soul is tied to a crocodile.<br><br>Guided by traditional caretakers.<br>  Paga, Upper East Region (near Burkina Faso border) | Fee: GHS 50"
+  },
+  {
+    keys: ['accra', 'black star', 'independence', 'nkrumah', 'capital'],
+    reply: " <strong>Black Star Square & Independence Arch, Accra:</strong><br><br>The symbolic heart of Ghana's independence movement. Built to honour the 1957 independence — the first in sub-Saharan Africa. Features:<br>• Black Star Gate<br>• Eternal Flame of African Liberation<br>• Oceanfront views of the Gulf of Guinea<br><br>  Accra Central | Entry: FREE | Open 24/7"
+  },
+  {
+    keys: ['currency', 'money', 'cedi', 'exchange', 'mobile money', 'momo', 'cash'],
+    reply: "<strong>Currency & Money in Ghana:</strong><br><br>• Currency: <strong>Ghana Cedi (GHS)</strong><br>• <strong>MTN MoMo</strong> (Mobile Money) is accepted almost everywhere<br>• Cards (Visa/Mastercard) work in cities & hotels<br>• Carry cash Cedis for rural parks, waterfalls & markets<br>• Exchange rate: ~1 USD ≈ 15–16 GHS (check current rate)<br><br>ATMs are available at Accra airport and major towns."
+  },
+  {
+    keys: ['food', 'eat', 'local food', 'jollof', 'fufu', 'waakye', 'kelewele', 'banku', 'cuisine'],
+    reply: "<strong>Ghana's Must-Try Foods:</strong><br><br>• <strong>Jollof Rice</strong> — Ghana makes the best jollof in West Africa! 😄<br>• <strong>Fufu & Light Soup</strong> — pounded yam/plantain with goat soup<br>• <strong>Waakye</strong> — rice & beans with iconic condiments<br>• <strong>Banku & Tilapia</strong> — grilled fresh river fish<br>• <strong>Kelewele</strong> — spiced fried plantains (street snack!)<br><br>Don't leave Ghana without trying Jollof & Waakye! 🌶️"
+  },
+  {
+    keys: ['transport', 'getting around', 'tro-tro', 'uber', 'bus', 'taxi', 'travel within'],
+    reply: " <strong>Getting Around Ghana:</strong><br><br>• <strong>Uber/Yango/Bolt:</strong> Available in Accra & Kumasi — safe & cashless<br>• <strong>Tro-tros:</strong> Shared minibuses — the authentic Ghanaian way to travel!<br>• <strong>VIP/STC Coaches:</strong> Comfortable AC buses for intercity travel<br>• <strong>Domestic Flights:</strong> PassionAir & Africa World Airlines fly Accra ↔ Kumasi ↔ Tamale<br>• <strong>Rentals:</strong> Self-drive cars or private charters available in Accra"
+  },
+  {
+    keys: ['hotel', 'accommodation', 'lodge', 'stay', 'sleep', 'resort'],
+    reply: "<strong>Top Accommodation in Ghana:</strong><br><br>• <strong>Luxury (Accra):</strong> Kempinski Gold Coast City, Mövenpick Ambassador, Labadi Beach Hotel<br>• <strong>Mid-range:</strong> Coconut Grove Beach Resort (Cape Coast), Golden Tulip (Kumasi)<br>• <strong>Eco-lodges:</strong> Zaina Lodge (Mole), Tafi Atome Eco-Lodge, Tagbo Falls Lodge<br>• <strong>Budget:</strong> Many clean guesthouses in all major towns<br><br>Want recommendations for a specific region?"
+  },
+  {
+    keys: ['safety', 'safe', 'crime', 'danger', 'emergency'],
+    reply: "<strong>Safety in Ghana:</strong><br><br>Ghana is one of West Africa's most politically stable and tourism-friendly countries. General tips:<br><br>• Accra, Cape Coast & major tourist sites are very safe for visitors<br>• Use Uber/Bolt for transport at night<br>• Be cautious with valuables in crowded markets<br>• Emergency number: <strong>112 / 191</strong><br>• Tourist Police Hotline: <strong>+233 302 231 817</strong><br><br>Ghana is known for its warm Akwaaba hospitality! 🤝"
+  },
+  {
+    keys: ['language', 'speak', 'twi', 'greeting', 'phrase', 'ga', 'ewe', 'hausa'],
+    reply: "<strong>Language & Useful Phrases:</strong><br><br>English is the official language. Knowing a few local phrases warms hearts instantly!<br><br>• <strong>Akwaaba</strong> — Welcome<br>• <strong>Eti sen?</strong> — How are you? (Twi)<br>• <strong>Medaase</strong> — Thank you (Twi)<br>• <strong>Mepaakyɛw</strong> — Please (Twi)<br>• <strong>Eee!</strong> — Yes/Agreement<br><br>Other languages: Ga (Accra), Ewe (Volta), Hausa (North). English gets you everywhere!"
+  }
+];
+
+// Chat State
+let chatOpen = false;
+let chatInitialized = false;
+let pendingEscalationQuestion = '';
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  const fab = document.getElementById('chat-fab');
+  const win = document.getElementById('chat-window');
+  const badge = document.getElementById('chat-badge');
+
+  fab.classList.toggle('is-open', chatOpen);
+  win.classList.toggle('is-open', chatOpen);
+
+  if (chatOpen) {
+    badge.classList.add('hidden');
+    if (!chatInitialized) {
+      chatInitialized = true;
+      setTimeout(() => {
+        appendBotMessage("Akwaaba! 🇬🇭 I'm <strong>Ama</strong>, your Ghana tourism AI guide. Ask me anything — best places to visit, festivals, visa info, local food, safety tips, and more!", false);
+      }, 400);
+    }
+    setTimeout(() => document.getElementById('chat-input').focus(), 350);
+  }
+}
+
+function sendChip(btn) {
+  const text = btn.textContent;
+  appendUserMessage(text);
+  document.getElementById('chat-chips').style.display = 'none';
+  processAIResponse(text);
+}
+
+function handleChatKey(e) {
+  if (e.key === 'Enter') sendChatMessage();
+}
+
+function sendChatMessage() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  appendUserMessage(text);
+  processAIResponse(text);
+}
+
+function appendUserMessage(text) {
+  const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const el = document.createElement('div');
+  el.className = 'chat-message user';
+  el.innerHTML = `<div class="chat-bubble">${text}</div><span class="chat-timestamp">${now}</span>`;
+  document.getElementById('chat-messages').appendChild(el);
+  scrollChat();
+}
+
+function appendBotMessage(html, showEscalate = false) {
+  const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const el = document.createElement('div');
+  el.className = 'chat-message bot';
+  el.innerHTML = `
+    <div class="chat-bubble">${html}</div>
+    ${showEscalate ? `<button class="chat-escalate-btn" onclick="openAgentModal()">👨‍💼 Connect with a Human Agent</button>` : ''}
+    <span class="chat-timestamp">${now}</span>
+  `;
+  document.getElementById('chat-messages').appendChild(el);
+  scrollChat();
+}
+
+function showTypingIndicator() {
+  const el = document.createElement('div');
+  el.className = 'chat-message bot';
+  el.id = 'chat-typing';
+  el.innerHTML = `<div class="typing-bubble"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
+  document.getElementById('chat-messages').appendChild(el);
+  scrollChat();
+}
+
+function removeTypingIndicator() {
+  const el = document.getElementById('chat-typing');
+  if (el) el.remove();
+}
+
+function processAIResponse(userText) {
+  const q = userText.toLowerCase();
+  showTypingIndicator();
+
+  // Score each knowledge-base entry
+  let bestMatch = null;
+  let bestScore = 0;
+
+  CHAT_KB.forEach(entry => {
+    const score = entry.keys.reduce((acc, key) => {
+      return acc + (q.includes(key) ? key.split(' ').length : 0);
+    }, 0);
+    if (score > bestScore) {
+      bestScore = score;
+      bestMatch = entry;
+    }
+  });
+
+  const CONFIDENCE_THRESHOLD = 1;
+
+  setTimeout(() => {
+    removeTypingIndicator();
+
+    if (bestMatch && bestScore >= CONFIDENCE_THRESHOLD) {
+      appendBotMessage(bestMatch.reply, false);
+    } else {
+      // Low confidence — offer escalation
+      pendingEscalationQuestion = userText;
+      appendBotMessage(
+        `Hmm, I don't have a confident answer to <em>"${userText}"</em> right now. I can forward your question to one of our human tourism experts who will reply personally. 😊`,
+        true
+      );
+    }
+  }, 1100 + Math.random() * 600);
+}
+
+function scrollChat() {
+  const msgs = document.getElementById('chat-messages');
+  if (msgs) msgs.scrollTop = msgs.scrollHeight;
+}
+
+// Open agent escalation modal with pre-filled question
+function openAgentModal() {
+  const qField = document.getElementById('agent-question');
+  if (qField) qField.value = pendingEscalationQuestion;
+  document.getElementById('agent-modal-overlay').classList.add('active');
+}
+
+// Submit escalation to human agent
+function submitToAgent() {
+  const name = document.getElementById('agent-name').value.trim();
+  const email = document.getElementById('agent-email').value.trim();
+  if (!name || !email) {
+    showToast('Please fill in your name and email.');
+    return;
+  }
+  closeModal('agent-modal-overlay');
+  showToast(`✅ Forwarded to our team! We'll email you at ${email} soon.`);
+  appendBotMessage(`✅ Your question has been forwarded to our expert team! We'll reply to <strong>${email}</strong> within a few hours. Is there anything else I can help with?`, false);
+  pendingEscalationQuestion = '';
 }

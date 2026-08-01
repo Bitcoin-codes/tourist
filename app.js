@@ -991,13 +991,13 @@ function submitContactForm(e) {
 }
 
 /* ============================================================
-   AI CHAT ENGINE — Ama, GHANA TOURISM GUIDE
+   AI CHAT ENGINE — Ama GH, GHANA TOURISM GUIDE
    ============================================================ */
 
 const CHAT_KB = [
   {
     keys: ['hello', 'hi', 'hey', 'akwaaba', 'good morning', 'good afternoon', 'good evening'],
-    reply: "Akwaaba! 🇬🇭 I'm Ama, your personal Ghana tourism AI guide. I can help you with destinations, festivals, visa info, best times to visit, and more. What would you like to know?"
+    reply: "Akwaaba! 🇬🇭 I'm <strong>Ama GH</strong>, your personal Ghana tourism AI guide. I can help you with destinations, festivals, visa info, best times to visit, and more. What would you like to know?"
   },
   {
     keys: ['best time', 'when to visit', 'season', 'weather', 'climate'],
@@ -1096,7 +1096,7 @@ function toggleChat() {
     if (!chatInitialized) {
       chatInitialized = true;
       setTimeout(() => {
-        appendBotMessage("Akwaaba! 🇬🇭 I'm <strong>Ama</strong>, your Ghana tourism AI guide. Ask me anything — best places to visit, festivals, visa info, local food, safety tips, and more!", false);
+        appendBotMessage("Akwaaba! 🇬🇭 I'm <strong>Ama GH</strong>, your Ghana tourism AI guide. Ask me anything — best places to visit, festivals, visa info, local food, safety tips, and more!", false);
       }, 400);
     }
     setTimeout(() => document.getElementById('chat-input').focus(), 350);

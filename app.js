@@ -205,7 +205,7 @@ const DESTINATIONS = [
     categoryName: "Adventure Mountain",
     region: "Volta Region",
     location: "Liati Wote, Gbledi",
-    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
+    image: "assets/images/Afaja.jpg",
     rating: 4.8,
     reviews: 1100,
     fee: "GHS 70 / $6",

@@ -227,7 +227,7 @@ const DESTINATIONS = [
     categoryName: "Waterfall",
     region: "Eastern Region",
     location: "Yilo Krobo, Koforidua",
-    image: "https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=800&q=80",
+    image: "assets/images/boti-falls.jpg",
     rating: 4.7,
     reviews: 1250,
     fee: "GHS 80 / $7",

@@ -315,7 +315,7 @@ const DESTINATIONS = [
     categoryName: "Craft Heritage",
     region: "Ashanti Region",
     location: "Bonwire, near Kumasi",
-    image: "assets/images/kente.jpg",
+    image: "assets/images/Kente.jpg",
     rating: 4.8,
     reviews: 810,
     fee: "Free Entry (Shopping extra)",

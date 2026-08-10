@@ -1,5 +1,96 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
 
+/* Hide mobile toggle by default on desktop */
+.mobile-toggle {
+  display: none;
+  cursor: pointer;
+}
+
+/* Tablet & Mobile Responsiveness */
+@media (max-width: 768px) {
+  /* Reduce header padding and container gap */
+  .header {
+    padding: 12px 0;
+  }
+
+  .nav-wrapper {
+    gap: 12px;
+  }
+
+  /* Hide default horizontal navigation links */
+  .nav-links {
+    display: none; 
+    /* Alternatively, transform into a mobile dropdown overlay when active:
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: #ffffff;
+    padding: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    */
+  }
+
+  /* Show the mobile menu button */
+  .mobile-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Shrink search bar for smaller screens */
+  .header-search input {
+    width: 140px;
+    padding: 8px 14px 8px 36px;
+    font-size: 0.85rem;
+  }
+
+  .header-search input:focus {
+    width: 180px;
+  }
+
+  /* Adjust action buttons size */
+  .btn-pill-menu {
+    padding: 8px 14px;
+    font-size: 0.82rem;
+  }
+  
+  .brand-logo {
+    font-size: 1.3rem;
+  }
+}
+
+/* Extra Small Screens (Phones) */
+@media (max-width: 480px) {
+  /* Hide search bar on extra small screens if header gets crowded */
+  .header-search {
+    display: none;
+  }
+}
+
+/* Full-screen expanded state for tapped cards on mobile */
+@media (max-width: 768px) {
+  .card.active, .glass-card.active {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    border-radius: 0;
+    margin: 0;
+    overflow-y: auto;
+    background: #ffffff; /* Solid light background when expanded */
+    padding: 24px;
+    box-shadow: none;
+  }
+
+  /* Optional: prevent body scrolling when a card is expanded */
+  body.card-open {
+    overflow: hidden;
+  }
+}
 :root {
   --bg-midnight: #ffffff;
   --bg-surface: #10151E;

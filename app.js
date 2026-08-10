@@ -271,7 +271,7 @@ const DESTINATIONS = [
     categoryName: "Architectural Heritage",
     region: "Savannah Region",
     location: "Larabanga, near Mole Park",
-    image: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=800&q=80",
+    image: "assets/images/Larabanga.webp",
     rating: 4.7,
     reviews: 640,
     fee: "GHS 40 / $3",

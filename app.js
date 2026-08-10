@@ -249,7 +249,7 @@ const DESTINATIONS = [
     categoryName: "UNESCO Heritage Site",
     region: "Central Region",
     location: "Elmina, Central Coast",
-    image: "https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?auto=format&fit=crop&w=800&q=80",
+    image: "assets/images/Elimina.webp",
     rating: 4.9,
     reviews: 1890,
     fee: "GHS 120 / $10",

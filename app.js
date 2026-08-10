@@ -161,7 +161,7 @@ const DESTINATIONS = [
     categoryName: "Sacred Sanctuary",
     region: "Upper East Region",
     location: "Paga, Burkina Faso Border",
-    image: "assests/images/Paga.jpg",
+    image: "assets/images/Paga.jpg",
     rating: 4.6,
     reviews: 580,
     fee: "GHS 50 / $4",

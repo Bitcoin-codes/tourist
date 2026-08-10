@@ -1,3 +1,12 @@
+document.querySelectorAll('.card, .glass-card').forEach(card => {
+  card.addEventListener('click', (e) => {
+    // Only apply tap-to-expand behavior on mobile/tablet viewports
+    if (window.innerWidth <= 768) {
+      card.classList.toggle('active');
+      document.body.classList.toggle('card-open');
+    }
+  });
+});
 // Comprehensive Ghana Destinations Dataset (20+ Top Tourist Sites)
 const DESTINATIONS = [
   {

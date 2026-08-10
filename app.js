@@ -293,7 +293,7 @@ const DESTINATIONS = [
     categoryName: "Botanical Reserve",
     region: "Eastern Region",
     location: "Aburi, Akuapem Hills",
-    image: "https://images.unsplash.com/photo-1511497584788-876761c1298b?auto=format&fit=crop&w=800&q=80",
+    image: "assets/images/Aburi.webp",
     rating: 4.7,
     reviews: 1950,
     fee: "GHS 50 / $4",

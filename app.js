@@ -10,6 +10,27 @@ document.querySelectorAll('.card, .glass-card').forEach(card => {
 document.addEventListener('DOMContentLoaded', () => {
   const mobileToggle = document.querySelector('.mobile-toggle');
   const navLinks = document.querySelector('.nav-links');
+  const navItems = document.querySelectorAll('.nav-link');
+
+  if (mobileToggle && navLinks) {
+    // Toggle menu open/close on hamburger click
+    mobileToggle.addEventListener('click', () => {
+      mobileToggle.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+
+    // Close menu when a navigation link is tapped
+    navItems.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+      });
+    });
+  }
+});
+document.addEventListener('DOMContentLoaded', () => {
+  const mobileToggle = document.querySelector('.mobile-toggle');
+  const navLinks = document.querySelector('.nav-links');
 
   if (mobileToggle && navLinks) {
     mobileToggle.addEventListener('click', () => {

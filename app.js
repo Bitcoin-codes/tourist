@@ -28,6 +28,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+document.querySelectorAll('.card, .glass-card').forEach(card => {
+  card.addEventListener('click', (e) => {
+    if (window.innerWidth <= 768) {
+      card.classList.toggle('active');
+    }
+  });
+});
 // Comprehensive Ghana Destinations Dataset (20+ Top Tourist Sites)
 const DESTINATIONS = [
   {

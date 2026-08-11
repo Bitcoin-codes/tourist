@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Booking — Visit Ghana Arrival Services & Private Tours</title>
+  <meta name="description"
+    content="Book your Ghana arrival services, airport VIP transfers, private tour guides, safari car rentals, and cultural festival passes online.">
+
+  <!-- SVG Gradient Definitions -->
+  <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+    <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE082" />
+      <stop offset="50%" stop-color="#FFB800" />
+      <stop offset="100%" stop-color="#D47A00" />
+    </linearGradient>
+  </svg>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- Ambient Background Glow -->
+  <div class="bg-glow-top"></div>
+
+  <!-- HEADER NAVIGATION -->
+  <header class="header">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand-logo">
+        <svg class="brand-pin" viewBox="0 0 24 24">
+          <path
+            d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+        </svg>
+        <span class="visit-text">vista</span><span class="ghana-badge">GHANA</span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html#destinations" class="nav-link">Destinations</a></li>
+          <li><a href="index.html#festivals" class="nav-link">Cultural Festivals</a></li>
+          <li><a href="index.html#planner" class="nav-link">Trip Planner</a></li>
+          <li><a href="booking.html" class="nav-link active">Online Booking</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="header-search">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <path d="M21 21l-4.35-4.35" />
+          </svg>
+          <input type="text" id="search-input" placeholder="Search destinations, monkeys, castles...">
+        </div>
+        <button class="theme-toggle-btn" id="theme-toggle-btn" aria-label="Toggle Theme" title="Toggle Light/Dark Theme">
+          <span class="theme-icon sun-icon">☀️</span>
+          <span class="theme-icon moon-icon">🌙</span>
+        </button>
+        <button class="mobile-toggle" id="mobile-toggle-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primary-nav">
+          <span class="hamburger-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN BOOKING PAGE CONTENT -->
+  <main class="container" style="padding-top: 40px; padding-bottom: 80px;">
+
+    <!-- BOOKING PAGE HERO -->
+    <div class="booking-hero">
+      <span class="card-badge" style="position: relative; top: 0; left: 0; display: inline-block; margin-bottom: 16px;">✈️ Official Tourism Concierge</span>
+      <h1 class="hero-title" style="font-size: 3rem; max-width: 840px;">Book Your Ghana <span class="gradient-text">Arrival & Travel Services</span></h1>
+      <p class="hero-subtitle" style="margin-bottom: 30px;">Reserve private Kotoka airport pickups, certified local tour guides, 4x4 safari vehicles, and VIP festival access passes prior to landing in West Africa.</p>
+    </div>
+
+    <!-- BOOKING FORM & SUMMARY GRID -->
+    <div class="booking-grid">
+
+      <!-- LEFT: INTERACTIVE STEP FORM -->
+      <div class="booking-form-card">
+        <form id="booking-form" onsubmit="handleBookingSubmit(event)">
+
+          <!-- STEP 1: ARRIVAL & FLIGHT DETAILS -->
+          <div class="form-section">
+            <h3 class="form-section-title"><span>1</span> Flight & Arrival Details</h3>
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="arrival-date">Arrival Date *</label>
+                <input type="date" id="arrival-date" required onchange="updateBookingSummary()">
+              </div>
+              <div class="form-group">
+                <label for="arrival-time">Estimated Arrival Time *</label>
+                <input type="time" id="arrival-time" required>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="arrival-airport">Arrival Airport *</label>
+                <select id="arrival-airport" required onchange="updateBookingSummary()">
+                  <option value="ACC">Accra - Kotoka International Airport (ACC)</option>
+                  <option value="KMS">Kumasi Airport (KMS)</option>
+                  <option value="TML">Tamale International Airport (TML)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="flight-number">Airline & Flight Number</label>
+                <input type="text" id="flight-number" placeholder="e.g. DL 156 / BA 078 / ET 920">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="travelers-count">Number of Travelers *</label>
+              <select id="travelers-count" required onchange="updateBookingSummary()">
+                <option value="1">1 Traveler (Solo Adventurer)</option>
+                <option value="2" selected>2 Travelers (Couple / Duo)</option>
+                <option value="4">3–5 Travelers (Family / Small Group)</option>
+                <option value="8">6+ Travelers (Group Delegation)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- STEP 2: SELECT ARRIVAL SERVICES -->
+          <div class="form-section">
+            <h3 class="form-section-title"><span>2</span> Select Your Arrival & Travel Services</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 18px;">Choose any combination of concierge services for your visit.</p>
+
+            <div class="services-selection-grid">
+
+              <label class="service-option-card">
+                <input type="checkbox" name="service" value="airport-transfer" data-price="350" data-name="Airport VIP Transfer" onchange="updateBookingSummary()">
+                <div class="service-option-body">
+                  <div class="service-header">
+                    <span class="service-icon">🚗</span>
+                    <div>
+                      <h4>Airport VIP Express Transfer</h4>
+                      <p>Air-conditioned private pickup from Kotoka (ACC) direct to your hotel with baggage assistance.</p>
+                    </div>
+                  </div>
+                  <span class="service-price">GHS 350 (~$30)</span>
+                </div>
+              </label>
+
+              <label class="service-option-card">
+                <input type="checkbox" name="service" value="tour-guide" data-price="500" data-name="Certified Local Tour Guide" checked onchange="updateBookingSummary()">
+                <div class="service-option-body">
+                  <div class="service-header">
+                    <span class="service-icon">👨‍💼</span>
+                    <div>
+                      <h4>Certified Local Tour Guide (Per Day)</h4>
+                      <p>Dedicated English & local-language certified guide for historical sites & monkey sanctuaries.</p>
+                    </div>
+                  </div>
+                  <span class="service-price">GHS 500 (~$40) / day</span>
+                </div>
+              </label>
+
+              <label class="service-option-card">
+                <input type="checkbox" name="service" value="car-rental" data-price="900" data-name="Private 4x4 Chauffeur Rental" onchange="updateBookingSummary()">
+                <div class="service-option-body">
+                  <div class="service-header">
+                    <span class="service-icon">🚙</span>
+                    <div>
+                      <h4>Private 4x4 Chauffeur Vehicle</h4>
+                      <p>Full-day luxury 4x4 SUV rental with experienced driver & fuel for safari & mountain trips.</p>
+                    </div>
+                  </div>
+                  <span class="service-price">GHS 900 (~$72) / day</span>
+                </div>
+              </label>
+
+              <label class="service-option-card">
+                <input type="checkbox" name="service" value="monkey-pass" data-price="400" data-name="Tafi Atome & Wildlife Fast-Pass" onchange="updateBookingSummary()">
+                <div class="service-option-body">
+                  <div class="service-header">
+                    <span class="service-icon">🐒</span>
+                    <div>
+                      <h4>Sanctuary & Wildlife Fast-Pass</h4>
+                      <p>Pre-paid entrance & banana feeding passes for Tafi Atome, Boabeng-Fiema & Kakum Canopy Walk.</p>
+                    </div>
+                  </div>
+                  <span class="service-price">GHS 400 (~$32)</span>
+                </div>
+              </label>
+
+              <label class="service-option-card">
+                <input type="checkbox" name="service" value="festival-pass" data-price="600" data-name="Royal Cultural Festival VIP Pass" onchange="updateBookingSummary()">
+                <div class="service-option-body">
+                  <div class="service-header">
+                    <span class="service-icon">👑</span>
+                    <div>
+                      <h4>Royal Cultural Festival VIP Pass</h4>
+                      <p>Reserved front-row shade seating & chieftaincy protocol escort at Aboakyer, Homowo or Damba.</p>
+                    </div>
+                  </div>
+                  <span class="service-price">GHS 600 (~$48)</span>
+                </div>
+              </label>
+
+            </div>
+          </div>
+
+          <!-- STEP 3: CONTACT & CUSTOMER INFORMATION -->
+          <div class="form-section">
+            <h3 class="form-section-title"><span>3</span> Customer & Contact Details</h3>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="full-name">Full Name *</label>
+                <input type="text" id="full-name" placeholder="e.g. Sarah Johnson" required>
+              </div>
+              <div class="form-group">
+                <label for="email-address">Email Address *</label>
+                <input type="email" id="email-address" placeholder="sarah@example.com" required>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="phone-number">WhatsApp / Phone Number *</label>
+                <input type="tel" id="phone-number" placeholder="+1 (555) 019-2834" required>
+              </div>
+              <div class="form-group">
+                <label for="payment-method">Payment Preference *</label>
+                <select id="payment-method" required>
+                  <option value="momo">MTN / Telecel Mobile Money (MoMo)</option>
+                  <option value="card">Credit / Debit Card (Visa & Mastercard)</option>
+                  <option value="arrival" selected>Pay on Arrival (Cedis / USD Cash)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="special-requests">Special Requests / Preferred Itinerary Notes</label>
+              <textarea id="special-requests" rows="3" placeholder="Tell us any dietary requirements, preferred hotels, or specific destinations you'd love to visit..."></textarea>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-generate-plan" style="width: 100%; font-size: 1.15rem; padding: 18px 32px;">
+            ⚡ Confirm Booking & Request Arrival Pass
+          </button>
+        </form>
+      </div>
+
+      <!-- RIGHT: LIVE BOOKING SUMMARY CARD -->
+      <div class="booking-summary-wrapper">
+        <div class="booking-summary-card">
+          <span class="card-badge" style="margin-bottom: 12px; display: inline-block;">📋 Booking Summary</span>
+          <h3 style="font-size: 1.4rem; margin-bottom: 20px; color: #FFF;">Reservation Breakdown</h3>
+
+          <div class="summary-details-list">
+            <div class="summary-item">
+              <span>Arrival Airport:</span>
+              <strong id="sum-airport">Accra (ACC)</strong>
+            </div>
+            <div class="summary-item">
+              <span>Arrival Date:</span>
+              <strong id="sum-date">Not Selected</strong>
+            </div>
+            <div class="summary-item">
+              <span>Travelers:</span>
+              <strong id="sum-travelers">2 Travelers</strong>
+            </div>
+          </div>
+
+          <hr style="border: none; border-top: 1px solid var(--border-glass); margin: 20px 0;">
+
+          <h4 style="font-size: 0.9rem; text-transform: uppercase; color: var(--gold-primary); letter-spacing: 0.05em; margin-bottom: 12px;">Selected Services</h4>
+          <div id="summary-services-list" class="summary-services-list">
+            <!-- Dynamically populated via JS -->
+            <p style="color: var(--text-muted); font-size: 0.85rem;">Select services on the left...</p>
+          </div>
+
+          <hr style="border: none; border-top: 1px solid var(--border-glass); margin: 20px 0;">
+
+          <div class="summary-total-box">
+            <div>
+              <span style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Estimated Total</span>
+              <h2 id="sum-total-ghs" style="font-size: 2.2rem; color: var(--gold-primary); font-weight: 900;">GHS 500</h2>
+            </div>
+            <span id="sum-total-usd" style="font-size: 0.95rem; color: var(--emerald-accent); font-weight: 700;">~$40 USD</span>
+          </div>
+
+          <div class="booking-trust-guarantee">
+            <p>🛡️ <strong>Free Cancellation:</strong> Cancel up to 48 hours before arrival with 100% refund.</p>
+            <p>🤝 <strong>Ghana Tourism Authority Certified Concierge</strong></p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- BOOKING CONFIRMATION SUCCESS MODAL -->
+  <div id="booking-modal-overlay" class="modal-overlay">
+    <div class="modal-card" style="max-width: 650px;">
+      <button class="modal-close-btn" onclick="closeModal('booking-modal-overlay')">✕</button>
+      <div class="modal-content-body" style="text-align: center; padding: 40px 30px;">
+        <span style="font-size: 3.5rem; display: block; margin-bottom: 12px;">🎉</span>
+        <span class="card-badge" style="background: var(--emerald-gradient); color: #FFF; border: none; margin-bottom: 12px; display: inline-block;">Booking Confirmed!</span>
+        <h2 style="font-size: 2rem; margin-bottom: 10px;">Akwaaba to Ghana!</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 24px;">Your arrival services pass has been generated. Our concierge team has sent a copy to your email and WhatsApp.</p>
+
+        <!-- Digital Ticket Pass Box -->
+        <div class="digital-ticket-box">
+          <div class="ticket-header">
+            <div>
+              <span style="font-size: 0.75rem; text-transform: uppercase; color: var(--gold-primary);">Booking Ref</span>
+              <h4 id="pass-ref-code" style="font-size: 1.2rem; font-weight: 900; color: #FFF;">GH-2026-8942</h4>
+            </div>
+            <span style="font-size: 0.8rem; background: rgba(0, 200, 83, 0.2); color: var(--emerald-accent); padding: 4px 12px; border-radius: 12px; font-weight: 800;">VERIFIED PASS</span>
+          </div>
+          <div class="ticket-body">
+            <p><strong>Customer:</strong> <span id="pass-customer-name">Sarah Johnson</span></p>
+            <p><strong>Airport Pickup:</strong> <span id="pass-airport-name">Accra (ACC)</span></p>
+            <p><strong>Arrival Date:</strong> <span id="pass-date">Aug 15, 2026</span></p>
+            <p><strong>Services:</strong> <span id="pass-services-summary">Certified Tour Guide, Airport Transfer</span></p>
+          </div>
+          <div class="ticket-qr-placeholder">
+            <span style="font-size: 2.5rem;">📱 QR</span>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Show this pass to your airport chauffeur upon landing.</p>
+          </div>
+        </div>
+
+        <button class="hero-pill-btn" style="width: 100%; justify-content: center; margin-top: 24px;" onclick="closeModal('booking-modal-overlay')">
+          Done & Return to Destinations
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>vistaGHANA</h3>
+          <p>The official digital gateway promoting luxury tourism, cultural heritage, and eco-adventures across Ghana, West Africa.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Iconic Destinations</h4>
+          <ul class="footer-links">
+            <li><a href="index.html#destinations">Tafi Atome Monkey Sanctuary</a></li>
+            <li><a href="index.html#destinations">Boabeng-Fiema Sanctuary</a></li>
+            <li><a href="index.html#destinations">Cape Coast Castle</a></li>
+            <li><a href="index.html#destinations">Mole Elephant Safari</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Festivals & Culture</h4>
+          <ul class="footer-links">
+            <li><a href="index.html#festivals">Aboakyer Deer Festival</a></li>
+            <li><a href="index.html#festivals">Homowo Festival</a></li>
+            <li><a href="index.html#festivals">Damba Festival</a></li>
+            <li><a href="index.html#festivals">Hogbetsotso Festival</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Services & Support</h4>
+          <ul class="footer-links">
+            <li><a href="booking.html">Online Booking Pass</a></li>
+            <li><a href="#">Ghana Tourism Authority</a></li>
+            <li><a href="#">Emergency: 112 / 191</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 Visit Ghana Digital Tourism Experience. All rights reserved.</p>
+        <p>Built with Passion for Ghana Tourism</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- AI CHATBOT FLOATING WIDGET -->
+  <div id="ai-chatbot-container" class="ai-chatbot-container">
+    <button id="ai-chat-trigger" class="ai-chat-trigger" onclick="toggleAIChat()" aria-label="Open Ghana AI Assistant">
+      <span class="ai-bot-avatar">🤖</span>
+      <span class="ai-trigger-text">Akwaaba AI</span>
+      <span class="ai-status-dot"></span>
+    </button>
+
+    <div id="ai-chat-window" class="ai-chat-window">
+      <div class="ai-chat-header">
+        <div class="ai-chat-header-info">
+          <span class="ai-bot-badge">✨ Ghana Tourism Guide</span>
+          <h4>Akwaaba AI Assistant</h4>
+          <p class="ai-status-online">🟢 Online • Ask Me Anything</p>
+        </div>
+        <button class="ai-chat-close-btn" onclick="toggleAIChat()">✕</button>
+      </div>
+
+      <div id="ai-chat-messages" class="ai-chat-messages">
+        <div class="ai-message bot">
+          <div class="ai-msg-avatar">🇬🇭</div>
+          <div class="ai-msg-content">
+            <p><strong>Akwaaba!</strong> I can help you with your booking options, airport pickups, tour guides, or travel itineraries!</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-chat-chips">
+        <button class="chip-btn" onclick="sendQuickPrompt('How does airport pickup booking work?')">🚗 Airport Pickup</button>
+        <button class="chip-btn" onclick="sendQuickPrompt('What is included in the tour guide service?')">👨‍💼 Tour Guides</button>
+        <button class="chip-btn" onclick="sendQuickPrompt('Can I pay on arrival in Ghana?')">💵 Pay on Arrival</button>
+      </div>
+
+      <form id="ai-chat-form" class="ai-chat-input-wrapper" onsubmit="handleAIChatSubmit(event)">
+        <input type="text" id="ai-chat-input" placeholder="Ask Akwaaba AI about bookings..." autocomplete="off">
+        <button type="submit" class="ai-chat-send-btn" aria-label="Send Message">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Custom App JavaScript -->
+  <script src="app.js"></script>
+  <script>
+    // Inline Page Specific Booking Script for Summary & Confirmation
+    function updateBookingSummary() {
+      const airportSel = document.getElementById('arrival-airport');
+      const dateVal = document.getElementById('arrival-date').value;
+      const travelersSel = document.getElementById('travelers-count');
+      
+      const sumAirport = document.getElementById('sum-airport');
+      const sumDate = document.getElementById('sum-date');
+      const sumTravelers = document.getElementById('sum-travelers');
+      const servicesListContainer = document.getElementById('summary-services-list');
+      const sumGhs = document.getElementById('sum-total-ghs');
+      const sumUsd = document.getElementById('sum-total-usd');
+
+      if (sumAirport && airportSel) {
+        sumAirport.innerText = airportSel.options[airportSel.selectedIndex].text.split('-')[0].trim();
+      }
+      if (sumDate) {
+        sumDate.innerText = dateVal ? dateVal : 'Not Selected';
+      }
+      if (sumTravelers && travelersSel) {
+        sumTravelers.innerText = travelersSel.options[travelersSel.selectedIndex].text.split('(')[0].trim();
+      }
+
+      // Calculate checked services
+      const checkboxes = document.querySelectorAll('input[name="service"]:checked');
+      let totalGHS = 0;
+      let servicesHTML = '';
+
+      if (checkboxes.length === 0) {
+        servicesHTML = '<p style="color: var(--text-muted); font-size: 0.85rem;">Select services on the left...</p>';
+      } else {
+        checkboxes.forEach(cb => {
+          const price = parseInt(cb.dataset.price, 10);
+          const name = cb.dataset.name;
+          totalGHS += price;
+          servicesHTML += `
+            <div class="summary-service-item">
+              <span>✓ ${name}</span>
+              <strong>GHS ${price}</strong>
+            </div>
+          `;
+        });
+      }
+
+      if (servicesListContainer) servicesListContainer.innerHTML = servicesHTML;
+      if (sumGhs) sumGhs.innerText = `GHS ${totalGHS}`;
+      if (sumUsd) sumUsd.innerText = `~$${Math.round(totalGHS / 12.5)} USD`;
+    }
+
+    function handleBookingSubmit(e) {
+      e.preventDefault();
+      const fullName = document.getElementById('full-name').value;
+      const dateVal = document.getElementById('arrival-date').value;
+      const airportSel = document.getElementById('arrival-airport');
+
+      const passCustomer = document.getElementById('pass-customer-name');
+      const passAirport = document.getElementById('pass-airport-name');
+      const passDate = document.getElementById('pass-date');
+      const passRef = document.getElementById('pass-ref-code');
+
+      if (passCustomer) passCustomer.innerText = fullName;
+      if (passAirport) passAirport.innerText = airportSel.options[airportSel.selectedIndex].text.split('-')[0].trim();
+      if (passDate) passDate.innerText = dateVal ? dateVal : 'On Arrival';
+      if (passRef) passRef.innerText = 'GH-2026-' + Math.floor(1000 + Math.random() * 9000);
+
+      const overlay = document.getElementById('booking-modal-overlay');
+      if (overlay) overlay.classList.add('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Set default arrival date to 7 days from today
+      const today = new Date();
+      today.setDate(today.getDate() + 7);
+      const defaultDateStr = today.toISOString().split('T')[0];
+      const dateInput = document.getElementById('arrival-date');
+      if (dateInput) {
+        dateInput.value = defaultDateStr;
+        dateInput.min = new Date().toISOString().split('T')[0];
+      }
+      updateBookingSummary();
+    });
+  </script>
+</body>
+
+</html>

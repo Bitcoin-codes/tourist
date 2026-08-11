@@ -1,61 +1,56 @@
-document.querySelectorAll('.card, .glass-card').forEach(card => {
-  card.addEventListener('click', (e) => {
-    // Only apply tap-to-expand behavior on mobile/tablet viewports
-    if (window.innerWidth <= 768) {
-      card.classList.toggle('active');
-      document.body.classList.toggle('card-open');
-    }
-  });
-});
 document.addEventListener('DOMContentLoaded', () => {
+
+  // ── Mobile Navigation Toggle ─────────────────────────────────────────────
   const mobileToggle = document.querySelector('.mobile-toggle');
-  const navLinks = document.querySelector('.nav-links');
-  const navItems = document.querySelectorAll('.nav-link');
+  const navLinks     = document.querySelector('.nav-links');
+  const navItems     = document.querySelectorAll('.nav-link');
 
   if (mobileToggle && navLinks) {
-    // Toggle menu open/close on hamburger click
+    mobileToggle.setAttribute('aria-expanded', 'false');
+
     mobileToggle.addEventListener('click', () => {
-      mobileToggle.classList.toggle('active');
-      navLinks.classList.toggle('active');
+      const isOpen = navLinks.classList.toggle('active');
+      mobileToggle.classList.toggle('active', isOpen);
+      mobileToggle.setAttribute('aria-expanded', String(isOpen));
+      // Prevent body scroll while the mobile drawer is open
+      document.body.classList.toggle('nav-open', isOpen);
     });
 
-    // Close menu when a navigation link is tapped
+    // Close the drawer when any nav link is tapped
     navItems.forEach(link => {
       link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
         mobileToggle.classList.remove('active');
-        navLinks.classList.remove('active');
+        mobileToggle.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('nav-open');
       });
     });
-  }
-});
-document.addEventListener('DOMContentLoaded', () => {
-  const mobileToggle = document.querySelector('.mobile-toggle');
-  const navLinks = document.querySelector('.nav-links');
 
-  if (mobileToggle && navLinks) {
-    mobileToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-      mobileToggle.setAttribute(
-        'aria-expanded', 
-        navLinks.classList.contains('active')
-      );
-    });
-
-    // Close mobile menu when a nav link is clicked
-    document.querySelectorAll('.nav-link').forEach(link => {
-      link.addEventListener('click', () => {
+    // Close drawer when user taps the dark overlay behind the menu
+    document.addEventListener('click', (e) => {
+      if (
+        navLinks.classList.contains('active') &&
+        !navLinks.contains(e.target) &&
+        !mobileToggle.contains(e.target)
+      ) {
         navLinks.classList.remove('active');
-      });
+        mobileToggle.classList.remove('active');
+        mobileToggle.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('nav-open');
+      }
     });
   }
-});
 
-document.querySelectorAll('.card, .glass-card').forEach(card => {
-  card.addEventListener('click', (e) => {
-    if (window.innerWidth <= 768) {
-      card.classList.toggle('active');
-    }
+  // ── Card tap-to-expand (mobile only) ─────────────────────────────────────
+  document.querySelectorAll('.card, .glass-card').forEach(card => {
+    card.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        card.classList.toggle('active');
+        document.body.classList.toggle('card-open');
+      }
+    });
   });
+
 });
 // Comprehensive Ghana Destinations Dataset (20+ Top Tourist Sites)
 const DESTINATIONS = [

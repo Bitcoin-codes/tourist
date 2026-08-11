@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const isOpen = navLinks.classList.toggle('active');
       mobileToggle.classList.toggle('active', isOpen);
       mobileToggle.setAttribute('aria-expanded', String(isOpen));
+      mobileToggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
       // Prevent body scroll while the mobile drawer is open
       document.body.classList.toggle('nav-open', isOpen);
     });
@@ -609,14 +610,11 @@ const PRACTICAL_INFO = {
 let currentCategory = 'all';
 let searchQuery = '';
 let savedBookmarks = JSON.parse(localStorage.getItem('visitGhanaBookmarks') || '[]');
-let leafletMap = null;
-let mapMarkers = [];
 
 // DOM Loaded Initialization
 document.addEventListener('DOMContentLoaded', () => {
   renderDestinations();
   renderFestivals();
-  initMap();
   setupEventListeners();
 });
 
@@ -780,40 +778,7 @@ function openFestivalModal(id) {
   overlay.classList.add('active');
 }
 
-// Leaflet Map Initialization
-function initMap() {
-  const mapElement = document.getElementById('ghana-map');
-  if (!mapElement) return;
 
-  leafletMap = L.map('ghana-map', { scrollWheelZoom: false }).setView([7.9465, -1.0232], 7);
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 18,
-    attribution: '© OpenStreetMap contributors | Visit Ghana'
-  }).addTo(leafletMap);
-
-  DESTINATIONS.forEach(item => {
-    const customIcon = L.divIcon({
-      className: 'custom-map-pin',
-      html: `<div style="background: var(--gold-gradient); color: #090C10; font-weight: 900; border: 2px solid #FFF; padding: 6px 14px; border-radius: 20px; box-shadow: 0 4px 14px rgba(255, 184, 0, 0.5); font-size: 11px; white-space: nowrap;">📍 ${item.name}</div>`,
-      iconSize: [140, 30],
-      iconAnchor: [70, 15]
-    });
-
-    const marker = L.marker([item.lat, item.lng], { icon: customIcon }).addTo(leafletMap);
-    
-    marker.bindPopup(`
-      <div class="popup-card">
-        <img src="${item.image}" alt="${item.name}">
-        <h4>${item.name}</h4>
-        <p>${item.location}</p>
-        <button class="btn-card-details" style="width: 100%; text-align: center;" onclick="openDestinationModal('${item.id}')">View Destination</button>
-      </div>
-    `);
-
-    mapMarkers.push(marker);
-  });
-}
 
 // Open Destination Detail Modal
 function openDestinationModal(id) {

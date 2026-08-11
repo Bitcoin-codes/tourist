@@ -7,6 +7,27 @@ document.querySelectorAll('.card, .glass-card').forEach(card => {
     }
   });
 });
+document.addEventListener('DOMContentLoaded', () => {
+  const mobileToggle = document.querySelector('.mobile-toggle');
+  const navLinks = document.querySelector('.nav-links');
+
+  if (mobileToggle && navLinks) {
+    mobileToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      mobileToggle.setAttribute(
+        'aria-expanded', 
+        navLinks.classList.contains('active')
+      );
+    });
+
+    // Close mobile menu when a nav link is clicked
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+      });
+    });
+  }
+});
 // Comprehensive Ghana Destinations Dataset (20+ Top Tourist Sites)
 const DESTINATIONS = [
   {

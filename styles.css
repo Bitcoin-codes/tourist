@@ -1,190 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
 
-
-.mobile-toggle {
-  display: none;               /* Hidden on desktop by default */
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  z-index: 1100;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-}
-
-.mobile-toggle span {
-  display: block;
-  width: 24px;
-  height: 2px;
-  background-color: var(--text-primary, #FFF);
-  border-radius: 2px;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-/* Animate hamburger → ✕ when menu is open */
-.mobile-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-.mobile-toggle.active span:nth-child(2) { opacity: 0; }
-.mobile-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-
-/* ==========================================================================
-   MOBILE / TABLET NAV RESPONSIVE  (≤ 768 px)
-   ========================================================================== */
-@media (max-width: 768px) {
-  /* Show hamburger */
-  .mobile-toggle {
-    display: flex;
-  }
-
-  /* Slide-out drawer — hidden off-screen by default */
-  .nav-links {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: 75%;
-    max-width: 300px;
-    height: 100dvh;            /* use dvh for iOS address-bar safety */
-    background: rgba(9, 12, 16, 0.97);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 88px 28px 32px;
-    gap: 22px;
-    transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.6);
-    border-left: 1px solid rgba(255, 255, 255, 0.07);
-    z-index: 1050;
-    list-style: none;
-    overflow-y: auto;
-  }
-
-  /* Slide in when JS adds .active */
-  .nav-links.active {
-    right: 0;
-  }
-
-  /* Make each link full-width and tappable */
-  .nav-links .nav-link {
-    font-size: 1.15rem;
-    padding: 10px 0;
-    width: 100%;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-  }
-
-  /* Prevent body scrolling while drawer is open (class set by JS) */
-  body.nav-open {
-    overflow: hidden;
-  }
-
-  /* Dim overlay behind the open drawer */
-  body.nav-open::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.55);
-    z-index: 1040;
-  }
-
-  .nav-actions {
-    gap: 8px;
-  }
-
-  .header {
-    padding: 12px 0;
-  }
-
-  .nav-wrapper {
-    gap: 12px;
-  }
-
-  .brand-logo {
-    font-size: 1.3rem;
-  }
-
-  /* Shrink search bar */
-  .header-search input {
-    width: 130px;
-    padding: 8px 14px 8px 36px;
-    font-size: 0.85rem;
-  }
-
-  .header-search input:focus {
-    width: 170px;
-  }
-
-  /* ── HERO FAN-OUT CARDS (tablet 768px) ── */
-  .hero-card-stack {
-    flex-wrap: nowrap;
-    justify-content: center;
-    padding: 0 10px;
-    overflow: visible;
-  }
-
-  .hero-stack-card {
-    width: 115px;
-    height: 170px;
-    margin-left: -22px;
-    border-radius: 16px;
-  }
-
-  /* Full-screen expanded state for tapped cards on mobile */
-  .card.active,
-  .glass-card.active {
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 9999;
-    border-radius: 0;
-    margin: 0;
-    overflow-y: auto;
-    background: #0B0E15;
-    padding: 24px;
-    box-shadow: none;
-  }
-
-  body.card-open {
-    overflow: hidden;
-  }
-}
-
-/* ==========================================================================
-   SMALL PHONES  (≤ 480 px)
-   ========================================================================== */
-@media (max-width: 480px) {
-  /* Hide search + menu pill on very narrow screens */
-  .header-search,
-  .btn-pill-menu {
-    display: none;
-  }
-
-  .brand-logo {
-    font-size: 1.2rem;
-  }
-
-  /* Hero fan — even smaller */
-  .hero-stack-card {
-    width: 100px;
-    height: 150px;
-    margin-left: -18px;
-    border-radius: 14px;
-  }
-}
-
-/* ==========================================================================
-   TABLET ≤ 992px  — hero fan intermediate size
-   ========================================================================== */
-@media (max-width: 992px) and (min-width: 769px) {
-  .hero-stack-card {
-    width: 145px;
-    height: 210px;
-    margin-left: -28px;
-  }
-}
-
-
 :root {
   --bg-midnight: #090C10;
   --bg-surface: #10151E;
@@ -230,6 +45,14 @@
   padding: 0;
 }
 
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
 html {
   scroll-behavior: smooth;
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
@@ -239,9 +62,9 @@ html {
 }
 
 body {
-  overflow-x: hidden;
   background: radial-gradient(circle at 50% 0%, #161D2B 0%, #090C10 70%);
   min-height: 100vh;
+  position: relative;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -281,26 +104,26 @@ img {
   top: -150px;
   left: 50%;
   transform: translateX(-50%);
-  width: 800px;
+  width: 100%;
+  max-width: 800px;
   height: 500px;
   background: radial-gradient(circle, rgba(255, 184, 0, 0.15) 0%, rgba(0, 200, 83, 0.05) 50%, transparent 70%);
   filter: blur(80px);
   pointer-events: none;
   z-index: 0;
+  overflow: hidden;
 }
 
-/* ==========================================================================
-   NAVIGATION BAR
-   ========================================================================== */
+/* NAVIGATION BAR */
 .header {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: rgba(9, 12, 16, 0.75);
+  background: rgba(9, 12, 16, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-glass);
-  padding: 18px 0;
+  padding: 16px 0;
   transition: var(--transition-smooth);
 }
 
@@ -316,70 +139,12 @@ img {
   align-items: center;
   gap: 10px;
   font-family: 'Outfit', sans-serif;
-  font-size: 1.75rem;
+  font-size: 1.65rem;
   font-weight: 800;
   letter-spacing: -0.02em;
   color: #FFF;
 }
 
-/* Mobile Toggle Styling */
-.mobile-toggle {
-  display: none;
-  cursor: pointer;
-  background: transparent;
-  border: none;
-  color: #FFF;
-  font-size: 1.5rem;
-  z-index: 1001;
-}
-
-/* Responsive Navigation Bar for Mobile/Tablet */
-@media (max-width: 768px) {
-  .mobile-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* Transform nav-links into a mobile overlay menu */
-  .nav-links {
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    top: 0;
-    right: -100%; /* Hidden off-screen by default */
-    width: 80%;
-    max-width: 300px;
-    height: 100vh;
-    background: rgba(16, 21, 30, 0.98);
-    backdrop-filter: blur(20px);
-    padding: 80px 24px 24px;
-    gap: 20px;
-    transition: right var(--transition-smooth);
-    border-left: 1px solid var(--border-glass);
-    z-index: 1000;
-  }
-
-  /* Class toggled by JavaScript to slide in the menu */
-  .nav-links.active {
-    right: 0;
-  }
-
-  .nav-actions {
-    gap: 8px;
-  }
-}
-
-/* Extra Small Screens (Phones) */
-@media (max-width: 480px) {
-  .header-search {
-    display: none; /* Hide desktop search input on tiny viewports */
-  }
-
-  .brand-logo {
-    font-size: 1.2rem;
-  }
-}
 .brand-logo .visit-text {
   font-weight: 400;
   color: var(--text-secondary);
@@ -403,7 +168,7 @@ img {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 36px;
+  gap: 32px;
   list-style: none;
 }
 
@@ -475,28 +240,77 @@ img {
   stroke: var(--gold-primary);
 }
 
-.btn-pill-menu {
-  display: flex;
+/* HAMBURGER BUTTON (Hidden on Desktop) */
+.mobile-toggle {
+  display: none;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
   background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--border-glass);
-  border-radius: var(--radius-pill);
-  padding: 10px 20px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  color: #FFF;
-  transition: var(--transition-smooth);
+  border: 1px solid rgba(255, 184, 0, 0.3);
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  z-index: 3100;
+  position: relative;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.btn-pill-menu:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.2);
+.mobile-toggle:hover {
+  background: rgba(255, 184, 0, 0.12);
+  border-color: rgba(255, 184, 0, 0.6);
+  box-shadow: 0 0 18px rgba(255, 184, 0, 0.25);
 }
 
-/* ==========================================================================
-   HERO SECTION & FAN-OUT CARD STACK
-   ========================================================================== */
+.mobile-toggle.active {
+  background: rgba(255, 184, 0, 0.16);
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 24px rgba(255, 184, 0, 0.35);
+}
+
+.hamburger-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 5px;
+  width: 20px;
+  height: 15px;
+}
+
+.hamburger-icon span {
+  display: block;
+  height: 2px;
+  border-radius: 2px;
+  background: #FFF;
+  transform-origin: center;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, width 0.3s ease, background 0.3s ease;
+}
+
+.hamburger-icon span:nth-child(1) { width: 20px; }
+.hamburger-icon span:nth-child(2) { width: 14px; }
+.hamburger-icon span:nth-child(3) { width: 20px; }
+
+.mobile-toggle.active .hamburger-icon span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+  background: var(--gold-primary);
+  width: 20px;
+}
+.mobile-toggle.active .hamburger-icon span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.mobile-toggle.active .hamburger-icon span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+  background: var(--gold-primary);
+  width: 20px;
+}
+
+/* HERO SECTION */
 .hero-section {
   padding: 70px 0 50px 0;
   text-align: center;
@@ -529,7 +343,6 @@ img {
   line-height: 1.6;
 }
 
-/* Overlapping Curved 3D Card Stack */
 .hero-card-stack-wrapper {
   position: relative;
   max-width: 1150px;
@@ -563,7 +376,6 @@ img {
   margin-left: 0;
 }
 
-/* Dynamic Rotations */
 .hero-stack-card:nth-child(1) { transform: rotate(-9deg) translateY(18px); }
 .hero-stack-card:nth-child(2) { transform: rotate(-4deg) translateY(6px); }
 .hero-stack-card:nth-child(3) { transform: rotate(0deg) translateY(-10px); z-index: 5; border-color: var(--gold-primary); box-shadow: var(--shadow-gold-glow); }
@@ -603,7 +415,6 @@ img {
   letter-spacing: 0.02em;
 }
 
-/* Gold Pill Action Buttons */
 .hero-actions-bar {
   display: flex;
   align-items: center;
@@ -643,9 +454,7 @@ img {
   font-size: 12px;
 }
 
-/* ==========================================================================
-   CATEGORIES & FILTER BAR
-   ========================================================================== */
+/* SECTION HEADER & TABS */
 .section-header {
   margin-bottom: 36px;
   display: flex;
@@ -709,9 +518,7 @@ img {
   box-shadow: var(--shadow-gold-glow);
 }
 
-/* ==========================================================================
-   DESTINATION CARDS GRID (LUXURY GLASSMORPHISM)
-   ========================================================================== */
+/* DESTINATIONS GRID */
 .destinations-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
@@ -891,9 +698,7 @@ img {
   box-shadow: var(--shadow-gold-glow);
 }
 
-/* ==========================================================================
-   CULTURAL FESTIVALS SECTION (LUXURY EXPANDED)
-   ========================================================================== */
+/* FESTIVALS SECTION */
 .festivals-section {
   padding: 90px 0;
 }
@@ -996,68 +801,7 @@ img {
   margin-bottom: 18px;
 }
 
-/* ==========================================================================
-   INTERACTIVE MAP SECTION (DARK THEMED FRAME)
-   ========================================================================== */
-.map-section {
-  padding: 90px 0;
-  background: rgba(16, 21, 30, 0.6);
-  border-top: 1px solid var(--border-glass);
-  border-bottom: 1px solid var(--border-glass);
-  margin-top: 80px;
-}
-
-.map-container-wrapper {
-  position: relative;
-  height: 550px;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-card);
-  border: 1px solid var(--border-gold);
-}
-
-#ghana-map {
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-
-.leaflet-popup-content-wrapper {
-  background: var(--bg-surface) !important;
-  color: #FFF !important;
-  border-radius: var(--radius-md) !important;
-  padding: 6px !important;
-  border: 1px solid var(--border-gold) !important;
-}
-
-.popup-card {
-  width: 230px;
-}
-
-.popup-card img {
-  width: 100%;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 12px;
-  margin-bottom: 10px;
-}
-
-.popup-card h4 {
-  font-size: 1.05rem;
-  font-weight: 800;
-  color: #FFF;
-  margin-bottom: 4px;
-}
-
-.popup-card p {
-  font-size: 0.82rem;
-  color: var(--text-secondary);
-  margin-bottom: 10px;
-}
-
-/* ==========================================================================
-   INTERACTIVE ITINERARY PLANNER
-   ========================================================================== */
+/* ITINERARY PLANNER */
 .planner-section {
   background: linear-gradient(135deg, #121824, #0B0E15);
   border: 1px solid var(--border-gold);
@@ -1154,9 +898,7 @@ img {
   margin-bottom: 8px;
 }
 
-/* ==========================================================================
-   DESTINATION & INFO MODALS (DARK GLASS)
-   ========================================================================== */
+/* MODALS */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -1165,7 +907,7 @@ img {
   bottom: 0;
   background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(16px);
-  z-index: 2000;
+  z-index: 4000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1345,7 +1087,7 @@ img {
   display: flex;
   align-items: center;
   gap: 12px;
-  z-index: 3000;
+  z-index: 5000;
   transform: translateY(100px);
   opacity: 0;
   transition: var(--transition-bounce);
@@ -1356,6 +1098,9 @@ img {
   opacity: 1;
 }
 
+/* ==========================================================================
+   MEDIA QUERIES (TABLET & MOBILE RESPONSIVE)
+   ========================================================================== */
 @media (max-width: 1024px) {
   .hero-title { font-size: 3rem; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
@@ -1364,14 +1109,81 @@ img {
 }
 
 @media (max-width: 768px) {
-  /* Nav: the drawer is handled by the top block — only override display here */
-  .nav-links { display: flex; } /* keep flex so flex-direction:column works in drawer */
-  .mobile-toggle { display: flex; }
+  /* Header Layout */
+  .header {
+    padding: 12px 0;
+  }
 
+  .brand-logo {
+    font-size: 1.3rem;
+  }
+
+  /* Show Hamburger Button on Mobile */
+  .mobile-toggle {
+    display: flex !important;
+  }
+
+  /* Mobile Slide-out Navigation Drawer */
+  .nav-links {
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    width: 280px !important;
+    max-width: 80vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    background: rgba(16, 21, 30, 0.98) !important;
+    backdrop-filter: blur(24px) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    padding: 85px 24px 32px !important;
+    gap: 16px !important;
+    transform: translateX(100%) !important;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease !important;
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.7) !important;
+    border-left: 1px solid var(--border-glass) !important;
+    z-index: 3000 !important;
+    list-style: none !important;
+    overflow-y: auto !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  .nav-links.active {
+    transform: translateX(0) !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  .nav-links .nav-link {
+    font-size: 1.1rem;
+    padding: 12px 0;
+    width: 100%;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* Dark Overlay backdrop when menu is active */
+  body.nav-open {
+    overflow: hidden !important;
+  }
+
+  body.nav-open::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 990;
+    pointer-events: auto;
+  }
+
+  /* Hero Section Mobile Adjustments */
   .hero-title { font-size: 2rem; line-height: 1.25; }
-  .hero-subtitle { font-size: 1rem; }
+  .hero-subtitle { font-size: 1rem; margin-bottom: 30px; }
 
-  /* Hero fan — smaller cards, keep horizontal layout, allow scroll */
+  /* Hero fan cards horizontal scroll on mobile */
   .hero-card-stack-wrapper {
     overflow-x: auto;
     padding: 20px 16px;
@@ -1395,7 +1207,6 @@ img {
     height: 190px;
     margin-left: -24px;
     border-radius: 16px;
-    /* On mobile, replace hover with touch-friendly tap — no big lift on hover */
     flex-shrink: 0;
   }
 
@@ -1403,7 +1214,6 @@ img {
     transform: rotate(0deg) translateY(-14px) scale(1.08) !important;
   }
 
-  /* Hero action buttons — stack vertically */
   .hero-actions-bar {
     flex-direction: column;
     align-items: stretch;
@@ -1417,31 +1227,23 @@ img {
     padding: 14px 24px;
   }
 
-  /* Destination / festival grids go to single column */
   .destinations-grid { grid-template-columns: 1fr; }
   .festivals-grid    { grid-template-columns: 1fr; }
   .footer-grid       { grid-template-columns: 1fr; }
 
-  /* Modal tweaks */
   .modal-hero-img    { height: 220px; }
   .modal-content-body { padding: 20px; }
   .modal-title       { font-size: 1.6rem; }
 
-  /* Planner */
   .planner-box { padding: 24px 16px; }
   .planner-section { padding: 50px 0; border-radius: 20px; }
 
-  /* Map height */
-  .map-container-wrapper { height: 380px; }
-
-  /* Section headings */
   .section-title { font-size: 1.7rem; }
-
-  /* Footer */
   .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
 }
 
 @media (max-width: 480px) {
+  .header-search { display: none; }
   .hero-title { font-size: 1.7rem; }
 
   .hero-stack-card {
@@ -1449,8 +1251,6 @@ img {
     height: 165px;
     margin-left: -20px;
   }
-
-  .map-container-wrapper { height: 300px; }
 
   .modal-fact-grid { grid-template-columns: 1fr 1fr; }
 }

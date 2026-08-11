@@ -1,153 +1,96 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
-/* Hide mobile toggle by default on desktop */
+
+
 .mobile-toggle {
-  display: none;
+  display: none;               /* Hidden on desktop by default */
   background: transparent;
   border: none;
   cursor: pointer;
   padding: 8px;
-  z-index: 1001;
+  z-index: 1100;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 }
 
 .mobile-toggle span {
   display: block;
   width: 24px;
   height: 2px;
-  margin: 5px 0;
   background-color: var(--text-primary, #FFF);
-  transition: all 0.3s ease;
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* Mobile & Tablet Viewports */
+/* Animate hamburger → ✕ when menu is open */
+.mobile-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.mobile-toggle.active span:nth-child(2) { opacity: 0; }
+.mobile-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+/* ==========================================================================
+   MOBILE / TABLET NAV RESPONSIVE  (≤ 768 px)
+   ========================================================================== */
 @media (max-width: 768px) {
-  /* Show hamburger button */
+  /* Show hamburger */
   .mobile-toggle {
-    display: block;
+    display: flex;
   }
 
-  /* Transform nav-links into a slide-out overlay */
+  /* Slide-out drawer — hidden off-screen by default */
   .nav-links {
     position: fixed;
     top: 0;
-    right: -100%; /* Hidden off-screen */
+    right: -100%;
     width: 75%;
     max-width: 300px;
-    height: 100vh;
-    background: rgba(15, 23, 42, 0.95);
-    backdrop-filter: blur(12px);
+    height: 100dvh;            /* use dvh for iOS address-bar safety */
+    background: rgba(9, 12, 16, 0.97);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     flex-direction: column;
     align-items: flex-start;
-    padding: 90px 24px 30px;
-    gap: 20px;
-    transition: right 0.3s ease-in-out;
-    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.5);
-    z-index: 1000;
+    padding: 88px 28px 32px;
+    gap: 22px;
+    transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.6);
+    border-left: 1px solid rgba(255, 255, 255, 0.07);
+    z-index: 1050;
+    list-style: none;
+    overflow-y: auto;
   }
 
-  /* Active class toggled by JS */
+  /* Slide in when JS adds .active */
   .nav-links.active {
     right: 0;
   }
 
-  /* Optional: Animate hamburger into an 'X' when active */
-  .mobile-toggle.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-  }
-  .mobile-toggle.active span:nth-child(2) {
-    opacity: 0;
-  }
-  .mobile-toggle.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
-  }
-}
-
-/* Small Mobile Screens */
-@media (max-width: 480px) {
-  .header-search, 
-  .btn-pill-menu {
-    display: none; /* Hide non-essential desktop buttons on narrow screens */
-  }
-}
-
-
-/* Hide mobile toggle by default on desktop */
-.mobile-toggle {
-  display: none;
-  cursor: pointer;
-}
-
-/* Tablet & Small Desktop (Max 992px) */
-@media (max-width: 992px) {
-  .hero-container {
-    grid-template-columns: 1fr; /* Stack text above card fan */
-    gap: 2rem;
-    padding-top: 4rem;
-    text-align: center;
-  }
-
-  .hero-content {
-    align-items: center;
-  }
-
-  .hero-card-stack {
-    height: 380px; /* Reduced container height */
-    margin: 0 auto;
+  /* Make each link full-width and tappable */
+  .nav-links .nav-link {
+    font-size: 1.15rem;
+    padding: 10px 0;
     width: 100%;
-    max-width: 320px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
   }
 
-  /* Scale down base card size */
-  .hero-card {
-    width: 240px;
-    height: 320px;
+  /* Prevent body scrolling while drawer is open (class set by JS) */
+  body.nav-open {
+    overflow: hidden;
   }
 
-  /* Adjusted fan-out positions for tablet viewports */
-  .hero-card-stack:hover .hero-card:nth-child(1) {
-    transform: translate(-60px, -10px) rotate(-12deg);
-  }
-  .hero-card-stack:hover .hero-card:nth-child(2) {
-    transform: translate(-20px, -5px) rotate(-4deg);
-  }
-  .hero-card-stack:hover .hero-card:nth-child(3) {
-    transform: translate(20px, 5px) rotate(4deg);
-  }
-  .hero-card-stack:hover .hero-card:nth-child(4) {
-    transform: translate(60px, 15px) rotate(12deg);
-  }
-}
-
-/* Mobile Devices (Max 576px) */
-@media (max-width: 576px) {
-  .hero-card-stack {
-    height: 320px;
-    max-width: 280px;
+  /* Dim overlay behind the open drawer */
+  body.nav-open::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 1040;
   }
 
-  .hero-card {
-    width: 200px;
-    height: 270px;
-    border-radius: 16px; /* Slightly tighter border radius */
+  .nav-actions {
+    gap: 8px;
   }
 
-  /* Compact fan-out transform values to prevent horizontal overflow */
-  .hero-card-stack:hover .hero-card:nth-child(1) {
-    transform: translate(-35px, -8px) rotate(-10deg);
-  }
-  .hero-card-stack:hover .hero-card:nth-child(2) {
-    transform: translate(-12px, -3px) rotate(-3deg);
-  }
-  .hero-card-stack:hover .hero-card:nth-child(3) {
-    transform: translate(12px, 3px) rotate(3deg);
-  }
-  .hero-card-stack:hover .hero-card:nth-child(4) {
-    transform: translate(35px, 10px) rotate(10deg);
-  }
-}
-
-/* Tablet & Mobile Responsiveness */
-@media (max-width: 768px) {
-  /* Reduce header padding and container gap */
   .header {
     padding: 12px 0;
   }
@@ -156,80 +99,92 @@
     gap: 12px;
   }
 
-  /* Hide default horizontal navigation links */
-  .nav-links {
-    display: none; 
-    /* Alternatively, transform into a mobile dropdown overlay when active:
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    flex-direction: column;
-    background: #ffffff;
-    padding: 20px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    */
+  .brand-logo {
+    font-size: 1.3rem;
   }
 
-  /* Show the mobile menu button */
-  .mobile-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* Shrink search bar for smaller screens */
+  /* Shrink search bar */
   .header-search input {
-    width: 140px;
+    width: 130px;
     padding: 8px 14px 8px 36px;
     font-size: 0.85rem;
   }
 
   .header-search input:focus {
-    width: 180px;
+    width: 170px;
   }
 
-  /* Adjust action buttons size */
-  .btn-pill-menu {
-    padding: 8px 14px;
-    font-size: 0.82rem;
+  /* ── HERO FAN-OUT CARDS (tablet 768px) ── */
+  .hero-card-stack {
+    flex-wrap: nowrap;
+    justify-content: center;
+    padding: 0 10px;
+    overflow: visible;
   }
-  
-  .brand-logo {
-    font-size: 1.3rem;
-  }
-}
 
-/* Extra Small Screens (Phones) */
-@media (max-width: 480px) {
-  /* Hide search bar on extra small screens if header gets crowded */
-  .header-search {
-    display: none;
+  .hero-stack-card {
+    width: 115px;
+    height: 170px;
+    margin-left: -22px;
+    border-radius: 16px;
   }
-}
 
-/* Full-screen expanded state for tapped cards on mobile */
-@media (max-width: 768px) {
-  .card.active, .glass-card.active {
+  /* Full-screen expanded state for tapped cards on mobile */
+  .card.active,
+  .glass-card.active {
     position: fixed;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100vw;
     height: 100vh;
     z-index: 9999;
     border-radius: 0;
     margin: 0;
     overflow-y: auto;
-    background: #ffffff; /* Solid light background when expanded */
+    background: #0B0E15;
     padding: 24px;
     box-shadow: none;
   }
 
-  /* Optional: prevent body scrolling when a card is expanded */
   body.card-open {
     overflow: hidden;
   }
 }
+
+/* ==========================================================================
+   SMALL PHONES  (≤ 480 px)
+   ========================================================================== */
+@media (max-width: 480px) {
+  /* Hide search + menu pill on very narrow screens */
+  .header-search,
+  .btn-pill-menu {
+    display: none;
+  }
+
+  .brand-logo {
+    font-size: 1.2rem;
+  }
+
+  /* Hero fan — even smaller */
+  .hero-stack-card {
+    width: 100px;
+    height: 150px;
+    margin-left: -18px;
+    border-radius: 14px;
+  }
+}
+
+/* ==========================================================================
+   TABLET ≤ 992px  — hero fan intermediate size
+   ========================================================================== */
+@media (max-width: 992px) and (min-width: 769px) {
+  .hero-stack-card {
+    width: 145px;
+    height: 210px;
+    margin-left: -28px;
+  }
+}
+
+
 :root {
   --bg-midnight: #090C10;
   --bg-surface: #10151E;
@@ -1404,18 +1359,98 @@ img {
 @media (max-width: 1024px) {
   .hero-title { font-size: 3rem; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
-  .hero-stack-card { width: 160px; height: 240px; margin-left: -30px; }
   .festivals-grid { grid-template-columns: 1fr 1fr; }
+  .section-title { font-size: 2rem; }
 }
 
 @media (max-width: 768px) {
-  .nav-links { display: none; }
+  /* Nav: the drawer is handled by the top block — only override display here */
+  .nav-links { display: flex; } /* keep flex so flex-direction:column works in drawer */
   .mobile-toggle { display: flex; }
-  .hero-title { font-size: 2.3rem; }
-  .hero-stack-card { width: 120px; height: 180px; margin-left: -20px; border-radius: 18px; }
+
+  .hero-title { font-size: 2rem; line-height: 1.25; }
+  .hero-subtitle { font-size: 1rem; }
+
+  /* Hero fan — smaller cards, keep horizontal layout, allow scroll */
+  .hero-card-stack-wrapper {
+    overflow-x: auto;
+    padding: 20px 16px;
+    margin-bottom: 28px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .hero-card-stack-wrapper::-webkit-scrollbar { display: none; }
+
+  .hero-card-stack {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    min-width: max-content;
+    perspective: none;
+    gap: 0;
+  }
+
+  .hero-stack-card {
+    width: 130px;
+    height: 190px;
+    margin-left: -24px;
+    border-radius: 16px;
+    /* On mobile, replace hover with touch-friendly tap — no big lift on hover */
+    flex-shrink: 0;
+  }
+
+  .hero-stack-card:hover {
+    transform: rotate(0deg) translateY(-14px) scale(1.08) !important;
+  }
+
+  /* Hero action buttons — stack vertically */
+  .hero-actions-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 0 16px;
+  }
+
+  .hero-pill-btn {
+    justify-content: center;
+    font-size: 0.95rem;
+    padding: 14px 24px;
+  }
+
+  /* Destination / festival grids go to single column */
   .destinations-grid { grid-template-columns: 1fr; }
-  .festivals-grid { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr; }
-  .modal-hero-img { height: 250px; }
-  .modal-content-body { padding: 26px; }
+  .festivals-grid    { grid-template-columns: 1fr; }
+  .footer-grid       { grid-template-columns: 1fr; }
+
+  /* Modal tweaks */
+  .modal-hero-img    { height: 220px; }
+  .modal-content-body { padding: 20px; }
+  .modal-title       { font-size: 1.6rem; }
+
+  /* Planner */
+  .planner-box { padding: 24px 16px; }
+  .planner-section { padding: 50px 0; border-radius: 20px; }
+
+  /* Map height */
+  .map-container-wrapper { height: 380px; }
+
+  /* Section headings */
+  .section-title { font-size: 1.7rem; }
+
+  /* Footer */
+  .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .hero-title { font-size: 1.7rem; }
+
+  .hero-stack-card {
+    width: 110px;
+    height: 165px;
+    margin-left: -20px;
+  }
+
+  .map-container-wrapper { height: 300px; }
+
+  .modal-fact-grid { grid-template-columns: 1fr 1fr; }
 }

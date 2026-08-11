@@ -38,6 +38,28 @@
   --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+[data-theme="light"] {
+  --bg-midnight: #F1F5F9;
+  --bg-surface: #FFFFFF;
+  --bg-card-glass: rgba(255, 255, 255, 0.88);
+  --bg-card-hover: rgba(255, 255, 255, 0.98);
+  
+  --gold-primary: #D47A00;
+  --gold-secondary: #B36200;
+  --gold-gradient: linear-gradient(135deg, #FFB800 0%, #D47A00 100%);
+  --gold-glow: rgba(212, 122, 0, 0.3);
+  --gold-glow-subtle: rgba(212, 122, 0, 0.12);
+
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+  
+  --border-glass: rgba(15, 23, 42, 0.12);
+  --border-gold: rgba(212, 122, 0, 0.35);
+
+  --shadow-card: 0 12px 36px -6px rgba(15, 23, 42, 0.08);
+}
+
 /* Reset & Global Base */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -1253,4 +1275,602 @@ img {
   }
 
   .modal-fact-grid { grid-template-columns: 1fr 1fr; }
+  .ai-chat-window { width: calc(100vw - 32px); right: -10px; }
+}
+
+/* THEME TOGGLE BUTTON */
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-glass);
+  cursor: pointer;
+  transition: var(--transition-bounce);
+  position: relative;
+  z-index: 100;
+}
+
+.theme-toggle-btn:hover {
+  background: rgba(255, 184, 0, 0.15);
+  border-color: var(--gold-primary);
+  transform: scale(1.08);
+}
+
+.theme-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+[data-theme="light"] .sun-icon { display: none; }
+[data-theme="light"] .moon-icon { display: inline-block; }
+:root:not([data-theme="light"]) .sun-icon { display: inline-block; }
+:root:not([data-theme="light"]) .moon-icon { display: none; }
+
+/* LIGHT THEME OVERRIDES */
+[data-theme="light"] body {
+  background: radial-gradient(circle at 50% 0%, #FFFFFF 0%, #F1F5F9 100%);
+}
+
+[data-theme="light"] .header {
+  background: rgba(255, 255, 255, 0.88);
+  border-bottom-color: rgba(15, 23, 42, 0.08);
+}
+
+[data-theme="light"] .nav-links {
+  background: rgba(255, 255, 255, 0.98) !important;
+}
+
+[data-theme="light"] .hero-title {
+  color: #0F172A;
+  text-shadow: none;
+}
+
+[data-theme="light"] .card-title,
+[data-theme="light"] .festival-card-title,
+[data-theme="light"] .section-title {
+  color: #0F172A;
+}
+
+[data-theme="light"] .header-search input {
+  background: rgba(15, 23, 42, 0.04);
+  color: #0F172A;
+}
+
+[data-theme="light"] .header-search input::placeholder {
+  color: #64748B;
+}
+
+/* AI CHATBOT FLOATING WIDGET */
+.ai-chatbot-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 5000;
+}
+
+.ai-chat-trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--gold-gradient);
+  color: #090C10;
+  font-weight: 800;
+  font-size: 0.95rem;
+  padding: 12px 22px;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 10px 30px var(--gold-glow);
+  cursor: pointer;
+  transition: var(--transition-bounce);
+  border: 2px solid #FFF;
+}
+
+.ai-chat-trigger:hover {
+  transform: scale(1.06) translateY(-2px);
+  box-shadow: 0 14px 40px var(--gold-glow);
+}
+
+.ai-bot-avatar {
+  font-size: 1.3rem;
+}
+
+.ai-status-dot {
+  width: 8px;
+  height: 8px;
+  background: #00C853;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #00C853;
+}
+
+.ai-chat-window {
+  position: absolute;
+  bottom: 64px;
+  right: 0;
+  width: 380px;
+  max-width: calc(100vw - 32px);
+  height: 520px;
+  max-height: 80vh;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px) scale(0.95);
+  transition: var(--transition-smooth);
+}
+
+.ai-chat-window.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.ai-chat-header {
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid var(--border-glass);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ai-bot-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--gold-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ai-chat-header h4 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-top: 2px;
+}
+
+.ai-status-online {
+  font-size: 0.75rem;
+  color: var(--emerald-accent);
+  margin-top: 2px;
+}
+
+.ai-chat-close-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: var(--transition-smooth);
+}
+
+.ai-chat-close-btn:hover {
+  background: var(--crimson-accent);
+  color: #FFF;
+}
+
+.ai-chat-messages {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ai-message {
+  display: flex;
+  gap: 10px;
+  max-width: 88%;
+}
+
+.ai-message.bot {
+  align-self: flex-start;
+}
+
+.ai-message.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.ai-msg-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 184, 0, 0.15);
+  border: 1px solid var(--border-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.ai-msg-content {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-glass);
+  border-radius: 16px;
+  padding: 12px 16px;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.ai-message.user .ai-msg-content {
+  background: var(--gold-gradient);
+  color: #090C10;
+  font-weight: 600;
+  border: none;
+}
+
+.ai-chat-chips {
+  display: flex;
+  gap: 8px;
+  padding: 10px 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-top: 1px solid var(--border-glass);
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.ai-chat-chips::-webkit-scrollbar {
+  display: none;
+}
+
+.chip-btn {
+  background: rgba(255, 184, 0, 0.12);
+  color: var(--gold-primary);
+  border: 1px solid var(--border-gold);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: var(--transition-smooth);
+}
+
+.chip-btn:hover {
+  background: var(--gold-gradient);
+  color: #090C10;
+}
+
+.ai-chat-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border-top: 1px solid var(--border-glass);
+}
+
+.ai-chat-input-wrapper input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-pill);
+  padding: 10px 16px;
+  font-size: 0.88rem;
+  color: var(--text-primary);
+  outline: none;
+}
+
+.ai-chat-input-wrapper input:focus {
+  border-color: var(--gold-primary);
+}
+
+.ai-chat-send-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--gold-gradient);
+  color: #090C10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-bounce);
+}
+
+.ai-chat-send-btn:hover {
+  transform: scale(1.1);
+}
+
+/* ==========================================================================
+   ONLINE BOOKING PAGE STYLES (booking.html)
+   ========================================================================== */
+.booking-hero {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.booking-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.booking-form-card {
+  background: var(--bg-card-glass);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  padding: 36px;
+  box-shadow: var(--shadow-card);
+}
+
+.form-section {
+  margin-bottom: 36px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border-glass);
+}
+
+.form-section:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.form-section-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #FFF;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+[data-theme="light"] .form-section-title {
+  color: #0F172A;
+}
+
+.form-section-title span {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--gold-gradient);
+  color: #090C10;
+  font-size: 0.85rem;
+  font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 16px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-sm);
+  padding: 13px 16px;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  outline: none;
+  transition: var(--transition-smooth);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 16px var(--gold-glow-subtle);
+}
+
+/* Services Selection Option Cards */
+.services-selection-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.service-option-card {
+  display: flex;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  transition: var(--transition-smooth);
+  position: relative;
+}
+
+.service-option-card:hover {
+  background: rgba(255, 184, 0, 0.06);
+  border-color: var(--border-gold);
+}
+
+.service-option-card input[type="checkbox"] {
+  accent-color: var(--gold-primary);
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+  margin-right: 14px;
+}
+
+.service-option-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.service-header {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.service-icon {
+  font-size: 1.6rem;
+}
+
+.service-header h4 {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.service-header p {
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.service-price {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--gold-primary);
+  white-space: nowrap;
+  background: rgba(255, 184, 0, 0.12);
+  border: 1px solid var(--border-gold);
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+}
+
+/* Booking Summary Card */
+.booking-summary-wrapper {
+  position: sticky;
+  top: 90px;
+}
+
+.booking-summary-card {
+  background: var(--bg-card-glass);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-lg);
+  padding: 30px;
+  box-shadow: 0 0 40px var(--gold-glow-subtle);
+}
+
+.summary-details-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 0.9rem;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-secondary);
+}
+
+.summary-item strong {
+  color: var(--text-primary);
+}
+
+.summary-services-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.summary-service-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+}
+
+.summary-service-item strong {
+  color: var(--gold-primary);
+}
+
+.summary-total-box {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  background: rgba(255, 184, 0, 0.08);
+  border: 1px solid var(--border-gold);
+  padding: 16px 20px;
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+}
+
+.booking-trust-guarantee {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  line-height: 1.4;
+}
+
+/* Digital Pass Ticket Modal */
+.digital-ticket-box {
+  background: rgba(255, 255, 255, 0.04);
+  border: 2px dashed var(--border-gold);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  text-align: left;
+  margin-top: 16px;
+}
+
+.ticket-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-glass);
+}
+
+.ticket-body p {
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+  color: var(--text-secondary);
+}
+
+.ticket-body span {
+  color: var(--text-primary);
+}
+
+.ticket-qr-placeholder {
+  text-align: center;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  border-radius: var(--radius-sm);
+  margin-top: 16px;
+}
+
+@media (max-width: 992px) {
+  .booking-grid {
+    grid-template-columns: 1fr;
+  }
+  .booking-summary-wrapper {
+    position: static;
+  }
+}
+
+@media (max-width: 576px) {
+  .form-row-2 {
+    grid-template-columns: 1fr;
+  }
+  .service-option-body {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

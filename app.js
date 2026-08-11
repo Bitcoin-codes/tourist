@@ -613,6 +613,7 @@ let savedBookmarks = JSON.parse(localStorage.getItem('visitGhanaBookmarks') || '
 
 // DOM Loaded Initialization
 document.addEventListener('DOMContentLoaded', () => {
+  initThemeToggle();
   renderDestinations();
   renderFestivals();
   setupEventListeners();
@@ -989,3 +990,138 @@ function setupEventListeners() {
     }
   });
 }
+
+// Theme Toggle Initialization
+function initThemeToggle() {
+  const savedTheme = localStorage.getItem('visitGhanaTheme') || 'dark';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+
+  const themeBtn = document.getElementById('theme-toggle-btn');
+  if (themeBtn) {
+    themeBtn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      const nextTheme = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', nextTheme);
+      localStorage.setItem('visitGhanaTheme', nextTheme);
+      showToast(`Switched to ${nextTheme === 'light' ? 'Light ☀️' : 'Dark 🌙'} Theme`);
+    });
+  }
+}
+
+// AI Chatbot Controller & Intelligence Engine
+function toggleAIChat() {
+  const chatWindow = document.getElementById('ai-chat-window');
+  if (chatWindow) {
+    chatWindow.classList.toggle('active');
+  }
+}
+
+function sendQuickPrompt(promptText) {
+  const input = document.getElementById('ai-chat-input');
+  if (input) {
+    input.value = promptText;
+    handleAIChatSubmit(new Event('submit'));
+  }
+}
+
+function handleAIChatSubmit(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const input = document.getElementById('ai-chat-input');
+  const messagesContainer = document.getElementById('ai-chat-messages');
+  if (!input || !messagesContainer) return;
+
+  const query = input.value.trim();
+  if (!query) return;
+
+  // Render User Message
+  const userMsgDiv = document.createElement('div');
+  userMsgDiv.className = 'ai-message user';
+  userMsgDiv.innerHTML = `
+    <div class="ai-msg-avatar">👤</div>
+    <div class="ai-msg-content"><p>${escapeHTML(query)}</p></div>
+  `;
+  messagesContainer.appendChild(userMsgDiv);
+  input.value = '';
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+  // Render Typing Indicator
+  const typingDiv = document.createElement('div');
+  typingDiv.className = 'ai-message bot typing';
+  typingDiv.id = 'ai-typing-indicator';
+  typingDiv.innerHTML = `
+    <div class="ai-msg-avatar">🇬🇭</div>
+    <div class="ai-msg-content"><p><em>Akwaaba AI is typing...</em> 💭</p></div>
+  `;
+  messagesContainer.appendChild(typingDiv);
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+  setTimeout(() => {
+    const indicator = document.getElementById('ai-typing-indicator');
+    if (indicator) indicator.remove();
+
+    const botResponse = generateAIResponse(query);
+    const botMsgDiv = document.createElement('div');
+    botMsgDiv.className = 'ai-message bot';
+    botMsgDiv.innerHTML = `
+      <div class="ai-msg-avatar">🇬🇭</div>
+      <div class="ai-msg-content">${botResponse}</div>
+    `;
+    messagesContainer.appendChild(botMsgDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }, 750);
+}
+
+function generateAIResponse(q) {
+  const query = q.toLowerCase();
+
+  if (query.includes('monk') || query.includes('tafi') || query.includes('boabeng') || query.includes('animal')) {
+    return `<p>🐒 <strong>Ghana Monkey Sanctuaries:</strong></p>
+            <p>1. <strong>Tafi Atome Monkey Sanctuary:</strong> Volta Region sacred forest where Mona monkeys come to feed right from your hands!</p>
+            <p>2. <strong>Boabeng-Fiema:</strong> Sanctuary home to Mona and rare Black-and-White Pied Colobus monkeys living together peacefully.</p>
+            <p><button class="btn-card-details" style="font-size: 0.78rem; padding: 6px 12px; margin-top: 8px;" onclick="openDestinationModal('tafi-atome-monkey-sanctuary')">View Tafi Atome Details →</button></p>`;
+  }
+
+  if (query.includes('castle') || query.includes('cape coast') || query.includes('elmina') || query.includes('history')) {
+    return `<p>🏰 <strong>UNESCO Historic Fortresses:</strong></p>
+            <p>• <strong>Cape Coast Castle:</strong> Powerful World Heritage fortress with dungeons and Door of No Return.</p>
+            <p>• <strong>Elmina Castle:</strong> Constructed in 1482, sub-Saharan Africa's oldest European building.</p>
+            <p><button class="btn-card-details" style="font-size: 0.78rem; padding: 6px 12px; margin-top: 8px;" onclick="openDestinationModal('cape-coast-castle')">Explore Cape Coast Castle →</button></p>`;
+  }
+
+  if (query.includes('festiv') || query.includes('aboakyer') || query.includes('homowo') || query.includes('damba') || query.includes('hogbe')) {
+    return `<p>🥁 <strong>Ghanaian Traditional Festivals:</strong></p>
+            <p>• <strong>Aboakyer Deer Hunt Festival (May):</strong> Winneba Asafo warrior deer hunt ritual.</p>
+            <p>• <strong>Homowo (August):</strong> Ga harvest festival with Kpokpoi food sprinkling.</p>
+            <p>• <strong>Damba (July/Aug):</strong> Royal Northern horse dancing & talking drums.</p>
+            <p><button class="btn-card-details" style="font-size: 0.78rem; padding: 6px 12px; margin-top: 8px;" onclick="openFestivalModal('aboakyer-festival')">View Aboakyer Festival →</button></p>`;
+  }
+
+  if (query.includes('waterfall') || query.includes('wli') || query.includes('boti') || query.includes('afadja')) {
+    return `<p>🌊 <strong>Waterfalls & Peak Trails:</strong></p>
+            <p>• <strong>Wli Waterfalls:</strong> Highest waterfall in West Africa with bat sanctuary and natural plunge pool.</p>
+            <p>• <strong>Boti Waterfalls:</strong> Twin falls, Umbrella Rock, and 3-headed palm tree.</p>
+            <p><button class="btn-card-details" style="font-size: 0.78rem; padding: 6px 12px; margin-top: 8px;" onclick="openDestinationModal('wli-waterfall')">View Wli Waterfall →</button></p>`;
+  }
+
+  if (query.includes('itinerar') || query.includes('plan') || query.includes('day') || query.includes('trip')) {
+    return `<p>🗺️ <strong>Ghana Travel Itinerary Tips:</strong></p>
+            <p>• <strong>3 Days:</strong> Express Highlights (Accra, Cape Coast Castle, Tafi Atome Monkeys).</p>
+            <p>• <strong>7 Days:</strong> Essential Ghana (Castles, Kakum Canopy Walk, Kumasi Crafts, Wli Waterfalls).</p>
+            <p><a href="#planner" onclick="toggleAIChat()" style="color: var(--gold-primary); font-weight: 700;">Click here to open the Trip Planner! →</a></p>`;
+  }
+
+  if (query.includes('hello') || query.includes('hi') || query.includes('akwaaba') || query.includes('food') || query.includes('jollof')) {
+    return `<p>🇬🇭 <strong>Akwaaba! (Welcome!)</strong></p>
+            <p>Ghana is famous for its warm hospitality, UNESCO heritage, rich culture, and world-class Ghanaian Jollof rice! What destination or festival can I help you discover today?</p>`;
+  }
+
+  return `<p>✨ <strong>Akwaaba!</strong> Thank you for asking. Ghana offers iconic monkey sanctuaries, castles, waterfalls, and royal festivals.</p>
+          <p>Try searching destinations above or tap one of the suggestion chips below for instant answers!</p>`;
+}
+
+function escapeHTML(str) {
+  return str.replace(/[&<>'"]/g, 
+    tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+  );
+}
+

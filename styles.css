@@ -228,6 +228,64 @@ img {
   color: #FFF;
 }
 
+/* Mobile Toggle Styling */
+.mobile-toggle {
+  display: none;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  color: #FFF;
+  font-size: 1.5rem;
+  z-index: 1001;
+}
+
+/* Responsive Navigation Bar for Mobile/Tablet */
+@media (max-width: 768px) {
+  .mobile-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Transform nav-links into a mobile overlay menu */
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    right: -100%; /* Hidden off-screen by default */
+    width: 80%;
+    max-width: 300px;
+    height: 100vh;
+    background: rgba(16, 21, 30, 0.98);
+    backdrop-filter: blur(20px);
+    padding: 80px 24px 24px;
+    gap: 20px;
+    transition: right var(--transition-smooth);
+    border-left: 1px solid var(--border-glass);
+    z-index: 1000;
+  }
+
+  /* Class toggled by JavaScript to slide in the menu */
+  .nav-links.active {
+    right: 0;
+  }
+
+  .nav-actions {
+    gap: 8px;
+  }
+}
+
+/* Extra Small Screens (Phones) */
+@media (max-width: 480px) {
+  .header-search {
+    display: none; /* Hide desktop search input on tiny viewports */
+  }
+
+  .brand-logo {
+    font-size: 1.2rem;
+  }
+}
 .brand-logo .visit-text {
   font-weight: 400;
   color: var(--text-secondary);

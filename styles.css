@@ -22,9 +22,16 @@
   --text-primary: #F8FAFC;
   --text-secondary: #94A3B8;
   --text-muted: #64748B;
+
+  --ink-on-gold: #090C10;
   
   --border-glass: rgba(255, 255, 255, 0.08);
   --border-gold: rgba(255, 184, 0, 0.3);
+
+  --surface-overlay: rgba(255, 255, 255, 0.04);
+  --surface-overlay-strong: rgba(255, 255, 255, 0.09);
+
+  color-scheme: dark;
 
   --radius-sm: 10px;
   --radius-md: 18px;
@@ -53,9 +60,16 @@
   --text-primary: #0F172A;
   --text-secondary: #334155;
   --text-muted: #64748B;
+
+  --ink-on-gold: #090C10;
   
   --border-glass: rgba(15, 23, 42, 0.12);
   --border-gold: rgba(212, 122, 0, 0.35);
+
+  --surface-overlay: rgba(15, 23, 42, 0.05);
+  --surface-overlay-strong: rgba(15, 23, 42, 0.09);
+
+  color-scheme: light;
 
   --shadow-card: 0 12px 36px -6px rgba(15, 23, 42, 0.08);
 }
@@ -164,7 +178,7 @@ img {
   font-size: 1.65rem;
   font-weight: 800;
   letter-spacing: -0.02em;
-  color: #FFF;
+  color: var(--text-primary);
 }
 
 .brand-logo .visit-text {
@@ -204,7 +218,7 @@ img {
 }
 
 .nav-link:hover, .nav-link.active {
-  color: #FFF;
+  color: var(--text-primary);
 }
 
 .nav-link.active::after {
@@ -232,12 +246,12 @@ img {
 }
 
 .header-search input {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--surface-overlay);
   border: 1px solid var(--border-glass);
   border-radius: var(--radius-pill);
   padding: 11px 20px 11px 44px;
   font-size: 0.92rem;
-  color: #FFF;
+  color: var(--text-primary);
   width: 240px;
   transition: var(--transition-smooth);
 }
@@ -248,7 +262,7 @@ img {
 
 .header-search input:focus {
   outline: none;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--surface-overlay-strong);
   border-color: var(--gold-primary);
   box-shadow: 0 0 20px var(--gold-glow-subtle);
   width: 300px;
@@ -269,7 +283,7 @@ img {
   justify-content: center;
   width: 42px;
   height: 42px;
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--surface-overlay-strong);
   border: 1px solid rgba(255, 184, 0, 0.3);
   border-radius: 50%;
   cursor: pointer;
@@ -308,7 +322,7 @@ img {
   display: block;
   height: 2px;
   border-radius: 2px;
-  background: #FFF;
+  background: var(--text-primary);
   transform-origin: center;
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, width 0.3s ease, background 0.3s ease;
 }
@@ -346,7 +360,7 @@ img {
   letter-spacing: -0.03em;
   max-width: 960px;
   margin: 0 auto 20px auto;
-  color: #FFF;
+  color: var(--text-primary);
   text-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
@@ -450,7 +464,7 @@ img {
   align-items: center;
   gap: 12px;
   background: var(--gold-gradient);
-  color: var(--bg-midnight);
+  color: var(--ink-on-gold);
   font-weight: 800;
   font-size: 1.02rem;
   padding: 16px 32px;
@@ -489,7 +503,7 @@ img {
   font-size: 2.5rem;
   font-weight: 800;
   letter-spacing: -0.02em;
-  color: #FFF;
+  color: var(--text-primary);
 }
 
 .section-desc {
@@ -504,7 +518,7 @@ img {
   gap: 12px;
   overflow-x: auto;
   padding: 8px;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--surface-overlay);
   backdrop-filter: blur(16px);
   border: 1px solid var(--border-glass);
   border-radius: var(--radius-pill);
@@ -530,13 +544,13 @@ img {
 }
 
 .tab-btn:hover {
-  color: #FFF;
-  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+  background: var(--surface-overlay-strong);
 }
 
 .tab-btn.active {
   background: var(--gold-gradient);
-  color: var(--bg-midnight);
+  color: var(--ink-on-gold);
   box-shadow: var(--shadow-gold-glow);
 }
 
@@ -631,7 +645,7 @@ img {
 }
 
 .card-bookmark-btn:hover svg {
-  stroke: var(--bg-midnight);
+  stroke: var(--ink-on-gold);
 }
 
 .card-bookmark-btn.saved svg {
@@ -660,7 +674,7 @@ img {
   font-size: 1.45rem;
   font-weight: 800;
   margin-bottom: 10px;
-  color: #FFF;
+  color: var(--text-primary);
 }
 
 .card-description {
@@ -715,7 +729,7 @@ img {
 
 .btn-card-details:hover {
   background: var(--gold-gradient);
-  color: var(--bg-midnight);
+  color: var(--ink-on-gold);
   border-color: var(--gold-primary);
   box-shadow: var(--shadow-gold-glow);
 }
@@ -799,7 +813,7 @@ img {
 .festival-card-title {
   font-size: 1.4rem;
   font-weight: 800;
-  color: #FFF;
+  color: var(--text-primary);
   margin-bottom: 12px;
 }
 
@@ -809,7 +823,7 @@ img {
   gap: 6px;
   font-size: 0.88rem;
   color: var(--text-secondary);
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--surface-overlay);
   border: 1px solid var(--border-glass);
   padding: 12px 16px;
   border-radius: var(--radius-sm);
@@ -828,7 +842,7 @@ img {
   background: linear-gradient(135deg, #121824, #0B0E15);
   border: 1px solid var(--border-gold);
   box-shadow: 0 0 50px var(--gold-glow-subtle);
-  color: #FFF;
+  color: var(--text-primary);
   padding: 90px 0;
   border-radius: 36px;
   margin: 80px 0;
@@ -836,7 +850,7 @@ img {
 }
 
 .planner-box {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--surface-overlay);
   backdrop-filter: blur(20px);
   border: 1px solid var(--border-glass);
   border-radius: var(--radius-lg);
@@ -866,22 +880,22 @@ img {
 }
 
 .form-group select {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--surface-overlay-strong);
   border: 1px solid var(--border-glass);
   border-radius: var(--radius-sm);
   padding: 14px 18px;
-  color: #FFF;
+  color: var(--text-primary);
   font-size: 1rem;
 }
 
 .form-group select option {
   background: var(--bg-surface);
-  color: #FFF;
+  color: var(--text-primary);
 }
 
 .btn-generate-plan {
   background: var(--gold-gradient);
-  color: var(--bg-midnight);
+  color: var(--ink-on-gold);
   padding: 16px 32px;
   border-radius: var(--radius-pill);
   font-weight: 800;
@@ -907,7 +921,7 @@ img {
 }
 
 .day-item {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--surface-overlay);
   border: 1px solid var(--border-glass);
   border-radius: var(--radius-md);
   padding: 22px;
@@ -956,7 +970,7 @@ img {
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
   transform: translateY(30px);
   transition: var(--transition-smooth);
-  color: #FFF;
+  color: var(--text-primary);
 }
 
 .modal-overlay.active .modal-card {
@@ -983,7 +997,7 @@ img {
 
 .modal-close-btn:hover {
   background: var(--gold-primary);
-  color: var(--bg-midnight);
+  color: var(--ink-on-gold);
   transform: rotate(90deg);
 }
 
@@ -1014,7 +1028,7 @@ img {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 16px;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--surface-overlay);
   border: 1px solid var(--border-glass);
   padding: 22px;
   border-radius: var(--radius-md);
@@ -1052,7 +1066,7 @@ img {
 }
 
 .footer-brand h3 {
-  color: #FFF;
+  color: var(--text-primary);
   font-size: 1.8rem;
   margin-bottom: 18px;
 }
@@ -1065,7 +1079,7 @@ img {
 }
 
 .footer-col h4 {
-  color: #FFF;
+  color: var(--text-primary);
   font-size: 1.15rem;
   margin-bottom: 22px;
 }
@@ -1101,7 +1115,7 @@ img {
   bottom: 28px;
   right: 28px;
   background: var(--gold-gradient);
-  color: var(--bg-midnight);
+  color: var(--ink-on-gold);
   font-weight: 800;
   padding: 16px 28px;
   border-radius: var(--radius-pill);
@@ -1185,6 +1199,18 @@ img {
     border-bottom: 1px solid rgba(255,255,255,0.06);
   }
 
+  /* Move Theme Toggle to Hamburger Drawer on Mobile */
+  .nav-actions .theme-toggle-btn {
+    display: none !important;
+  }
+  .mobile-theme-item {
+    display: flex !important;
+    align-items: center;
+    padding-top: 16px;
+    margin-top: 8px;
+    width: 100%;
+  }
+
   /* Dark Overlay backdrop when menu is active */
   body.nav-open {
     overflow: hidden !important;
@@ -1206,35 +1232,37 @@ img {
   .hero-subtitle { font-size: 1rem; margin-bottom: 30px; }
 
   /* Hero fan cards horizontal scroll on mobile */
+  /* Centered Fan Stack for Mobile (Like Desktop but scaled down) */
   .hero-card-stack-wrapper {
-    overflow-x: auto;
-    padding: 20px 16px;
-    margin-bottom: 28px;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    padding: 20px 0;
+    margin-bottom: 20px;
+    overflow: hidden; /* Prevent horizontal scrollbars if fan expands slightly off-screen */
   }
-  .hero-card-stack-wrapper::-webkit-scrollbar { display: none; }
 
   .hero-card-stack {
     display: flex;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    min-width: max-content;
-    perspective: none;
-    gap: 0;
+    justify-content: center;
+    perspective: 800px;
   }
 
   .hero-stack-card {
-    width: 130px;
-    height: 190px;
-    margin-left: -24px;
-    border-radius: 16px;
-    flex-shrink: 0;
+    width: 120px;
+    height: 175px;
+    margin-left: -65px; /* Heavy overlap to fit screen */
+    border-radius: 14px;
+  }
+  
+  /* First card doesn't need negative margin */
+  .hero-stack-card:first-child {
+    margin-left: 0;
   }
 
-  .hero-stack-card:hover {
-    transform: rotate(0deg) translateY(-14px) scale(1.08) !important;
-  }
+  /* Compact Fan Hover Effect for Mobile */
+  .hero-card-stack:hover .hero-stack-card:nth-child(1) { transform: rotate(-8deg) translateX(-20px) translateY(5px); }
+  .hero-card-stack:hover .hero-stack-card:nth-child(2) { transform: rotate(-4deg) translateX(-10px) translateY(2px); }
+  .hero-card-stack:hover .hero-stack-card:nth-child(3) { transform: rotate(0deg) translateY(-8px) scale(1.05); }
+  .hero-card-stack:hover .hero-stack-card:nth-child(4) { transform: rotate(4deg) translateX(10px) translateY(2px); }
+  .hero-card-stack:hover .hero-stack-card:nth-child(5) { transform: rotate(8deg) translateX(20px) translateY(5px); }
 
   .hero-actions-bar {
     flex-direction: column;
@@ -1271,11 +1299,16 @@ img {
   .hero-stack-card {
     width: 110px;
     height: 165px;
-    margin-left: -20px;
+    margin-left: -60px; /* Heavy overlap for fan effect on narrow screens */
   }
 
   .modal-fact-grid { grid-template-columns: 1fr 1fr; }
   .ai-chat-window { width: calc(100vw - 32px); right: -10px; }
+}
+
+/* Mobile Theme Toggle Item (hidden on desktop) */
+.mobile-theme-item {
+  display: none;
 }
 
 /* THEME TOGGLE BUTTON */
@@ -1286,7 +1319,7 @@ img {
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--surface-overlay-strong);
   border: 1px solid var(--border-glass);
   cursor: pointer;
   transition: var(--transition-bounce);
@@ -1344,6 +1377,46 @@ img {
   color: #64748B;
 }
 
+[data-theme="light"] .brand-logo {
+  color: #0F172A;
+}
+
+[data-theme="light"] .nav-link:hover,
+[data-theme="light"] .nav-link.active {
+  color: #0F172A;
+}
+
+[data-theme="light"] .hamburger-icon span {
+  background: #0F172A;
+}
+
+[data-theme="light"] .tab-btn:hover {
+  color: #0F172A;
+}
+
+[data-theme="light"] .planner-section {
+  background: linear-gradient(135deg, #FFFFFF 0%, #E8EDF4 100%);
+  color: #0F172A;
+  box-shadow: 0 0 50px rgba(212, 122, 0, 0.15);
+}
+
+[data-theme="light"] .modal-overlay {
+  background: rgba(15, 23, 42, 0.6);
+}
+
+[data-theme="light"] .footer {
+  background: #E8EDF4;
+  border-top-color: rgba(15, 23, 42, 0.1);
+}
+
+[data-theme="light"] .nav-links .nav-link {
+  border-bottom-color: rgba(15, 23, 42, 0.08);
+}
+
+[data-theme="light"] body.nav-open::before {
+  background: rgba(15, 23, 42, 0.5);
+}
+
 /* AI CHATBOT FLOATING WIDGET */
 .ai-chatbot-container {
   position: fixed;
@@ -1355,21 +1428,21 @@ img {
 .ai-chat-trigger {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
   background: var(--gold-gradient);
   color: #090C10;
-  font-weight: 800;
-  font-size: 0.95rem;
-  padding: 12px 22px;
-  border-radius: var(--radius-pill);
+  border-radius: 50%;
   box-shadow: 0 10px 30px var(--gold-glow);
   cursor: pointer;
   transition: var(--transition-bounce);
-  border: 2px solid #FFF;
+  border: 2px solid var(--bg-surface);
+  position: relative;
 }
 
 .ai-chat-trigger:hover {
-  transform: scale(1.06) translateY(-2px);
+  transform: scale(1.1) translateY(-4px);
   box-shadow: 0 14px 40px var(--gold-glow);
 }
 
@@ -1378,11 +1451,15 @@ img {
 }
 
 .ai-status-dot {
-  width: 8px;
-  height: 8px;
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 10px;
+  height: 10px;
   background: #00C853;
   border-radius: 50%;
-  box-shadow: 0 0 8px #00C853;
+  box-shadow: 0 0 10px #00C853;
+  border: 2px solid var(--gold-primary);
 }
 
 .ai-chat-window {
@@ -1413,7 +1490,7 @@ img {
 }
 
 .ai-chat-header {
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--surface-overlay);
   border-bottom: 1px solid var(--border-glass);
   padding: 16px 20px;
   display: flex;
@@ -1445,7 +1522,7 @@ img {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--surface-overlay-strong);
   color: var(--text-primary);
   display: flex;
   align-items: center;
@@ -1497,7 +1574,7 @@ img {
 }
 
 .ai-msg-content {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--surface-overlay-strong);
   border: 1px solid var(--border-glass);
   border-radius: 16px;
   padding: 12px 16px;
@@ -1520,7 +1597,7 @@ img {
   overflow-x: auto;
   scrollbar-width: none;
   border-top: 1px solid var(--border-glass);
-  background: rgba(0, 0, 0, 0.1);
+  background: var(--surface-overlay);
 }
 
 .ai-chat-chips::-webkit-scrollbar {
@@ -1549,13 +1626,13 @@ img {
   align-items: center;
   gap: 8px;
   padding: 12px 16px;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--surface-overlay);
   border-top: 1px solid var(--border-glass);
 }
 
 .ai-chat-input-wrapper input {
   flex: 1;
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--surface-overlay-strong);
   border: 1px solid var(--border-glass);
   border-radius: var(--radius-pill);
   padding: 10px 16px;
@@ -1622,7 +1699,7 @@ img {
 .form-section-title {
   font-size: 1.3rem;
   font-weight: 800;
-  color: #FFF;
+  color: var(--text-primary);
   margin-bottom: 16px;
   display: flex;
   align-items: center;
@@ -1657,7 +1734,7 @@ img {
 .form-group select,
 .form-group textarea {
   width: 100%;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--surface-overlay);
   border: 1px solid var(--border-glass);
   border-radius: var(--radius-sm);
   padding: 13px 16px;
@@ -1684,7 +1761,7 @@ img {
 .service-option-card {
   display: flex;
   cursor: pointer;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--surface-overlay);
   border: 1px solid var(--border-glass);
   border-radius: var(--radius-md);
   padding: 16px;
@@ -1790,7 +1867,7 @@ img {
   justify-content: space-between;
   font-size: 0.85rem;
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--surface-overlay);
   padding: 8px 12px;
   border-radius: var(--radius-sm);
 }
@@ -1821,7 +1898,7 @@ img {
 
 /* Digital Pass Ticket Modal */
 .digital-ticket-box {
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--surface-overlay);
   border: 2px dashed var(--border-gold);
   border-radius: var(--radius-md);
   padding: 24px;
@@ -1856,12 +1933,357 @@ img {
   margin-top: 16px;
 }
 
+[data-theme="light"] .ticket-qr-placeholder {
+  background: rgba(15, 23, 42, 0.08);
+}
+
+/* ==========================================================================
+   PREMIUM BOOKING PAGE ENHANCEMENTS
+   ========================================================================== */
+.booking-hero {
+  position: relative;
+  padding: 12px 0 8px;
+}
+
+.booking-hero-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 34px auto 0;
+  max-width: 900px;
+}
+
+.booking-hero-stats .stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 132px;
+  padding: 14px 20px;
+  background: var(--bg-card-glass);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 24px -8px var(--gold-glow-subtle);
+}
+
+.booking-hero-stats .stat strong {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--gold-primary);
+}
+
+.booking-hero-stats .stat span {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+/* Step Progress Indicator */
+.booking-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin: 0 0 30px;
+}
+
+.booking-steps .step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.booking-steps .step span {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  font-weight: 900;
+  background: var(--surface-overlay-strong);
+  border: 1px solid var(--border-glass);
+  color: var(--text-secondary);
+  transition: var(--transition-bounce);
+}
+
+.booking-steps .step.active,
+.booking-steps .step.done {
+  color: var(--gold-primary);
+}
+
+.booking-steps .step.active span,
+.booking-steps .step.done span {
+  background: var(--gold-gradient);
+  color: var(--ink-on-gold);
+  border-color: transparent;
+  box-shadow: var(--shadow-gold-glow);
+}
+
+.booking-steps .step-line {
+  width: 56px;
+  height: 2px;
+  margin: 0 14px;
+  background: var(--border-glass);
+  border-radius: 2px;
+}
+
+.booking-steps .step-line.filled {
+  background: var(--gold-gradient);
+}
+
+/* Enriched Service Option Cards */
+.services-selection-grid {
+  gap: 16px;
+}
+
+.service-option-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  transition: var(--transition-bounce);
+}
+
+.service-option-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid transparent;
+  pointer-events: none;
+  transition: border-color var(--transition-smooth);
+}
+
+.service-option-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card);
+}
+
+.service-option-card:has(input:checked) {
+  border-color: var(--gold-primary);
+  background: var(--bg-card-hover);
+  box-shadow: 0 0 0 1px var(--gold-primary), 0 12px 30px -12px var(--gold-glow);
+}
+
+.service-option-card .service-check {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--border-glass);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  color: transparent;
+  transition: var(--transition-bounce);
+  background: var(--bg-surface);
+}
+
+.service-option-card:has(input:checked) .service-check {
+  background: var(--gold-gradient);
+  border-color: transparent;
+  color: var(--ink-on-gold);
+  box-shadow: 0 0 12px var(--gold-glow);
+}
+
+.service-option-card input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.service-option-card .service-icon {
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  background: var(--gold-glow-subtle);
+  border: 1px solid var(--border-gold);
+  border-radius: 14px;
+  flex-shrink: 0;
+}
+
+.service-option-card:has(input:checked) .service-icon {
+  background: var(--gold-gradient);
+  border-color: transparent;
+}
+
+.service-inclusions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.service-inclusions .inc-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  background: var(--surface-overlay);
+  border: 1px solid var(--border-glass);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.service-price {
+  background: var(--surface-overlay-strong);
+}
+
+/* Enhanced Booking Summary */
+.booking-summary-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.booking-summary-card .summary-gold-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gold-gradient);
+}
+
+.booking-summary-card .summary-count-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--gold-primary);
+  background: var(--gold-glow-subtle);
+  border: 1px solid var(--border-gold);
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 18px;
+}
+
+.summary-total-box {
+  position: relative;
+  overflow: hidden;
+}
+
+.summary-total-box::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 100% 0%, var(--gold-glow-subtle), transparent 60%);
+  pointer-events: none;
+}
+
+.booking-trust-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-top: 48px;
+  padding: 28px;
+  background: var(--bg-card-glass);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.booking-trust-strip .trust-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.booking-trust-strip .trust-item .trust-emoji {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  background: var(--gold-glow-subtle);
+  border: 1px solid var(--border-gold);
+  border-radius: 14px;
+}
+
+.booking-trust-strip .trust-item strong {
+  display: block;
+  font-size: 0.92rem;
+  color: var(--text-primary);
+}
+
+.booking-trust-strip .trust-item span {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+/* Enhanced Confirmation Ticket */
+.digital-ticket-box {
+  background: linear-gradient(180deg, var(--surface-overlay-strong), var(--surface-overlay));
+  position: relative;
+}
+
+.digital-ticket-box::before,
+.digital-ticket-box::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-gold);
+  transform: translateY(-50%);
+}
+
+.digital-ticket-box::before { left: -15px; }
+.digital-ticket-box::after  { right: -15px; }
+
+.ticket-qr-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: linear-gradient(135deg, var(--gold-glow-subtle), var(--surface-overlay));
+  border: 1px dashed var(--border-gold);
+}
+
+.ticket-qr-placeholder .qr-glyph {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.ticket-qr-placeholder p {
+  margin-top: 0;
+  text-align: left;
+}
+
+/* Booking Form Section Number Badge Glow */
+.form-section-title span {
+  box-shadow: 0 0 14px var(--gold-glow-subtle);
+}
+
 @media (max-width: 992px) {
   .booking-grid {
     grid-template-columns: 1fr;
   }
   .booking-summary-wrapper {
     position: static;
+  }
+  .booking-trust-strip {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -1872,5 +2294,32 @@ img {
   .service-option-body {
     flex-direction: column;
     align-items: flex-start;
+  }
+  .booking-hero-stats {
+    gap: 10px;
+  }
+  .booking-hero-stats .stat {
+    min-width: 44%;
+  }
+  .booking-steps .step-line {
+    width: 28px;
+    margin: 0 8px;
+  }
+  .booking-steps .step {
+    font-size: 0;
+    gap: 0;
+  }
+  .booking-steps .step span {
+    width: 32px;
+    height: 32px;
+  }
+  .booking-trust-strip {
+    grid-template-columns: 1fr 1fr;
+    padding: 20px;
+  }
+  .booking-trust-strip .trust-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
   }
 }

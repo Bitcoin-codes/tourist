@@ -43,6 +43,12 @@
           <li><a href="index.html#festivals" class="nav-link">Cultural Festivals</a></li>
           <li><a href="index.html#planner" class="nav-link">Trip Planner</a></li>
           <li><a href="booking.html" class="nav-link active">Online Booking</a></li>
+          <li class="mobile-theme-item">
+            <button class="theme-toggle-btn" aria-label="Toggle Theme" title="Toggle Light/Dark Theme">
+              <span class="theme-icon sun-icon">☀️</span>
+              <span class="theme-icon moon-icon">🌙</span>
+            </button>
+          </li>
         </ul>
       </nav>
 
@@ -77,6 +83,22 @@
       <span class="card-badge" style="position: relative; top: 0; left: 0; display: inline-block; margin-bottom: 16px;">✈️ Official Tourism Concierge</span>
       <h1 class="hero-title" style="font-size: 3rem; max-width: 840px;">Book Your Ghana <span class="gradient-text">Arrival & Travel Services</span></h1>
       <p class="hero-subtitle" style="margin-bottom: 30px;">Reserve private Kotoka airport pickups, certified local tour guides, 4x4 safari vehicles, and VIP festival access passes prior to landing in West Africa.</p>
+
+      <div class="booking-hero-stats">
+        <div class="stat"><strong>24/7</strong><span>On-Ground Concierge</span></div>
+        <div class="stat"><strong>GTA</strong><span>Certified Operators</span></div>
+        <div class="stat"><strong>Instant</strong><span>Digital Arrival Pass</span></div>
+        <div class="stat"><strong>100%</strong><span>Free Cancellation</span></div>
+      </div>
+    </div>
+
+    <!-- STEP PROGRESS INDICATOR -->
+    <div class="booking-steps" id="booking-steps">
+      <div class="step active" data-step="1"><span>1</span> Flight & Arrival</div>
+      <div class="step-line"></div>
+      <div class="step" data-step="2"><span>2</span> Select Services</div>
+      <div class="step-line"></div>
+      <div class="step" data-step="3"><span>3</span> Your Details</div>
     </div>
 
     <!-- BOOKING FORM & SUMMARY GRID -->
@@ -135,12 +157,18 @@
 
               <label class="service-option-card">
                 <input type="checkbox" name="service" value="airport-transfer" data-price="350" data-name="Airport VIP Transfer" onchange="updateBookingSummary()">
+                <span class="service-check">✓</span>
                 <div class="service-option-body">
                   <div class="service-header">
                     <span class="service-icon">🚗</span>
                     <div>
                       <h4>Airport VIP Express Transfer</h4>
                       <p>Air-conditioned private pickup from Kotoka (ACC) direct to your hotel with baggage assistance.</p>
+                      <div class="service-inclusions">
+                        <span class="inc-tag">Meet & Greet</span>
+                        <span class="inc-tag">Baggage Assist</span>
+                        <span class="inc-tag">Door-to-Door</span>
+                      </div>
                     </div>
                   </div>
                   <span class="service-price">GHS 350 (~$30)</span>
@@ -149,12 +177,18 @@
 
               <label class="service-option-card">
                 <input type="checkbox" name="service" value="tour-guide" data-price="500" data-name="Certified Local Tour Guide" checked onchange="updateBookingSummary()">
+                <span class="service-check">✓</span>
                 <div class="service-option-body">
                   <div class="service-header">
                     <span class="service-icon">👨‍💼</span>
                     <div>
                       <h4>Certified Local Tour Guide (Per Day)</h4>
                       <p>Dedicated English & local-language certified guide for historical sites & monkey sanctuaries.</p>
+                      <div class="service-inclusions">
+                        <span class="inc-tag">GTA Licensed</span>
+                        <span class="inc-tag">History & Culture</span>
+                        <span class="inc-tag">Photography Help</span>
+                      </div>
                     </div>
                   </div>
                   <span class="service-price">GHS 500 (~$40) / day</span>
@@ -163,12 +197,18 @@
 
               <label class="service-option-card">
                 <input type="checkbox" name="service" value="car-rental" data-price="900" data-name="Private 4x4 Chauffeur Rental" onchange="updateBookingSummary()">
+                <span class="service-check">✓</span>
                 <div class="service-option-body">
                   <div class="service-header">
                     <span class="service-icon">🚙</span>
                     <div>
                       <h4>Private 4x4 Chauffeur Vehicle</h4>
                       <p>Full-day luxury 4x4 SUV rental with experienced driver & fuel for safari & mountain trips.</p>
+                      <div class="service-inclusions">
+                        <span class="inc-tag">Full-Day Hire</span>
+                        <span class="inc-tag">Fuel Included</span>
+                        <span class="inc-tag">4x4 Safari SUV</span>
+                      </div>
                     </div>
                   </div>
                   <span class="service-price">GHS 900 (~$72) / day</span>
@@ -177,12 +217,18 @@
 
               <label class="service-option-card">
                 <input type="checkbox" name="service" value="monkey-pass" data-price="400" data-name="Tafi Atome & Wildlife Fast-Pass" onchange="updateBookingSummary()">
+                <span class="service-check">✓</span>
                 <div class="service-option-body">
                   <div class="service-header">
                     <span class="service-icon">🐒</span>
                     <div>
                       <h4>Sanctuary & Wildlife Fast-Pass</h4>
                       <p>Pre-paid entrance & banana feeding passes for Tafi Atome, Boabeng-Fiema & Kakum Canopy Walk.</p>
+                      <div class="service-inclusions">
+                        <span class="inc-tag">Skip-the-Line</span>
+                        <span class="inc-tag">Banana Feeding</span>
+                        <span class="inc-tag">3 Sanctuaries</span>
+                      </div>
                     </div>
                   </div>
                   <span class="service-price">GHS 400 (~$32)</span>
@@ -191,12 +237,18 @@
 
               <label class="service-option-card">
                 <input type="checkbox" name="service" value="festival-pass" data-price="600" data-name="Royal Cultural Festival VIP Pass" onchange="updateBookingSummary()">
+                <span class="service-check">✓</span>
                 <div class="service-option-body">
                   <div class="service-header">
                     <span class="service-icon">👑</span>
                     <div>
                       <h4>Royal Cultural Festival VIP Pass</h4>
                       <p>Reserved front-row shade seating & chieftaincy protocol escort at Aboakyer, Homowo or Damba.</p>
+                      <div class="service-inclusions">
+                        <span class="inc-tag">Front-Row Seating</span>
+                        <span class="inc-tag">Protocol Escort</span>
+                        <span class="inc-tag">Royal Viewing</span>
+                      </div>
                     </div>
                   </div>
                   <span class="service-price">GHS 600 (~$48)</span>
@@ -251,8 +303,9 @@
       <!-- RIGHT: LIVE BOOKING SUMMARY CARD -->
       <div class="booking-summary-wrapper">
         <div class="booking-summary-card">
-          <span class="card-badge" style="margin-bottom: 12px; display: inline-block;">📋 Booking Summary</span>
-          <h3 style="font-size: 1.4rem; margin-bottom: 20px; color: #FFF;">Reservation Breakdown</h3>
+          <div class="summary-gold-bar"></div>
+          <span class="summary-count-pill">📋 Your Live Booking Summary</span>
+          <h3 style="font-size: 1.4rem; margin-bottom: 20px; color: var(--text-primary);">Reservation Breakdown</h3>
 
           <div class="summary-details-list">
             <div class="summary-item">
@@ -296,6 +349,26 @@
 
     </div>
 
+    <!-- TRUST & CONCIERGE STRIP -->
+    <div class="booking-trust-strip">
+      <div class="trust-item">
+        <span class="trust-emoji">🔒</span>
+        <div><strong>Secure Reservation</strong><span>SSL-encrypted booking</span></div>
+      </div>
+      <div class="trust-item">
+        <span class="trust-emoji">🎟️</span>
+        <div><strong>Instant Digital Pass</strong><span>QR pass in minutes</span></div>
+      </div>
+      <div class="trust-item">
+        <span class="trust-emoji">🤝</span>
+        <div><strong>Local Experts</strong><span>GTA-certified guides</span></div>
+      </div>
+      <div class="trust-item">
+        <span class="trust-emoji">💬</span>
+        <div><strong>WhatsApp Concierge</strong><span>24/7 on-ground support</span></div>
+      </div>
+    </div>
+
   </main>
 
   <!-- BOOKING CONFIRMATION SUCCESS MODAL -->
@@ -313,7 +386,7 @@
           <div class="ticket-header">
             <div>
               <span style="font-size: 0.75rem; text-transform: uppercase; color: var(--gold-primary);">Booking Ref</span>
-              <h4 id="pass-ref-code" style="font-size: 1.2rem; font-weight: 900; color: #FFF;">GH-2026-8942</h4>
+              <h4 id="pass-ref-code" style="font-size: 1.2rem; font-weight: 900; color: var(--text-primary);">GH-2026-8942</h4>
             </div>
             <span style="font-size: 0.8rem; background: rgba(0, 200, 83, 0.2); color: var(--emerald-accent); padding: 4px 12px; border-radius: 12px; font-weight: 800;">VERIFIED PASS</span>
           </div>
@@ -324,8 +397,11 @@
             <p><strong>Services:</strong> <span id="pass-services-summary">Certified Tour Guide, Airport Transfer</span></p>
           </div>
           <div class="ticket-qr-placeholder">
-            <span style="font-size: 2.5rem;">📱 QR</span>
-            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Show this pass to your airport chauffeur upon landing.</p>
+            <span class="qr-glyph">📱</span>
+            <div>
+              <strong style="color: var(--text-primary); font-size: 0.9rem; display: block;">Digital QR Arrival Pass</strong>
+              <p style="font-size: 0.75rem; color: var(--text-muted);">Show this pass to your airport chauffeur upon landing.</p>
+            </div>
           </div>
         </div>
 
@@ -382,8 +458,7 @@
   <!-- AI CHATBOT FLOATING WIDGET -->
   <div id="ai-chatbot-container" class="ai-chatbot-container">
     <button id="ai-chat-trigger" class="ai-chat-trigger" onclick="toggleAIChat()" aria-label="Open Ghana AI Assistant">
-      <span class="ai-bot-avatar">🤖</span>
-      <span class="ai-trigger-text">Akwaaba AI</span>
+      <span class="ai-bot-avatar" style="font-size: 1.6rem;">💬</span>
       <span class="ai-status-dot"></span>
     </button>
 
@@ -399,7 +474,7 @@
 
       <div id="ai-chat-messages" class="ai-chat-messages">
         <div class="ai-message bot">
-          <div class="ai-msg-avatar">🇬🇭</div>
+          <div class="ai-msg-avatar">🤖</div>
           <div class="ai-msg-content">
             <p><strong>Akwaaba!</strong> I can help you with your booking options, airport pickups, tour guides, or travel itineraries!</p>
           </div>
@@ -506,6 +581,22 @@
         dateInput.min = new Date().toISOString().split('T')[0];
       }
       updateBookingSummary();
+
+      // Interactive step progress indicator
+      const formSections = document.querySelectorAll('.booking-form-card .form-section');
+      formSections.forEach((section, i) => {
+        section.addEventListener('focusin', () => {
+          const steps = document.querySelectorAll('.booking-steps .step');
+          const lines = document.querySelectorAll('.booking-steps .step-line');
+          steps.forEach((s, idx) => {
+            s.classList.toggle('active', idx === i);
+            s.classList.toggle('done', idx < i);
+          });
+          lines.forEach((l, idx) => {
+            l.classList.toggle('filled', idx < i);
+          });
+        });
+      });
     });
   </script>
 </body>

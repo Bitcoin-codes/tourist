@@ -643,7 +643,7 @@ function renderDestinations() {
   if (filtered.length === 0) {
     grid.innerHTML = `
       <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; background: var(--bg-card-glass); border-radius: var(--radius-lg); border: 1px solid var(--border-glass);">
-        <h3 style="font-size: 1.5rem; margin-bottom: 8px; color: #FFF;">No matching destinations found for "${searchQuery}"</h3>
+        <h3 style="font-size: 1.5rem; margin-bottom: 8px; color: var(--text-primary);">No matching destinations found for "${searchQuery}"</h3>
         <p style="color: var(--text-secondary); margin-bottom: 16px;">Try searching for "Monkey", "Waterfall", "Castle", "Safari", "Volta", "Accra", or "Hiking".</p>
         <button class="hero-pill-btn" onclick="clearSearch()">Clear Search Filter</button>
       </div>
@@ -827,10 +827,10 @@ function openDestinationModal(id) {
         ${item.highlights.map(h => `<span style="background: rgba(255, 184, 0, 0.12); color: var(--gold-primary); border: 1px solid var(--border-gold); font-weight: 700; font-size: 0.85rem; padding: 6px 14px; border-radius: 20px;">✨ ${h}</span>`).join('')}
       </div>
 
-      <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); padding: 20px; border-radius: 16px; margin-bottom: 24px;">
-        <h4 style="font-size: 1rem; margin-bottom: 8px; color: #FFF;">🏨 Nearby Accommodations</h4>
+      <div style="background: var(--surface-overlay); border: 1px solid var(--border-glass); padding: 20px; border-radius: 16px; margin-bottom: 24px;">
+        <h4 style="font-size: 1rem; margin-bottom: 8px; color: var(--text-primary);">🏨 Nearby Accommodations</h4>
         <p style="font-size: 0.9rem; color: var(--text-secondary);">${item.nearbyHotels.join(' • ')}</p>
-        <h4 style="font-size: 1rem; margin: 16px 0 8px 0; color: #FFF;">📞 Certified Local Tour Guide</h4>
+        <h4 style="font-size: 1rem; margin: 16px 0 8px 0; color: var(--text-primary);">📞 Certified Local Tour Guide</h4>
         <p style="font-size: 0.9rem; color: var(--gold-primary); font-weight: 800;">${item.guideContact}</p>
       </div>
 
@@ -996,16 +996,16 @@ function initThemeToggle() {
   const savedTheme = localStorage.getItem('visitGhanaTheme') || 'dark';
   document.documentElement.setAttribute('data-theme', savedTheme);
 
-  const themeBtn = document.getElementById('theme-toggle-btn');
-  if (themeBtn) {
-    themeBtn.addEventListener('click', () => {
+  const themeBtns = document.querySelectorAll('.theme-toggle-btn');
+  themeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
       const current = document.documentElement.getAttribute('data-theme') || 'dark';
       const nextTheme = current === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', nextTheme);
       localStorage.setItem('visitGhanaTheme', nextTheme);
       showToast(`Switched to ${nextTheme === 'light' ? 'Light ☀️' : 'Dark 🌙'} Theme`);
     });
-  }
+  });
 }
 
 // AI Chatbot Controller & Intelligence Engine
@@ -1049,7 +1049,7 @@ function handleAIChatSubmit(e) {
   typingDiv.className = 'ai-message bot typing';
   typingDiv.id = 'ai-typing-indicator';
   typingDiv.innerHTML = `
-    <div class="ai-msg-avatar">🇬🇭</div>
+    <div class="ai-msg-avatar">🤖</div>
     <div class="ai-msg-content"><p><em>Akwaaba AI is typing...</em> 💭</p></div>
   `;
   messagesContainer.appendChild(typingDiv);
@@ -1063,7 +1063,7 @@ function handleAIChatSubmit(e) {
     const botMsgDiv = document.createElement('div');
     botMsgDiv.className = 'ai-message bot';
     botMsgDiv.innerHTML = `
-      <div class="ai-msg-avatar">🇬🇭</div>
+      <div class="ai-msg-avatar">🤖</div>
       <div class="ai-msg-content">${botResponse}</div>
     `;
     messagesContainer.appendChild(botMsgDiv);
@@ -1078,7 +1078,25 @@ function generateAIResponse(q) {
     return `<p>🐒 <strong>Ghana Monkey Sanctuaries:</strong></p>
             <p>1. <strong>Tafi Atome Monkey Sanctuary:</strong> Volta Region sacred forest where Mona monkeys come to feed right from your hands!</p>
             <p>2. <strong>Boabeng-Fiema:</strong> Sanctuary home to Mona and rare Black-and-White Pied Colobus monkeys living together peacefully.</p>
-            <p><button class="btn-card-details" style="font-size: 0.78rem; padding: 6px 12px; margin-top: 8px;" onclick="openDestinationModal('tafi-atome-monkey-sanctuary')">View Tafi Atome Details →</button></p>`;
+            <p><button class="btn-card-details" style="font-size: 0.78rem; padding: 6px 12px; margin-top: 8px;" onclick="window.location.href='index.html#destinations'">View Tafi Atome Details →</button></p>`;
+  }
+
+  if (query.includes('airport') || query.includes('pickup') || query.includes('transfer')) {
+    return `<p>🚗 <strong>VIP Airport Transfers:</strong></p>
+            <p>Our airport concierge will meet you right at the arrivals hall at Kotoka International Airport (ACC) holding a placard with your name.</p>
+            <p>We handle your baggage and provide a private, air-conditioned transfer directly to your hotel. <strong>Cost: GHS 350 (~$30 USD).</strong></p>`;
+  }
+
+  if (query.includes('guide') || query.includes('tour')) {
+    return `<p>👨‍💼 <strong>Certified Local Tour Guides:</strong></p>
+            <p>Hiring a Ghana Tourism Authority (GTA) certified guide ensures you get deep historical insights and safe navigation to remote sites like waterfalls and monkey sanctuaries.</p>
+            <p><strong>Cost: GHS 500 (~$40 USD) per day.</strong> They can speak English and local languages perfectly!</p>`;
+  }
+
+  if (query.includes('pay') || query.includes('cash') || query.includes('card') || query.includes('arrival')) {
+    return `<p>💵 <strong>Payment Options:</strong></p>
+            <p>You can reserve all services online right now with <strong>Zero Upfront Payment!</strong></p>
+            <p>You simply choose "Pay on Arrival" and settle the bill via Visa, Mastercard, or local Cedis/USD cash directly with your concierge when you land.</p>`;
   }
 
   if (query.includes('castle') || query.includes('cape coast') || query.includes('elmina') || query.includes('history')) {
@@ -1111,8 +1129,8 @@ function generateAIResponse(q) {
   }
 
   if (query.includes('hello') || query.includes('hi') || query.includes('akwaaba') || query.includes('food') || query.includes('jollof')) {
-    return `<p>🇬🇭 <strong>Akwaaba! (Welcome!)</strong></p>
-            <p>Ghana is famous for its warm hospitality, UNESCO heritage, rich culture, and world-class Ghanaian Jollof rice! What destination or festival can I help you discover today?</p>`;
+    return `<p>🤖 <strong>Akwaaba! (Welcome!)</strong></p>
+            <p>Ghana is famous for its warm hospitality, UNESCO heritage, rich culture, and world-class Ghanaian Jollof rice! What destination or booking service can I help you discover today?</p>`;
   }
 
   return `<p>✨ <strong>Akwaaba!</strong> Thank you for asking. Ghana offers iconic monkey sanctuaries, castles, waterfalls, and royal festivals.</p>

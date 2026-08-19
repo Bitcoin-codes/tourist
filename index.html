@@ -42,8 +42,13 @@
           <li><a href="#destinations" class="nav-link active">Destinations</a></li>
           <li><a href="#festivals" class="nav-link">Cultural Festivals</a></li>
           <li><a href="#planner" class="nav-link">Trip Planner</a></li>
-          <li><a href="booking.html" class="nav-link active">Online Booking</a></li>
-
+          <li><a href="booking.html" class="nav-link">Online Booking</a></li>
+          <li class="mobile-theme-item">
+            <button class="theme-toggle-btn" aria-label="Toggle Theme" title="Toggle Light/Dark Theme">
+              <span class="theme-icon sun-icon">☀️</span>
+              <span class="theme-icon moon-icon">🌙</span>
+            </button>
+          </li>
         </ul>
       </nav>
 
@@ -176,7 +181,7 @@
     <section id="planner" class="container">
       <div class="planner-section">
         <div class="container" style="max-width: 900px;">
-          <h2 style="font-size: 2.8rem; font-weight: 900; text-align: center; color: #FFF;">Plan Your Custom Ghana
+          <h2 style="font-size: 2.8rem; font-weight: 900; text-align: center; color: var(--text-primary);">Plan Your Custom Ghana
             Itinerary</h2>
           <p style="text-align: center; color: var(--text-secondary); font-size: 1.15rem; margin-top: 10px;">Tailor your
             travel schedule based on your visit duration and interest style.</p>
@@ -279,8 +284,7 @@
   <div id="ai-chatbot-container" class="ai-chatbot-container">
     <!-- Floating Trigger Button -->
     <button id="ai-chat-trigger" class="ai-chat-trigger" onclick="toggleAIChat()" aria-label="Open Ghana AI Assistant">
-      <span class="ai-bot-avatar">🤖</span>
-      <span class="ai-trigger-text">Akwaaba AI</span>
+      <span class="ai-bot-avatar" style="font-size: 1.6rem;">💬</span>
       <span class="ai-status-dot"></span>
     </button>
 
@@ -297,7 +301,7 @@
 
       <div id="ai-chat-messages" class="ai-chat-messages">
         <div class="ai-message bot">
-          <div class="ai-msg-avatar">🇬🇭</div>
+          <div class="ai-msg-avatar">🤖</div>
           <div class="ai-msg-content">
             <p><strong>Akwaaba!</strong> I am your personal Ghana Travel AI Guide. Ask me about monkey sanctuaries, Cape Coast Castle, cultural festivals, local dishes, or custom itineraries!</p>
           </div>

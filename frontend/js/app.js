@@ -1,5 +1,5 @@
 /**
- * vistaGHANA — Main Application Entry Point
+ * Ghana Kora Vista Tours — Main Application Entry Point
  * TypeScript + Flask REST API Architecture
  */
 import { initThemeToggle, initMobileNav, initHeaderScroll, initModalClose, openModal, closeModal, showToast } from './ui';

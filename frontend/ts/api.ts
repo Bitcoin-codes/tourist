@@ -1,5 +1,5 @@
 /**
- * API Client for vistaGHANA Flask Backend
+ * API Client for Ghana Kora Vista Tours Flask Backend
  */
 
 import type { ApiResponse, Destination, Festival, PracticalInfo, BookingData, BookingResponse, Itinerary } from './types';

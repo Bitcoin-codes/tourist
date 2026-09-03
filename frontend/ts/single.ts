@@ -1,5 +1,5 @@
 /**
- * vistaGHANA — Complete Application (Single File)
+ * Ghana Kora Vista Tours — Complete Application (Single File)
  * TypeScript + Flask REST API
  */
 export {};

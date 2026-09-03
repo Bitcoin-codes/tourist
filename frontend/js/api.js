@@ -1,5 +1,5 @@
 /**
- * API Client for vistaGHANA Flask Backend
+ * API Client for Ghana Kora Vista Tours Flask Backend
  */
 import { getApiBase } from './config';
 const API_BASE = getApiBase();

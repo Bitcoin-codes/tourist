@@ -1,4 +1,4 @@
-/** Type definitions for vistaGHANA Tourism Platform */
+/** Type definitions for Ghana Kora Vista Tours Tourism Platform */
 
 export interface Destination {
   id: string;

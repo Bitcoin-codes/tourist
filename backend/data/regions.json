@@ -1,0 +1,178 @@
+[
+  {
+    "id": "greater-accra",
+    "name": "Greater Accra",
+    "capital": "Accra",
+    "abbreviation": "GA",
+    "grid": [3, 0],
+    "span": [1, 1],
+    "blurb": "Ghana's national capital and economic heartbeat, home of the Independence Arch and the coastal Ga heartland.",
+    "destinations": ["black-star-square"],
+    "festivals": ["homowo-festival", "asafotufiam-festival"]
+  },
+  {
+    "id": "central",
+    "name": "Central Region",
+    "capital": "Cape Coast",
+    "abbreviation": "CE",
+    "grid": [3, 2],
+    "span": [1, 1],
+    "blurb": "Historic Cape Coast and Elmina castles, the Kakum rainforest canopy, and the Effutu deer-hunting tradition.",
+    "destinations": ["cape-coast-castle", "kakum-national-park", "elmina-castle"],
+    "festivals": ["aboakyer-festival", "bakatue-festival", "fetu-afahye-festival"]
+  },
+  {
+    "id": "western",
+    "name": "Western Region",
+    "capital": "Sekondi-Takoradi",
+    "abbreviation": "WE",
+    "grid": [2, 2],
+    "span": [1, 1],
+    "blurb": "Ghana's oil and mineral coast, home of the stilt village of Nzulezo and lush rainforests.",
+    "destinations": ["nzulezo-stilt-village"],
+    "festivals": []
+  },
+  {
+    "id": "western-north",
+    "name": "Western North",
+    "capital": "Sefwi Wiawso",
+    "abbreviation": "WN",
+    "grid": [2, 1],
+    "span": [1, 1],
+    "blurb": "Cocoa country and gold-rich forests of the Sefwi people in western Ghana.",
+    "destinations": [],
+    "festivals": []
+  },
+  {
+    "id": "ashanti",
+    "name": "Ashanti Region",
+    "capital": "Kumasi",
+    "abbreviation": "AH",
+    "grid": [2, 0],
+    "span": [1, 1],
+    "blurb": "The royal heartland of the Asante Kingdom, famed for the Manhyia Palace and Bonwire kente weaving.",
+    "destinations": ["bonwire-kente-village"],
+    "festivals": []
+  },
+  {
+    "id": "eastern",
+    "name": "Eastern Region",
+    "capital": "Koforidua",
+    "abbreviation": "ER",
+    "grid": [1, 1],
+    "span": [1, 1],
+    "blurb": "The green garden region of Aburi, twin Boti waterfalls, and the Krobo Dipo puberty rites.",
+    "destinations": ["boti-waterfalls", "aburi-botanical-gardens"],
+    "festivals": ["dipo-festival", "kloyo-sikplemi-festival"]
+  },
+  {
+    "id": "volta",
+    "name": "Volta Region",
+    "capital": "Ho",
+    "abbreviation": "VR",
+    "grid": [1, 2],
+    "span": [1, 1],
+    "blurb": "The Ewe heartland of the Anlo people — monkey sanctuaries, Wli waterfall, Mount Afadjato and Mount Gemi.",
+    "destinations": ["tafi-atome-monkey-sanctuary", "wli-waterfall", "mount-afadjato"],
+    "festivals": ["hogbetsotso-festival"]
+  },
+  {
+    "id": "oti",
+    "name": "Oti Region",
+    "capital": "Dambai",
+    "abbreviation": "OT",
+    "grid": [1, 3],
+    "span": [1, 1],
+    "blurb": "A northern-Volta borderland along Lake Volta, home of the Nkonya people.",
+    "destinations": [],
+    "festivals": []
+  },
+  {
+    "id": "bono",
+    "name": "Bono Region",
+    "capital": "Sunyani",
+    "abbreviation": "BO",
+    "grid": [0, 0],
+    "span": [1, 1],
+    "blurb": "The historic Bono (Brong) kingdom of Techiman, land of the Apoo festival.",
+    "destinations": [],
+    "festivals": ["apoo-festival"]
+  },
+  {
+    "id": "bono-east",
+    "name": "Bono East",
+    "capital": "Techiman",
+    "abbreviation": "BE",
+    "grid": [0, 1],
+    "span": [1, 1],
+    "blurb": "Home of the Boabeng-Fiema monkey sanctuary and Lake Volta's northern catchments.",
+    "destinations": ["boabeng-fiema-monkey-sanctuary"],
+    "festivals": []
+  },
+  {
+    "id": "ahafo",
+    "name": "Ahafo Region",
+    "capital": "Goaso",
+    "abbreviation": "AF",
+    "grid": [1, 0],
+    "span": [1, 1],
+    "blurb": "Forest-rich cocoa and timber lands of the Akan people, home of the Adekyem festival.",
+    "destinations": [],
+    "festivals": ["adekyem-festival"]
+  },
+  {
+    "id": "savannah",
+    "name": "Savannah Region",
+    "capital": "Damongo",
+    "abbreviation": "SV",
+    "grid": [-1, 0],
+    "span": [1, 1],
+    "blurb": "Northern savannah grasslands home of Mole National Park and the Larabanga Ancient Mosque.",
+    "destinations": ["mole-national-park", "larabanga-mosque"],
+    "festivals": ["damba-festival"]
+  },
+  {
+    "id": "northern",
+    "name": "Northern Region",
+    "capital": "Tamale",
+    "abbreviation": "NO",
+    "grid": [-1, 1],
+    "span": [1, 1],
+    "blurb": "The Dagbon kingdom of Tamale, grandest stage of the Damba horse-and-drum festival.",
+    "destinations": [],
+    "festivals": ["damba-festival"]
+  },
+  {
+    "id": "north-east",
+    "name": "North East",
+    "capital": "Nalerigu",
+    "abbreviation": "NE",
+    "grid": [-1, 2],
+    "span": [1, 1],
+    "blurb": "The Mamprusi heartland, gateway to the Gambaga escarpment.",
+    "destinations": [],
+    "festivals": []
+  },
+  {
+    "id": "upper-west",
+    "name": "Upper West",
+    "capital": "Wa",
+    "abbreviation": "UW",
+    "grid": [-2, 0],
+    "span": [1, 1],
+    "blurb": "The far northwest, known for the Wa Naa palace and the Gologo harvest festival.",
+    "destinations": [],
+    "festivals": []
+  },
+  {
+    "id": "upper-east",
+    "name": "Upper East",
+    "capital": "Bolgatanga",
+    "abbreviation": "UE",
+    "grid": [-2, 1],
+    "span": [1, 1],
+    "blurb": "The far northeast of dry savannah and sacred Paga crocodiles, famed for Bolga baskets.",
+    "destinations": ["paga-crocodile-pond"],
+    "festivals": ["fao-festival", "gologo-festival"]
+  }
+]

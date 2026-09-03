@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trip Planner — Plan Your Ghana Itinerary | vistaGHANA</title>
+  <meta name="description"
+    content="Tailor your Ghana travel schedule with the vistaGHANA Trip Planner. Choose your trip duration and travel style for a custom itinerary.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- HEADER NAVIGATION -->
+  <header class="header" id="site-header">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand-logo">
+        <svg class="brand-pin" viewBox="0 0 24 24">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+        </svg>
+        <span class="visit-text">vista</span><span class="ghana-badge">GHANA</span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html#destinations" class="nav-link">Destinations</a></li>
+          <li><a href="index.html#festivals" class="nav-link">Festivals</a></li>
+          <li><a href="regions.html" class="nav-link">Map</a></li>
+          <li><a href="planner.html" class="nav-link active">Trip Planner</a></li>
+          <li><a href="booking.html" class="nav-link">Book Now</a></li>
+          <li class="mobile-theme-item">
+            <button class="theme-toggle-btn" aria-label="Toggle Theme">
+              <span class="theme-icon sun-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+              <span class="theme-icon moon-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="header-search">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <path d="M21 21l-4.35-4.35" />
+          </svg>
+          <input type="text" id="search-input" placeholder="Search destinations...">
+        </div>
+        <button class="theme-toggle-btn" id="theme-toggle-btn" aria-label="Toggle Theme">
+          <span class="theme-icon sun-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+          <span class="theme-icon moon-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+        </button>
+        <button class="mobile-toggle" id="mobile-toggle-btn" aria-label="Open navigation menu" aria-expanded="false">
+          <span class="hamburger-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- PLANNER PAGE HERO -->
+    <section class="planner-page-hero">
+      <div class="container">
+        <span class="card-badge" style="position: static; display: inline-block; margin-bottom: 14px;">Trip Planner</span>
+        <h1 style="font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; color: var(--text-heading); margin-bottom: 10px;">Plan Your Custom <span class="gradient-text">Ghana Itinerary</span></h1>
+        <p style="max-width: 620px; color: var(--text-muted); font-size: 1rem; line-height: 1.7;">Tailor your travel schedule based on your visit duration and interest style. Choose how long you're staying and what you love, then generate a personalized plan in seconds.</p>
+      </div>
+    </section>
+
+    <!-- ITINERARY PLANNER -->
+    <section id="planner" class="container">
+      <div class="planner-section">
+        <div style="max-width: 700px; margin: 0 auto;">
+          <h2 style="font-size: 1.5rem; font-weight: 800; text-align: center; color: var(--text-heading); margin-bottom: 6px;">Design Your Itinerary</h2>
+          <p style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: var(--sp-4);">Select your trip details below, then hit Generate.</p>
+
+          <div class="planner-box">
+            <div class="planner-controls">
+              <div class="form-group">
+                <label for="planner-days">Trip Duration</label>
+                <select id="planner-days">
+                  <option value="3">3 Days (Express Highlights)</option>
+                  <option value="7" selected>7 Days (Essential Ghana)</option>
+                  <option value="14">14 Days (Grand Explorer)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="planner-style">Travel Style</label>
+                <select id="planner-style">
+                  <option value="culture">Culture & History</option>
+                  <option value="nature">Nature & Eco-Safari</option>
+                  <option value="balanced" selected>Balanced Highlights</option>
+                </select>
+              </div>
+            </div>
+
+            <button class="btn-generate-plan" onclick="generateItinerary()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Generate My Custom Itinerary
+            </button>
+
+            <div id="itinerary-results" class="itinerary-results"></div>
+          </div>
+
+          <div class="planner-extra">
+            <h3>Popular Plans</h3>
+            <div class="plan-idea-cards">
+              <div class="plan-idea-card">
+                <span class="plan-idea-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18v-6a8 8 0 0 1 16 0v6"/><path d="M4 18h16"/><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M12 10v4"/><line x1="8" y1="12" x2="8.01" y2="12"/><line x1="16" y1="12" x2="16.01" y2="12"/></svg></span>
+                <h4>3-Day Express</h4>
+                <p>Accra, Cape Coast Castle & Kakum Canopy in a weekend.</p>
+              </div>
+              <div class="plan-idea-card">
+                <span class="plan-idea-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></span>
+                <h4>7-Day Essential</h4>
+                <p>Monkey sanctuaries, Ashanti culture & Volta waterfalls.</p>
+              </div>
+              <div class="plan-idea-card">
+                <span class="plan-idea-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8c-1 0-1.5-1-2.5-1S17 8 16 8s-1.5-1-2.5-1S12 8 11 8 9.5 7 8.5 7 7 8 6 8 4.5 7 4 7v10c1 0 1.5 1 2.5 1S8 17 9 17s1.5 1 2.5 1S13 17 14 17s1.5 1 2.5 1 1.5-1 2.5-1H21V8z"/><path d="M8 11h8M8 14h5"/></svg></span>
+                <h4>14-Day Grand Explorer</h4>
+                <p>Northern safaris, Mole elephants & the full Volta circuit.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>vistaGHANA</h3>
+          <p>The official digital gateway promoting luxury tourism, cultural heritage, and eco-adventures across Ghana, West Africa.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Destinations</h4>
+          <ul class="footer-links">
+            <li><a href="index.html#destinations">Tafi Atome Sanctuary</a></li>
+            <li><a href="index.html#destinations">Boabeng-Fiema Sanctuary</a></li>
+            <li><a href="index.html#destinations">Cape Coast Castle</a></li>
+            <li><a href="index.html#destinations">Mole Elephant Safari</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Plan & Book</h4>
+          <ul class="footer-links">
+            <li><a href="planner.html">Trip Planner</a></li>
+            <li><a href="booking.html">Online Booking</a></li>
+            <li><a href="index.html#festivals">Cultural Festivals</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul class="footer-links">
+            <li><a href="booking.html">Book Now</a></li>
+            <li><a href="#">Ghana Tourism Authority</a></li>
+            <li><a href="#">Emergency: 112 / 191</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Visit Ghana Digital Tourism. All rights reserved.</p>
+        <p>Built with Passion for Ghana Tourism</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="frontend/js/app.bundle.js"></script>
+</body>
+
+</html>

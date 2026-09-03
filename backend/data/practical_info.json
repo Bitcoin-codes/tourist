@@ -1,0 +1,17 @@
+{
+  "getting-around": {
+    "title": "Getting Around Ghana",
+    "badge": "Transportation Guide",
+    "content": "<h4>Domestic Flights</h4><p>PassionAir and Africa World Airlines (AWA) fly daily between Accra (ACC), Kumasi (KMS), Tamale (TML), and Takoradi (TKD).</p><h4>Ride Hailing & Taxis</h4><p>Uber, Yango, and Bolt operate extensively throughout Greater Accra and Kumasi. Local orange-fender taxis are also widely available.</p><h4>Tro-Tros & Intercity Coaches</h4><p>Tro-tros (shared minibuses) are the quintessential Ghanaian commute. For long distances, VIP Jeoun and STC offer comfortable air-conditioned coaches.</p>"
+  },
+  "flight-visa": {
+    "title": "Flight & Visa Requirements",
+    "badge": "Travel Documentation",
+    "content": "<h4>Visa on Arrival & E-Visa</h4><p>Ghana offers online e-Visa applications and Visa on Arrival for ECOWAS citizens, African Union passport holders, and during December in GH season.</p><h4>Major Airlines Serving Accra (ACC)</h4><p>Kotoka International Airport is served by Delta, British Airways, Emirates, KLM, Qatar Airways, Ethiopian Airlines, and Turkish Airlines.</p><h4>Yellow Fever Certificate</h4><p>A valid international yellow fever vaccination card is mandatory for all incoming travelers over 9 months of age.</p>"
+  },
+  "practical-info": {
+    "title": "Practical Information & Tips",
+    "badge": "Essential Tourist Tips",
+    "content": "<h4>Currency & Mobile Money (MoMo)</h4><p>The currency is the Ghana Cedi (GHS). Mobile Money (MTN MoMo) and cards are used everywhere in cities, but carry cash when visiting rural areas.</p><h4>Language & Greetings</h4><p>English is the official language. Learning basic Twi greetings like <em>Akwaaba</em> (Welcome), <em>Eti sen?</em> (How are you?), and <em>Medaase</em> (Thank you) will warm every heart!</p><h4>Power & Adapters</h4><p>Ghana uses Type G 3-pin British plugs (230V, 50Hz). Pack a universal travel adapter and power bank for safari trips.</p>"
+  }
+}

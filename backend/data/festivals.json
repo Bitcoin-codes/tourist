@@ -1,0 +1,236 @@
+[
+  {
+    "id": "aboakyer-festival",
+    "name": "Aboakyer Festival (Deer Hunting Festival)",
+    "culture": "Effutu People of Winneba Traditional Area",
+    "month": "May (1st Saturday in May)",
+    "duration": "1 Week Celebration",
+    "location": "Winneba",
+    "region": "Central Region",
+    "image": "assets/images/aboakyer_festival.jpg",
+    "shortDesc": "Famous deer hunting ritual where rival Asafo warrior companies capture a live bushbuck deer unarmed to present to the Paramount Chief.",
+    "fullDesc": "The Aboakyer festival is celebrated on the 1st Saturday in May by the Effutu people of Winneba in the Central Region. It commemorates their migration from the ancient Western Sudan Empire to their present settlement. The highlight features a fierce competitive deer hunt between two traditional Asafo warrior groups—the Dentsefo and Tuafo. The first group to capture a live, uninjured deer using only bare hands wins high prestige, presenting it to the Simpa Otuano royal stool.",
+    "keyRituals": [
+      "Asafo Warrior Deer Hunt",
+      "Royal Stool Consecration",
+      "Durbar of Paramount Chiefs",
+      "Highlife Musical Concerts"
+    ]
+  },
+  {
+    "id": "homowo-festival",
+    "name": "Homowo Festival",
+    "culture": "Ga People of Accra",
+    "month": "August / September",
+    "duration": "1 Month Festival Season",
+    "location": "Accra, Tema, Ningo",
+    "region": "Greater Accra Region",
+    "image": "assets/images/homowo_festival.jpg",
+    "shortDesc": "Meaning 'hooting at hunger', celebrating victory over historical famine with traditional Kpokpoi food sharing and drumming.",
+    "fullDesc": "Homowo is the most celebrated festival of the Ga people in Greater Accra. The word 'Homowo' literally translates to 'hooting at hunger'. It commemorates a devastating famine that plagued the Ga ancestors during their migration to Accra before a miraculous bountiful harvest. Chiefs and family heads sprinkle traditional 'Kpokpoi' (steamed cornmeal and palm oil soup) across family ancestral homes and streets while drumming and dancing.",
+    "keyRituals": [
+      "Kpokpoi Ritual Sprinkling",
+      "Twin Celebrations (Akweley Suma)",
+      "Twin Drumming & Dancing",
+      "Family Reconciliation Feasts"
+    ]
+  },
+  {
+    "id": "adekyem-festival",
+    "name": "Adekyem Festival",
+    "culture": "Akan People of Bechem",
+    "month": "December",
+    "duration": "3 Days",
+    "location": "Bechem",
+    "region": "Ahafo Region",
+    "image": "assets/images/adekyem_festival.jpg",
+    "shortDesc": "Derived from Akan 'Adekyem' meaning 'gift distribution', celebrating harvest bounty and community sharing.",
+    "fullDesc": "Bechem is derived from the Akan phrase 'Adekyem', which literally translates to a place where gifts or harvested items are shared. Celebrated annually in December, the chief and elders distribute symbolic gifts, agricultural harvest produce, and awards to outstanding community members while honoring ancestral spirits.",
+    "keyRituals": [
+      "Harvest Gift Sharing",
+      "Ancestral Libation Pouring",
+      "Akan Fontomfrom Drumming",
+      "Development Fundraiser"
+    ]
+  },
+  {
+    "id": "apoo-festival",
+    "name": "Apoo Festival",
+    "culture": "Bono People of Techiman & Sunyani",
+    "month": "October",
+    "duration": "1 Week",
+    "location": "Techiman & Sunyani",
+    "region": "Bono Region",
+    "image": "assets/images/apoo_festival.jpg",
+    "shortDesc": "A cleansing festival allowing citizens to speak honest truths to leaders and cleanse social grievances.",
+    "fullDesc": "Apoo is an ancient purification festival celebrated by the Bono people of Techiman and Sunyani. The name comes from 'Apo' meaning to reject or cleanse evil. During the festival week, citizens are permitted to publicly express grievances, critique chiefs and leaders constructively without penalty, bringing social harmony and spiritual cleansing.",
+    "keyRituals": [
+      "Public Honest Critiques (Apoo Songs)",
+      "Town Spiritual Cleansing",
+      "Royal Durbar",
+      "Traditional Pacification Shrines"
+    ]
+  },
+  {
+    "id": "asafotufiam-festival",
+    "name": "Asafotufiam Festival",
+    "culture": "Ga-Adangbe People of Ada",
+    "month": "July – August (1st Week)",
+    "duration": "1 Week",
+    "location": "Ada Traditional Area",
+    "region": "Greater Accra Region",
+    "image": "assets/images/asafotufiam_festival.jpg",
+    "shortDesc": "Warrior festival commemorating ancestral victories with musketry firing displays and colourful Volta river regattas.",
+    "fullDesc": "Asafotufiam is celebrated by the chiefs and people of Ada in remembrance of ancient war achievements of their brave ancestors who fought for the settlement of Ada land. Asafo warrior groups dress in traditional battle armor, fire ceremonial muskets, and parade through the streets followed by boat racing along the Volta River estuary.",
+    "keyRituals": [
+      "Ceremonial Musket Firing",
+      "Volta Estuary Boat Regatta",
+      "Asafo Company Reenactments",
+      "Miss Ada Cultural Pageant"
+    ]
+  },
+  {
+    "id": "bakatue-festival",
+    "name": "Bakatue Festival",
+    "culture": "Elmina & Fante People",
+    "month": "1st Tuesday in July",
+    "duration": "1 Week",
+    "location": "Elmina",
+    "region": "Central Region",
+    "image": "assets/images/bakatue_festival.jpg",
+    "shortDesc": "Meaning 'opening of the lagoon', marking the start of the fishing season with royal canoe races and sea rituals.",
+    "fullDesc": "Bakatue means 'the opening of the lagoon' (Benya Lagoon). Celebrated by the chiefs and people of Elmina, the festival invokes ancestral blessings for a bountiful fishing harvest. The Paramount Chief casts a net into the lagoon 3 times, after which colorful decorated canoes race across the water in front of Castle Elmina.",
+    "keyRituals": [
+      "Casting of the Royal Net",
+      "Benya Lagoon Canoe Race",
+      "Royal Palanquin Procession",
+      "Seafood Festival & Highlife"
+    ]
+  },
+  {
+    "id": "damba-festival",
+    "name": "Damba Festival",
+    "culture": "Dagbamba, Gonja, Mamprusi & Waala People",
+    "month": "July – August",
+    "duration": "1 Week",
+    "location": "Tamale, Yendi, Wa",
+    "region": "Northern & Savannah Regions",
+    "image": "assets/images/damba_festival.jpg",
+    "shortDesc": "Vibrant Northern festival featuring royal horse riding displays, traditional Batakari smocks, and talking drum performances.",
+    "fullDesc": "Damba is one of the most prominent cultural festivals in Northern Ghana, celebrated by the Dagbamba, Gonja, Mamprusi, and Waala ethnic groups. Originally marking the birth of Prophet Muhammad, it has evolved into a glorious display of chieftaincy, horse-riding choreography, traditional Northern smocks (Batakari), and intricate talking drum (Dondo) dancing.",
+    "keyRituals": [
+      "Somokun (Rice Picking Ritual)",
+      "Royal Horse Dancing Display",
+      "High Chiefs Procession",
+      "Batakari Fashion & Dance Showcase"
+    ]
+  },
+  {
+    "id": "dipo-festival",
+    "name": "Dipo (Puberty Rites) Festival",
+    "culture": "Krobo People of Somanya & Manya Krobo",
+    "month": "February / April",
+    "duration": "4 Days",
+    "location": "Somanya & Odumase Krobo",
+    "region": "Eastern Region",
+    "image": "assets/images/dipo_festival.jpg",
+    "shortDesc": "Ancient initiation rites ushering young women into womanhood, adorned in famous Krobo glass beads and royal attire.",
+    "fullDesc": "Dipo is a traditional puberty rite celebrated by the Krobo people of the Eastern Region. It marks the transition of young maidens from adolescence into womanhood. Initiates are adorned with precious Krobo glass beads, silk cloths, and woven hats, performing the traditional Klama dance on sacred initiation stones.",
+    "keyRituals": [
+      "Sacred Stone Cleansing (Tefo)",
+      "Klama Dance Performance",
+      "Adornment with Royal Krobo Beads",
+      "Initiation Certification"
+    ]
+  },
+  {
+    "id": "fao-festival",
+    "name": "FAO Harvest Festival",
+    "culture": "Kassena-Nankana People",
+    "month": "January",
+    "duration": "3 Days",
+    "location": "Navrongo",
+    "region": "Upper East Region",
+    "image": "assets/images/fao_festival.jpg",
+    "shortDesc": "Thanksgiving harvest festival featuring traditional horn blowing, shield dancing, and millet harvest celebrations.",
+    "fullDesc": "FAO is celebrated by the Kassena-Nankana people of Navrongo to thank the Almighty God and ancestral spirits for a successful agricultural harvest season. Farmers display their largest crops, and traditional horn-blowers and shield warriors perform celebratory dances.",
+    "keyRituals": [
+      "Harvest Thanksgiving Libation",
+      "Traditional Horn & Flute Music",
+      "Warrior Shield Dance",
+      "Agricultural Produce Exhibition"
+    ]
+  },
+  {
+    "id": "fetu-afahye-festival",
+    "name": "Fetu Afahye Festival",
+    "culture": "Oguaa People of Cape Coast",
+    "month": "September (1st Saturday)",
+    "duration": "1 Week",
+    "location": "Cape Coast",
+    "region": "Central Region",
+    "image": "assets/images/fetu_afahye_festival.jpg",
+    "shortDesc": "Celebrated to purify Oguaa land of historic epidemics and invoke blessings from the 77 traditional deities.",
+    "fullDesc": "Fetu Afahye is celebrated by the Oguaa people of Cape Coast. It commemorates a historic plague that was eradicated through ancestral prayers to 77 local deities. Highlights include a grand procession of paramount chiefs carried in opulent palanquins under giant royal umbrellas, accompanied by Asafo drum beats.",
+    "keyRituals": [
+      "Pouring Libation to 77 Deities",
+      "Asafo Warriors Parade",
+      "Grand Durbar of Chiefs",
+      "Cape Coast Street Carnival"
+    ]
+  },
+  {
+    "id": "gologo-festival",
+    "name": "Gologo Festival",
+    "culture": "Talensi People of Tengzug",
+    "month": "March",
+    "duration": "3 Days",
+    "location": "Tengzug, Talensi",
+    "region": "Upper East Region",
+    "image": "assets/images/gologo_festival.jpg",
+    "shortDesc": "Pre-planting festival seeking rain and bountiful soil fertility from the sacred Tengzug rock shrines.",
+    "fullDesc": "Gologo is celebrated by the Talensi people living amongst the majestic granitic rocks of Tengzug. Held in March before the rainy season, worshippers gather at the ancient Golib cave shrine to pray for rain, bumper grain harvests, and good health for all families.",
+    "keyRituals": [
+      "Golib Shrine Invocations",
+      "Pre-Planting Rain Rituals",
+      "Sacred Rock Cave Chanting",
+      "Community Communal Feast"
+    ]
+  },
+  {
+    "id": "hogbetsotso-festival",
+    "name": "Hogbetsotso Festival",
+    "culture": "Anlo Ewe People",
+    "month": "November (1st Saturday)",
+    "duration": "1 Week",
+    "location": "Anloga",
+    "region": "Volta Region",
+    "image": "assets/images/hogbetsotso_festival.jpg",
+    "shortDesc": "Commemorating the historic escape of the Ewe people from ancient tyrannical rule, featuring famous backward walking dances.",
+    "fullDesc": "Hogbetsotso (pronounced 'Hogbe-tso-tso') is celebrated by the Anlo Ewe people of the Volta Region. It commemorates their historic migration escape from Notsie in present-day Togo to avoid the tyranny of King Agorkoli. During the festival, dancers perform the Agbadza and Atsiagbekor dances, reenacting their backward walking strategy used to deceive pursuers.",
+    "keyRituals": [
+      "Reenactment of Backward Escape Walk",
+      "Agbadza & Atsiagbekor Dances",
+      "Peace & Reconciliation Purification",
+      "Durbar of Ewe Chiefs"
+    ]
+  },
+  {
+    "id": "kloyo-sikplemi-festival",
+    "name": "Kloyo Sikplemi Festival",
+    "culture": "Yilo Krobo People",
+    "month": "November",
+    "duration": "1 Week",
+    "location": "Somanya",
+    "region": "Eastern Region",
+    "image": "assets/images/kloyo_sikplemi_festival.jpg",
+    "shortDesc": "Commemorating the Krobo ancestors' relocation from the Kloyo Mountain to their present lowlands.",
+    "fullDesc": "Kloyo Sikplemi is celebrated by the Yilo Krobo traditional area. It commemorates the historic eviction of their ancestors from the Kloyo mountain reserve by British colonial forces in 1892. The festival features a pilgrimage hike up the sacred Kloyo Mountain.",
+    "keyRituals": [
+      "Sacred Mountain Pilgrimage Hike",
+      "Ancestral Tribute Libations",
+      "Fontomfrom Drumming",
+      "Yilo Krobo Cultural Pageant"
+    ]
+  }
+]

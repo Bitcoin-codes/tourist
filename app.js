@@ -566,13 +566,13 @@ const PRACTICAL_INFO = {
     title: "Getting Around Ghana",
     badge: "Transportation Guide",
     content: `
-      <h4>✈️ Domestic Flights</h4>
+      <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px; vertical-align: text-bottom;"><path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3.5c-.5-.5-2.5 0-4 1.5L13.5 8.5 5.3 6.7c-.7-.2-1.5.1-1.8.7l-.4.8 5.7 4.3-3.6 3.6-2.2-.5c-.4-.1-.9.1-1.1.5l-.3.5 3.3 2.3 2.3 3.3.5-.3c.4-.2.6-.7.5-1.1l-.5-2.2 3.6-3.6 4.3 5.7.8-.4c.6-.3.9-1.1.7-1.8z"/></svg> Domestic Flights</h4>
       <p>PassionAir and Africa World Airlines (AWA) fly daily between Accra (ACC), Kumasi (KMS), Tamale (TML), and Takoradi (TKD).</p>
       
-      <h4>🚗 Ride Hailing & Taxis</h4>
+      <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px; vertical-align: text-bottom;"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C1.4 11.3 1 12.1 1 13v3c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg> Ride Hailing & Taxis</h4>
       <p>Uber, Yango, and Bolt operate extensively throughout Greater Accra and Kumasi with cashless options. Local orange-fender taxis are also widely available.</p>
       
-      <h4>🚌 Tro-Tros & Intercity Coaches</h4>
+      <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px; vertical-align: text-bottom;"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 10h18"/><circle cx="7" cy="15" r="1"/><circle cx="17" cy="15" r="1"/></svg> Tro-Tros & Intercity Coaches</h4>
       <p>Tro-tros (shared minibuses) are the quintessential Ghanaian commuting experience. For long distances, VIP Jeoun and STC offer comfortable air-conditioned coaches.</p>
     `
   },
@@ -699,7 +699,7 @@ function renderFestivals() {
       <div class="festival-card-expanded">
         <div class="festival-card-img">
           <img src="${item.image}" alt="${item.name}" loading="lazy">
-          <span class="festival-month-badge">📅 ${item.month}</span>
+          <span class="festival-month-badge" style="display: inline-flex; align-items: center; gap: 4px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> ${item.month}</span>
         </div>
         <div class="festival-card-content">
           <div class="festival-culture-tag"> ${item.culture}</div>
@@ -731,19 +731,19 @@ function openFestivalModal(id) {
   if (!overlay || !card) return;
 
   card.innerHTML = `
-    <button class="modal-close-btn" onclick="closeModal('destination-modal-overlay')">✕</button>
+    <button class="modal-close-btn" onclick="closeModal('destination-modal-overlay')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     <img src="${festival.image}" class="modal-hero-img" alt="${festival.name}">
     <div class="modal-content-body">
       <div class="modal-header-meta">
-        <span class="card-badge" style="background: var(--crimson-gradient); color: #FFF; border: none;">👑 ${festival.culture}</span>
-        <span style="font-weight: 700; color: var(--emerald-accent);">📍 ${festival.location}, ${festival.region}</span>
+        <span class="card-badge" style="background: var(--crimson-gradient); color: #FFF; border: none; display: inline-flex; align-items: center; gap: 4px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg> ${festival.culture}</span>
+        <span style="font-weight: 700; color: var(--emerald-accent); display: inline-flex; align-items: center; gap: 4px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> ${festival.location}, ${festival.region}</span>
       </div>
       <h2 class="modal-title">${festival.name}</h2>
       
       <div class="modal-fact-grid">
         <div class="fact-item">
           <h5>Month / Time of Year</h5>
-          <p>📅 ${festival.month}</p>
+          <p><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px; vertical-align: middle;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> ${festival.month}</p>
         </div>
         <div class="fact-item">
           <h5>Duration</h5>
@@ -751,7 +751,7 @@ function openFestivalModal(id) {
         </div>
         <div class="fact-item">
           <h5>Location</h5>
-          <p>📍 ${festival.location}</p>
+          <p><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px; vertical-align: middle;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> ${festival.location}</p>
         </div>
         <div class="fact-item">
           <h5>Region</h5>
@@ -764,7 +764,7 @@ function openFestivalModal(id) {
 
       <h4 style="font-size: 1.1rem; margin-bottom: 12px;">Key Rituals & Event Highlights</h4>
       <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px;">
-        ${festival.keyRituals.map(r => `<span style="background: rgba(255, 184, 0, 0.12); color: var(--gold-primary); border: 1px solid var(--border-gold); font-weight: 700; font-size: 0.85rem; padding: 8px 16px; border-radius: 20px;">🥁 ${r}</span>`).join('')}
+        ${festival.keyRituals.map(r => `<span style="background: rgba(255, 184, 0, 0.12); color: var(--gold-primary); border: 1px solid var(--border-gold); font-weight: 700; font-size: 0.85rem; padding: 8px 16px; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg> ${r}</span>`).join('')}
       </div>
 
       <div style="display: flex; gap: 12px;">
@@ -791,23 +791,23 @@ function openDestinationModal(id) {
   if (!overlay || !card) return;
 
   card.innerHTML = `
-    <button class="modal-close-btn" onclick="closeModal('destination-modal-overlay')">✕</button>
+    <button class="modal-close-btn" onclick="closeModal('destination-modal-overlay')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     <img src="${item.image}" class="modal-hero-img" alt="${item.name}">
     <div class="modal-content-body">
       <div class="modal-header-meta">
         <span class="card-badge">${item.categoryName}</span>
-        <span style="font-weight: 700; color: var(--emerald-accent);">📍 ${item.region}</span>
+        <span style="font-weight: 700; color: var(--emerald-accent); display: inline-flex; align-items: center; gap: 4px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> ${item.region}</span>
       </div>
       <h2 class="modal-title">${item.name}</h2>
       
       <div class="modal-fact-grid">
         <div class="fact-item">
           <h5>Opening Hours</h5>
-          <p> ${item.hours}</p>
+          <p>${item.hours}</p>
         </div>
         <div class="fact-item">
           <h5>Entrance Fee</h5>
-          <p> ${item.fee}</p>
+          <p>${item.fee}</p>
         </div>
         <div class="fact-item">
           <h5>Best Time to Visit</h5>
@@ -815,7 +815,7 @@ function openDestinationModal(id) {
         </div>
         <div class="fact-item">
           <h5>Accessibility</h5>
-          <p>♿ ${item.accessibility}</p>
+          <p><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px; vertical-align: middle;"><circle cx="12" cy="4" r="2"/><path d="M12 6v7h5l3 7"/><path d="M9 13a5 5 0 1 1-5 5"/></svg> ${item.accessibility}</p>
         </div>
       </div>
 
@@ -824,19 +824,19 @@ function openDestinationModal(id) {
 
       <h4 style="font-size: 1.1rem; margin-bottom: 12px;">Key Experience Highlights</h4>
       <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px;">
-        ${item.highlights.map(h => `<span style="background: rgba(255, 184, 0, 0.12); color: var(--gold-primary); border: 1px solid var(--border-gold); font-weight: 700; font-size: 0.85rem; padding: 6px 14px; border-radius: 20px;">✨ ${h}</span>`).join('')}
+        ${item.highlights.map(h => `<span style="background: rgba(255, 184, 0, 0.12); color: var(--gold-primary); border: 1px solid var(--border-gold); font-weight: 700; font-size: 0.85rem; padding: 6px 14px; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg> ${h}</span>`).join('')}
       </div>
 
       <div style="background: var(--surface-overlay); border: 1px solid var(--border-glass); padding: 20px; border-radius: 16px; margin-bottom: 24px;">
-        <h4 style="font-size: 1rem; margin-bottom: 8px; color: var(--text-primary);">🏨 Nearby Accommodations</h4>
+        <h4 style="font-size: 1rem; margin-bottom: 8px; color: var(--text-primary); display: flex; align-items: center; gap: 6px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Nearby Accommodations</h4>
         <p style="font-size: 0.9rem; color: var(--text-secondary);">${item.nearbyHotels.join(' • ')}</p>
-        <h4 style="font-size: 1rem; margin: 16px 0 8px 0; color: var(--text-primary);">📞 Certified Local Tour Guide</h4>
+        <h4 style="font-size: 1rem; margin: 16px 0 8px 0; color: var(--text-primary); display: flex; align-items: center; gap: 6px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Certified Local Tour Guide</h4>
         <p style="font-size: 0.9rem; color: var(--gold-primary); font-weight: 800;">${item.guideContact}</p>
       </div>
 
       <div style="display: flex; gap: 12px;">
-        <button class="hero-pill-btn" style="flex: 1; justify-content: center;" onclick="showToast('Destination added to your travel plan!')">
-          ➕ Add to My Trip Itinerary
+        <button class="hero-pill-btn" style="flex: 1; justify-content: center; display: flex; align-items: center; gap: 6px;" onclick="showToast('Destination added to your travel plan!')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add to My Trip Itinerary
         </button>
         <button class="btn-card-details" style="padding: 14px 24px;" onclick="closeModal('destination-modal-overlay')">Close</button>
       </div>
@@ -856,7 +856,7 @@ function openInfoModal(type) {
   if (!overlay || !card) return;
 
   card.innerHTML = `
-    <button class="modal-close-btn" onclick="closeModal('info-modal-overlay')">✕</button>
+    <button class="modal-close-btn" onclick="closeModal('info-modal-overlay')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     <div class="modal-content-body" style="padding: 40px;">
       <span class="card-badge" style="margin-bottom: 16px; display: inline-block;">${info.badge}</span>
       <h2 style="font-size: 2rem; margin-bottom: 24px;">${info.title}</h2>
@@ -957,7 +957,7 @@ function showToast(msg) {
     toast.className = 'toast';
     document.body.appendChild(toast);
   }
-  toast.innerHTML = `✨ <span>${msg}</span>`;
+  toast.innerHTML = `<span style="display: inline-flex; align-items: center; gap: 6px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg> <span>${msg}</span></span>`;
   toast.classList.add('active');
   setTimeout(() => {
     toast.classList.remove('active');
@@ -1003,7 +1003,7 @@ function initThemeToggle() {
       const nextTheme = current === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', nextTheme);
       localStorage.setItem('visitGhanaTheme', nextTheme);
-      showToast(`Switched to ${nextTheme === 'light' ? 'Light ☀️' : 'Dark 🌙'} Theme`);
+      showToast(`Switched to ${nextTheme === 'light' ? 'Light' : 'Dark'} Theme`);
     });
   });
 }
@@ -1037,7 +1037,7 @@ function handleAIChatSubmit(e) {
   const userMsgDiv = document.createElement('div');
   userMsgDiv.className = 'ai-message user';
   userMsgDiv.innerHTML = `
-    <div class="ai-msg-avatar">👤</div>
+    <div class="ai-msg-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
     <div class="ai-msg-content"><p>${escapeHTML(query)}</p></div>
   `;
   messagesContainer.appendChild(userMsgDiv);
@@ -1049,8 +1049,8 @@ function handleAIChatSubmit(e) {
   typingDiv.className = 'ai-message bot typing';
   typingDiv.id = 'ai-typing-indicator';
   typingDiv.innerHTML = `
-    <div class="ai-msg-avatar">🤖</div>
-    <div class="ai-msg-content"><p><em>Akwaaba AI is typing...</em> 💭</p></div>
+    <div class="ai-msg-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8.01" y2="16"/><line x1="16" y1="16" x2="16.01" y2="16"/></svg></div>
+    <div class="ai-msg-content"><p><em>Akwaaba AI is typing...</em></p></div>
   `;
   messagesContainer.appendChild(typingDiv);
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -1063,7 +1063,7 @@ function handleAIChatSubmit(e) {
     const botMsgDiv = document.createElement('div');
     botMsgDiv.className = 'ai-message bot';
     botMsgDiv.innerHTML = `
-      <div class="ai-msg-avatar">🤖</div>
+      <div class="ai-msg-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8.01" y2="16"/><line x1="16" y1="16" x2="16.01" y2="16"/></svg></div>
       <div class="ai-msg-content">${botResponse}</div>
     `;
     messagesContainer.appendChild(botMsgDiv);
@@ -1075,39 +1075,39 @@ function generateAIResponse(q) {
   const query = q.toLowerCase();
 
   if (query.includes('monk') || query.includes('tafi') || query.includes('boabeng') || query.includes('animal')) {
-    return `<p>🐒 <strong>Ghana Monkey Sanctuaries:</strong></p>
+    return `<p><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px; vertical-align: middle;"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg> <strong>Ghana Monkey Sanctuaries:</strong></p>
             <p>1. <strong>Tafi Atome Monkey Sanctuary:</strong> Volta Region sacred forest where Mona monkeys come to feed right from your hands!</p>
             <p>2. <strong>Boabeng-Fiema:</strong> Sanctuary home to Mona and rare Black-and-White Pied Colobus monkeys living together peacefully.</p>
             <p><button class="btn-card-details" style="font-size: 0.78rem; padding: 6px 12px; margin-top: 8px;" onclick="window.location.href='index.html#destinations'">View Tafi Atome Details →</button></p>`;
   }
 
   if (query.includes('airport') || query.includes('pickup') || query.includes('transfer')) {
-    return `<p>🚗 <strong>VIP Airport Transfers:</strong></p>
+    return `<p><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px; vertical-align: middle;"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C1.4 11.3 1 12.1 1 13v3c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg> <strong>VIP Airport Transfers:</strong></p>
             <p>Our airport concierge will meet you right at the arrivals hall at Kotoka International Airport (ACC) holding a placard with your name.</p>
             <p>We handle your baggage and provide a private, air-conditioned transfer directly to your hotel. <strong>Cost: GHS 350 (~$30 USD).</strong></p>`;
   }
 
   if (query.includes('guide') || query.includes('tour')) {
-    return `<p>👨‍💼 <strong>Certified Local Tour Guides:</strong></p>
+    return `<p><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px; vertical-align: middle;"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg> <strong>Certified Local Tour Guides:</strong></p>
             <p>Hiring a Ghana Tourism Authority (GTA) certified guide ensures you get deep historical insights and safe navigation to remote sites like waterfalls and monkey sanctuaries.</p>
             <p><strong>Cost: GHS 500 (~$40 USD) per day.</strong> They can speak English and local languages perfectly!</p>`;
   }
 
   if (query.includes('pay') || query.includes('cash') || query.includes('card') || query.includes('arrival')) {
-    return `<p>💵 <strong>Payment Options:</strong></p>
+    return `<p><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px; vertical-align: middle;"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg> <strong>Payment Options:</strong></p>
             <p>You can reserve all services online right now with <strong>Zero Upfront Payment!</strong></p>
             <p>You simply choose "Pay on Arrival" and settle the bill via Visa, Mastercard, or local Cedis/USD cash directly with your concierge when you land.</p>`;
   }
 
   if (query.includes('castle') || query.includes('cape coast') || query.includes('elmina') || query.includes('history')) {
-    return `<p>🏰 <strong>UNESCO Historic Fortresses:</strong></p>
+    return `<p><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px; vertical-align: middle;"><path d="M3 21h18M5 21V7l3-3 3 3v14M13 21V7l3-3 3 3v14"/></svg> <strong>UNESCO Historic Fortresses:</strong></p>
             <p>• <strong>Cape Coast Castle:</strong> Powerful World Heritage fortress with dungeons and Door of No Return.</p>
             <p>• <strong>Elmina Castle:</strong> Constructed in 1482, sub-Saharan Africa's oldest European building.</p>
             <p><button class="btn-card-details" style="font-size: 0.78rem; padding: 6px 12px; margin-top: 8px;" onclick="openDestinationModal('cape-coast-castle')">Explore Cape Coast Castle →</button></p>`;
   }
 
   if (query.includes('festiv') || query.includes('aboakyer') || query.includes('homowo') || query.includes('damba') || query.includes('hogbe')) {
-    return `<p>🥁 <strong>Ghanaian Traditional Festivals:</strong></p>
+    return `<p><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px; vertical-align: middle;"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg> <strong>Ghanaian Traditional Festivals:</strong></p>
             <p>• <strong>Aboakyer Deer Hunt Festival (May):</strong> Winneba Asafo warrior deer hunt ritual.</p>
             <p>• <strong>Homowo (August):</strong> Ga harvest festival with Kpokpoi food sprinkling.</p>
             <p>• <strong>Damba (July/Aug):</strong> Royal Northern horse dancing & talking drums.</p>
@@ -1115,25 +1115,25 @@ function generateAIResponse(q) {
   }
 
   if (query.includes('waterfall') || query.includes('wli') || query.includes('boti') || query.includes('afadja')) {
-    return `<p>🌊 <strong>Waterfalls & Peak Trails:</strong></p>
+    return `<p><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px; vertical-align: middle;"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.6 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.6 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.6 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg> <strong>Waterfalls & Peak Trails:</strong></p>
             <p>• <strong>Wli Waterfalls:</strong> Highest waterfall in West Africa with bat sanctuary and natural plunge pool.</p>
             <p>• <strong>Boti Waterfalls:</strong> Twin falls, Umbrella Rock, and 3-headed palm tree.</p>
             <p><button class="btn-card-details" style="font-size: 0.78rem; padding: 6px 12px; margin-top: 8px;" onclick="openDestinationModal('wli-waterfall')">View Wli Waterfall →</button></p>`;
   }
 
   if (query.includes('itinerar') || query.includes('plan') || query.includes('day') || query.includes('trip')) {
-    return `<p>🗺️ <strong>Ghana Travel Itinerary Tips:</strong></p>
+    return `<p><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px; vertical-align: middle;"><polygon points="1 6 1 22 8 18 15 22 22 18 22 2 15 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="15" y1="6" x2="15" y2="22"/></svg> <strong>Ghana Travel Itinerary Tips:</strong></p>
             <p>• <strong>3 Days:</strong> Express Highlights (Accra, Cape Coast Castle, Tafi Atome Monkeys).</p>
             <p>• <strong>7 Days:</strong> Essential Ghana (Castles, Kakum Canopy Walk, Kumasi Crafts, Wli Waterfalls).</p>
             <p><a href="#planner" onclick="toggleAIChat()" style="color: var(--gold-primary); font-weight: 700;">Click here to open the Trip Planner! →</a></p>`;
   }
 
   if (query.includes('hello') || query.includes('hi') || query.includes('akwaaba') || query.includes('food') || query.includes('jollof')) {
-    return `<p>🤖 <strong>Akwaaba! (Welcome!)</strong></p>
+    return `<p><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px; vertical-align: middle;"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/></svg> <strong>Akwaaba! (Welcome!)</strong></p>
             <p>Ghana is famous for its warm hospitality, UNESCO heritage, rich culture, and world-class Ghanaian Jollof rice! What destination or booking service can I help you discover today?</p>`;
   }
 
-  return `<p>✨ <strong>Akwaaba!</strong> Thank you for asking. Ghana offers iconic monkey sanctuaries, castles, waterfalls, and royal festivals.</p>
+  return `<p><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px; vertical-align: middle;"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg> <strong>Akwaaba!</strong> Thank you for asking. Ghana offers iconic monkey sanctuaries, castles, waterfalls, and royal festivals.</p>
           <p>Try searching destinations above or tap one of the suggestion chips below for instant answers!</p>`;
 }
 

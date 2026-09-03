@@ -40,7 +40,13 @@ type Theme = 'light' | 'dark';
 type Category = 'all' | 'national-parks' | 'historical' | 'waterfalls' | 'cultural';
 
 // ── API Client ────────────────────────────────────────────────────────
-const API_BASE = 'http://localhost:5000/api';
+function getApiBase(): string {
+  const injected =
+    typeof window !== 'undefined' &&
+    (window as unknown as { __API_BASE__?: string }).__API_BASE__;
+  return injected && injected !== '' ? injected : 'http://localhost:5000/api';
+}
+const API_BASE = getApiBase();
 
 async function apiFetch<T>(endpoint: string, options?: RequestInit): Promise<ApiResponse<T>> {
   try {
@@ -120,14 +126,12 @@ let savedBookmarks: string[] = JSON.parse(localStorage.getItem('visitGhanaBookma
 
 // ── Theme ─────────────────────────────────────────────────────────────
 function initTheme(): void {
-  const saved = (localStorage.getItem('visitGhanaTheme') as Theme) || 'light';
-  document.documentElement.setAttribute('data-theme', saved);
+  document.documentElement.setAttribute('data-theme', 'light');
   $$('.theme-toggle-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const cur = (document.documentElement.getAttribute('data-theme') as Theme) || 'light';
       const next: Theme = cur === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('visitGhanaTheme', next);
       showToast(`Switched to ${next === 'light' ? 'Light' : 'Dark'} theme`);
     });
   });

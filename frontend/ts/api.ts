@@ -3,8 +3,9 @@
  */
 
 import type { ApiResponse, Destination, Festival, PracticalInfo, BookingData, BookingResponse, Itinerary } from './types';
+import { getApiBase } from './config';
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = getApiBase();
 
 async function fetchAPI<T>(endpoint: string, options?: RequestInit): Promise<ApiResponse<T>> {
   try {

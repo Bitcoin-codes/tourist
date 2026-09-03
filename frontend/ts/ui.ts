@@ -64,15 +64,13 @@ export function showToast(message: string): void {
 }
 
 export function initThemeToggle(): void {
-  const saved = (localStorage.getItem('visitGhanaTheme') as Theme) || 'light';
-  document.documentElement.setAttribute('data-theme', saved);
+  document.documentElement.setAttribute('data-theme', 'light');
 
   $$('.theme-toggle-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const current = (document.documentElement.getAttribute('data-theme') as Theme) || 'light';
       const next: Theme = current === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('visitGhanaTheme', next);
       showToast(`Switched to ${next === 'light' ? 'Light' : 'Dark'} theme`);
     });
   });

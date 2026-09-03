@@ -1,5 +1,10 @@
 // ── API Client ────────────────────────────────────────────────────────
-const API_BASE = 'http://localhost:5000/api';
+function getApiBase() {
+    const injected = typeof window !== 'undefined' &&
+        window.__API_BASE__;
+    return injected && injected !== '' ? injected : 'http://localhost:5000/api';
+}
+const API_BASE = getApiBase();
 async function apiFetch(endpoint, options) {
     try {
         const res = await fetch(`${API_BASE}${endpoint}`, {
@@ -83,14 +88,12 @@ let searchQuery = '';
 let savedBookmarks = JSON.parse(localStorage.getItem('visitGhanaBookmarks') || '[]');
 // ── Theme ─────────────────────────────────────────────────────────────
 function initTheme() {
-    const saved = localStorage.getItem('visitGhanaTheme') || 'light';
-    document.documentElement.setAttribute('data-theme', saved);
+    document.documentElement.setAttribute('data-theme', 'light');
     $$('.theme-toggle-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const cur = document.documentElement.getAttribute('data-theme') || 'light';
             const next = cur === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', next);
-            localStorage.setItem('visitGhanaTheme', next);
             showToast(`Switched to ${next === 'light' ? 'Light' : 'Dark'} theme`);
         });
     });

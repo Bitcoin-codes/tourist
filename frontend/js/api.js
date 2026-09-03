@@ -1,7 +1,8 @@
 /**
  * API Client for vistaGHANA Flask Backend
  */
-const API_BASE = 'http://localhost:5000/api';
+import { getApiBase } from './config';
+const API_BASE = getApiBase();
 async function fetchAPI(endpoint, options) {
     try {
         const response = await fetch(`${API_BASE}${endpoint}`, {

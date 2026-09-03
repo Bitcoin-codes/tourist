@@ -174,12 +174,12 @@
     </div>
   </footer>
 
-  <!-- API backend base URL (set to your hosted API before going live) -->
+  <!-- Supabase backend config -->
   <script>
-    // Point the site at your hosted Flask backend, e.g.:
-    //   window.__API_BASE__ = 'https://your-api.onrender.com/api';
-    // Leave unset to use the local dev server (http://localhost:5000/api).
+    window.__SUPABASE_URL__ = 'https://efyiskwpdqqmgghdtppq.supabase.co';
+    window.__SUPABASE_ANON_KEY__ = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmeWlza3dwZHFxbWdnaGR0cHBxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg0NjIzMjksImV4cCI6MjEwNDAzODMyOX0.o3-p5w8Or0EhsE0xhVXc36ahTNsIiErMyLuK00ReiCA';
   </script>
+  <script src="frontend/js/supabase.js"></script>
   <script src="frontend/js/app.bundle.js"></script>
 </body>
 

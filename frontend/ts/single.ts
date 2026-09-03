@@ -48,7 +48,124 @@ function getApiBase(): string {
 }
 const API_BASE = getApiBase();
 
+// ── Supabase (optional) ───────────────────────────────────────────────
+function supabaseCfg(): { url: string; anonKey: string } | null {
+  const w = (typeof window !== 'undefined' ? window : undefined) as unknown as {
+    __SUPABASE_URL__?: string; __SUPABASE_ANON_KEY__?: string;
+  } | undefined;
+  const url = w?.__SUPABASE_URL__;
+  const anonKey = w?.__SUPABASE_ANON_KEY__;
+  return url && anonKey ? { url: url.replace(/\/$/, ''), anonKey } : null;
+}
+
+async function sbSelect<T>(table: string, params: Record<string, string> = {}): Promise<T[]> {
+  const c = supabaseCfg()!;
+  const q = new URLSearchParams();
+  q.set('select', '*');
+  for (const [k, v] of Object.entries(params)) if (v) q.set(k, v);
+  const res = await fetch(`${c.url}/rest/v1/${table}?${q.toString()}`, {
+    headers: { apikey: c.anonKey, Authorization: `Bearer ${c.anonKey}` },
+  });
+  if (!res.ok) throw new Error(`Supabase ${table}: HTTP ${res.status} ${(await res.text()).slice(0, 200)}`);
+  return res.json();
+}
+
+async function sbApiFetch<T>(endpoint: string, options?: RequestInit): Promise<ApiResponse<T>> {
+  const c = supabaseCfg()!;
+  const method = (options?.method || 'GET').toUpperCase();
+  const body = options?.body ? JSON.parse(String(options.body)) : {};
+  const ep = endpoint.split('?')[0];
+
+  // Go through Supabase adapter module if available, else inline fallback here.
+  // Use the shared adapter when it is present.
+  if ((window as unknown as { __sbFetch?: (e: string, o?: RequestInit) => Promise<ApiResponse<T>> }).__sbFetch) {
+    return (window as unknown as { __sbFetch: (e: string, o?: RequestInit) => Promise<ApiResponse<T>> }).__sbFetch(endpoint, options);
+  }
+
+  try {
+    const rows = await sbSelect<any>(mapTable(ep), mapParams(ep, method, body));
+    const data = postProcess(ep, rows, body);
+    const count = Array.isArray(data) ? data.length : undefined;
+    return count !== undefined ? { success: true, count, data: data as T } : { success: true, data: data as T };
+  } catch (err) {
+    console.error(`API Error [${endpoint}]:`, err);
+    throw err;
+  }
+}
+
+function mapTable(ep: string): string {
+  if (/^\/destinations/.test(ep)) return 'destinations';
+  if (/^\/festivals/.test(ep)) return 'festivals';
+  if (/^\/regions/.test(ep)) return 'regions';
+  if (/^\/info\//.test(ep)) return 'practical_info';
+  if (/^\/wishlist/.test(ep)) return 'wishlist';
+  if (/^\/bookings/.test(ep)) return 'bookings';
+  throw new Error(`No Supabase table for ${ep}`);
+}
+
+function mapParams(ep: string, method: string, body: any): Record<string, string> {
+  if (method !== 'GET') return {};
+  const idMatch = ep.match(/\/([^/]+)$/);
+  if (/\/destinations\//.test(ep) || /\/festivals\//.test(ep) || /\/regions\//.test(ep) || /\/bookings\//.test(ep)) {
+    if (idMatch) {
+      return /\/bookings/.test(ep) ? { reference: `eq.${decodeURIComponent(idMatch[1])}` } : { id: `eq.${decodeURIComponent(idMatch[1])}` };
+    }
+  }
+  if (/^\/destinations/.test(ep) && body) {
+    const params: Record<string, string> = {};
+    if (body.category && body.category !== 'all') params['category'] = `eq.${body.category}`;
+    return params;
+  }
+  if (/^\/info\//.test(ep) && idMatch) return { type: `eq.${decodeURIComponent(idMatch[1])}` };
+  return {};
+}
+
+async function postProcess(ep: string, rows: any[], body: any): Promise<any> {
+  // destination single -> first row
+  if (/\/destinations\//.test(ep) && !/^\/destinations$/.test(ep)) return rows[0] ?? null;
+  if (/\/festivals\//.test(ep) && !/^\/festivals$/.test(ep)) return rows[0] ?? null;
+  if (/^\/info\//.test(ep)) return rows[0] ? { title: rows[0].title, badge: rows[0].badge, content: rows[0].content } : null;
+  if (/\/regions\//.test(ep) && !/^\/regions$/.test(ep)) {
+    const r = rows[0];
+    if (!r) return null;
+    const dests = (r.destinations || []);
+    const fests = (r.festivals || []);
+    const resolved: any[] = [];
+    for (const id of dests) { const d = await sbSelect<any>('destinations', { id: `eq.${id}` }); if (d[0]) resolved.push(d[0]); }
+    const festArr: any[] = [];
+    for (const id of fests) { const f = await sbSelect<any>('festivals', { id: `eq.${id}` }); if (f[0]) festArr.push(f[0]); }
+    return { ...r, destinations: resolved, festivals: festArr, hasContent: resolved.length > 0 || festArr.length > 0 };
+  }
+  if (/search/.test(ep) && body) {
+    const s = String(body.search || '').toLowerCase();
+    if (s) return rows.filter((d: any) =>
+      [d.name, d.location, d.region, d.shortDesc, d.fullDesc].filter(Boolean).some((f) => String(f).toLowerCase().includes(s)));
+  }
+  return rows;
+}
+
 async function apiFetch<T>(endpoint: string, options?: RequestInit): Promise<ApiResponse<T>> {
+  if (supabaseCfg()) {
+    // Route write/edge endpoints through the full adapter.
+    if (options?.method === 'POST') {
+      const body = options.body ? JSON.parse(String(options.body)) : {};
+      const w = window as unknown as { __sbCreateBooking?: any; __sbToggleWishlist?: any; __sbGenerateItinerary?: any };
+      if (/^\/bookings/.test(endpoint) && w.__sbCreateBooking) return w.__sbCreateBooking(body);
+      if (/^\/wishlist/.test(endpoint) && w.__sbToggleWishlist) return w.__sbToggleWishlist(body.destinationId);
+      if (/^\/itinerary/.test(endpoint) && w.__sbGenerateItinerary) return w.__sbGenerateItinerary(Number(body.days) || 7, body.style || 'balanced');
+      // fall back to direct insert
+      const c = supabaseCfg()!;
+      const table = endpoint.split('/')[1];
+      const res = await fetch(`${c.url}/rest/v1/${table}`, {
+        method: 'POST',
+        headers: { apikey: c.anonKey, Authorization: `Bearer ${c.anonKey}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      if (!res.ok) throw new Error(`Supabase POST: HTTP ${res.status} ${(await res.text()).slice(0, 200)}`);
+      return { success: true, data: body as T };
+    }
+    return sbApiFetch<T>(endpoint, options);
+  }
   try {
     const res = await fetch(`${API_BASE}${endpoint}`, {
       headers: { 'Content-Type': 'application/json' }, ...options,

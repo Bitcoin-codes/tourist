@@ -1,10 +1,148 @@
 // ── API Client ────────────────────────────────────────────────────────
+// ── API Client ────────────────────────────────────────────────────────
 function getApiBase() {
-    const injected = typeof window !== 'undefined' ? window.__API_BASE__ : '';
+    const injected = typeof window !== 'undefined' &&
+        window.__API_BASE__;
     return injected && injected !== '' ? injected : 'http://localhost:5000/api';
 }
 const API_BASE = getApiBase();
+// ── Supabase (optional) ───────────────────────────────────────────────
+function supabaseCfg() {
+    const w = (typeof window !== 'undefined' ? window : undefined);
+    const url = w?.__SUPABASE_URL__;
+    const anonKey = w?.__SUPABASE_ANON_KEY__;
+    return url && anonKey ? { url: url.replace(/\/$/, ''), anonKey } : null;
+}
+async function sbSelect(table, params = {}) {
+    const c = supabaseCfg();
+    const q = new URLSearchParams();
+    q.set('select', '*');
+    for (const [k, v] of Object.entries(params))
+        if (v)
+            q.set(k, v);
+    const res = await fetch(`${c.url}/rest/v1/${table}?${q.toString()}`, {
+        headers: { apikey: c.anonKey, Authorization: `Bearer ${c.anonKey}` },
+    });
+    if (!res.ok)
+        throw new Error(`Supabase ${table}: HTTP ${res.status} ${(await res.text()).slice(0, 200)}`);
+    return res.json();
+}
+async function sbApiFetch(endpoint, options) {
+    const c = supabaseCfg();
+    const method = (options?.method || 'GET').toUpperCase();
+    const body = options?.body ? JSON.parse(String(options.body)) : {};
+    const ep = endpoint.split('?')[0];
+    // Go through Supabase adapter module if available, else inline fallback here.
+    // Use the shared adapter when it is present.
+    if (window.__sbFetch) {
+        return window.__sbFetch(endpoint, options);
+    }
+    try {
+        const rows = await sbSelect(mapTable(ep), mapParams(ep, method, body));
+        const data = postProcess(ep, rows, body);
+        const count = Array.isArray(data) ? data.length : undefined;
+        return count !== undefined ? { success: true, count, data: data } : { success: true, data: data };
+    }
+    catch (err) {
+        console.error(`API Error [${endpoint}]:`, err);
+        throw err;
+    }
+}
+function mapTable(ep) {
+    if (/^\/destinations/.test(ep))
+        return 'destinations';
+    if (/^\/festivals/.test(ep))
+        return 'festivals';
+    if (/^\/regions/.test(ep))
+        return 'regions';
+    if (/^\/info\//.test(ep))
+        return 'practical_info';
+    if (/^\/wishlist/.test(ep))
+        return 'wishlist';
+    if (/^\/bookings/.test(ep))
+        return 'bookings';
+    throw new Error(`No Supabase table for ${ep}`);
+}
+function mapParams(ep, method, body) {
+    if (method !== 'GET')
+        return {};
+    const idMatch = ep.match(/\/([^/]+)$/);
+    if (/\/destinations\//.test(ep) || /\/festivals\//.test(ep) || /\/regions\//.test(ep) || /\/bookings\//.test(ep)) {
+        if (idMatch) {
+            return /\/bookings/.test(ep) ? { reference: `eq.${decodeURIComponent(idMatch[1])}` } : { id: `eq.${decodeURIComponent(idMatch[1])}` };
+        }
+    }
+    if (/^\/destinations/.test(ep) && body) {
+        const params = {};
+        if (body.category && body.category !== 'all')
+            params['category'] = `eq.${body.category}`;
+        return params;
+    }
+    if (/^\/info\//.test(ep) && idMatch)
+        return { type: `eq.${decodeURIComponent(idMatch[1])}` };
+    return {};
+}
+async function postProcess(ep, rows, body) {
+    // destination single -> first row
+    if (/\/destinations\//.test(ep) && !/^\/destinations$/.test(ep))
+        return rows[0] ?? null;
+    if (/\/festivals\//.test(ep) && !/^\/festivals$/.test(ep))
+        return rows[0] ?? null;
+    if (/^\/info\//.test(ep))
+        return rows[0] ? { title: rows[0].title, badge: rows[0].badge, content: rows[0].content } : null;
+    if (/\/regions\//.test(ep) && !/^\/regions$/.test(ep)) {
+        const r = rows[0];
+        if (!r)
+            return null;
+        const dests = (r.destinations || []);
+        const fests = (r.festivals || []);
+        const resolved = [];
+        for (const id of dests) {
+            const d = await sbSelect('destinations', { id: `eq.${id}` });
+            if (d[0])
+                resolved.push(d[0]);
+        }
+        const festArr = [];
+        for (const id of fests) {
+            const f = await sbSelect('festivals', { id: `eq.${id}` });
+            if (f[0])
+                festArr.push(f[0]);
+        }
+        return { ...r, destinations: resolved, festivals: festArr, hasContent: resolved.length > 0 || festArr.length > 0 };
+    }
+    if (/search/.test(ep) && body) {
+        const s = String(body.search || '').toLowerCase();
+        if (s)
+            return rows.filter((d) => [d.name, d.location, d.region, d.shortDesc, d.fullDesc].filter(Boolean).some((f) => String(f).toLowerCase().includes(s)));
+    }
+    return rows;
+}
 async function apiFetch(endpoint, options) {
+    if (supabaseCfg()) {
+        // Route write/edge endpoints through the full adapter.
+        if (options?.method === 'POST') {
+            const body = options.body ? JSON.parse(String(options.body)) : {};
+            const w = window;
+            if (/^\/bookings/.test(endpoint) && w.__sbCreateBooking)
+                return w.__sbCreateBooking(body);
+            if (/^\/wishlist/.test(endpoint) && w.__sbToggleWishlist)
+                return w.__sbToggleWishlist(body.destinationId);
+            if (/^\/itinerary/.test(endpoint) && w.__sbGenerateItinerary)
+                return w.__sbGenerateItinerary(Number(body.days) || 7, body.style || 'balanced');
+            // fall back to direct insert
+            const c = supabaseCfg();
+            const table = endpoint.split('/')[1];
+            const res = await fetch(`${c.url}/rest/v1/${table}`, {
+                method: 'POST',
+                headers: { apikey: c.anonKey, Authorization: `Bearer ${c.anonKey}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
+            });
+            if (!res.ok)
+                throw new Error(`Supabase POST: HTTP ${res.status} ${(await res.text()).slice(0, 200)}`);
+            return { success: true, data: body };
+        }
+        return sbApiFetch(endpoint, options);
+    }
     try {
         const res = await fetch(`${API_BASE}${endpoint}`, {
             headers: { 'Content-Type': 'application/json' }, ...options,

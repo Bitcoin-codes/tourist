@@ -83,11 +83,11 @@ let searchQuery = '';
 let savedBookmarks = JSON.parse(localStorage.getItem('visitGhanaBookmarks') || '[]');
 // ── Theme ─────────────────────────────────────────────────────────────
 function initTheme() {
-    const saved = localStorage.getItem('visitGhanaTheme') || 'dark';
+    const saved = localStorage.getItem('visitGhanaTheme') || 'light';
     document.documentElement.setAttribute('data-theme', saved);
     $$('.theme-toggle-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-            const cur = document.documentElement.getAttribute('data-theme') || 'dark';
+            const cur = document.documentElement.getAttribute('data-theme') || 'light';
             const next = cur === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', next);
             localStorage.setItem('visitGhanaTheme', next);

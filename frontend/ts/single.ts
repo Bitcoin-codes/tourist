@@ -120,11 +120,11 @@ let savedBookmarks: string[] = JSON.parse(localStorage.getItem('visitGhanaBookma
 
 // ── Theme ─────────────────────────────────────────────────────────────
 function initTheme(): void {
-  const saved = (localStorage.getItem('visitGhanaTheme') as Theme) || 'dark';
+  const saved = (localStorage.getItem('visitGhanaTheme') as Theme) || 'light';
   document.documentElement.setAttribute('data-theme', saved);
   $$('.theme-toggle-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      const cur = (document.documentElement.getAttribute('data-theme') as Theme) || 'dark';
+      const cur = (document.documentElement.getAttribute('data-theme') as Theme) || 'light';
       const next: Theme = cur === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
       localStorage.setItem('visitGhanaTheme', next);

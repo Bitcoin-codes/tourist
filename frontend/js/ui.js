@@ -56,11 +56,11 @@ export function showToast(message) {
     toastTimeout = setTimeout(() => toast?.classList.remove('active'), 3000);
 }
 export function initThemeToggle() {
-    const saved = localStorage.getItem('visitGhanaTheme') || 'dark';
+    const saved = localStorage.getItem('visitGhanaTheme') || 'light';
     document.documentElement.setAttribute('data-theme', saved);
     $$('.theme-toggle-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-            const current = document.documentElement.getAttribute('data-theme') || 'dark';
+            const current = document.documentElement.getAttribute('data-theme') || 'light';
             const next = current === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', next);
             localStorage.setItem('visitGhanaTheme', next);

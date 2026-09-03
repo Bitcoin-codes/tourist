@@ -499,6 +499,13 @@
     </div>
   </div>
 
+  <!-- Supabase backend config -->
+  <script>
+    window.__SUPABASE_URL__ = 'https://efyiskwpdqqmgghdtppq.supabase.co';
+    window.__SUPABASE_ANON_KEY__ = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmeWlza3dwZHFxbWdnaGR0cHBxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg0NjIzMjksImV4cCI6MjEwNDAzODMyOX0.o3-p5w8Or0EhsE0xhVXc36ahTNsIiErMyLuK00ReiCA';
+  </script>
+  <script src="frontend/js/supabase.js"></script>
+
   <!-- Custom App JavaScript -->
   <script src="app.js"></script>
   <script>
@@ -553,22 +560,59 @@
 
     function handleBookingSubmit(e) {
       e.preventDefault();
-      const fullName = document.getElementById('full-name').value;
-      const dateVal = document.getElementById('arrival-date').value;
+
+      const arrivalTime = document.getElementById('arrival-time').value;
       const airportSel = document.getElementById('arrival-airport');
+      const airport = airportSel.options[airportSel.selectedIndex].value;
+      const travelers = parseInt(document.getElementById('travelers-count').value, 10);
+      const fullName = document.getElementById('full-name').value;
+      const email = document.getElementById('email-address').value;
+      const phone = document.getElementById('phone-number').value;
+      const paymentMethod = document.getElementById('payment-method').value;
+      const specialRequests = document.getElementById('special-requests').value;
+      const flightNumber = document.getElementById('flight-number').value;
+      const dateVal = document.getElementById('arrival-date').value;
 
-      const passCustomer = document.getElementById('pass-customer-name');
-      const passAirport = document.getElementById('pass-airport-name');
-      const passDate = document.getElementById('pass-date');
-      const passRef = document.getElementById('pass-ref-code');
+      const services = [];
+      document.querySelectorAll('input[name="service"]:checked').forEach(cb => {
+        services.push({ value: cb.value, name: cb.dataset.name, price: parseInt(cb.dataset.price, 10) });
+      });
+      const totalGHS = services.reduce((sum, s) => sum + s.price, 0);
 
-      if (passCustomer) passCustomer.innerText = fullName;
-      if (passAirport) passAirport.innerText = airportSel.options[airportSel.selectedIndex].text.split('-')[0].trim();
-      if (passDate) passDate.innerText = dateVal ? dateVal : 'On Arrival';
-      if (passRef) passRef.innerText = 'GH-2026-' + Math.floor(1000 + Math.random() * 9000);
+      const booking = {
+        fullName, email, phone,
+        arrivalDate: dateVal, arrivalTime, airport, flightNumber,
+        travelers,
+        services: services.map(s => s.name),
+        totalGHS, totalUSD: Math.round(totalGHS / 12.5),
+        paymentMethod, specialRequests
+      };
 
-      const overlay = document.getElementById('booking-modal-overlay');
-      if (overlay) overlay.classList.add('active');
+      let passRef;
+      const defaultRef = 'GH-' + new Date().getFullYear() + '-';
+      const landed = function (ref) {
+        const passRefEl = document.getElementById('pass-ref-code');
+        if (passRefEl) passRefEl.innerText = ref;
+        const passCustomer = document.getElementById('pass-customer-name');
+        const passAirport = document.getElementById('pass-airport-name');
+        const passDate = document.getElementById('pass-date');
+        const passServices = document.getElementById('pass-services-summary');
+        if (passCustomer) passCustomer.innerText = fullName;
+        if (passAirport) passAirport.innerText = airportSel.options[airportSel.selectedIndex].text.split('-')[0].trim();
+        if (passDate) passDate.innerText = dateVal ? dateVal : 'On Arrival';
+        if (passServices) passServices.innerText = services.length ? services.map(s => s.name).join(', ') : '—';
+        const overlay = document.getElementById('booking-modal-overlay');
+        if (overlay) overlay.classList.add('active');
+      };
+
+      // Persist to Supabase if available; otherwise fall back to a local pass.
+      if (window.__sbCreateBooking) {
+        window.__sbCreateBooking(booking)
+          .then(res => landed(res?.data?.reference || (defaultRef + Math.floor(1000 + Math.random() * 9000))))
+          .catch(() => landed(defaultRef + Math.floor(1000 + Math.random() * 9000)));
+      } else {
+        landed(defaultRef + Math.floor(1000 + Math.random() * 9000));
+      }
     }
 
     document.addEventListener('DOMContentLoaded', () => {

@@ -2,3 +2,7 @@ node_modules/
 __pycache__/
 *.pyc
 .DS_Store
+
+# Supabase CLI local state (contains DB connection strings)
+supabase/.temp/
+**/.supabase/

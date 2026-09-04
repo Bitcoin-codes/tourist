@@ -657,6 +657,9 @@ async function renderRegions(): Promise<void> {
         p.style.cursor = 'pointer';
       }
     });
+
+    // Add attraction pins for every destination on the map
+    renderAttractionPins(svg, regions);
   } catch (e) {
     console.error(e);
     const hint = document.querySelector('.regions-hint');
@@ -667,6 +670,72 @@ async function renderRegions(): Promise<void> {
 
 function escRegionContent(html: string): string {
   const d = document.createElement('div'); d.textContent = html; return d.innerHTML;
+}
+
+// Geographic → SVG projection for attraction pins.
+// The SVG map (viewBox 0 0 800 940) spans Ghana's real bounds.
+const PIN_PROJECTION = { lngWest: -3.26, lngEast: 1.27, latNorth: 11.17, latSouth: 4.52, xMin: 29.6, xMax: 770.4, yMin: 34.8, yMax: 905.2 };
+
+function projectDestination(d: Destination): { x: number; y: number } {
+  const p = PIN_PROJECTION;
+  const x = (d.lng - p.lngWest) / (p.lngEast - p.lngWest) * (p.xMax - p.xMin) + p.xMin;
+  const y = (p.latNorth - d.lat) / (p.latNorth - p.latSouth) * (p.yMax - p.yMin) + p.yMin;
+  return { x, y };
+}
+
+const PIN_COLORS: Record<string, string> = {
+  'national-parks': '#2fbf8f',
+  'historical': '#f0a83a',
+  'waterfalls': '#38bdf8',
+  'cultural': '#a855f7',
+  'coastal': '#ef5f9a'
+};
+
+async function renderAttractionPins(svg: SVGSVGElement, regions: Region[]): Promise<void> {
+  try {
+    const res = await getDestinations('all', '');
+    const dests: Destination[] = res.data || [];
+    if (!dests.length) return;
+
+    let pinGroup = svg.getElementById('attraction-pins') as SVGGElement | null;
+    if (!pinGroup) {
+      pinGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g') as unknown as SVGGElement;
+      pinGroup.setAttribute('id', 'attraction-pins');
+      (svg as Element).appendChild(pinGroup);
+    }
+
+    pinGroup.innerHTML = '';
+    const seen: Record<string, number> = {};
+    dests.forEach(d => {
+      const { x, y } = projectDestination(d);
+      // Nudge overlapping pins (same region) apart slightly so all are reachable
+      const key = (d.region || 'other');
+      const n = seen[key] || 0;
+      seen[key] = n + 1;
+      const dx = x + ((n % 2 ? 1 : -1) * Math.min(n, 2) * 4);
+      const dy = y + ((n / 2 >= 1 ? 1 : -1) * Math.floor(n / 2) * 10);
+
+      const color = PIN_COLORS[d.category] || 'var(--brand-primary)';
+      const g = document.createElementNS('http://www.w3.org/2000/svg', 'g') as unknown as SVGGElement;
+      g.setAttribute('class', 'attraction-pin');
+      g.setAttribute('data-id', d.id);
+      g.setAttribute('data-name', d.name);
+      g.setAttribute('data-category', d.category);
+      g.setAttribute('transform', `translate(${dx.toFixed(1)},${dy.toFixed(1)})`);
+      g.setAttribute('tabindex', '0');
+      g.setAttribute('role', 'button');
+      g.setAttribute('aria-label', `View details for ${d.name}`);
+      g.addEventListener('click', (e: Event) => { e.stopPropagation(); openDestinationModal(d.id); });
+      g.addEventListener('keydown', (e: KeyboardEvent) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDestinationModal(d.id); } });
+      g.innerHTML = `
+        <circle class="attraction-pin-dot" r="8" data-cat="${d.category}"></circle>
+        <circle class="attraction-pin-halo" r="13" data-cat="${d.category}"></circle>
+        <text class="attraction-pin-label" text-anchor="middle" y="26" data-cat="${d.category}">${escRegionContent(d.name)}</text>`;
+      (pinGroup as SVGElement).appendChild(g);
+    });
+  } catch (e) {
+    console.error('Failed to render attraction pins', e);
+  }
 }
 
 async function openRegionModal(id: string): Promise<void> {

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" width="400" height="260">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0e2440"/>
+      <stop offset="1" stop-color="#0b6fb0"/>
+    </linearGradient>
+    <linearGradient id="sun" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffe082"/>
+      <stop offset="0.5" stop-color="#ffb800"/>
+      <stop offset="1" stop-color="#d47a00"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="260" fill="url(#sky)"/>
+  <circle cx="200" cy="150" r="52" fill="url(#sun)"/>
+  <path d="M40 220 L360 220" stroke="#2f5540" stroke-width="3" fill="none"/>
+  <path d="M0 230 Q100 195 200 222 T400 228 Z" fill="#123c1f" opacity="0.6"/>
+  <circle cx="120" cy="196" r="7" fill="#123c1f"/>
+  <circle cx="280" cy="192" r="9" fill="#123c1f"/>
+  <circle cx="205" cy="188" r="15" fill="url(#sun)" opacity="0.85"/>
+  <path d="M60 250 Q130 235 200 252 T360 245 Z" fill="#0b6fb0"/>
+  <text x="200" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="900" fill="#ffd98a">&#9733;</text>
+  <text x="200" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" letter-spacing="2" fill="#fff">GHANA</text>
+  <text x="200" y="166" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" letter-spacing="3" fill="#ffd98a">KORA VISTA TOURS</text>
+</svg>

@@ -14,11 +14,20 @@
     "bestTime": "Early Morning (7 AM – 10 AM)",
     "accessibility": "Easy guided walking forest path",
     "lat": 6.9056,
-    "lng": 0.3850,
+    "lng": 0.385,
     "shortDesc": "Sacred sanctuary where friendly Mona monkeys roam freely and interact gently with visitors in a protected tropical forest.",
     "fullDesc": "Tafi Atome Monkey Sanctuary is a community-based eco-tourism project in the Volta Region of Ghana. For over 200 years, the sacred Mona monkeys (Cercopithecus mona) have been protected by local traditional beliefs, considered divine messengers of the gods. Visitors can feed bananas to friendly monkeys right from their hands while taking guided forest walks with local community guides.",
-    "highlights": ["Hand-feeding Mona Monkeys", "Sacred Forest Walk", "Traditional Ewe Village Experience", "Community Eco-Lodge"],
-    "nearbyHotels": ["Tafi Atome Eco-Lodge", "Wli Water Heights Lodge", "Hohoe Executive Hotel"],
+    "highlights": [
+      "Hand-feeding Mona Monkeys",
+      "Sacred Forest Walk",
+      "Traditional Ewe Village Experience",
+      "Community Eco-Lodge"
+    ],
+    "nearbyHotels": [
+      "Tafi Atome Eco-Lodge",
+      "Wli Water Heights Lodge",
+      "Hohoe Executive Hotel"
+    ],
     "guideContact": "+233 24 666 4321 (Tafi Atome Eco-Desk)"
   },
   {
@@ -26,7 +35,7 @@
     "name": "Boabeng-Fiema Monkey Sanctuary",
     "category": "national-parks",
     "categoryName": "Wildlife Sanctuary",
-    "region": "Bono East Region",
+    "region": "Bono East",
     "location": "Nkoranza North District",
     "image": "assets/images/tafi_atome_monkeys_2.jpg",
     "rating": 4.8,
@@ -39,8 +48,17 @@
     "lng": -1.7,
     "shortDesc": "Ghana's famous sanctuary home to over 700 Mona monkeys and rare Geoffroy's Pied Colobus monkeys living together peacefully.",
     "fullDesc": "Boabeng-Fiema is unique in Africa as the only sanctuary where two distinct species of monkeys—the Campbell's Mona monkey and the black-and-white Geoffroy's Pied Colobus monkey—live in close harmony near human villages. Local taboo strictly forbids harming the monkeys, and deceased monkeys are even buried with traditional funeral ceremonies in a special monkey cemetery.",
-    "highlights": ["Black & White Colobus Monkeys", "Sacred Monkey Cemetery", "Forest Canopy Nature Walk", "Nkoranza Cultural Heritage"],
-    "nearbyHotels": ["Boabeng-Fiema Guest House", "Nkoranza Heritage Hotel", "Techiman Palace Hotel"],
+    "highlights": [
+      "Black & White Colobus Monkeys",
+      "Sacred Monkey Cemetery",
+      "Forest Canopy Nature Walk",
+      "Nkoranza Cultural Heritage"
+    ],
+    "nearbyHotels": [
+      "Boabeng-Fiema Guest House",
+      "Nkoranza Heritage Hotel",
+      "Techiman Palace Hotel"
+    ],
     "guideContact": "+233 20 555 9988 (Boabeng Tourism Committee)"
   },
   {
@@ -61,8 +79,17 @@
     "lng": -1.2417,
     "shortDesc": "UNESCO World Heritage fortress standing over the Atlantic Ocean, preserving deep historical memory and colonial architecture.",
     "fullDesc": "Cape Coast Castle is one of about forty slave castles built on the Gold Coast of West Africa by European traders. Originally built by the Swedes in 1653 and later taken over by the British, it served as a major hub for the transatlantic slave trade. Visitors experience guided tours through the historic dungeons, the infamous 'Door of No Return', and the upper museum detailing West African maritime history.",
-    "highlights": ["Door of No Return", "Historical Museum", "Cannon Ramparts", "Atlantic Ocean View"],
-    "nearbyHotels": ["Coconut Grove Beach Resort", "Ridge Royal Hotel", "Oasis Beach Resort"],
+    "highlights": [
+      "Door of No Return",
+      "Historical Museum",
+      "Cannon Ramparts",
+      "Atlantic Ocean View"
+    ],
+    "nearbyHotels": [
+      "Coconut Grove Beach Resort",
+      "Ridge Royal Hotel",
+      "Oasis Beach Resort"
+    ],
     "guideContact": "+233 24 555 0192 (GTA Certified Guide)"
   },
   {
@@ -83,8 +110,17 @@
     "lng": -1.3833,
     "shortDesc": "Suspended 40 meters above the jungle floor, Kakum offers Africa's most famous rainforest canopy walkway experience.",
     "fullDesc": "Kakum National Park covers 375 square kilometers of virgin tropical rainforest in southern Ghana. It is one of only three locations in Africa with a canopy walkway. Suspended across 7 tree-top bridges extending over 330 meters, visitors enjoy panoramic views of ancient hardwoods, rare birds, butterflies, and forest flora.",
-    "highlights": ["7-Bridge Canopy Walkway", "Guided Birdwatching", "Camping Grounds", "Rainforest Nature Trails"],
-    "nearbyHotels": ["Kakum Rainforest Lodge", "Hans Cottage Botel", "Elmina Beach Resort"],
+    "highlights": [
+      "7-Bridge Canopy Walkway",
+      "Guided Birdwatching",
+      "Camping Grounds",
+      "Rainforest Nature Trails"
+    ],
+    "nearbyHotels": [
+      "Kakum Rainforest Lodge",
+      "Hans Cottage Botel",
+      "Elmina Beach Resort"
+    ],
     "guideContact": "+233 20 888 1234 (Ranger Desk)"
   },
   {
@@ -105,8 +141,17 @@
     "lng": 0.5906,
     "shortDesc": "The highest waterfall in West Africa, cascading dramatically from a cliff face down into a fresh natural pool.",
     "fullDesc": "Wli Waterfall (locally known as Agumatsa Falls, meaning 'Allow Me to Flow') drops over 80 meters down a sheer vertical rock face in the Agumatsa Wildlife Sanctuary. Surrounded by lush forest home to thousands of fruit bats, butterflies, and monkeys, visitors can swim in the cool, refreshing natural plunge pool.",
-    "highlights": ["Lower & Upper Falls Hike", "Fruit Bat Colony Sanctuary", "Natural Swimming Pool", "Agumatsa Forest Trail"],
-    "nearbyHotels": ["Wli Water Heights Lodge", "Waterfall Sanctuary Lodge", "Gbadzeme Eco-Lodge"],
+    "highlights": [
+      "Lower & Upper Falls Hike",
+      "Fruit Bat Colony Sanctuary",
+      "Natural Swimming Pool",
+      "Agumatsa Forest Trail"
+    ],
+    "nearbyHotels": [
+      "Wli Water Heights Lodge",
+      "Waterfall Sanctuary Lodge",
+      "Gbadzeme Eco-Lodge"
+    ],
     "guideContact": "+233 54 321 9876 (Wli Tourism Board)"
   },
   {
@@ -127,8 +172,17 @@
     "lng": -1.849,
     "shortDesc": "Ghana's largest wildlife refuge offering walking foot safaris alongside wild African elephants, antelopes, and baboons.",
     "fullDesc": "Spanning nearly 5,000 square kilometers of savannah wood and riparian forest, Mole is Ghana's premier wildlife destination. It is famous for its close-up walking safaris where visitors can approach peaceful herds of wild African elephants on foot with experienced armed rangers.",
-    "highlights": ["Walking Foot Safaris", "Drive Safaris (4x4)", "Mole Motel Pool Outlook", "Larabanga Mosque Nearby"],
-    "nearbyHotels": ["Zaina Lodge (Luxury Safari)", "Mole Motel", "Damongo Guest House"],
+    "highlights": [
+      "Walking Foot Safaris",
+      "Drive Safaris (4x4)",
+      "Mole Motel Pool Outlook",
+      "Larabanga Mosque Nearby"
+    ],
+    "nearbyHotels": [
+      "Zaina Lodge (Luxury Safari)",
+      "Mole Motel",
+      "Damongo Guest House"
+    ],
     "guideContact": "+233 24 900 1122 (Park Headquarters)"
   },
   {
@@ -149,8 +203,17 @@
     "lng": -0.1931,
     "shortDesc": "The monumental heart of modern Ghana's independence movement featuring the Black Star Gate and Eternal Flame.",
     "fullDesc": "Commissioned by Kwame Nkrumah to honor Ghana's 1957 independence as the first sub-Saharan African nation to gain freedom from colonial rule. The site features the massive Black Star Gate, Independence Arch, the Flame of African Liberation, and seating for 30,000 spectators overlooking the Gulf of Guinea.",
-    "highlights": ["Independence Arch", "Black Star Gate", "Kwame Nkrumah Park Nearby", "Oceanfront Esplanade"],
-    "nearbyHotels": ["Mövenpick Ambassador Hotel", "Kempinski Hotel Gold Coast City", "Alisa Hotel"],
+    "highlights": [
+      "Independence Arch",
+      "Black Star Gate",
+      "Kwame Nkrumah Park Nearby",
+      "Oceanfront Esplanade"
+    ],
+    "nearbyHotels": [
+      "Mövenpick Ambassador Hotel",
+      "Kempinski Hotel Gold Coast City",
+      "Alisa Hotel"
+    ],
     "guideContact": "+233 30 222 4455 (Accra City Tours)"
   },
   {
@@ -171,8 +234,17 @@
     "lng": -1.1128,
     "shortDesc": "Famous sacred pond where wild West African crocodiles live peacefully alongside villagers and visitors can pose with them.",
     "fullDesc": "Paga Crocodile Pond in northern Ghana is famous worldwide for its friendly, sacred crocodiles. According to local legend, the soul of every resident in Paga is tied to a crocodile in the pond. Guided by traditional caretakers, visitors can safely touch, pose with, and sit near tame crocodiles that emerge from the water.",
-    "highlights": ["Posing with Sacred Crocodiles", "Paga Slave Camp Nearby", "Burkina Border Market", "Nania Slave Route"],
-    "nearbyHotels": ["Paga Eco-Lodge", "Navrongo Catering Rest House", "Bolgatanga Plaza Hotel"],
+    "highlights": [
+      "Posing with Sacred Crocodiles",
+      "Paga Slave Camp Nearby",
+      "Burkina Border Market",
+      "Nania Slave Route"
+    ],
+    "nearbyHotels": [
+      "Paga Eco-Lodge",
+      "Navrongo Catering Rest House",
+      "Bolgatanga Plaza Hotel"
+    ],
     "guideContact": "+233 24 777 3311 (Paga Tourism Center)"
   },
   {
@@ -193,8 +265,17 @@
     "lng": -2.6,
     "shortDesc": "Ancient 500-year-old village built entirely on wooden stilts standing over Lake Tadane in western Ghana.",
     "fullDesc": "Nzulezo (meaning 'Surface of Water' in the Nzema language) is a remarkable village built entirely on stilts over Lake Tadane. Founded over 500 years ago by migrants from Oualata, all structures, school, church, and walkways are suspended above the water. Visitors take a scenic 45-minute traditional canoe ride through raffia palm channels to reach the village.",
-    "highlights": ["Lake Tadane Canoe Ride", "Stilt Architecture & School", "Raffia Palm Jungle Canal", "Beyin Fort Apollonia"],
-    "nearbyHotels": ["Maaha Beach Resort", "Lou Moon Eco-Lodge", "Beyin Beach Hotel"],
+    "highlights": [
+      "Lake Tadane Canoe Ride",
+      "Stilt Architecture & School",
+      "Raffia Palm Jungle Canal",
+      "Beyin Fort Apollonia"
+    ],
+    "nearbyHotels": [
+      "Maaha Beach Resort",
+      "Lou Moon Eco-Lodge",
+      "Beyin Beach Hotel"
+    ],
     "guideContact": "+233 24 333 8822 (Nzulezo Tourist Board)"
   },
   {
@@ -215,8 +296,17 @@
     "lng": 0.5833,
     "shortDesc": "The highest mountain peak in Ghana (885m), offering breathtaking summit views over Togo and the Volta forest.",
     "fullDesc": "Mount Afadja (commonly called Afadjato) stands at 885 meters (2,904 ft) above sea level, making it the highest elevation in Ghana. Located near the Togo border, a challenging 2-hour summit hike rewards adventurers with panoramic views of lush mountain valleys, Tagbo Falls, and surrounding tropical rain forest.",
-    "highlights": ["Summit Peak View of Togo", "Tagbo Waterfall Hike", "Liati Wote Butterfly Sanctuary", "Mountain Trekking Trail"],
-    "nearbyHotels": ["Tagbo Falls Lodge", "Hohoe Executive Hotel", "Wli Sanctuary Lodge"],
+    "highlights": [
+      "Summit Peak View of Togo",
+      "Tagbo Waterfall Hike",
+      "Liati Wote Butterfly Sanctuary",
+      "Mountain Trekking Trail"
+    ],
+    "nearbyHotels": [
+      "Tagbo Falls Lodge",
+      "Hohoe Executive Hotel",
+      "Wli Sanctuary Lodge"
+    ],
     "guideContact": "+233 20 444 5566 (Liati Wote Eco-Desk)"
   },
   {
@@ -237,8 +327,17 @@
     "lng": -0.2167,
     "shortDesc": "Famous twin waterfalls ('Male and Female') nestled in the Huhunya forest alongside the gravity-defying Umbrella Rock.",
     "fullDesc": "Boti Falls is a seasonal twin waterfall located in the Eastern Region. The twin falls are referred to locally as the 'Male' and 'Female' falls; during high flow in the rainy season, they merge together in a sacred 'mating ceremony'. A 30-minute hike from the falls leads to the famous Umbrella Rock and a three-headed palm tree.",
-    "highlights": ["Twin Falls Mating Ceremony", "Umbrella Rock Balancing Formation", "3-Headed Palm Tree", "Forest Hike"],
-    "nearbyHotels": ["Mac-Dic Royal Plaza Koforidua", "Capital View Hotel", "Boti Eco-Lodge"],
+    "highlights": [
+      "Twin Falls Mating Ceremony",
+      "Umbrella Rock Balancing Formation",
+      "3-Headed Palm Tree",
+      "Forest Hike"
+    ],
+    "nearbyHotels": [
+      "Mac-Dic Royal Plaza Koforidua",
+      "Capital View Hotel",
+      "Boti Eco-Lodge"
+    ],
     "guideContact": "+233 24 111 6655 (Boti Falls Tourist Desk)"
   },
   {
@@ -259,8 +358,17 @@
     "lng": -1.3492,
     "shortDesc": "The oldest European building in existence in sub-Saharan Africa, erected by the Portuguese in 1482.",
     "fullDesc": "St. George's Castle in Elmina was constructed by Portuguese traders in 1482 as the first European trading post built on the Gulf of Guinea. Initially established for gold trading, it later became a central site of the transatlantic slave trade under Dutch and British control. Today, it stands as a UNESCO World Heritage site and powerful monument of remembrance.",
-    "highlights": ["Portuguese & Dutch Dungeons", "Female Slave Cells", "Governor's Suite", "Elmina Fishing Harbor Overlook"],
-    "nearbyHotels": ["Elmina Beach Resort", "Coconut Grove Beach Resort", "Golden Hill Parker Hotel"],
+    "highlights": [
+      "Portuguese & Dutch Dungeons",
+      "Female Slave Cells",
+      "Governor's Suite",
+      "Elmina Fishing Harbor Overlook"
+    ],
+    "nearbyHotels": [
+      "Elmina Beach Resort",
+      "Coconut Grove Beach Resort",
+      "Golden Hill Parker Hotel"
+    ],
     "guideContact": "+233 24 888 7766 (Elmina Castle Desk)"
   },
   {
@@ -281,8 +389,17 @@
     "lng": -1.8603,
     "shortDesc": "Ghana's oldest mosque built in 1421 in Sudanic-Sahelian architectural style, known as the 'Mecca of West Africa'.",
     "fullDesc": "Larabanga Mosque is an ancient mud-brick mosque founded in 1421 by Islamic trader Ayuba. Built using whitewashed mud, timber logs, and pyradmidal towers, it is the oldest existing mosque in Ghana and one of the most famous examples of Sudanic architecture in West Africa. It houses an ancient Koran believed to have descended from heaven.",
-    "highlights": ["Sudanese Mud-Brick Architecture", "Ancient Holy Koran Replica", "Larabanga Mystic Stone", "Mole Safari Stopover"],
-    "nearbyHotels": ["Zaina Lodge", "Mole Motel", "Damongo Guest House"],
+    "highlights": [
+      "Sudanese Mud-Brick Architecture",
+      "Ancient Holy Koran Replica",
+      "Larabanga Mystic Stone",
+      "Mole Safari Stopover"
+    ],
+    "nearbyHotels": [
+      "Zaina Lodge",
+      "Mole Motel",
+      "Damongo Guest House"
+    ],
     "guideContact": "+233 24 555 4321 (Larabanga Tourism Guild)"
   },
   {
@@ -303,8 +420,17 @@
     "lng": -0.1747,
     "shortDesc": "Historic 1890s hilltop garden retreat nestled in the cool Akuapem mountains featuring giant palm avenues and exotic trees.",
     "fullDesc": "Established in 1890 by the British colonial administration, Aburi Botanical Gardens spans 160 acres of lush mountain forest. Known for its majestic royal palm avenue, carved tree of life, exotic medicinal plants, and cool temperate climate, Aburi is a favorite weekend getaway just 45 minutes drive from Accra.",
-    "highlights": ["Royal Palm Tree Avenue", "Carved Tree of Life", "Old Helicopter Monument", "Cocoa Tree Demonstration Plot"],
-    "nearbyHotels": ["Peduase Valley Resort", "Aburi Heights Hotel", "Hillburi Resort"],
+    "highlights": [
+      "Royal Palm Tree Avenue",
+      "Carved Tree of Life",
+      "Old Helicopter Monument",
+      "Cocoa Tree Demonstration Plot"
+    ],
+    "nearbyHotels": [
+      "Peduase Valley Resort",
+      "Aburi Heights Hotel",
+      "Hillburi Resort"
+    ],
     "guideContact": "+233 20 222 9988 (Aburi Gardens Desk)"
   },
   {
@@ -325,8 +451,574 @@
     "lng": -1.4833,
     "shortDesc": "The historic heartland of royal Ashanti Kente cloth weaving, where master weavers craft silk fabrics on wooden looms.",
     "fullDesc": "Bonwire is world-famous as the birth village of Kente cloth weaving in the Ashanti Kingdom. Legend has it that two brothers learned the art by observing a spider weaving its web. Today, visitors can watch master craftsmen operate hand looms, try weaving their own patterns, and purchase authentic royal Kente directly from artisan families.",
-    "highlights": ["Live Hand-Loom Weaving", "Custom Kente Ordering", "Kente Origin Legends", "Bonwire Kente Museum"],
-    "nearbyHotels": ["Manhyia Palace Hotel", "Golden Tulip Kumasi", "Royal Basin Resort"],
+    "highlights": [
+      "Live Hand-Loom Weaving",
+      "Custom Kente Ordering",
+      "Kente Origin Legends",
+      "Bonwire Kente Museum"
+    ],
+    "nearbyHotels": [
+      "Manhyia Palace Hotel",
+      "Golden Tulip Kumasi",
+      "Royal Basin Resort"
+    ],
     "guideContact": "+233 24 444 1199 (Bonwire Weavers Guild)"
+  },
+  {
+    "id": "kwame-nkrumah-mausoleum",
+    "name": "Kwame Nkrumah Memorial Park & Mausoleum",
+    "category": "cultural",
+    "categoryName": "National Memorial",
+    "region": "Greater Accra",
+    "location": "Accra Central",
+    "image": "assets/images/attraction-placeholder.svg",
+    "rating": 4.5,
+    "reviews": 0,
+    "fee": "Free Entry",
+    "hours": "Open Daily",
+    "bestTime": "Year-Round",
+    "accessibility": "Generally accessible",
+    "lat": 5.5489,
+    "lng": -0.1907,
+    "shortDesc": "The final resting place of Ghana's first president, featuring a bronze statue, eternal flame, and seaside gardens in the heart of Accra.",
+    "fullDesc": "Kwame Nkrumah Memorial Park occupies the site where Ghana's founding father and first president, Dr. Kwame Nkrumah, and his wife Fathia were laid to rest. Set near the Old Parliament on the Accra shoreline, the park pairs a dignified mausoleum and statue with tranquil gardens and the ocean outlook, telling the story of Ghana's independence movement.",
+    "highlights": [
+      "Bronze Statue of Nkrumah",
+      "Eternal Flame",
+      "Independence Garden Walk",
+      "Accra Seafront Views"
+    ],
+    "nearbyHotels": [],
+    "guideContact": ""
+  },
+  {
+    "id": "manhyia-palace",
+    "name": "Manhyia Palace Museum",
+    "category": "historical",
+    "categoryName": "Royal Museum",
+    "region": "Ashanti Region",
+    "location": "Kumasi",
+    "image": "assets/images/attraction-placeholder.svg",
+    "rating": 4.5,
+    "reviews": 0,
+    "fee": "Free Entry",
+    "hours": "Open Daily",
+    "bestTime": "Year-Round",
+    "accessibility": "Generally accessible",
+    "lat": 6.7492,
+    "lng": -1.587,
+    "shortDesc": "The royal residence of the Ashanti kings of Kumasi, now a museum of Asante history, regalia, and court culture.",
+    "fullDesc": "Manhyia Palace was built in 1925 as the new royal residence for the Ashanti monarch and has long been the ceremonial seat of the Asantehene of Kumasi. Today it operates as a museum preserving royal regalia, photographs, ceremonial stools, and the personal effects of successive Ashanti kings, offering visitors a vivid window into Asante court life.",
+    "highlights": [
+      "Royal Regalia Exhibits",
+      "Asantehene History",
+      "Ceremonial Stools",
+      "Kumasi Culture Overview"
+    ],
+    "nearbyHotels": [],
+    "guideContact": ""
+  },
+  {
+    "id": "lake-bosomtwe",
+    "name": "Lake Bosomtwe Crater Lake",
+    "category": "waterfalls",
+    "categoryName": "Crater Lake",
+    "region": "Ashanti Region",
+    "location": "Lake Bosomtwe, near Kumasi",
+    "image": "assets/images/attraction-placeholder.svg",
+    "rating": 4.5,
+    "reviews": 0,
+    "fee": "Free Entry",
+    "hours": "Open Daily",
+    "bestTime": "Year-Round",
+    "accessibility": "Generally accessible",
+    "lat": 6.5189,
+    "lng": -1.466,
+    "shortDesc": "A sacred circular crater lake, formed by a meteorite impact, ringed by lakeside villages and lively weekend boat trade.",
+    "fullDesc": "Lake Bosomtwe lies within a 10.5 km meteorite crater surrounded by hilly Ashanti farmland. The lake has no outlet and is culturally sacred to the surrounding Asante villages, which fish it with traditional plank boats and canoes. Weekends draw families for boating, swimming, and lakeside picnics among the crater walls.",
+    "highlights": [
+      "Crater Lake Boat Ride",
+      "Sacred Lake Swimming",
+      "Lakeside Village Walks",
+      "Meteorite Crater Geology"
+    ],
+    "nearbyHotels": [],
+    "guideContact": ""
+  },
+  {
+    "id": "ahwiaa-woodcarving-village",
+    "name": "Ahwiaa Woodcarving Village",
+    "category": "cultural",
+    "categoryName": "Craft Village",
+    "region": "Ashanti Region",
+    "location": "Ahwiaa, near Kumasi",
+    "image": "assets/images/attraction-placeholder.svg",
+    "rating": 4.5,
+    "reviews": 0,
+    "fee": "Free Entry",
+    "hours": "Open Daily",
+    "bestTime": "Year-Round",
+    "accessibility": "Generally accessible",
+    "lat": 6.68,
+    "lng": -1.54,
+    "shortDesc": "A village of master carvers producing ceremonial Ashanti stools, royal figures, and fine wooden sculptures by hand.",
+    "fullDesc": "Ahwiaa (Ahuwa) is Ghana's leading woodcarving village, where families have carved for generations with simple chisels and scrapers. Craftspeople fashion the famous Ashanti ceremonial stools, filigree dancing stools, chiefs' figures, and masks from tropical hardwoods, and welcome visitors to watch and commission pieces.",
+    "highlights": [
+      "Live Carving Demonstrations",
+      "Ceremonial Stools",
+      "Custom Commission Ordering",
+      "Ashanti Motifs"
+    ],
+    "nearbyHotels": [],
+    "guideContact": ""
+  },
+  {
+    "id": "fort-apollonia",
+    "name": "Fort Apollonia",
+    "category": "historical",
+    "categoryName": "UNESCO Heritage Site",
+    "region": "Western Region",
+    "location": "Beyin, near Nzulezo",
+    "image": "assets/images/attraction-placeholder.svg",
+    "rating": 4.5,
+    "reviews": 0,
+    "fee": "Free Entry",
+    "hours": "Open Daily",
+    "bestTime": "Year-Round",
+    "accessibility": "Generally accessible",
+    "lat": 5.024,
+    "lng": -2.6,
+    "shortDesc": "An 18th-century frontier fort turned regional museum, overlooking the journey to the Nzulezo stilt village.",
+    "fullDesc": "Fort Apollonia was built by the Dutch around 1768 on a ridge above Beyin to guard trade routes on the Ankobra towards the Nzulezo lake. It was gutted by fire in the late 19th century and today its restored walls hold the Beyin Regional Museum, which traces the culture of the Nzema people and the surrounding natural landscape.",
+    "highlights": [
+      "Restored Fort Ramparts",
+      "Beyin Regional Museum",
+      "Nzema Culture Exhibits",
+      "Views over Lake Tadane"
+    ],
+    "nearbyHotels": [],
+    "guideContact": ""
+  },
+  {
+    "id": "ankasa-forest-reserve",
+    "name": "Ankasa Conservation Area",
+    "category": "national-parks",
+    "categoryName": "Rainforest & Wetland",
+    "region": "Western Region",
+    "location": "Near Axim / Elubo",
+    "image": "assets/images/attraction-placeholder.svg",
+    "rating": 4.5,
+    "reviews": 0,
+    "fee": "Free Entry",
+    "hours": "Open Daily",
+    "bestTime": "Year-Round",
+    "accessibility": "Generally accessible",
+    "lat": 5.27,
+    "lng": -2.7,
+    "shortDesc": "A pristine wet-evergreen rainforest and wetland near the Ivory Coast border, rich in primates, birds, and rare flora.",
+    "fullDesc": "Ankasa Conservation Area in Ghana's far southwest protects wet evergreen forest and the large Tanoe wetland system. It shelters Congo clawless otters, forest elephants, bongo antelopes, and abundant bird species along forest trails and the Ankobra watershed, offering guided nature walks into one of West Africa's most biologically rich forests.",
+    "highlights": [
+      "Guided Forest Walk",
+      "Rare Birding",
+      "Wetland Canoe Trails",
+      "Primates & Wildlife"
+    ],
+    "nearbyHotels": [],
+    "guideContact": ""
+  },
+  {
+    "id": "sekondi-takoradi-beach",
+    "name": "Sekondi-Takoradi Beach",
+    "category": "coastal",
+    "categoryName": "Coastal Beach",
+    "region": "Western Region",
+    "location": "Sekondi-Takoradi",
+    "image": "assets/images/attraction-placeholder.svg",
+    "rating": 4.5,
+    "reviews": 0,
+    "fee": "Free Entry",
+    "hours": "Open Daily",
+    "bestTime": "Year-Round",
+    "accessibility": "Generally accessible",
+    "lat": 4.9,
+    "lng": -1.76,
+    "shortDesc": "Long golden-sand beaches and lagoons along the Sekondi-Takoradi coast, a relaxed seaside stretch of Ghana's west.",
+    "fullDesc": "The Sekondi-Takoradi coastline is lined with clean beaches, lagoon systems, and fishing communities. The palm-backed sands and gentle surf make it a favourite local getaway, with beachfront stalls serving fresh coconut and grilled fish and evening views over the Gulf of Guinea.",
+    "highlights": [
+      "Golden Sand Beach",
+      "Fresh Coconut Stalls",
+      "Lagoon Walks",
+      "Gulf of Guinea Sunsets"
+    ],
+    "nearbyHotels": [],
+    "guideContact": ""
+  },
+  {
+    "id": "techiman-history-museum",
+    "name": "Techiman Heritage & Culture Museum",
+    "category": "cultural",
+    "categoryName": "Heritage Museum",
+    "region": "Bono Region",
+    "location": "Techiman",
+    "image": "assets/images/attraction-placeholder.svg",
+    "rating": 4.5,
+    "reviews": 0,
+    "fee": "Free Entry",
+    "hours": "Open Daily",
+    "bestTime": "Year-Round",
+    "accessibility": "Generally accessible",
+    "lat": 7.59,
+    "lng": -2.01,
+    "shortDesc": "A community museum preserving the royal history, shrines, and oral traditions of the historic Bono (Brong) kingdom.",
+    "fullDesc": "Techiman is the heart of the historic Bono (Brong) kingdom and its traditional area. The heritage museum gathers royal regalia, shrine artefacts, textiles, and the drumming traditions associated with the famous Apoo festival, giving visitors insight into one of Ghana's oldest monarchical states.",
+    "highlights": [
+      "Royal Regalia",
+      "Apoo Festival Artefacts",
+      "Brong Oral History",
+      "Traditional Shrines"
+    ],
+    "nearbyHotels": [],
+    "guideContact": ""
+  },
+  {
+    "id": "kintampo-waterfalls",
+    "name": "Kintampo Waterfalls",
+    "category": "waterfalls",
+    "categoryName": "Waterfall",
+    "region": "Bono East",
+    "location": "Kintampo",
+    "image": "assets/images/attraction-placeholder.svg",
+    "rating": 4.5,
+    "reviews": 0,
+    "fee": "Free Entry",
+    "hours": "Open Daily",
+    "bestTime": "Year-Round",
+    "accessibility": "Generally accessible",
+    "lat": 8.16,
+    "lng": -1.95,
+    "shortDesc": "A series of cascades at the source of the Pumpum River, hidden in dense forest on the Kintampo plateau.",
+    "fullDesc": "Kintampo Waterfulls are formed where the Pumpum River drops over a rocky outcrop in gallery forest, creating a chain of falls and plunge pools. Long a favourite picnic and trekking spot, the site offers nature trails, swimming holes, and the lush Kintampo Plateau scenery between the forested ravines.",
+    "highlights": [
+      "Multiple Cascade Viewpoints",
+      "Natural Swimming Pools",
+      "Forest Nature Trails",
+      "Kintampo Plateau Picnic"
+    ],
+    "nearbyHotels": [],
+    "guideContact": ""
+  },
+  {
+    "id": "gbewaa-palace",
+    "name": "Gbewaa Palace (Daboya)",
+    "category": "historical",
+    "categoryName": "Royal Site",
+    "region": "Northern Region",
+    "location": "Daboya, near Tamale",
+    "image": "assets/images/attraction-placeholder.svg",
+    "rating": 4.5,
+    "reviews": 0,
+    "fee": "Free Entry",
+    "hours": "Open Daily",
+    "bestTime": "Year-Round",
+    "accessibility": "Generally accessible",
+    "lat": 9.41,
+    "lng": -0.75,
+    "shortDesc": "The ancestral palace of the Dagbon kings, sacred to the royal Kayayei and the Damba festival traditions.",
+    "fullDesc": "Gbewaa is the historic seat of the Dagbon (Dagbamba) royal family of Tamale. The palace compound holds royal graves and shrine houses, and remains the spiritual anchor of the Damba festival with its horse-riding displays and drumming. Visitors can trace the living heritage of northern Ghana's chiefs.",
+    "highlights": [
+      "Royal Palace Compound",
+      "Dagbon Royal Graves",
+      "Damba Festival Trails",
+      "Northern Chieftaincy History"
+    ],
+    "nearbyHotels": [],
+    "guideContact": ""
+  },
+  {
+    "id": "navrongo-basilica",
+    "name": "Navrongo Catholic Basilica",
+    "category": "historical",
+    "categoryName": "Historic Church",
+    "region": "Upper East Region",
+    "location": "Navrongo",
+    "image": "assets/images/attraction-placeholder.svg",
+    "rating": 4.5,
+    "reviews": 0,
+    "fee": "Free Entry",
+    "hours": "Open Daily",
+    "bestTime": "Year-Round",
+    "accessibility": "Generally accessible",
+    "lat": 10.9,
+    "lng": -1.08,
+    "shortDesc": "Ghana's oldest permanent Catholic structure, a red-brick basilica completed in 1906 by White Fathers missionaries.",
+    "fullDesc": "The Basilica of Our Lady of Seven Sorrows in Navrongo is the oldest Catholic church in Ghana, built between 1882 and 1906 by the White Fathers in red-brick Romanesque style. Now a minor basilica with a bishop's seat, it anchors the Christian heritage of the Upper East against the region's Muslim and traditional histories.",
+    "highlights": [
+      "Historic Basilica Walls",
+      "1906 Mission Architecture",
+      "Catholic Heritage Museum",
+      "Navrongo Town Views"
+    ],
+    "nearbyHotels": [],
+    "guideContact": ""
+  },
+  {
+    "id": "bolgatanga-basketry-village",
+    "name": "Bolgatanga Basket Weaving Village",
+    "category": "cultural",
+    "categoryName": "Craft Village",
+    "region": "Upper East Region",
+    "location": "Bolgatanga",
+    "image": "assets/images/attraction-placeholder.svg",
+    "rating": 4.5,
+    "reviews": 0,
+    "fee": "Free Entry",
+    "hours": "Open Daily",
+    "bestTime": "Year-Round",
+    "accessibility": "Generally accessible",
+    "lat": 10.78,
+    "lng": -1.25,
+    "shortDesc": "The heartland of the famous Bolga baskets, where women weave vibrantly coloured grasses into export-quality baskets.",
+    "fullDesc": "Bolgatanga (Bolgatanga) in the Upper East is famous across global retail for its brightly striped woven baskets. Local women harvest and dye elephant grass and weave intricate baskets, hampers, and homewares that are exported worldwide. Visitors can watch weaving and buy direct from the artisans' cooperative.",
+    "highlights": [
+      "Live Basket Weaving",
+      "Bolgatanga Cooperative",
+      "Direct Artisan Purchase",
+      "Grass Dyeing Craft"
+    ],
+    "nearbyHotels": [],
+    "guideContact": ""
+  },
+  {
+    "id": "nania-slave-route",
+    "name": "Nania Slave Route",
+    "category": "historical",
+    "categoryName": "Heritage Trail",
+    "region": "Upper East Region",
+    "location": "Nania, near Paga",
+    "image": "assets/images/attraction-placeholder.svg",
+    "rating": 4.5,
+    "reviews": 0,
+    "fee": "Free Entry",
+    "hours": "Open Daily",
+    "bestTime": "Year-Round",
+    "accessibility": "Generally accessible",
+    "lat": 10.85,
+    "lng": -1.1,
+    "shortDesc": "A preserved section of the historic overland slave route with iron neck-ring trees and memorial stones.",
+    "fullDesc": "Nania marks a chain of historic sites connected to the trans-Saharan slave trade across northern Ghana. Remnants include the famed iron neck-ring tree where captives were shackled, storage pits, and memorial stones. Interpretive trails place the painful history of the region's slave routes in context.",
+    "highlights": [
+      "Neck-Ring Tree",
+      "Slave Route Trail",
+      "Memorial Stones",
+      "Guided Heritage Talk"
+    ],
+    "nearbyHotels": [],
+    "guideContact": ""
+  },
+  {
+    "id": "mount-gemi",
+    "name": "Mount Gemi",
+    "category": "national-parks",
+    "categoryName": "Adventure Mountain",
+    "region": "Volta Region",
+    "location": "Gbledi, near Afadjato",
+    "image": "assets/images/attraction-placeholder.svg",
+    "rating": 4.5,
+    "reviews": 0,
+    "fee": "Free Entry",
+    "hours": "Open Daily",
+    "bestTime": "Year-Round",
+    "accessibility": "Generally accessible",
+    "lat": 7.15,
+    "lng": 0.68,
+    "shortDesc": "The second-highest peak in Ghana, offering a steep forested ascent and views over the Togo borderland.",
+    "fullDesc": "Mount Gemi (Afadja's sibling peak) is one of southern Ghana's highest summits, approached through misty montane forest near Afadjato. The climb rewards trekkers with panoramas across the Volta highlands and across the border into Togo, passing waterfalls and remnant forest along the ridge.",
+    "highlights": [
+      "Summit Panorama",
+      "Forest Trekking",
+      "Togo Border Views",
+      "Highland Birding"
+    ],
+    "nearbyHotels": [],
+    "guideContact": ""
+  },
+  {
+    "id": "tagbo-falls",
+    "name": "Tagbo Falls",
+    "category": "waterfalls",
+    "categoryName": "Waterfall",
+    "region": "Volta Region",
+    "location": "Liati Wote, near Afadjato",
+    "image": "assets/images/attraction-placeholder.svg",
+    "rating": 4.5,
+    "reviews": 0,
+    "fee": "Free Entry",
+    "hours": "Open Daily",
+    "bestTime": "Year-Round",
+    "accessibility": "Generally accessible",
+    "lat": 7.09,
+    "lng": 0.55,
+    "shortDesc": "A slender high cascade in the Afadjato highlands, best in the rainy season when the forest pools swell.",
+    "fullDesc": "Tagbo Falls tumbles down a high rock face in the forested hills below Mount Afadjato. Its flow peaks after rains, creating frothing plunge pools and mist. The falls can be reached on foot from Liati Wote and combine naturally with the Afadjato summit and Gemi climbs on a mountain day-trip.",
+    "highlights": [
+      "High Plunge Cascade",
+      "Afadjato Combo Trek",
+      "Forest Pools",
+      "Highland Scenery"
+    ],
+    "nearbyHotels": [],
+    "guideContact": ""
+  },
+  {
+    "id": "bunso-eco-park",
+    "name": "Bunso Honey & Palm Wine Eco-Park",
+    "category": "national-parks",
+    "categoryName": "Eco-Park",
+    "region": "Eastern Region",
+    "location": "Bunso, Akuapem Ridge",
+    "image": "assets/images/attraction-placeholder.svg",
+    "rating": 4.5,
+    "reviews": 0,
+    "fee": "Free Entry",
+    "hours": "Open Daily",
+    "bestTime": "Year-Round",
+    "accessibility": "Generally accessible",
+    "lat": 6.32,
+    "lng": -0.35,
+    "shortDesc": "A nature and cultural park on the Akuapem ridge offering honey tasting, palm-wine trails, and lush walks.",
+    "fullDesc": "Bunso Eco-Park sits on the heights of the Akuapem ridge in the Eastern Region. The park blends nature trails with revived traditions: a palm-wine distilling walk, honey production hives, and forest foraging experiences, all set within the cool mountain greenery of the Akuapem range.",
+    "highlights": [
+      "Palm Wine Trail",
+      "Honey Tasting",
+      "Akuapem Ridge Walks",
+      "Forest Gardening"
+    ],
+    "nearbyHotels": [],
+    "guideContact": ""
+  },
+  {
+    "id": "dambai-lake-volta",
+    "name": "Lake Volta Shore at Dambai",
+    "category": "national-parks",
+    "categoryName": "Lake & Jetty",
+    "region": "Oti Region",
+    "location": "Dambai, Oti",
+    "image": "assets/images/attraction-placeholder.svg",
+    "rating": 4.5,
+    "reviews": 0,
+    "fee": "Free Entry",
+    "hours": "Open Daily",
+    "bestTime": "Year-Round",
+    "accessibility": "Generally accessible",
+    "lat": 7.3,
+    "lng": 0.1,
+    "shortDesc": "The great artificial Lake Volta spreading out at Dambai, with fishing canoes and grand waterfront sunsets.",
+    "fullDesc": "Dambai is the seat of the Oti region on the shore of Lake Volta, one of the world's largest artificial reservoirs. The waterfront bustles with fishing canoes, ferries, and markets, and the broad lake horizon offers some of Ghana's largest water vistas and sunsets.",
+    "highlights": [
+      "Lake Volta Vistas",
+      "Fishing Canoe Harbour",
+      "Waterfront Markets",
+      "Volta Sunsets"
+    ],
+    "nearbyHotels": [],
+    "guideContact": ""
+  },
+  {
+    "id": "gambaga-escarpment-lookout",
+    "name": "Gambaga Lookout & Nahiley Escarpment",
+    "category": "national-parks",
+    "categoryName": "Scenic Viewpoint",
+    "region": "North East",
+    "location": "Nalerigu / Gambaga",
+    "image": "assets/images/attraction-placeholder.svg",
+    "rating": 4.5,
+    "reviews": 0,
+    "fee": "Free Entry",
+    "hours": "Open Daily",
+    "bestTime": "Year-Round",
+    "accessibility": "Generally accessible",
+    "lat": 10.5,
+    "lng": -0.42,
+    "shortDesc": "Verdant escarpment viewpoints over the Mamprusi heartland and the rolling North East countryside.",
+    "fullDesc": "The Gambaga-Nahiley escarpment in Ghana's North East rises over the Mamprusi traditional area, with lookout points across dense farmland and hillside settlements. Its cool heights, waterfalls in the rains, and traditional towns make for scenic highland touring.",
+    "highlights": [
+      "Escarpment Lookouts",
+      "Mamprusi Farmland Views",
+      "Hilltown Walks",
+      "Rainy-Season Cascades"
+    ],
+    "nearbyHotels": [],
+    "guideContact": ""
+  },
+  {
+    "id": "wa-naa-palace",
+    "name": "Wa Naa Palace",
+    "category": "historical",
+    "categoryName": "Royal Site",
+    "region": "Upper West",
+    "location": "Wa, Upper West",
+    "image": "assets/images/attraction-placeholder.svg",
+    "rating": 4.5,
+    "reviews": 0,
+    "fee": "Free Entry",
+    "hours": "Open Daily",
+    "bestTime": "Year-Round",
+    "accessibility": "Generally accessible",
+    "lat": 10.95,
+    "lng": -2.55,
+    "shortDesc": "The old seat of the Wa Naa paramount chief, with preserved royal court buildings and northern savannah surroundings.",
+    "fullDesc": "Wa Naa Palace in the far northwest recalls the chieftaincy system of the Waala (Wali) people. The compound retains traditional royal court structures and serves as a centre of local history near the regional capital, set amid the dry savannah of Ghana's Upper West.",
+    "highlights": [
+      "Royal Court Buildings",
+      "Northern Savannah Setting",
+      "Waala Chieftaincy History",
+      "Central Architectural Style"
+    ],
+    "nearbyHotels": [],
+    "guideContact": ""
+  },
+  {
+    "id": "sefwi-wiawso-palace",
+    "name": "Sefwi Wiawso Paramount Chief's Palace",
+    "category": "cultural",
+    "categoryName": "Royal Site",
+    "region": "Western North",
+    "location": "Sefwi Wiawso, Western North",
+    "image": "assets/images/attraction-placeholder.svg",
+    "rating": 4.5,
+    "reviews": 0,
+    "fee": "Free Entry",
+    "hours": "Open Daily",
+    "bestTime": "Year-Round",
+    "accessibility": "Generally accessible",
+    "lat": 6.2,
+    "lng": -2.97,
+    "shortDesc": "The traditional seat of the Sefwi paramount chieftaincy, set amid the forested hills of Ghana's far west.",
+    "fullDesc": "Sefwi Wiawso is the historic capital of the Sefwi people in Ghana's Western North. The paramount chief's palace compound preserves the region's chieftaincy heritage, court structures, and surrounding cocoa-and-forest landscape, offering insight into the largely unexplored western hill country.",
+    "highlights": [],
+    "nearbyHotels": [],
+    "guideContact": "+233 20 000 0000 (Wiawso Tourist Office)"
+  },
+  {
+    "id": "ahafo-cocoa-forest",
+    "name": "Goaso Cocoa & Forest Belt",
+    "category": "national-parks",
+    "categoryName": "Nature & Cocoa",
+    "region": "Ahafo Region",
+    "location": "Goaso, Ahafo Region",
+    "image": "assets/images/attraction-placeholder.svg",
+    "rating": 4.5,
+    "reviews": 0,
+    "fee": "Free Entry",
+    "hours": "Open Daily",
+    "bestTime": "Year-Round",
+    "accessibility": "Generally accessible",
+    "lat": 6.8,
+    "lng": -2.55,
+    "shortDesc": "Rolling cocoa farms and gallery forest around Goaso, the agricultural heart of central-west Ghana.",
+    "fullDesc": "The Ahafo Region around Goaso is one of Ghana's principal cocoa-growing belts. Travelling the area reveals cocoa farms, palm swamps, and riverine forest with abundant birds, an off-the-beaten-path slice of rural Ashanti-Ahafo country.",
+    "highlights": [],
+    "nearbyHotels": [],
+    "guideContact": "+233 20 000 0000 (Goaso Tourist Office)"
   }
 ]

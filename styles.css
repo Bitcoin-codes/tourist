@@ -1093,6 +1093,78 @@ ul { list-style: none; }
   fill: currentColor;
 }
 
+/* Attraction pins on the map */
+.attraction-pin {
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.attraction-pin:hover,
+.attraction-pin:focus {
+  transform: scale(1.2);
+  opacity: 1;
+}
+.attraction-pin-halo {
+  fill: none;
+  stroke: var(--text-inverse);
+  stroke-width: 1.5;
+  stroke-opacity: 0.6;
+}
+.attraction-pin-dot {
+  fill: var(--brand-teal);
+  stroke: var(--bg-white);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.35));
+}
+.attraction-pin[data-category="national-parks"] .attraction-pin-dot { fill: #2fbf8f; }
+.attraction-pin[data-category="historical"] .attraction-pin-dot { fill: #f0a83a; }
+.attraction-pin[data-category="waterfalls"] .attraction-pin-dot { fill: #38bdf8; }
+.attraction-pin[data-category="cultural"] .attraction-pin-dot { fill: #a855f7; }
+.attraction-pin[data-category="coastal"] .attraction-pin-dot { fill: #ef5f9a; }
+.attraction-pin-label {
+  font-family: inherit;
+  font-size: 0.62rem;
+  font-weight: 700;
+  fill: var(--text-heading);
+  text-anchor: middle;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.85;
+  paint-order: stroke;
+  stroke: var(--bg-white);
+  stroke-width: 2.4;
+  stroke-linejoin: round;
+}
+.attraction-pin:hover .attraction-pin-label,
+.attraction-pin:focus .attraction-pin-label {
+  font-size: 0.7rem;
+  opacity: 1;
+}
+[data-theme="dark"] .attraction-pin-label { fill: var(--text-heading); stroke: var(--bg-card); }
+
+/* Attraction pin legend */
+.attraction-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  margin-top: var(--sp-4);
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.legend-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 1.5px solid var(--text-inverse);
+  flex: 0 0 11px;
+}
+
 .regions-hint {
   display: flex;
   align-items: center;

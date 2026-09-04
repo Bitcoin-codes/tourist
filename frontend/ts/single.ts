@@ -242,13 +242,16 @@ let searchQuery = '';
 let savedBookmarks: string[] = JSON.parse(localStorage.getItem('visitGhanaBookmarks') || '[]');
 
 // ── Theme ─────────────────────────────────────────────────────────────
+const THEME_KEY = 'visitGhanaTheme';
 function initTheme(): void {
-  document.documentElement.setAttribute('data-theme', 'light');
+  const saved = localStorage.getItem(THEME_KEY);
+  document.documentElement.setAttribute('data-theme', (saved === 'dark' || saved === 'light') ? saved : 'light');
   $$('.theme-toggle-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      const cur = (document.documentElement.getAttribute('data-theme') as Theme) || 'light';
+      const cur = (document.documentElement.getAttribute('data-theme') as Theme | null) || 'light';
       const next: Theme = cur === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem(THEME_KEY, next); } catch (e) { /* ignore */ }
       showToast(`Switched to ${next === 'light' ? 'Light' : 'Dark'} theme`);
     });
   });

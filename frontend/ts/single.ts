@@ -516,24 +516,71 @@ async function openInfoModal(type: string): Promise<void> {
 }
 
 // ── Itinerary ─────────────────────────────────────────────────────────
+interface ItineraryDayWithDest extends ItineraryDay { dest?: Destination }
+
+const PLANNER_STYLE_CATS: Record<string, string[]> = {
+  culture: ['historical', 'cultural'],
+  nature: ['national-parks', 'waterfalls'],
+  adventure: ['national-parks', 'waterfalls', 'coastal'],
+  beaches: ['coastal', 'national-parks'],
+  balanced: ['national-parks', 'historical', 'waterfalls', 'cultural', 'coastal'],
+};
+
+const PLANNER_STYLE_LABEL: Record<string, string> = {
+  culture: 'Culture & History',
+  nature: 'Nature & Eco-Safari',
+  adventure: 'Adventure & Outdoors',
+  beaches: 'Beaches & Coast',
+  balanced: 'Balanced Highlights',
+};
+
+// Travel-friendly region route so consecutive days stay geographically close
+const PLANNER_CIRCUIT: string[] = [
+  'Greater Accra', 'Central Region', 'Western Region', 'Ashanti Region',
+  'Bono East', 'Bono Region', 'Eastern Region', 'Volta Region', 'Oti Region',
+  'Savannah Region', 'Northern Region', 'North East', 'Upper East', 'Upper West',
+  'Ahafo Region', 'Western North',
+];
+
+function buildItinerary(days: number, style: string, dests: Destination[]): ItineraryDayWithDest[] {
+  const cats = PLANNER_STYLE_CATS[style] || PLANNER_STYLE_CATS['balanced'];
+  const scored = dests
+    .filter((d) => d.name && d.region)
+    .map((d) => ({
+      d,
+      catScore: cats.includes(d.category) ? 0 : 1,
+      circuit: Math.max(0, PLANNER_CIRCUIT.indexOf(d.region)),
+    }));
+  scored.sort((a, b) => a.catScore - b.catScore || a.circuit - b.circuit || (a.d.name < b.d.name ? -1 : 1));
+  const picks = scored.slice(0, Math.min(days, scored.length));
+  return picks.map((s, i) => ({
+    day: 'Day ' + (i + 1),
+    title: s.d.region,
+    activities: [s.d.name, s.d.shortDesc].filter(Boolean),
+    dest: s.d,
+  }));
+}
+
 async function generateItineraryUI(): Promise<void> {
   const daysEl = document.getElementById('planner-days') as HTMLSelectElement | null;
   const styleEl = document.getElementById('planner-style') as HTMLSelectElement | null;
   const results = document.getElementById('itinerary-results');
+  const loading = document.getElementById('planner-loading');
   if (!daysEl || !styleEl || !results) return;
   const days = parseInt(daysEl.value, 10);
-  const style = styleEl.value;
+  const style = styleEl.value || 'balanced';
+  loading?.classList.add('active');
+  results.classList.remove('active');
+  let plan: ItineraryDayWithDest[] = [];
   try {
-    const res = await apiItinerary(days, style);
-    let html = `<h3 style="color:var(--brand-primary);font-size:1.1rem;margin-bottom:12px;">Your ${days}-Day Ghana Itinerary</h3>`;
-    res.data.plan.forEach((d: ItineraryDay) => {
-      html += `<div class="day-item"><h4>${esc(d.day)}: ${esc(d.title)}</h4><p>${d.activities.join(' · ')}</p></div>`;
-    });
-    results.innerHTML = html;
-    results.classList.add('active');
-    showToast('Itinerary generated!');
+    const res = await getDestinations('all', '');
+    plan = buildItinerary(days, style, res.data || []);
   } catch {
-    // Local fallback
+    plan = [];
+  }
+  loading?.classList.remove('active');
+  if (!plan.length) {
+    // Local fallback if the dataset can't load
     let html = `<h3 style="color:var(--brand-primary);font-size:1.1rem;margin-bottom:12px;">Your ${days}-Day Ghana Itinerary</h3>`;
     if (days === 3) {
       html += `<div class="day-item"><h4>Day 1: Accra & Tafi Atome</h4><p>Black Star Square · Tafi Atome Monkey Sanctuary</p></div>
@@ -550,7 +597,38 @@ async function generateItineraryUI(): Promise<void> {
     results.innerHTML = html;
     results.classList.add('active');
     showToast('Itinerary generated!');
+    return;
   }
+  const label = PLANNER_STYLE_LABEL[style] || style;
+  let html = `<div class="itinerary-summary">
+      <h3 style="color:var(--brand-primary);font-size:1.15rem;margin:0;">Your ${days}-Day Ghana Itinerary</h3>
+      <p style="margin:6px 0 0;color:var(--text-muted);font-size:0.85rem;">${esc(label)} route · ${plan.length} curated stops across Ghana</p>
+    </div>
+    <div class="itinerary-days">`;
+  plan.forEach((p) => {
+    const d = p.dest;
+    const img = d && d.image ? esc(d.image) : 'assets/images/attraction-placeholder.svg';
+    const name = d && d.name ? esc(d.name) : esc(p.title);
+    const region = d && d.region ? esc(d.region) : esc(p.day);
+    const cat = d && d.categoryName ? esc(d.categoryName) : '';
+    const blurb = d && d.shortDesc ? esc(d.shortDesc) : '';
+    html += `<div class="itinerary-day">
+      <div class="itinerary-day-media"><img src="${img}" alt="${name}" loading="lazy"><span class="day-tag">${esc(p.day)}</span></div>
+      <div class="itinerary-day-content">
+        <h4>${name}</h4>
+        <span class="day-meta">${region}${cat ? ' · ' + cat : ''}</span>
+        ${blurb ? `<p>${blurb}</p>` : ''}
+      </div>
+    </div>`;
+  });
+  html += `</div>`;
+  html += `<a class="btn-generate-plan itinerary-book" href="booking.html" style="text-decoration:none;display:block;margin:var(--sp-4) 0 0;text-align:center;">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="10" rx="2"/><line x1="6" y1="3" x2="18" y2="3"/></svg>
+    Book This ${days}-Day Trip
+  </a>`;
+  results.innerHTML = html;
+  results.classList.add('active');
+  showToast('Itinerary generated!');
 }
 
 // ── Chatbot ───────────────────────────────────────────────────────────

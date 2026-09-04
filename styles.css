@@ -1020,6 +1020,69 @@ ul { list-style: none; }
 .day-item h4 { color: var(--brand-primary); font-size: 0.95rem; margin-bottom: var(--sp-1); }
 .day-item p { font-size: 0.85rem; color: var(--text-body); }
 
+/* Data-driven itinerary cards */
+.planner-loading {
+  display: none;
+  margin-top: var(--sp-4);
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.planner-loading.active { display: block; }
+.planner-loading::after {
+  content: "";
+  display: block;
+  width: 28px;
+  height: 28px;
+  margin: 10px auto 0;
+  border: 3px solid var(--border-light);
+  border-top-color: var(--brand-primary);
+  border-radius: 50%;
+  animation: pl-spin 0.7s linear infinite;
+}
+@keyframes pl-spin { to { transform: rotate(360deg); } }
+.itinerary-summary {
+  background: var(--bg-white);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-4);
+  margin-bottom: var(--sp-4);
+}
+[data-theme="dark"] .itinerary-summary { background: var(--bg-dark-card); }
+.itinerary-days {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--sp-4);
+}
+.itinerary-day {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  transition: all var(--duration-normal) var(--ease-out);
+}
+.itinerary-day:hover { transform: translateY(-3px); box-shadow: var(--shadow-card-hover); border-color: var(--brand-primary); }
+.itinerary-day-media { position: relative; height: 150px; overflow: hidden; }
+.itinerary-day-media img { width: 100%; height: 100%; object-fit: cover; }
+.day-tag {
+  position: absolute;
+  top: var(--sp-2);
+  left: var(--sp-2);
+  background: var(--brand-primary);
+  color: #fff;
+  padding: 2px 9px;
+  border-radius: var(--radius-pill);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.itinerary-day-content { padding: var(--sp-3) var(--sp-3) var(--sp-4); }
+.itinerary-day-content h4 { color: var(--text-heading); font-size: 1rem; margin-bottom: var(--sp-1); }
+.day-meta { display: block; font-size: 0.78rem; color: var(--text-muted); margin-bottom: var(--sp-2); }
+.itinerary-day-content p { font-size: 0.82rem; color: var(--text-body); }
+
 /*─ Regions Map Page ─*/
 .regions-hero {
   padding: var(--sp-14) var(--sp-4);

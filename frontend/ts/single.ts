@@ -285,7 +285,34 @@ function initMobileNav(): void {
 // ── Header Scroll ─────────────────────────────────────────────────────
 function initHeaderScroll(): void {
   const h = document.getElementById('site-header');
-  if (h) window.addEventListener('scroll', () => h.classList.toggle('scrolled', window.scrollY > 10), { passive: true });
+  if (!h) return;
+  let lastY = window.scrollY;
+  let ticking = false;
+  // Insert spacer so content doesn't jump when header becomes fixed on mobile
+  if (window.innerWidth <= 768 && !document.getElementById('header-spacer')) {
+    const s = document.createElement('div');
+    s.id = 'header-spacer';
+    s.className = 'header-spacer';
+    h.parentNode?.insertBefore(s, h.nextSibling);
+  }
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const y = window.scrollY;
+      const delta = y - lastY;
+      if (y < 10) {
+        h.classList.remove('header--hidden');
+      } else if (delta > 4) {
+        h.classList.add('header--hidden');
+      } else if (delta < -4) {
+        h.classList.remove('header--hidden');
+      }
+      h.classList.toggle('scrolled', y > 10);
+      lastY = y;
+      ticking = false;
+    });
+  }, { passive: true });
 }
 
 // ── Modal Close on Overlay Click ──────────────────────────────────────

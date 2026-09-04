@@ -181,8 +181,12 @@ ul { list-style: none; }
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-light);
-  transition: box-shadow var(--duration-normal);
+  transition: box-shadow var(--duration-normal), transform 0.25s var(--ease-out);
 }
+.header.header--hidden {
+  transform: translateY(-100%);
+}
+.header-spacer { display: none; }
 [data-theme="dark"] .header {
   background: rgba(15,20,25,0.92);
 }
@@ -2144,7 +2148,8 @@ ul { list-style: none; }
   .section-title { font-size: 1.5rem; }
 }
 @media (max-width: 768px) {
-  .header { padding: 0; }
+  .header { position: fixed; top: 0; left: 0; right: 0; padding: 0; width: 100%; }
+  .header-spacer { display: block; height: 56px; }
   html, body { overflow-x: hidden; }
   body { overflow-x: hidden; }
   .brand-logo { font-size: 1.2rem; }

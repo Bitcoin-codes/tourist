@@ -697,22 +697,41 @@ async function renderAttractionPins(svg, regions) {
             svg.appendChild(pinGroup);
         }
         pinGroup.innerHTML = '';
-        const seen = {};
-        dests.forEach(d => {
-            const { x, y } = projectDestination(d);
-            // Nudge overlapping pins (same region) apart slightly so all are reachable
-            const key = (d.region || 'other');
-            const n = seen[key] || 0;
-            seen[key] = n + 1;
-            const dx = x + ((n % 2 ? 1 : -1) * Math.min(n, 2) * 4);
-            const dy = y + ((n / 2 >= 1 ? 1 : -1) * Math.floor(n / 2) * 10);
+        // Repulsion-based layout so densely packed pins (e.g. forts around Elmina)
+        // fan out to a clickable, legible gap while staying inside the map.
+        const MIN_GAP = 19;
+        const pts = dests.map(d => { const { x, y } = projectDestination(d); return { x, y }; });
+        const BOUNDS = { x0: PIN_PROJECTION.xMin - 6, x1: PIN_PROJECTION.xMax + 6, y0: PIN_PROJECTION.yMin - 6, y1: PIN_PROJECTION.yMax + 6 };
+        for (let pass = 0; pass < 80; pass++) {
+            let moved = false;
+            for (let i = 0; i < pts.length; i++) {
+                for (let j = i + 1; j < pts.length; j++) {
+                    const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y;
+                    const dist = Math.hypot(dx, dy);
+                    if (dist > 0.01 && dist < MIN_GAP) {
+                        const push = (MIN_GAP - dist) * 0.5;
+                        const nx = dx / dist, ny = dy / dist;
+                        pts[i].x += nx * push;
+                        pts[i].y += ny * push;
+                        pts[j].x -= nx * push;
+                        pts[j].y -= ny * push;
+                        moved = true;
+                    }
+                }
+            }
+            if (!moved)
+                break;
+        }
+        dests.forEach((d, idx) => {
+            const x = Math.min(Math.max(pts[idx].x, BOUNDS.x0), BOUNDS.x1);
+            const y = Math.min(Math.max(pts[idx].y, BOUNDS.y0), BOUNDS.y1);
             const color = PIN_COLORS[d.category] || 'var(--brand-primary)';
             const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
             g.setAttribute('class', 'attraction-pin');
             g.setAttribute('data-id', d.id);
             g.setAttribute('data-name', d.name);
             g.setAttribute('data-category', d.category);
-            g.setAttribute('transform', `translate(${dx.toFixed(1)},${dy.toFixed(1)})`);
+            g.setAttribute('transform', `translate(${x.toFixed(1)},${y.toFixed(1)})`);
             g.setAttribute('tabindex', '0');
             g.setAttribute('role', 'button');
             g.setAttribute('aria-label', `View details for ${d.name}`);

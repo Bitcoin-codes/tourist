@@ -3352,5 +3352,32 @@
     "highlights": [],
     "nearbyHotels": [],
     "guideContact": ""
+  },
+  {
+    "id": "gomoa-wonderland",
+    "name": "Gomoa Wonderland",
+    "category": "cultural",
+    "categoryName": "Amusement Park",
+    "region": "Central Region",
+    "location": "Gomoa Fetteh, near Winneba",
+    "image": "assets/images/attractions/gomoa-wonderland.jpg",
+    "rating": 4.4,
+    "reviews": 0,
+    "fee": "Entry Fee Applies",
+    "hours": "Open Daily",
+    "bestTime": "Weekdays (quieter)",
+    "accessibility": "Wheelchair accessible walkways",
+    "lat": 5.34,
+    "lng": -0.62,
+    "shortDesc": "A family amusement park near Winneba with rides, swimming pools, and leisure facilities on the central coast.",
+    "fullDesc": "Gomoa Wonderland is one of Ghana's best-known leisure and amusement parks, located at Gomoa Fetteh along the Accra–Cape Coast highway. It offers carnival rides, splash pools, picnic lawns, and kid-friendly attractions, making it a popular day-trip and weekend outing on the central coast.",
+    "highlights": [
+      "Rides & Games",
+      "Splash Pools",
+      "Family Picnic Lawns",
+      "Coastal Highway Stop"
+    ],
+    "nearbyHotels": [],
+    "guideContact": ""
   }
 ]

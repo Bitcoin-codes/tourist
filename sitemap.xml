@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://tourist-ten-psi.vercel.app/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://tourist-ten-psi.vercel.app/assets/images/attractions/cape-coast-castle.jpg</image:loc>
+      <image:title>Cape Coast Castle, Ghana</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://tourist-ten-psi.vercel.app/regions.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://tourist-ten-psi.vercel.app/assets/images/attractions/kakum-national-park.jpg</image:loc>
+      <image:title>Kakum National Park canopy walk, Ghana</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://tourist-ten-psi.vercel.app/planner.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://tourist-ten-psi.vercel.app/assets/images/attractions/elmina-castle.jpg</image:loc>
+      <image:title>Elmina Castle, Ghana</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://tourist-ten-psi.vercel.app/booking.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://tourist-ten-psi.vercel.app/assets/images/attractions/black-star-square.jpg</image:loc>
+      <image:title>Black Star Square, Accra, Ghana</image:title>
+    </image:image>
+  </url>
+</urlset>

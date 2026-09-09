@@ -242,16 +242,13 @@ let searchQuery = '';
 let savedBookmarks: string[] = JSON.parse(localStorage.getItem('visitGhanaBookmarks') || '[]');
 
 // ── Theme ─────────────────────────────────────────────────────────────
-const THEME_KEY = 'visitGhanaTheme';
 function initTheme(): void {
-  const saved = localStorage.getItem(THEME_KEY);
-  document.documentElement.setAttribute('data-theme', (saved === 'dark' || saved === 'light') ? saved : 'light');
+  document.documentElement.setAttribute('data-theme', 'light');
   $$('.theme-toggle-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const cur = (document.documentElement.getAttribute('data-theme') as Theme | null) || 'light';
       const next: Theme = cur === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
-      try { localStorage.setItem(THEME_KEY, next); } catch (e) { /* ignore */ }
       showToast(`Switched to ${next === 'light' ? 'Light' : 'Dark'} theme`);
     });
   });
@@ -756,13 +753,60 @@ async function renderRegions(): Promise<void> {
         </button>`).join('');
     }
 
-    // Make each SVG region path clickable
+    // Region hover/tap tooltip that shows the region name
+    const mapWrap = svg.closest('.regions-map-wrap') as HTMLElement | null;
+    let tip: HTMLElement | null = null;
+    const regionName = (path: Element) =>
+      (path.getAttribute('data-name') || '').trim();
+
+    const showTip = (path: Element, clientX: number, clientY: number) => {
+      if (!mapWrap) return;
+      const name = regionName(path);
+      if (!name) return;
+      if (!tip) {
+        tip = document.createElement('div');
+        tip.className = 'region-tooltip';
+        tip.setAttribute('role', 'tooltip');
+        mapWrap.appendChild(tip);
+      }
+      tip.textContent = name;
+      tip.style.opacity = '1';
+      positionTip(tip, mapWrap, clientX, clientY);
+    };
+    const positionTip = (el: HTMLElement, wrap: HTMLElement, clientX: number, clientY: number) => {
+      const wr = wrap.getBoundingClientRect();
+      const cx = clientX - wr.left;
+      const cy = clientY - wr.top;
+      const ow = el.offsetWidth;
+      const oh = el.offsetHeight;
+      let left = cx - ow / 2;
+      let top = cy - oh - 14;
+      if (left < 6) left = 6;
+      if (left + ow > wr.width - 6) left = wr.width - ow - 6;
+      if (top < 6) top = cy + 14;
+      el.style.left = `${left}px`;
+      el.style.top = `${top}px`;
+    };
+    const hideTip = () => { if (tip) tip.style.opacity = '0'; };
+
+    // Make each SVG region path clickable + show tooltip
     const paths = Array.from(svg.querySelectorAll('.region-path')) as SVGPathElement[];
     paths.forEach(p => {
       const rid = (p.getAttribute('data-region') || '').replace('region-', '');
       if (rid) {
         p.addEventListener('click', () => { openRegionModal(rid); });
         p.style.cursor = 'pointer';
+        p.addEventListener('pointermove', (e: PointerEvent) => {
+          showTip(p, e.clientX, e.clientY);
+        });
+        p.addEventListener('pointerenter', (e: PointerEvent) => {
+          showTip(p, e.clientX, e.clientY);
+        });
+        p.addEventListener('pointerleave', hideTip);
+        p.addEventListener('touchstart', (e: TouchEvent) => {
+          const t = e.touches[0];
+          if (t) showTip(p, t.clientX, t.clientY);
+        }, { passive: true });
       }
     });
 

@@ -1110,6 +1110,7 @@ ul { list-style: none; }
 [data-theme="dark"] .regions-map-card { background: var(--bg-card); }
 
 .regions-map-wrap {
+  position: relative;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -1162,6 +1163,36 @@ ul { list-style: none; }
 [data-theme="dark"] .region-label { stroke: #000000; fill: var(--text-heading); }
 .region-label-content {
   fill: currentColor;
+}
+
+/* Region hover/tap tooltip */
+.region-tooltip {
+  position: absolute;
+  z-index: 30;
+  pointer-events: none;
+  background: rgba(0, 18, 32, 0.92);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.2;
+  padding: 6px 12px;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  transform: translateY(0);
+}
+.region-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -6px;
+  border-width: 6px 6px 0;
+  border-style: solid;
+  border-color: rgba(0, 18, 32, 0.92) transparent transparent transparent;
 }
 
 /* Attraction pins on the map */

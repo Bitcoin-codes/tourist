@@ -223,19 +223,13 @@ let currentCategory = 'all';
 let searchQuery = '';
 let savedBookmarks = JSON.parse(localStorage.getItem('visitGhanaBookmarks') || '[]');
 // ── Theme ─────────────────────────────────────────────────────────────
-const THEME_KEY = 'visitGhanaTheme';
 function initTheme() {
-    const saved = localStorage.getItem(THEME_KEY);
-    document.documentElement.setAttribute('data-theme', (saved === 'dark' || saved === 'light') ? saved : 'light');
+    document.documentElement.setAttribute('data-theme', 'light');
     $$('.theme-toggle-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const cur = document.documentElement.getAttribute('data-theme') || 'light';
             const next = cur === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', next);
-            try {
-                localStorage.setItem(THEME_KEY, next);
-            }
-            catch (e) { /* ignore */ }
             showToast(`Switched to ${next === 'light' ? 'Light' : 'Dark'} theme`);
         });
     });
@@ -750,13 +744,64 @@ async function renderRegions() {
           ${esc(r.name)}
         </button>`).join('');
         }
-        // Make each SVG region path clickable
+        // Region hover/tap tooltip that shows the region name
+        const mapWrap = svg.closest('.regions-map-wrap');
+        let tip = null;
+        const regionName = (path) => (path.getAttribute('data-name') || '').trim();
+        const showTip = (path, clientX, clientY) => {
+            if (!mapWrap)
+                return;
+            const name = regionName(path);
+            if (!name)
+                return;
+            if (!tip) {
+                tip = document.createElement('div');
+                tip.className = 'region-tooltip';
+                tip.setAttribute('role', 'tooltip');
+                mapWrap.appendChild(tip);
+            }
+            tip.textContent = name;
+            tip.style.opacity = '1';
+            positionTip(tip, mapWrap, clientX, clientY);
+        };
+        const positionTip = (el, wrap, clientX, clientY) => {
+            const wr = wrap.getBoundingClientRect();
+            const cx = clientX - wr.left;
+            const cy = clientY - wr.top;
+            const ow = el.offsetWidth;
+            const oh = el.offsetHeight;
+            let left = cx - ow / 2;
+            let top = cy - oh - 14;
+            if (left < 6)
+                left = 6;
+            if (left + ow > wr.width - 6)
+                left = wr.width - ow - 6;
+            if (top < 6)
+                top = cy + 14;
+            el.style.left = `${left}px`;
+            el.style.top = `${top}px`;
+        };
+        const hideTip = () => { if (tip)
+            tip.style.opacity = '0'; };
+        // Make each SVG region path clickable + show tooltip
         const paths = Array.from(svg.querySelectorAll('.region-path'));
         paths.forEach(p => {
             const rid = (p.getAttribute('data-region') || '').replace('region-', '');
             if (rid) {
                 p.addEventListener('click', () => { openRegionModal(rid); });
                 p.style.cursor = 'pointer';
+                p.addEventListener('pointermove', (e) => {
+                    showTip(p, e.clientX, e.clientY);
+                });
+                p.addEventListener('pointerenter', (e) => {
+                    showTip(p, e.clientX, e.clientY);
+                });
+                p.addEventListener('pointerleave', hideTip);
+                p.addEventListener('touchstart', (e) => {
+                    const t = e.touches[0];
+                    if (t)
+                        showTip(p, t.clientX, t.clientY);
+                }, { passive: true });
             }
         });
         // Add attraction pins for every destination on the map

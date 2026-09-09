@@ -1148,14 +1148,18 @@ ul { list-style: none; }
 /* Region labels on the map */
 .region-label {
   font-family: inherit;
-  font-size: 0.78rem;
-  font-weight: 700;
+  font-size: 0.8rem;
+  font-weight: 800;
   fill: var(--text-heading);
+  paint-order: stroke;
+  stroke: #ffffff;
+  stroke-width: 3;
+  stroke-linejoin: round;
   pointer-events: none;
   text-anchor: middle;
   user-select: none;
 }
-[data-theme="dark"] .region-label { fill: var(--text-heading); }
+[data-theme="dark"] .region-label { stroke: #000000; fill: var(--text-heading); }
 .region-label-content {
   fill: currentColor;
 }

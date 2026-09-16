@@ -837,6 +837,7 @@ const PIN_COLORS = {
     'coastal': '#ef5f9a'
 };
 async function renderAttractionPins(svg, regions) {
+    return; // attraction pins removed
     try {
         const res = await getDestinations('all', '');
         const dests = res.data || [];

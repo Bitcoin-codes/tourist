@@ -1197,11 +1197,6 @@ ul { list-style: none; }
   border-color: rgba(0, 18, 32, 0.92) transparent transparent transparent;
 }
 
-/* Attraction pins on the map */
-.attraction-pin {
-  cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
 .attraction-pin:hover,
 .attraction-pin:focus {
   transform: scale(1.2);

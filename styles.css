@@ -218,8 +218,10 @@ ul { list-style: none; }
   color: var(--brand-primary);
 }
 .brand-pin {
-  width: 26px;
-  height: 26px;
+  width: 40px;
+  height: auto;
+  display: block;
+  flex-shrink: 0;
   fill: var(--brand-primary);
 }
 .nav-links {

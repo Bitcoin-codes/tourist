@@ -225,12 +225,21 @@ let searchQuery = '';
 let savedBookmarks = JSON.parse(localStorage.getItem('visitGhanaBookmarks') || '[]');
 // ── Theme ─────────────────────────────────────────────────────────────
 function initTheme() {
-    document.documentElement.setAttribute('data-theme', 'light');
+    let saved = 'light';
+    try { saved = localStorage.getItem('memorria-theme') || 'light'; } catch (e) {}
+    document.documentElement.setAttribute('data-theme', saved === 'dark' ? 'dark' : 'light');
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'memorria-theme') {
+            document.documentElement.setAttribute('data-theme',
+                                                  e.newValue === 'dark' ? 'dark' : 'light');
+        }
+    });
     $$('.theme-toggle-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const cur = document.documentElement.getAttribute('data-theme') || 'light';
             const next = cur === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', next);
+            try { localStorage.setItem('memorria-theme', next); } catch (e) {}
             showToast(`Switched to ${next === 'light' ? 'Light' : 'Dark'} theme`);
         });
     });

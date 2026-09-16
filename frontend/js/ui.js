@@ -55,13 +55,28 @@ export function showToast(message) {
         clearTimeout(toastTimeout);
     toastTimeout = setTimeout(() => toast?.classList.remove('active'), 3000);
 }
+function applyStoredTheme() {
+    let saved = 'light';
+    try { saved = localStorage.getItem('memorria-theme') || 'light'; } catch (e) {}
+    document.documentElement.setAttribute('data-theme', saved === 'dark' ? 'dark' : 'light');
+}
+function setTheme(next) {
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('memorria-theme', next); } catch (e) {}
+}
 export function initThemeToggle() {
-    document.documentElement.setAttribute('data-theme', 'light');
+    applyStoredTheme();
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'memorria-theme') {
+            document.documentElement.setAttribute('data-theme',
+                                                  e.newValue === 'dark' ? 'dark' : 'light');
+        }
+    });
     $$('.theme-toggle-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const current = document.documentElement.getAttribute('data-theme') || 'light';
             const next = current === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', next);
+            setTheme(next);
             showToast(`Switched to ${next === 'light' ? 'Light' : 'Dark'} theme`);
         });
     });

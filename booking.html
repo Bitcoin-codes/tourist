@@ -645,15 +645,36 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      // Set default arrival date to 7 days from today
+      // Prefill from hero search (booking.html?where=&date=&guests=)
+      const params = new URLSearchParams(window.location.search);
+      const qDate = params.get('date');
+      const qGuests = params.get('guests');
+      const qWhere = params.get('where');
+
+      // Set default arrival date to 7 days from today, or the hero search pick
       const today = new Date();
       today.setDate(today.getDate() + 7);
       const defaultDateStr = today.toISOString().split('T')[0];
       const dateInput = document.getElementById('arrival-date');
       if (dateInput) {
-        dateInput.value = defaultDateStr;
+        dateInput.value = qDate || defaultDateStr;
         dateInput.min = new Date().toISOString().split('T')[0];
       }
+
+      if (qGuests) {
+        const guestsSel = document.getElementById('travelers-count');
+        if (guestsSel && ['1', '2', '4', '8'].includes(qGuests)) {
+          guestsSel.value = qGuests;
+        }
+      }
+
+      if (qWhere) {
+        const req = document.getElementById('special-requests');
+        if (req && !req.value.trim()) {
+          req.value = `Interested in visiting: ${qWhere}`;
+        }
+      }
+
       updateBookingSummary();
 
       // Interactive step progress indicator

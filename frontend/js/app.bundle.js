@@ -404,6 +404,19 @@ function clearSearch() {
         input.value = '';
     renderDestinations();
 }
+function selectTourCategory(category) {
+    currentCategory = category;
+    searchQuery = '';
+    const input = document.getElementById('search-input');
+    if (input)
+        input.value = '';
+    $$('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.category === category));
+    renderDestinations();
+    const section = document.getElementById('destinations');
+    if (section)
+        section.scrollIntoView({ behavior: 'smooth' });
+}
+window.selectTourCategory = selectTourCategory;
 function toggleBookmark(id, event) {
     event.stopPropagation();
     const idx = savedBookmarks.indexOf(id);

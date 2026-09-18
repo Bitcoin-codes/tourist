@@ -118,6 +118,14 @@ export function clearSearch() {
         input.value = '';
     renderDestinations();
 }
+export function selectTourCategory(category) {
+    currentCategory = category;
+    clearSearch();
+    $$('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.category === category));
+    const section = document.getElementById('destinations');
+    if (section)
+        section.scrollIntoView({ behavior: 'smooth' });
+}
 export function toggleBookmark(id, event) {
     event.stopPropagation();
     const index = savedBookmarks.indexOf(id);

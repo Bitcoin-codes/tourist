@@ -128,6 +128,14 @@ export function clearSearch(): void {
   renderDestinations();
 }
 
+export function selectTourCategory(category: Category): void {
+  currentCategory = category;
+  clearSearch();
+  $$('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.category === category));
+  const section = document.getElementById('destinations');
+  if (section) section.scrollIntoView({ behavior: 'smooth' });
+}
+
 export function toggleBookmark(id: string, event: Event): void {
   event.stopPropagation();
   const index = savedBookmarks.indexOf(id);
@@ -208,5 +216,6 @@ declare global {
     showToast: (msg: string) => void;
     clearSearch: () => void;
     renderDestinations: () => void;
+    selectTourCategory: (category: Category) => void;
   }
 }

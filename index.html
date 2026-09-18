@@ -133,57 +133,23 @@
         <h1 class="hero-title">Akwaaba! Discover Ghana's <span class="gradient-text">Timeless Heritage</span> & Natural Wonders.</h1>
         <p class="hero-subtitle">Immerse yourself in West Africa's most iconic landscapes, sacred sanctuaries, UNESCO fortresses, wildlife safaris, and royal cultural festivals.</p>
 
-        <!-- HERO SEARCH BAR -->
-        <div class="hero-search-bar">
-          <div class="search-field">
-            <label for="hero-location">Where</label>
-            <input type="text" id="hero-location" placeholder="Cape Coast, Volta, Accra...">
-          </div>
-          <div class="search-field">
-            <label for="hero-checkin">When</label>
-            <input type="date" id="hero-checkin">
-          </div>
-          <div class="search-field">
-            <label for="hero-guests">Guests</label>
-            <select id="hero-guests">
-              <option value="1">1 Traveler</option>
-              <option value="2" selected>2 Travelers</option>
-              <option value="4">3-5 Travelers</option>
-              <option value="8">6+ Group</option>
-            </select>
-          </div>
-          <button class="search-btn" onclick="document.getElementById('destinations').scrollIntoView({behavior:'smooth'})">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-            Search
-          </button>
-        </div>
+        <h2 class="hero-tour-types-title">The Types of Tours We Offer</h2>
+        <div class="hero-types-rule"></div>
 
         <!-- Fan-Out Card Stack -->
         <div class="hero-card-stack-wrapper">
           <div class="hero-card-stack">
-            <div class="hero-stack-card" onclick="openDestinationModal('cape-coast-castle')">
-              <img src="assets/images/cape_coast_castle.png" alt="Cape Coast Castle" loading="lazy">
-              <div class="card-caption">Cape Coast Castle</div>
+            <div class="hero-stack-card" onclick="selectTourCategory('cultural')">
+              <img src="assets/images/attractions/bonwire-kente-village.jpg" alt="Historical & Heritage Tours" loading="lazy">
+              <div class="card-caption">Historical &amp; Heritage Tours</div>
             </div>
-            <div class="hero-stack-card" onclick="openDestinationModal('tafi-atome-monkey-sanctuary')">
-              <img src="assets/images/tafi_atome_monkeys_1.png" alt="Tafi Atome Sanctuary" loading="lazy">
-              <div class="card-caption">Tafi Atome Sanctuary</div>
+            <div class="hero-stack-card" onclick="selectTourCategory('historical')">
+              <img src="assets/images/attractions/cape-coast-castle.jpg" alt="Diaspora Tours" loading="lazy">
+              <div class="card-caption">Diaspora Tours</div>
             </div>
-            <div class="hero-stack-card" onclick="openDestinationModal('mole-national-park')">
-              <img src="assets/images/Mole Wildlife Safari.webp" alt="Mole Wildlife Safari" loading="lazy">
-              <div class="card-caption">Mole Safari</div>
-            </div>
-            <div class="hero-stack-card" onclick="openFestivalModal('aboakyer-festival')">
-              <img src="assets/images/aboakyer_festival.jpg" alt="Aboakyer Festival" loading="lazy">
-              <div class="card-caption">Aboakyer Festival</div>
-            </div>
-            <div class="hero-stack-card" onclick="openDestinationModal('wli-waterfall')">
-              <img src="assets/images/wli_waterfall.png" alt="Wli Waterfall" loading="lazy">
-              <div class="card-caption">Wli Waterfalls</div>
-            </div>
-            <div class="hero-stack-card" onclick="openDestinationModal('kakum-national-park')">
-              <img src="assets/images/kakum_canopy.png" alt="Kakum Canopy Walk" loading="lazy">
-              <div class="card-caption">Kakum Canopy</div>
+            <div class="hero-stack-card" onclick="selectTourCategory('national-parks')">
+              <img src="assets/images/attractions/mole-national-park.jpg" alt="Leisure & Recreational Tours" loading="lazy">
+              <div class="card-caption">Leisure &amp; Recreational Tours</div>
             </div>
           </div>
         </div>

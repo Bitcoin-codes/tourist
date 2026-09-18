@@ -121,7 +121,13 @@ def find_booking(ref: str) -> dict | None:
 
 
 def site_url() -> str:
-    return (os.environ.get('SITE_URL') or 'http://localhost:5000').rstrip('/')
+    url = os.environ.get('SITE_URL')
+    if url:
+        return url.rstrip('/')
+    vercel_url = os.environ.get('VERCEL_URL') or os.environ.get('VERCEL_PROJECT_PRODUCTION_URL')
+    if vercel_url:
+        return 'https://' + vercel_url.strip('/')
+    return 'http://localhost:5000'
 
 
 def make_qr_svg(payload: str) -> str | None:

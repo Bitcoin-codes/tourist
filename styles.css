@@ -217,6 +217,20 @@ ul { list-style: none; }
 .brand-logo .ghana-badge {
   color: var(--brand-primary);
 }
+.brand-logo .brand-titles {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  gap: 1px;
+}
+.brand-logo .brand-tagline {
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
 .brand-pin {
   width: 54px;
   height: auto;
@@ -2292,6 +2306,8 @@ ul { list-style: none; }
 @media (max-width: 576px) {
   .container { padding: 0 var(--sp-4); }
   .header-search { display: none; }
+  .brand-logo { gap: var(--sp-1); }
+  .brand-logo .brand-tagline { font-size: 0.45rem; letter-spacing: 0.05em; }
   .hero-title { font-size: 1.5rem; }
   .hero-stack-card { width: 95px; height: 140px; margin-left: -45px; }
 

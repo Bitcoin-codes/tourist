@@ -89,6 +89,30 @@ def persist_booking(booking: dict) -> bool:
         return False
 
 
+def find_booking(ref: str) -> dict | None:
+    supabase_url = os.environ.get('SUPABASE_URL')
+    service_key = os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
+    if supabase_url and service_key:
+        try:
+            endpoint = (supabase_url.rstrip('/') + '/rest/v1/bookings?reference=eq.'
+                        + urllib.parse.quote(ref) + '&select=*')
+            req = urllib.request.Request(endpoint, headers={
+                'apikey': service_key,
+                'Authorization': 'Bearer ' + service_key
+            })
+            with urllib.request.urlopen(req, timeout=15) as res:
+                rows = json.loads(res.read().decode('utf-8'))
+                if rows:
+                    return rows[0]
+        except Exception:
+            pass
+    try:
+        bookings = load_json('bookings.json')
+        return next((b for b in bookings if b['reference'] == ref), None)
+    except Exception:
+        return None
+
+
 def site_url() -> str:
     return (os.environ.get('SITE_URL') or 'http://localhost:5000').rstrip('/')
 
@@ -105,6 +129,22 @@ def make_qr_svg(payload: str) -> str | None:
         img.save(buf)
         svg = buf.getvalue().decode('utf-8')
         return 'data:image/svg+xml;base64,' + base64.b64encode(svg.encode('utf-8')).decode('ascii')
+    except Exception:
+        return None
+
+
+def make_qr_png(payload: str) -> bytes | None:
+    if not QR_AVAILABLE:
+        return None
+    try:
+        qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_M, box_size=6, border=2)
+        qr.add_data(payload)
+        qr.make(fit=True)
+        from qrcode.image.pure import PyPNGImage
+        img = qr.make_image(image_factory=PyPNGImage)
+        buf = io.BytesIO()
+        img.save(buf)
+        return buf.getvalue()
     except Exception:
         return None
 
@@ -174,7 +214,10 @@ def send_confirmation_whatsapp(booking: dict) -> bool:
             f"Services: {', '.join(booking.get('services') or []) or 'None'}\n"
             f"Show this pass to your airport chauffeur upon landing. Pay on arrival.")
     endpoint = f"https://api.twilio.com/2010-04-01/Accounts/{sid}/Messages.json"
-    data = urllib.parse.urlencode({'From': wa_from, 'To': to, 'Body': body}).encode()
+    media_url = f"{site_url()}/api/pass-qr/{booking.get('reference', '')}"
+    data = urllib.parse.urlencode({
+        'From': wa_from, 'To': to, 'Body': body, 'MediaUrl': media_url
+    }).encode()
     req = urllib.request.Request(endpoint, data=data)
     import base64 as b64
     req.add_header('Authorization', 'Basic ' + b64.b64encode(f"{sid}:{token}".encode()).decode())
@@ -356,36 +399,31 @@ def create_booking():
 
 @app.route('/api/bookings/<ref>', methods=['GET'])
 def get_booking(ref: str):
-    booking = None
-    supabase_url = os.environ.get('SUPABASE_URL')
-    service_key = os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
-    if supabase_url and service_key:
-        try:
-            import urllib.parse as _up
-            endpoint = (supabase_url.rstrip('/') + '/rest/v1/bookings?reference=eq.'
-                        + _up.quote(ref) + '&select=*')
-            req = urllib.request.Request(endpoint, headers={
-                'apikey': service_key,
-                'Authorization': 'Bearer ' + service_key
-            })
-            with urllib.request.urlopen(req, timeout=15) as res:
-                rows = json.loads(res.read().decode('utf-8'))
-                if rows:
-                    booking = rows[0]
-        except Exception:
-            pass
-
-    if booking is None:
-        try:
-            bookings = load_json('bookings.json')
-            booking = next((b for b in bookings if b['reference'] == ref), None)
-        except Exception:
-            booking = None
+    booking = find_booking(ref)
 
     if not booking:
         return jsonify({'success': False, 'error': 'Booking not found'}), 404
 
     return jsonify({'success': True, 'data': booking})
+
+
+@app.route('/api/pass-qr/<ref>', methods=['GET'])
+def pass_qr(ref: str):
+    """Public QR pass image (PNG) for a booking reference. Served so Twilio
+    (and clients) can fetch the receipt image via MediaUrl."""
+    from flask import Response, send_file
+    booking = find_booking(ref)
+    if not booking:
+        return jsonify({'success': False, 'error': 'Booking not found'}), 404
+
+    payload = f"{site_url()}/booking.html?ref={ref}"
+    png = make_qr_png(payload)
+    if not png:
+        return jsonify({'success': False, 'error': 'QR generation failed'}), 500
+
+    return Response(png, mimetype='image/png', headers={
+        'Cache-Control': 'public, max-age=3600'
+    })
 
 
 # ── Wishlist Endpoints ─────────────────────────────────────────────────

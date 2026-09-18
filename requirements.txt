@@ -1,3 +1,4 @@
 flask==3.1.1
 flask-cors==5.0.1
 qrcode==7.4.2
+pypng==0.20220715.0

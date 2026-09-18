@@ -124,7 +124,8 @@ def site_url() -> str:
     url = os.environ.get('SITE_URL')
     if url:
         return url.rstrip('/')
-    vercel_url = os.environ.get('VERCEL_URL') or os.environ.get('VERCEL_PROJECT_PRODUCTION_URL')
+    vercel_url = (os.environ.get('VERCEL_PROJECT_PRODUCTION_URL')
+                  or os.environ.get('VERCEL_URL'))
     if vercel_url:
         return 'https://' + vercel_url.strip('/')
     return 'http://localhost:5000'

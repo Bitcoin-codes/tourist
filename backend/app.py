@@ -26,6 +26,17 @@ CORS(app)
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 
+# The site's Supabase project (same public client key already shipped in the
+# HTML). The `bookings` table intentionally allows public insert/read via RLS,
+# so the anon key works for the one row per request. Override with the
+# SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY (or SUPABASE_ANON_KEY) env vars.
+SUPABASE_URL = os.environ.get('SUPABASE_URL') or 'https://efyiskwpdqqmgghdtppq.supabase.co'
+SUPABASE_KEY = (
+    os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
+    or os.environ.get('SUPABASE_ANON_KEY')
+    or 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmeWlza3dwZHFxbWdnaGR0cHBxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg0NjIzMjksImV4cCI6MjEwNDAzODMyOX0.o3-p5w8Or0EhsE0xhVXc36ahTNsIiErMyLuK00ReiCA'
+)
+
 
 def load_json(filename: str) -> list | dict:
     filepath = os.path.join(DATA_DIR, filename)
@@ -42,11 +53,9 @@ def save_json(filename: str, data: list | dict) -> None:
 def persist_booking(booking: dict) -> bool:
     """Persist a booking to Supabase Postgres (serverless-friendly), falling
     back to the local JSON file. Never raises."""
-    supabase_url = os.environ.get('SUPABASE_URL')
-    service_key = os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
-    if supabase_url and service_key:
+    if SUPABASE_URL and SUPABASE_KEY:
         try:
-            endpoint = supabase_url.rstrip('/') + '/rest/v1/bookings'
+            endpoint = SUPABASE_URL.rstrip('/') + '/rest/v1/bookings'
             row = {
                 'id': booking['id'],
                 'reference': booking['reference'],
@@ -71,8 +80,8 @@ def persist_booking(booking: dict) -> bool:
                 data=json.dumps(row).encode(),
                 headers={
                     'Content-Type': 'application/json',
-                    'apikey': service_key,
-                    'Authorization': 'Bearer ' + service_key,
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': 'Bearer ' + SUPABASE_KEY,
                     'Prefer': 'return=minimal'
                 })
             with urllib.request.urlopen(req, timeout=15) as res:
@@ -90,15 +99,13 @@ def persist_booking(booking: dict) -> bool:
 
 
 def find_booking(ref: str) -> dict | None:
-    supabase_url = os.environ.get('SUPABASE_URL')
-    service_key = os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
-    if supabase_url and service_key:
+    if SUPABASE_URL and SUPABASE_KEY:
         try:
-            endpoint = (supabase_url.rstrip('/') + '/rest/v1/bookings?reference=eq.'
+            endpoint = (SUPABASE_URL.rstrip('/') + '/rest/v1/bookings?reference=eq.'
                         + urllib.parse.quote(ref) + '&select=*')
             req = urllib.request.Request(endpoint, headers={
-                'apikey': service_key,
-                'Authorization': 'Bearer ' + service_key
+                'apikey': SUPABASE_KEY,
+                'Authorization': 'Bearer ' + SUPABASE_KEY
             })
             with urllib.request.urlopen(req, timeout=15) as res:
                 rows = json.loads(res.read().decode('utf-8'))

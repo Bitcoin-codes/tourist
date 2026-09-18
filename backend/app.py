@@ -39,6 +39,56 @@ def save_json(filename: str, data: list | dict) -> None:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 
+def persist_booking(booking: dict) -> bool:
+    """Persist a booking to Supabase Postgres (serverless-friendly), falling
+    back to the local JSON file. Never raises."""
+    supabase_url = os.environ.get('SUPABASE_URL')
+    service_key = os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
+    if supabase_url and service_key:
+        try:
+            endpoint = supabase_url.rstrip('/') + '/rest/v1/bookings'
+            row = {
+                'id': booking['id'],
+                'reference': booking['reference'],
+                'fullName': booking['fullName'],
+                'email': booking['email'],
+                'phone': booking['phone'],
+                'arrivalDate': booking['arrivalDate'],
+                'arrivalTime': booking['arrivalTime'],
+                'airport': booking['airport'],
+                'flightNumber': booking['flightNumber'],
+                'travelers': booking['travelers'],
+                'services': booking['services'],
+                'totalGHS': booking['totalGHS'],
+                'totalUSD': booking['totalUSD'],
+                'paymentMethod': booking['paymentMethod'],
+                'specialRequests': booking['specialRequests'],
+                'status': booking['status'],
+                'createdAt': booking['createdAt']
+            }
+            req = urllib.request.Request(
+                endpoint,
+                data=json.dumps(row).encode(),
+                headers={
+                    'Content-Type': 'application/json',
+                    'apikey': service_key,
+                    'Authorization': 'Bearer ' + service_key,
+                    'Prefer': 'return=minimal'
+                })
+            with urllib.request.urlopen(req, timeout=15) as res:
+                return res.status in (200, 201, 204)
+        except Exception:
+            pass
+
+    try:
+        bookings = load_json('bookings.json')
+        bookings.append(booking)
+        save_json('bookings.json', bookings)
+        return True
+    except Exception:
+        return False
+
+
 def site_url() -> str:
     return (os.environ.get('SITE_URL') or 'http://localhost:5000').rstrip('/')
 
@@ -283,9 +333,7 @@ def create_booking():
         'createdAt': datetime.now().isoformat()
     }
 
-    bookings = load_json('bookings.json')
-    bookings.append(booking)
-    save_json('bookings.json', bookings)
+    persist_booking(booking)
 
     pass_url = f"{site_url()}/booking.html?ref={booking_ref}"
     pass_qr = make_qr_svg(pass_url)
@@ -308,8 +356,31 @@ def create_booking():
 
 @app.route('/api/bookings/<ref>', methods=['GET'])
 def get_booking(ref: str):
-    bookings = load_json('bookings.json')
-    booking = next((b for b in bookings if b['reference'] == ref), None)
+    booking = None
+    supabase_url = os.environ.get('SUPABASE_URL')
+    service_key = os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
+    if supabase_url and service_key:
+        try:
+            import urllib.parse as _up
+            endpoint = (supabase_url.rstrip('/') + '/rest/v1/bookings?reference=eq.'
+                        + _up.quote(ref) + '&select=*')
+            req = urllib.request.Request(endpoint, headers={
+                'apikey': service_key,
+                'Authorization': 'Bearer ' + service_key
+            })
+            with urllib.request.urlopen(req, timeout=15) as res:
+                rows = json.loads(res.read().decode('utf-8'))
+                if rows:
+                    booking = rows[0]
+        except Exception:
+            pass
+
+    if booking is None:
+        try:
+            bookings = load_json('bookings.json')
+            booking = next((b for b in bookings if b['reference'] == ref), None)
+        except Exception:
+            booking = None
 
     if not booking:
         return jsonify({'success': False, 'error': 'Booking not found'}), 404

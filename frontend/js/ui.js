@@ -57,17 +57,17 @@ export function showToast(message) {
 }
 function applyStoredTheme() {
     let saved = 'light';
-    try { saved = localStorage.getItem('memorria-theme') || 'light'; } catch (e) {}
+    try { saved = localStorage.getItem('memorra-theme') || 'light'; } catch (e) {}
     document.documentElement.setAttribute('data-theme', saved === 'dark' ? 'dark' : 'light');
 }
 function setTheme(next) {
     document.documentElement.setAttribute('data-theme', next);
-    try { localStorage.setItem('memorria-theme', next); } catch (e) {}
+    try { localStorage.setItem('memorra-theme', next); } catch (e) {}
 }
 export function initThemeToggle() {
     applyStoredTheme();
     window.addEventListener('storage', (e) => {
-        if (e.key === 'memorria-theme') {
+        if (e.key === 'memorra-theme') {
             document.documentElement.setAttribute('data-theme',
                                                   e.newValue === 'dark' ? 'dark' : 'light');
         }

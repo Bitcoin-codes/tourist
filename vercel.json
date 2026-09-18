@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "api/index.py", "use": "@vercel/python" },
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "booking.html", "use": "@vercel/static" },
+    { "src": "planner.html", "use": "@vercel/static" },
+    { "src": "regions.html", "use": "@vercel/static" },
+    { "src": "app.js", "use": "@vercel/static" },
+    { "src": "styles.css", "use": "@vercel/static" },
+    { "src": "robots.txt", "use": "@vercel/static" },
+    { "src": "sitemap.xml", "use": "@vercel/static" },
+    { "src": "apple-touch-icon.png", "use": "@vercel/static" },
+    { "src": "favicon.png", "use": "@vercel/static" },
+    { "src": "favicon-16.png", "use": "@vercel/static" },
+    { "src": "favicon-32.png", "use": "@vercel/static" },
+    { "src": "favicon-48.png", "use": "@vercel/static" },
+    { "src": "favicon-96.png", "use": "@vercel/static" },
+    { "src": "favicon-192.png", "use": "@vercel/static" },
+    { "src": "assets/**", "use": "@vercel/static" },
+    { "src": "frontend/**", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "api/index.py" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
+}

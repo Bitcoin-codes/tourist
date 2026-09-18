@@ -5,7 +5,21 @@ from flask_cors import CORS
 from datetime import datetime
 import json
 import os
+import io
+import base64
 import uuid
+import smtplib
+import urllib.request
+import urllib.parse
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+try:
+    import qrcode
+    from qrcode.image.svg import SvgPathImage
+    QR_AVAILABLE = True
+except Exception:
+    QR_AVAILABLE = False
 
 app = Flask(__name__)
 CORS(app)
@@ -23,6 +37,102 @@ def save_json(filename: str, data: list | dict) -> None:
     filepath = os.path.join(DATA_DIR, filename)
     with open(filepath, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
+
+
+def site_url() -> str:
+    return (os.environ.get('SITE_URL') or 'http://localhost:5000').rstrip('/')
+
+
+def make_qr_svg(payload: str) -> str | None:
+    if not QR_AVAILABLE:
+        return None
+    try:
+        qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_M, box_size=6, border=2)
+        qr.add_data(payload)
+        qr.make(fit=True)
+        img = qr.make_image(image_factory=SvgPathImage)
+        buf = io.BytesIO()
+        img.save(buf)
+        svg = buf.getvalue().decode('utf-8')
+        return 'data:image/svg+xml;base64,' + base64.b64encode(svg.encode('utf-8')).decode('ascii')
+    except Exception:
+        return None
+
+
+def send_confirmation_email(booking: dict, qr_uri: str | None) -> bool:
+    host = os.environ.get('MAIL_HOST')
+    port = int(os.environ.get('MAIL_PORT', '587'))
+    user = os.environ.get('MAIL_USER')
+    password = os.environ.get('MAIL_PASS')
+    mail_from = os.environ.get('MAIL_FROM') or user
+    if not (host and user and password):
+        return False
+
+    services = ', '.join(booking.get('services') or []) or 'None selected'
+    qr_block = f'<p><img src="{qr_uri}" alt="QR Arrival Pass" width="160" height="160" style="border-radius:10px;"/></p>' if qr_uri else ''
+    html = f"""
+    <div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:auto;">
+      <h2 style="color:#0066CC;">Akwaaba to Ghana &mdash; Booking Confirmed!</h2>
+      <p>Hi <strong>{booking.get('fullName', '')}</strong>, your arrival services pass is ready.</p>
+      <table style="border-collapse:collapse;width:100%;line-height:1.7;">
+        <tr><th style="text-align:left;color:#555;padding:4px 8px;">Booking Ref</th><td><strong>{booking.get('reference', '')}</strong></td></tr>
+        <tr><th style="text-align:left;color:#555;padding:4px 8px;">Airport Pickup</th><td>{booking.get('airport', '')}</td></tr>
+        <tr><th style="text-align:left;color:#555;padding:4px 8px;">Arrival</th><td>{booking.get('arrivalDate', '')} {booking.get('arrivalTime', '')}</td></tr>
+        <tr><th style="text-align:left;color:#555;padding:4px 8px;">Flight</th><td>{booking.get('flightNumber', '') or '&mdash;'}</td></tr>
+        <tr><th style="text-align:left;color:#555;padding:4px 8px;">Travelers</th><td>{booking.get('travelers', '')}</td></tr>
+        <tr><th style="text-align:left;color:#555;padding:4px 8px;">Services</th><td>{services}</td></tr>
+        <tr><th style="text-align:left;color:#555;padding:4px 8px;">Total</th><td>GHS {booking.get('totalGHS', 0)} (~${booking.get('totalUSD', 0)} USD)</td></tr>
+      </table>
+      {qr_block}
+      <p style="color:#888;font-size:0.85rem;">Show this pass to your airport chauffeur upon landing. Payment is on arrival &mdash; Visa, MoMo or cash.</p>
+    </div>
+    """
+    msg = MIMEMultipart('alternative')
+    msg['Subject'] = f"Your Ghana Arrival Pass — {booking.get('reference', '')}"
+    msg['From'] = mail_from
+    msg['To'] = booking.get('email', '')
+    msg.attach(MIMEText(f"Reference: {booking.get('reference', '')}", 'plain'))
+    msg.attach(MIMEText(html, 'html'))
+
+    try:
+        with smtplib.SMTP(host, port, timeout=15) as server:
+            server.ehlo()
+            if os.environ.get('MAIL_STARTTLS', '1') == '1':
+                server.starttls()
+            server.login(user, password)
+            server.sendmail(mail_from, [booking.get('email', '')], msg.as_string())
+        return True
+    except Exception:
+        return False
+
+
+def send_confirmation_whatsapp(booking: dict) -> bool:
+    sid = os.environ.get('TWILIO_ACCOUNT_SID')
+    token = os.environ.get('TWILIO_AUTH_TOKEN')
+    wa_from = os.environ.get('TWILIO_WHATSAPP_FROM')
+    if not (sid and token and wa_from):
+        return False
+    digits = ''.join(c for c in (booking.get('phone') or '') if c.isdigit())
+    if not digits:
+        return False
+    to = '+' + digits
+    body = (f"Memorra Travels — Booking Confirmed!\n"
+            f"Ref: {booking.get('reference', '')}\n"
+            f"Name: {booking.get('fullName', '')}\n"
+            f"Airport Pickup: {booking.get('airport', '')}\n"
+            f"Arrival: {booking.get('arrivalDate', '')} {booking.get('arrivalTime', '')}\n"
+            f"Services: {', '.join(booking.get('services') or []) or 'None'}\n"
+            f"Show this pass to your airport chauffeur upon landing. Pay on arrival.")
+    endpoint = f"https://api.twilio.com/2010-04-01/Accounts/{sid}/Messages.json"
+    data = urllib.parse.urlencode({'From': wa_from, 'To': to, 'Body': body}).encode()
+    req = urllib.request.Request(endpoint, data=data)
+    import base64 as b64
+    req.add_header('Authorization', 'Basic ' + b64.b64encode(f"{sid}:{token}".encode()).decode())
+    try:
+        with urllib.request.urlopen(req, timeout=15) as res:
+            return res.status in (200, 201)
+    except Exception:
+        return False
 
 
 # ── Destination Endpoints ──────────────────────────────────────────────
@@ -177,12 +287,21 @@ def create_booking():
     bookings.append(booking)
     save_json('bookings.json', bookings)
 
+    pass_url = f"{site_url()}/booking.html?ref={booking_ref}"
+    pass_qr = make_qr_svg(pass_url)
+    email_sent = send_confirmation_email(booking, pass_qr)
+    whatsapp_sent = send_confirmation_whatsapp(booking)
+
     return jsonify({
         'success': True,
         'message': 'Booking confirmed!',
         'data': {
             'reference': booking_ref,
-            'booking': booking
+            'booking': booking,
+            'passQr': pass_qr,
+            'passUrl': pass_url,
+            'emailSent': email_sent,
+            'whatsappSent': whatsapp_sent
         }
     }), 201
 

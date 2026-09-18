@@ -3,7 +3,11 @@
 function getApiBase() {
     const injected = typeof window !== 'undefined' &&
         window.__API_BASE__;
-    return injected && injected !== '' ? injected : 'http://localhost:5000/api';
+    if (injected && injected !== '')
+        return injected.replace(/\/$/, '');
+    if (typeof window !== 'undefined' && window.location.protocol.startsWith('http'))
+        return '/api';
+    return 'http://localhost:5000/api';
 }
 const API_BASE = getApiBase();
 // ── Supabase (optional) ───────────────────────────────────────────────
@@ -226,10 +230,10 @@ let savedBookmarks = JSON.parse(localStorage.getItem('visitGhanaBookmarks') || '
 // ── Theme ─────────────────────────────────────────────────────────────
 function initTheme() {
     let saved = 'light';
-    try { saved = localStorage.getItem('memorria-theme') || 'light'; } catch (e) {}
+    try { saved = localStorage.getItem('memorra-theme') || 'light'; } catch (e) {}
     document.documentElement.setAttribute('data-theme', saved === 'dark' ? 'dark' : 'light');
     window.addEventListener('storage', (e) => {
-        if (e.key === 'memorria-theme') {
+        if (e.key === 'memorra-theme') {
             document.documentElement.setAttribute('data-theme',
                                                   e.newValue === 'dark' ? 'dark' : 'light');
         }
@@ -239,7 +243,7 @@ function initTheme() {
             const cur = document.documentElement.getAttribute('data-theme') || 'light';
             const next = cur === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', next);
-            try { localStorage.setItem('memorria-theme', next); } catch (e) {}
+            try { localStorage.setItem('memorra-theme', next); } catch (e) {}
             showToast(`Switched to ${next === 'light' ? 'Light' : 'Dark'} theme`);
         });
     });

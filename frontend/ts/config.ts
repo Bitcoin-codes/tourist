@@ -15,5 +15,13 @@ export function getApiBase(): string {
   const injected =
     typeof window !== 'undefined' &&
     (window as unknown as { __API_BASE__?: string }).__API_BASE__;
-  return injected && injected !== '' ? injected : 'http://localhost:5000/api';
+  if (injected && injected !== '') {
+    return injected.replace(/\/$/, '');
+  }
+  // Hosted: the API and site share the same origin (Vercel serverless).
+  if (typeof window !== 'undefined' && window.location.protocol.startsWith('http')) {
+    return '/api';
+  }
+  // Local file:// dev fallback.
+  return 'http://localhost:5000/api';
 }

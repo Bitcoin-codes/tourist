@@ -1,1 +1,108 @@
-[]
+[
+  {
+    "id": "8a730cfb-7640-4313-bb16-b7df2c2b20e7",
+    "reference": "GH-2026-1506",
+    "fullName": "Test Guest",
+    "email": "guest@example.com",
+    "phone": "+233241111111",
+    "arrivalDate": "2026-10-01",
+    "arrivalTime": "10:30",
+    "airport": "ACC",
+    "flightNumber": "GH123",
+    "travelers": 2,
+    "services": [
+      "Airport Transfer",
+      "Tour Guide"
+    ],
+    "totalGHS": 350,
+    "totalUSD": 28,
+    "paymentMethod": "arrival",
+    "specialRequests": "Window seat",
+    "status": "confirmed",
+    "createdAt": "2026-09-18T11:10:49.530959"
+  },
+  {
+    "id": "abf38a73-7034-4659-9074-c8bf2d8ce6de",
+    "reference": "GH-2026-5302",
+    "fullName": "Test Guest",
+    "email": "guest@example.com",
+    "phone": "+233241111111",
+    "arrivalDate": "2026-10-01",
+    "arrivalTime": "10:30",
+    "airport": "ACC",
+    "flightNumber": "GH123",
+    "travelers": 2,
+    "services": [
+      "Airport Transfer",
+      "Tour Guide"
+    ],
+    "totalGHS": 350,
+    "totalUSD": 28,
+    "paymentMethod": "arrival",
+    "specialRequests": "",
+    "status": "confirmed",
+    "createdAt": "2026-09-18T11:11:49.455739"
+  },
+  {
+    "id": "5f80f9ce-6647-4fbf-a121-a5bcd346450d",
+    "reference": "GH-2026-6252",
+    "fullName": "Browser Tester",
+    "email": "browser@example.com",
+    "phone": "+233249999999",
+    "arrivalDate": "2026-10-15",
+    "arrivalTime": "12:30",
+    "airport": "ACC",
+    "flightNumber": "",
+    "travelers": 2,
+    "services": [
+      "Airport VIP Transfer",
+      "Certified Local Tour Guide"
+    ],
+    "totalGHS": 850,
+    "totalUSD": 68,
+    "paymentMethod": "",
+    "specialRequests": "",
+    "status": "confirmed",
+    "createdAt": "2026-09-18T11:13:39.233850"
+  },
+  {
+    "id": "4209e47d-30bd-4540-a4a5-5da77b46ae1c",
+    "reference": "GH-2026-3635",
+    "fullName": "Vercel Test",
+    "email": "vtest@example.com",
+    "phone": "+233291234567",
+    "arrivalDate": "2026-11-01",
+    "arrivalTime": "09:00",
+    "airport": "ACC",
+    "flightNumber": "GH111",
+    "travelers": 1,
+    "services": [
+      "Airport Transfer"
+    ],
+    "totalGHS": 150,
+    "totalUSD": 12,
+    "paymentMethod": "arrival",
+    "specialRequests": "",
+    "status": "confirmed",
+    "createdAt": "2026-09-18T11:54:14.617683"
+  },
+  {
+    "id": "a8f69141-48b6-4578-8692-1c26a2f28728",
+    "reference": "GH-2026-3643",
+    "fullName": "WA Test",
+    "email": "x@x.com",
+    "phone": "+233291234567",
+    "arrivalDate": "2026-11-02",
+    "arrivalTime": "",
+    "airport": "ACC",
+    "flightNumber": "",
+    "travelers": 2,
+    "services": [],
+    "totalGHS": 0,
+    "totalUSD": 0,
+    "paymentMethod": "arrival",
+    "specialRequests": "",
+    "status": "confirmed",
+    "createdAt": "2026-09-18T11:54:43.955929"
+  }
+]

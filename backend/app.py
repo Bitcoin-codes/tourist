@@ -210,16 +210,24 @@ def send_confirmation_email(booking: dict, qr_uri: str | None) -> bool:
         return False
 
 
+def normalize_phone(raw: str) -> str:
+    digits = ''.join(c for c in (raw or '') if c.isdigit())
+    if not digits:
+        return ''
+    if len(digits) == 10 and digits.startswith('0'):
+        digits = '233' + digits[1:]
+    return '+' + digits
+
+
 def send_confirmation_whatsapp(booking: dict) -> bool:
     sid = os.environ.get('TWILIO_ACCOUNT_SID')
     token = os.environ.get('TWILIO_AUTH_TOKEN')
     wa_from = os.environ.get('TWILIO_WHATSAPP_FROM')
     if not (sid and token and wa_from):
         return False
-    digits = ''.join(c for c in (booking.get('phone') or '') if c.isdigit())
-    if not digits:
+    to = normalize_phone(booking.get('phone', ''))
+    if not to:
         return False
-    to = '+' + digits
     body = (f"Memorra Travels — Booking Confirmed!\n"
             f"Ref: {booking.get('reference', '')}\n"
             f"Name: {booking.get('fullName', '')}\n"

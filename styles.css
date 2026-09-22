@@ -364,6 +364,7 @@ ul { list-style: none; }
    HERO SECTION
    ===================================================================== */
 .hero-section {
+  position: relative;
   padding: var(--sp-12) 0 var(--sp-10);
   text-align: center;
   background: linear-gradient(180deg, var(--brand-primary-light) 0%, var(--bg-body) 100%);
@@ -371,6 +372,58 @@ ul { list-style: none; }
 }
 [data-theme="dark"] .hero-section {
   background: linear-gradient(180deg, rgba(0,102,204,0.08) 0%, var(--bg-body) 100%);
+}
+
+/* Hero backdrop — Elmina Castle photo with a slow CSS-only Ken Burns pan.
+   Deliberately a still image rather than a background video: no autoplay
+   rules, no MB of data on metered connections, nothing added to the repo. */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;              /* clips the scaled/panning image */
+  pointer-events: none;
+}
+.hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 42%;
+  transform: scale(1.12);
+  animation: heroKenBurns 28s ease-in-out infinite alternate;
+  will-change: transform;
+}
+/* Scrim: keeps the title and tile copy legible over the photo. */
+.hero-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    rgba(255, 255, 255, 0.88) 0%,
+    rgba(255, 255, 255, 0.82) 50%,
+    rgba(255, 255, 255, 0.92) 100%);
+}
+[data-theme="dark"] .hero-bg::after {
+  background: linear-gradient(180deg,
+    rgba(15, 20, 25, 0.86) 0%,
+    rgba(15, 20, 25, 0.80) 50%,
+    rgba(15, 20, 25, 0.93) 100%);
+}
+/* Lift existing hero content above the backdrop. Scoped to the hero so the
+   generic .container rule is untouched elsewhere. */
+.hero-section > .container {
+  position: relative;
+  z-index: 1;
+}
+@keyframes heroKenBurns {
+  from { transform: scale(1.12) translate3d(-1.2%, -0.8%, 0); }
+  to   { transform: scale(1.20) translate3d(1.2%, 0.8%, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg img {
+    animation: none;
+    transform: scale(1.12);
+  }
 }
 .hero-title {
   font-size: 2.8rem;

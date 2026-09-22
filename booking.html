@@ -660,13 +660,11 @@
         // WhatsApp share deep link (works even for guests without a business API).
         const waLink = document.getElementById('pass-wa-share');
         if (waLink) {
-          const digits = String(phone || '').replace(/\D/g, '');
-          const waDigits = digits.startsWith('0') ? '233' + digits.slice(1) : digits;
           const passUrl = (meta && meta.passUrl) || (window.location.protocol.indexOf('http') === 0 ? window.location.origin : 'https://tourist-ten-psi.vercel.app') + '/booking.html?ref=' + ref;
           const waText = encodeURIComponent(
             `Memorra Travels — Arrival Pass ${ref}\nName: ${fullName}\nAirport Pickup: ${airportSel.options[airportSel.selectedIndex].text.split('-')[0].trim()}\nDate: ${dateVal || 'On Arrival'}\nServices: ${services.map(s => s.name).join(', ') || 'None'}\n\nOpen your pass (QR) here: ${passUrl}\n\nShow this pass to your airport chauffeur upon landing.`
           );
-          waLink.href = waDigits ? `https://wa.me/${waDigits}?text=${waText}` : `https://wa.me/?text=${waText}`;
+          waLink.href = `https://wa.me/?text=${waText}`;
           waLink.style.display = 'inline-block';
         }
 
@@ -765,14 +763,15 @@
             }
           }
 
-          // WhatsApp share, pre-filled to the booked number.
+          // WhatsApp share. `?text=` with no number opens WhatsApp's contact
+          // picker so the guest picks who receives the pass. A bare
+          // `wa.me/<number>` would open a chat with the guest's own number
+          // (phone is a required field), so "Share" would never share.
           const waLink = document.getElementById('pass-wa-share');
           if (waLink) {
-            const digits = String(b.phone || '').replace(/\D/g, '');
-            const waDigits = digits.startsWith('0') ? '233' + digits.slice(1) : digits;
             const waText = encodeURIComponent(
               `Memorra Travels — Arrival Pass ${refCode}\nName: ${b.fullName || ''}\nAirport Pickup: ${airportLabel}\nDate: ${b.arrivalDate || 'On Arrival'}\nServices: ${(b.services || []).join(', ') || 'None'}\n\nOpen your pass (QR) here: ${passUrl}\n\nShow this pass to your airport chauffeur upon landing.`);
-            waLink.href = waDigits ? `https://wa.me/${waDigits}?text=${waText}` : `https://wa.me/?text=${waText}`;
+            waLink.href = `https://wa.me/?text=${waText}`;
             waLink.style.display = 'inline-block';
           }
 

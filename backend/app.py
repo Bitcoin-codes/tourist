@@ -13,6 +13,25 @@ import urllib.request
 import urllib.parse
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
+from email.utils import parseaddr
+from html import escape
+
+# Load secrets from a local .env file. Real environment variables always win
+# (load_dotenv does not override), so Vercel's env vars take precedence in
+# production and this is effectively a no-op there.
+try:
+    from dotenv import load_dotenv
+    _here = os.path.dirname(os.path.abspath(__file__))
+    for _candidate in (
+        os.path.join(_here, '.env'),            # backend/.env
+        os.path.join(_here, '..', '.env'),      # project root .env
+        os.path.join(os.getcwd(), '.env'),      # wherever we were started
+    ):
+        if os.path.isfile(_candidate):
+            load_dotenv(_candidate, override=False)
+except Exception:
+    pass
 
 try:
     import qrcode
@@ -163,40 +182,84 @@ def make_qr_png(payload: str) -> bytes | None:
         return None
 
 
-def send_confirmation_email(booking: dict, qr_uri: str | None) -> bool:
+def send_confirmation_email(booking: dict, pass_url: str, qr_png: bytes | None) -> bool:
+    """Send the arrival pass by email (free tier: any SMTP account).
+
+    The QR is attached as a real PNG referenced via Content-ID (`cid:`), which
+    renders in Gmail/Outlook/Apple Mail. Inline `data:` URIs are stripped by
+    those clients, so we deliberately do not embed the image that way. A
+    clickable link to the pass is included as a fallback for image blocking.
+    """
     host = os.environ.get('MAIL_HOST')
     port = int(os.environ.get('MAIL_PORT', '587'))
     user = os.environ.get('MAIL_USER')
     password = os.environ.get('MAIL_PASS')
-    mail_from = os.environ.get('MAIL_FROM') or user
     if not (host and user and password):
         return False
 
-    services = ', '.join(booking.get('services') or []) or 'None selected'
-    qr_block = f'<p><img src="{qr_uri}" alt="QR Arrival Pass" width="160" height="160" style="border-radius:10px;"/></p>' if qr_uri else ''
+    # The SMTP envelope sender must be a bare address — passing
+    # "Name <address>" to sendmail() fails. MAIL_FROM may be either form;
+    # MAIL_FROM_NAME supplies the human-readable From header.
+    _, mail_from = parseaddr(os.environ.get('MAIL_FROM') or user or '')
+    mail_from = mail_from or user
+    mail_from_name = (os.environ.get('MAIL_FROM_NAME') or '').strip()
+
+    ref = escape(str(booking.get('reference', '')))
+    services = escape(', '.join(booking.get('services') or []) or 'None selected')
+    safe_url = escape(str(pass_url), quote=True)
+
+    qr_block = ''
+    if qr_png:
+        qr_block = ('<p style="text-align:center;margin:20px 0 6px;">'
+                    '<img src="cid:arrival-pass-qr" alt="QR Arrival Pass" '
+                    'width="170" height="170" '
+                    'style="border-radius:12px;background:#fff;padding:6px;border:1px solid #e5e7eb;" '
+                    '/></p>')
+
     html = f"""
     <div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:auto;">
       <h2 style="color:#0066CC;">Akwaaba to Ghana &mdash; Booking Confirmed!</h2>
-      <p>Hi <strong>{booking.get('fullName', '')}</strong>, your arrival services pass is ready.</p>
+      <p>Hi <strong>{escape(str(booking.get('fullName', '')))}</strong>, your arrival services pass is ready.</p>
       <table style="border-collapse:collapse;width:100%;line-height:1.7;">
-        <tr><th style="text-align:left;color:#555;padding:4px 8px;">Booking Ref</th><td><strong>{booking.get('reference', '')}</strong></td></tr>
-        <tr><th style="text-align:left;color:#555;padding:4px 8px;">Airport Pickup</th><td>{booking.get('airport', '')}</td></tr>
-        <tr><th style="text-align:left;color:#555;padding:4px 8px;">Arrival</th><td>{booking.get('arrivalDate', '')} {booking.get('arrivalTime', '')}</td></tr>
-        <tr><th style="text-align:left;color:#555;padding:4px 8px;">Flight</th><td>{booking.get('flightNumber', '') or '&mdash;'}</td></tr>
-        <tr><th style="text-align:left;color:#555;padding:4px 8px;">Travelers</th><td>{booking.get('travelers', '')}</td></tr>
+        <tr><th style="text-align:left;color:#555;padding:4px 8px;">Booking Ref</th><td><strong>{ref}</strong></td></tr>
+        <tr><th style="text-align:left;color:#555;padding:4px 8px;">Airport Pickup</th><td>{escape(str(booking.get('airport', '')))}</td></tr>
+        <tr><th style="text-align:left;color:#555;padding:4px 8px;">Arrival</th><td>{escape(str(booking.get('arrivalDate', '')))} {escape(str(booking.get('arrivalTime', '')))}</td></tr>
+        <tr><th style="text-align:left;color:#555;padding:4px 8px;">Flight</th><td>{escape(str(booking.get('flightNumber', ''))) or '&mdash;'}</td></tr>
+        <tr><th style="text-align:left;color:#555;padding:4px 8px;">Travelers</th><td>{escape(str(booking.get('travelers', '')))}</td></tr>
         <tr><th style="text-align:left;color:#555;padding:4px 8px;">Services</th><td>{services}</td></tr>
-        <tr><th style="text-align:left;color:#555;padding:4px 8px;">Total</th><td>GHS {booking.get('totalGHS', 0)} (~${booking.get('totalUSD', 0)} USD)</td></tr>
+        <tr><th style="text-align:left;color:#555;padding:4px 8px;">Total</th><td>GHS {escape(str(booking.get('totalGHS', 0)))} (~${escape(str(booking.get('totalUSD', 0)))} USD)</td></tr>
       </table>
       {qr_block}
+      <p style="text-align:center;margin:14px 0 4px;">
+        <a href="{safe_url}" style="display:inline-block;background:#0066CC;color:#ffffff;text-decoration:none;padding:12px 22px;border-radius:8px;font-weight:bold;">Open your arrival pass</a>
+      </p>
+      <p style="text-align:center;font-size:0.82rem;color:#6b7280;margin-top:4px;">
+        Or scan the QR code above with your phone camera.
+      </p>
       <p style="color:#888;font-size:0.85rem;">Show this pass to your airport chauffeur upon landing. Payment is on arrival &mdash; Visa, MoMo or cash.</p>
     </div>
     """
-    msg = MIMEMultipart('alternative')
+    msg = MIMEMultipart('mixed')
     msg['Subject'] = f"Your Ghana Arrival Pass — {booking.get('reference', '')}"
-    msg['From'] = mail_from
+    msg['From'] = f'{mail_from_name} <{mail_from}>' if mail_from_name else mail_from
     msg['To'] = booking.get('email', '')
-    msg.attach(MIMEText(f"Reference: {booking.get('reference', '')}", 'plain'))
-    msg.attach(MIMEText(html, 'html'))
+
+    related = MIMEMultipart('related')
+    alt = MIMEMultipart('alternative')
+    alt.attach(MIMEText(
+        f"Reference: {booking.get('reference', '')}\n"
+        f"Open your arrival pass: {pass_url}\n"
+        f"Show this pass to your airport chauffeur upon landing.", 'plain'))
+    alt.attach(MIMEText(html, 'html'))
+    related.attach(alt)
+
+    if qr_png:
+        img = MIMEImage(qr_png, name=f'arrival-pass-{booking.get("reference", "")}.png')
+        img.add_header('Content-ID', '<arrival-pass-qr>')
+        img.add_header('Content-Disposition', 'inline')
+        related.attach(img)
+
+    msg.attach(related)
 
     try:
         with smtplib.SMTP(host, port, timeout=15) as server:
@@ -211,43 +274,15 @@ def send_confirmation_email(booking: dict, qr_uri: str | None) -> bool:
 
 
 def normalize_phone(raw: str) -> str:
+    """Format a Ghana/local number as international (+233...). Kept for the
+    WhatsApp `wa.me` deep link the frontend builds and for any future SMS
+    provider (Hubtel / Africa's Talking)."""
     digits = ''.join(c for c in (raw or '') if c.isdigit())
     if not digits:
         return ''
     if len(digits) == 10 and digits.startswith('0'):
         digits = '233' + digits[1:]
     return '+' + digits
-
-
-def send_confirmation_whatsapp(booking: dict) -> bool:
-    sid = os.environ.get('TWILIO_ACCOUNT_SID')
-    token = os.environ.get('TWILIO_AUTH_TOKEN')
-    wa_from = os.environ.get('TWILIO_WHATSAPP_FROM')
-    if not (sid and token and wa_from):
-        return False
-    to = normalize_phone(booking.get('phone', ''))
-    if not to:
-        return False
-    body = (f"Memorra Travels — Booking Confirmed!\n"
-            f"Ref: {booking.get('reference', '')}\n"
-            f"Name: {booking.get('fullName', '')}\n"
-            f"Airport Pickup: {booking.get('airport', '')}\n"
-            f"Arrival: {booking.get('arrivalDate', '')} {booking.get('arrivalTime', '')}\n"
-            f"Services: {', '.join(booking.get('services') or []) or 'None'}\n"
-            f"Show this pass to your airport chauffeur upon landing. Pay on arrival.")
-    endpoint = f"https://api.twilio.com/2010-04-01/Accounts/{sid}/Messages.json"
-    media_url = f"{site_url()}/api/pass-qr/{booking.get('reference', '')}"
-    data = urllib.parse.urlencode({
-        'From': wa_from, 'To': to, 'Body': body, 'MediaUrl': media_url
-    }).encode()
-    req = urllib.request.Request(endpoint, data=data)
-    import base64 as b64
-    req.add_header('Authorization', 'Basic ' + b64.b64encode(f"{sid}:{token}".encode()).decode())
-    try:
-        with urllib.request.urlopen(req, timeout=15) as res:
-            return res.status in (200, 201)
-    except Exception:
-        return False
 
 
 # ── Destination Endpoints ──────────────────────────────────────────────
@@ -400,10 +435,12 @@ def create_booking():
 
     persist_booking(booking)
 
+    # Free delivery channels: email (SMTP) + the wa.me share link the frontend
+    # builds. No paid messaging provider required.
     pass_url = f"{site_url()}/booking.html?ref={booking_ref}"
     pass_qr = make_qr_svg(pass_url)
-    email_sent = send_confirmation_email(booking, pass_qr)
-    whatsapp_sent = send_confirmation_whatsapp(booking)
+    pass_png = make_qr_png(pass_url)
+    email_sent = send_confirmation_email(booking, pass_url, pass_png)
 
     return jsonify({
         'success': True,
@@ -414,7 +451,7 @@ def create_booking():
             'passQr': pass_qr,
             'passUrl': pass_url,
             'emailSent': email_sent,
-            'whatsappSent': whatsapp_sent
+            'whatsappSent': False
         }
     }), 201
 
@@ -431,8 +468,8 @@ def get_booking(ref: str):
 
 @app.route('/api/pass-qr/<ref>', methods=['GET'])
 def pass_qr(ref: str):
-    """Public QR pass image (PNG) for a booking reference. Served so Twilio
-    (and clients) can fetch the receipt image via MediaUrl."""
+    """Public QR pass image (PNG) for a booking reference. Served so email
+    clients, share links and any future provider can fetch the receipt image."""
     from flask import Response, send_file
     booking = find_booking(ref)
     if not booking:

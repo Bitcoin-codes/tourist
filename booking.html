@@ -409,7 +409,7 @@
         <span style="display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px;"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="var(--emerald-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
         <span class="card-badge" style="background: var(--emerald-gradient); color: #FFF; border: none; margin-bottom: 12px; display: inline-block;">Booking Confirmed!</span>
         <h2 style="font-size: 2rem; margin-bottom: 10px;">Akwaaba to Ghana!</h2>
-        <p id="pass-sent-note" style="color: var(--text-secondary); margin-bottom: 24px;">Your arrival services pass has been generated. Our concierge team has sent a copy to your email and WhatsApp.</p>
+        <p id="pass-sent-note" style="color: var(--text-secondary); margin-bottom: 24px;">Your arrival services pass has been generated.</p>
 
         <!-- Digital Ticket Pass Box -->
         <div class="digital-ticket-box">
@@ -437,6 +437,10 @@
           <a id="pass-wa-share" target="_blank" rel="noopener" style="display:none;margin-top:6px;font-weight:800;font-size:0.85rem;color:var(--brand-primary);text-decoration:none;">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;margin-right:4px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
             Share Pass via WhatsApp
+          </a>
+          <a id="pass-qr-download" download="" style="display:none;margin-top:8px;font-weight:800;font-size:0.85rem;color:var(--brand-primary);text-decoration:none;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Save QR Pass (PNG)
           </a>
         </div>
 
@@ -643,6 +647,14 @@
           qrImg.src = meta.passQr;
           qrImg.style.display = 'block';
           if (qrPlaceholder) qrPlaceholder.style.display = 'none';
+
+          // Offer a saved copy so the pass survives even if no email was sent.
+          const dl = document.getElementById('pass-qr-download');
+          if (dl) {
+            dl.href = meta.passQr;
+            dl.download = ref + '-arrival-pass.svg';
+            dl.style.display = 'inline-block';
+          }
         }
 
         // WhatsApp share deep link (works even for guests without a business API).
@@ -650,8 +662,9 @@
         if (waLink) {
           const digits = String(phone || '').replace(/\D/g, '');
           const waDigits = digits.startsWith('0') ? '233' + digits.slice(1) : digits;
+          const passUrl = (meta && meta.passUrl) || (window.location.protocol.indexOf('http') === 0 ? window.location.origin : 'https://tourist-ten-psi.vercel.app') + '/booking.html?ref=' + ref;
           const waText = encodeURIComponent(
-            `Memorra Travels — Arrival Pass ${ref}\nName: ${fullName}\nAirport Pickup: ${airportSel.options[airportSel.selectedIndex].text.split('-')[0].trim()}\nDate: ${dateVal || 'On Arrival'}\nServices: ${services.map(s => s.name).join(', ') || 'None'}\nShow this pass to your airport chauffeur upon landing.`
+            `Memorra Travels — Arrival Pass ${ref}\nName: ${fullName}\nAirport Pickup: ${airportSel.options[airportSel.selectedIndex].text.split('-')[0].trim()}\nDate: ${dateVal || 'On Arrival'}\nServices: ${services.map(s => s.name).join(', ') || 'None'}\n\nOpen your pass (QR) here: ${passUrl}\n\nShow this pass to your airport chauffeur upon landing.`
           );
           waLink.href = waDigits ? `https://wa.me/${waDigits}?text=${waText}` : `https://wa.me/?text=${waText}`;
           waLink.style.display = 'inline-block';
@@ -706,12 +719,98 @@
       });
     }
 
+    // ── Arrival pass view (?ref=GH-2026-XXXX) ─────────────────────────
+    // The QR on the pass points at booking.html?ref=.... Scanning it must
+    // show that confirmed booking — not an empty booking form.
+    function loadArrivalPass(ref) {
+      const isHttp = window.location && (window.location.protocol === 'http:' || window.location.protocol === 'https:');
+      const apiBase = (window.__API_BASE__ || '').replace(/\/+$/, '') || (isHttp ? '/api' : 'http://localhost:5000/api');
+      const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+
+      fetch(apiBase + '/bookings/' + encodeURIComponent(ref))
+        .then(r => (r.ok ? r.json() : Promise.reject(r.status)))
+        .then(res => {
+          if (!res || !res.success || !res.data) throw new Error('missing');
+          const b = res.data;
+          const refCode = b.reference || ref;
+
+          setText('pass-ref-code', refCode);
+          setText('pass-customer-name', b.fullName || '—');
+
+          // Resolve "ACC" -> "Accra (ACC)" using the booking form's own options.
+          let airportLabel = b.airport || '—';
+          const airportSel = document.getElementById('arrival-airport');
+          if (airportSel && b.airport) {
+            const opt = Array.from(airportSel.options).find(o => o.value === b.airport);
+            if (opt) airportLabel = opt.text.split('-')[0].trim();
+          }
+          setText('pass-airport-name', airportLabel);
+          setText('pass-date', (b.arrivalDate || 'On Arrival') + (b.arrivalTime ? ' ' + b.arrivalTime : ''));
+          setText('pass-services-summary', (b.services && b.services.length) ? b.services.join(', ') : '—');
+
+          const passUrl = window.location.origin + window.location.pathname + '?ref=' + encodeURIComponent(refCode);
+
+          // QR image is served by the public /api/pass-qr/<ref> endpoint.
+          const qrImg = document.getElementById('pass-qr');
+          const qrPh = document.querySelector('.ticket-qr-placeholder');
+          if (qrImg) {
+            qrImg.src = apiBase + '/pass-qr/' + encodeURIComponent(refCode);
+            qrImg.style.display = 'block';
+            if (qrPh) qrPh.style.display = 'none';
+            const dl = document.getElementById('pass-qr-download');
+            if (dl) {
+              dl.href = qrImg.src;
+              dl.download = refCode + '-arrival-pass.png';
+              dl.style.display = 'inline-block';
+            }
+          }
+
+          // WhatsApp share, pre-filled to the booked number.
+          const waLink = document.getElementById('pass-wa-share');
+          if (waLink) {
+            const digits = String(b.phone || '').replace(/\D/g, '');
+            const waDigits = digits.startsWith('0') ? '233' + digits.slice(1) : digits;
+            const waText = encodeURIComponent(
+              `Memorra Travels — Arrival Pass ${refCode}\nName: ${b.fullName || ''}\nAirport Pickup: ${airportLabel}\nDate: ${b.arrivalDate || 'On Arrival'}\nServices: ${(b.services || []).join(', ') || 'None'}\n\nOpen your pass (QR) here: ${passUrl}\n\nShow this pass to your airport chauffeur upon landing.`);
+            waLink.href = waDigits ? `https://wa.me/${waDigits}?text=${waText}` : `https://wa.me/?text=${waText}`;
+            waLink.style.display = 'inline-block';
+          }
+
+          const note = document.getElementById('pass-sent-note');
+          if (note) {
+            note.textContent = 'This is your confirmed arrival pass. Show the QR code to your airport chauffeur upon landing.';
+            note.style.fontSize = '0.92rem';
+          }
+
+          // This is a pass view — put the booking form away while it is open,
+          // and bring it back if the guest dismisses the modal.
+          const mainEl = document.querySelector('main');
+          if (mainEl) {
+            mainEl.style.display = 'none';
+            document.querySelectorAll('#booking-modal-overlay .modal-close-btn, #booking-modal-overlay .hero-pill-btn')
+              .forEach(btn => btn.addEventListener('click', () => { mainEl.style.display = ''; }));
+          }
+
+          const overlay = document.getElementById('booking-modal-overlay');
+          if (overlay) overlay.classList.add('active');
+        })
+        .catch(() => {
+          // Unknown reference: fall through and leave the normal form intact.
+        });
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       // Prefill from hero search (booking.html?where=&date=&guests=)
       const params = new URLSearchParams(window.location.search);
       const qDate = params.get('date');
       const qGuests = params.get('guests');
       const qWhere = params.get('where');
+
+      // QR arrival pass: booking.html?ref=GH-2026-XXXX -> show that pass.
+      const qRef = params.get('ref');
+      if (qRef && qRef.trim()) {
+        loadArrivalPass(qRef.trim());
+      }
 
       // Set default arrival date to 7 days from today, or the hero search pick
       const today = new Date();

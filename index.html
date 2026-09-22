@@ -136,22 +136,40 @@
         <h2 class="hero-tour-types-title">The Types of Tours We Offer</h2>
         <div class="hero-types-rule"></div>
 
-        <!-- Fan-Out Card Stack -->
-        <div class="hero-card-stack-wrapper">
-          <div class="hero-card-stack">
-            <div class="hero-stack-card" onclick="selectTourCategory('cultural')">
+        <!-- Tour Type Tiles -->
+        <div class="hero-tiles">
+          <button type="button" class="hero-tile" onclick="selectTourCategory('cultural')">
+            <span class="hero-tile-media">
               <img src="assets/images/attractions/bonwire-kente-village.jpg" alt="Historical & Heritage Tours" loading="lazy">
-              <div class="card-caption">Historical &amp; Heritage Tours</div>
-            </div>
-            <div class="hero-stack-card" onclick="selectTourCategory('historical')">
+            </span>
+            <span class="hero-tile-body">
+              <span class="hero-tile-title">Historical &amp; Heritage Tours</span>
+              <span class="hero-tile-desc">Walk through UNESCO forts, royal palaces and living craft villages that keep Ghana's kingdom traditions alive.</span>
+              <span class="hero-tile-link">Explore these tours</span>
+            </span>
+          </button>
+
+          <button type="button" class="hero-tile" onclick="selectTourCategory('historical')">
+            <span class="hero-tile-media">
               <img src="assets/images/attractions/cape-coast-castle.jpg" alt="Diaspora Tours" loading="lazy">
-              <div class="card-caption">Diaspora Tours</div>
-            </div>
-            <div class="hero-stack-card" onclick="selectTourCategory('national-parks')">
+            </span>
+            <span class="hero-tile-body">
+              <span class="hero-tile-title">Diaspora Tours</span>
+              <span class="hero-tile-desc">Retrace the roots of the African diaspora along the coastal castles, slave rivers and sites of return.</span>
+              <span class="hero-tile-link">Explore these tours</span>
+            </span>
+          </button>
+
+          <button type="button" class="hero-tile" onclick="selectTourCategory('national-parks')">
+            <span class="hero-tile-media">
               <img src="assets/images/attractions/mole-national-park.jpg" alt="Leisure & Recreational Tours" loading="lazy">
-              <div class="card-caption">Leisure &amp; Recreational Tours</div>
-            </div>
-          </div>
+            </span>
+            <span class="hero-tile-body">
+              <span class="hero-tile-title">Leisure &amp; Recreational Tours</span>
+              <span class="hero-tile-desc">Safari the northern savannah, chase rainforest waterfalls and unwind on Ghana's palm-lined Atlantic beaches.</span>
+              <span class="hero-tile-link">Explore these tours</span>
+            </span>
+          </button>
         </div>
 
         <!-- Quick Info Buttons -->

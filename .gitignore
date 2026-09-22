@@ -3,6 +3,16 @@ __pycache__/
 *.pyc
 .DS_Store
 
+# Secrets — SMTP / Supabase / any API credentials
+.env
+.env.*
+!.env.example
+
 # Supabase CLI local state (contains DB connection strings)
 supabase/.temp/
 **/.supabase/
+.vercel
+.env*
+
+# Unreferenced screenshot artifact
+hero-preview.png

@@ -393,15 +393,21 @@ ul { list-style: none; }
   animation: heroKenBurns 28s ease-in-out infinite alternate;
   will-change: transform;
 }
-/* Scrim: keeps the title and tile copy legible over the photo. */
+/* Scrim. Deliberately uneven: dark text needs a LIGHT backing to clear
+   contrast, so the top stays heavy — subtitle #4A5568 at 17.6px is normal
+   text and needs bg luminance >= 0.578, i.e. alpha >= 0.74 over dark photo
+   pixels; the 1.9rem brand-gradient h2 is large text and only needs 3:1
+   (alpha >= 0.68). Below that the tiles and pills are opaque cards and
+   need no cover, so the scrim opens right up and the photo actually reads. */
 .hero-bg::after {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg,
-    rgba(255, 255, 255, 0.88) 0%,
-    rgba(255, 255, 255, 0.82) 50%,
-    rgba(255, 255, 255, 0.92) 100%);
+    rgba(255, 255, 255, 0.80) 0%,
+    rgba(255, 255, 255, 0.76) 45%,
+    rgba(255, 255, 255, 0.68) 60%,
+    rgba(255, 255, 255, 0.44) 100%);
 }
 [data-theme="dark"] .hero-bg::after {
   background: linear-gradient(180deg,

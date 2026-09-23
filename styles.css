@@ -453,12 +453,18 @@ ul { list-style: none; }
 /* Hero Tour-Type Tiles */
 .hero-tiles {
   position: relative;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--sp-5);
   max-width: 960px;
   margin: 0 auto var(--sp-8);
 }
+/* Desktop keeps the three-up grid. Below 768px this same track becomes a
+   horizontal scroll-snap slider — the glow stays pinned on .hero-tiles so
+   it doesn't scroll away with the cards. */
+.hero-tiles-track {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-5);
+}
+.hero-tile-dots { display: none; }
 .hero-tiles::before {
   content: "";
   position: absolute;
@@ -573,6 +579,45 @@ ul { list-style: none; }
 }
 .hero-tile:hover .hero-tile-link::after,
 .hero-tile:focus-visible .hero-tile-link::after { transform: translateX(4px); }
+
+/* Pagination dots — mobile slider only (base rule is display:none above). */
+.hero-tile-dots {
+  justify-content: center;
+  align-items: center;
+  gap: var(--sp-3);              /* 12px: wide enough that ::before targets don't overlap */
+  margin-top: var(--sp-4);
+}
+.hero-tile-dot {
+  position: relative;
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: var(--radius-pill);
+  background: var(--border-medium);
+  cursor: pointer;
+  transition:
+    width var(--duration-normal) var(--ease-out),
+    background-color var(--duration-normal) var(--ease-out);
+}
+/* Grows the hit area to 20px without changing the visible dot; inset -6 so it
+   meets (never overlaps) the neighbour's target across the 12px gap. */
+.hero-tile-dot::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+}
+.hero-tile-dot.is-active {
+  width: 24px;
+  background: var(--brand-primary);
+}
+.hero-tile-dot:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 4px;
+}
 
 /* Hero Action Buttons */
 .hero-actions-bar {
@@ -2338,14 +2383,38 @@ ul { list-style: none; }
 
   .hero-title { font-size: 1.8rem; }
   .hero-subtitle { font-size: 0.95rem; margin-bottom: var(--sp-6); }
-  .hero-tiles { grid-template-columns: 1fr; gap: var(--sp-3); margin-bottom: var(--sp-6); }
+  .hero-tiles { margin-bottom: var(--sp-6); }
   .hero-tiles::before { inset: -18px -24px; }
-  .hero-tile { flex-direction: row; align-items: stretch; }
-  .hero-tile-media { flex: 0 0 112px; aspect-ratio: auto; min-height: 96px; }
-  .hero-tile-body { padding: var(--sp-3); gap: var(--sp-1); }
-  .hero-tile-title { font-size: 0.94rem; }
-  .hero-tile-desc { font-size: 0.8rem; line-height: 1.5; }
-  .hero-tile-link { font-size: 0.75rem; }
+  /* The tiles become a swipeable scroll-snap slider. The track bleeds past the
+     container gutter so the next card peeks off-screen, and scroll-padding puts
+     that gutter back so card 1 sits flush with the copy while at rest. */
+  .hero-tiles-track {
+    display: flex;
+    gap: var(--sp-4);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: var(--sp-6);   /* physical prop: broader support than the logical one */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    margin-inline: calc(-1 * var(--sp-6));
+    margin-top: -8px;                   /* cancels padding-top, so cards don't shift down */
+    padding-inline: var(--sp-6);
+    /* overflow-x:auto forces overflow-y to compute to auto, so the clip region is
+       the padding box. Without these the hover lift (-6px) and the tileIn entry
+       (translateY 24px) would be sliced off at the edges. */
+    padding-top: 8px;
+    padding-bottom: 28px;
+  }
+  .hero-tiles-track::-webkit-scrollbar { display: none; }
+  .hero-tile {
+    /* One card dominant with a visible peek. Capped at 560px so the card
+       doesn't balloon to ~600px wide (and ~500px tall) at the 768px edge. */
+    flex: 0 0 min(84%, 560px);
+    scroll-snap-align: start;
+  }
+  .hero-tile-dots { display: flex; margin-top: 0; }  /* the track's 28px already sets the gap */
   .hero-actions-bar { flex-direction: column; align-items: stretch; gap: var(--sp-2); padding: 0; }
   .hero-pill-btn { justify-content: center; font-size: 0.85rem; padding: var(--sp-3) var(--sp-4); }
 
@@ -2375,8 +2444,13 @@ ul { list-style: none; }
   .brand-logo .brand-tagline { font-size: 0.45rem; letter-spacing: 0.05em; }
   .hero-title { font-size: 1.5rem; }
   .hero-tour-types-title { font-size: 1.05rem; }
-  .hero-tile-media { flex: 0 0 92px; min-height: 84px; }
-  .hero-tile-title { font-size: 0.9rem; }
+  .hero-tiles-track {   /* container gutter drops to 16px at this width */
+    scroll-padding-left: var(--sp-4);
+    margin-inline: calc(-1 * var(--sp-4));
+    padding-inline: var(--sp-4);
+  }
+  .hero-tile { flex-basis: min(88%, 560px); }
+  .hero-tile-title { font-size: 0.94rem; }
 
   .destinations-grid { grid-template-columns: 1fr; }
   .form-row-2 { grid-template-columns: 1fr; }

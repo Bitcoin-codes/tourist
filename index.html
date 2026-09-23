@@ -141,38 +141,46 @@
 
         <!-- Tour Type Tiles -->
         <div class="hero-tiles">
-          <button type="button" class="hero-tile" onclick="selectTourCategory('cultural')">
-            <span class="hero-tile-media">
-              <img src="assets/images/attractions/manhyia-palace.jpg" alt="Historical & Heritage Tours" loading="lazy">
-            </span>
-            <span class="hero-tile-body">
-              <span class="hero-tile-title">Historical &amp; Heritage Tours</span>
-              <span class="hero-tile-desc">Walk through UNESCO forts, royal palaces and living craft villages that keep Ghana's kingdom traditions alive.</span>
-              <span class="hero-tile-link">Explore these tours</span>
-            </span>
-          </button>
+          <div class="hero-tiles-track">
+            <button type="button" class="hero-tile" onclick="selectTourCategory('cultural')">
+              <span class="hero-tile-media">
+                <img src="assets/images/attractions/manhyia-palace.jpg" alt="Historical & Heritage Tours" loading="lazy">
+              </span>
+              <span class="hero-tile-body">
+                <span class="hero-tile-title">Historical &amp; Heritage Tours</span>
+                <span class="hero-tile-desc">Walk through UNESCO forts, royal palaces and living craft villages that keep Ghana's kingdom traditions alive.</span>
+                <span class="hero-tile-link">Explore these tours</span>
+              </span>
+            </button>
 
-          <button type="button" class="hero-tile" onclick="selectTourCategory('historical')">
-            <span class="hero-tile-media">
-              <img src="assets/images/attractions/cape-coast-castle.jpg" alt="Diaspora Tours" loading="lazy">
-            </span>
-            <span class="hero-tile-body">
-              <span class="hero-tile-title">Diaspora Tours</span>
-              <span class="hero-tile-desc">Retrace the roots of the African diaspora along the coastal castles, slave rivers and sites of return.</span>
-              <span class="hero-tile-link">Explore these tours</span>
-            </span>
-          </button>
+            <button type="button" class="hero-tile" onclick="selectTourCategory('historical')">
+              <span class="hero-tile-media">
+                <img src="assets/images/attractions/cape-coast-castle.jpg" alt="Diaspora Tours" loading="lazy">
+              </span>
+              <span class="hero-tile-body">
+                <span class="hero-tile-title">Diaspora Tours</span>
+                <span class="hero-tile-desc">Retrace the roots of the African diaspora along the coastal castles, slave rivers and sites of return.</span>
+                <span class="hero-tile-link">Explore these tours</span>
+              </span>
+            </button>
 
-          <button type="button" class="hero-tile" onclick="selectTourCategory('national-parks')">
-            <span class="hero-tile-media">
-              <img src="assets/images/attractions/mole-national-park.jpg" alt="Leisure & Recreational Tours" loading="lazy">
-            </span>
-            <span class="hero-tile-body">
-              <span class="hero-tile-title">Leisure &amp; Recreational Tours</span>
-              <span class="hero-tile-desc">Safari the northern savannah, chase rainforest waterfalls and unwind on Ghana's palm-lined Atlantic beaches.</span>
-              <span class="hero-tile-link">Explore these tours</span>
-            </span>
-          </button>
+            <button type="button" class="hero-tile" onclick="selectTourCategory('national-parks')">
+              <span class="hero-tile-media">
+                <img src="assets/images/attractions/mole-national-park.jpg" alt="Leisure & Recreational Tours" loading="lazy">
+              </span>
+              <span class="hero-tile-body">
+                <span class="hero-tile-title">Leisure &amp; Recreational Tours</span>
+                <span class="hero-tile-desc">Safari the northern savannah, chase rainforest waterfalls and unwind on Ghana's palm-lined Atlantic beaches.</span>
+                <span class="hero-tile-link">Explore these tours</span>
+              </span>
+            </button>
+          </div>
+
+          <div class="hero-tile-dots">
+            <button type="button" class="hero-tile-dot is-active" aria-label="Show Historical and Heritage Tours"></button>
+            <button type="button" class="hero-tile-dot" aria-label="Show Diaspora Tours"></button>
+            <button type="button" class="hero-tile-dot" aria-label="Show Leisure and Recreational Tours"></button>
+          </div>
         </div>
 
         <!-- Quick Info Buttons -->
@@ -329,6 +337,126 @@
   </script>
   <script src="frontend/js/supabase.js"></script>
   <script src="frontend/js/app.bundle.js"></script>
+  <script>
+    /* Hero tile slider — pagination dots + auto-advance.
+       Below 768px the tiles are a swipeable slider that also advances on its
+       own every DWELL ms. Above that they are a static 3-up grid, the dots are
+       display:none and the width query never matches, so `running()` is false
+       from the start and no timer is ever armed — desktop stays inert. */
+    (function () {
+      var track = document.querySelector('.hero-tiles-track');
+      var dots = Array.prototype.slice.call(document.querySelectorAll('.hero-tile-dot'));
+      if (!track || !dots.length) return;
+
+      var DWELL = 4000;   // how long each card stays put
+      var RESUME = 8000;  // idle gap forced after the visitor takes control
+
+      var narrow = window.matchMedia('(max-width: 768px)');
+      var calm   = window.matchMedia('(prefers-reduced-motion: reduce)');
+      var inView = true;      // false once the hero has scrolled off screen
+      var hover  = false;     // pointer parked over the cards
+      var lastTouch = 0;
+
+      /* Which card currently sits against the leading snap edge. */
+      function nearestIndex() {
+        var pad = parseFloat(window.getComputedStyle(track).paddingLeft) || 0;
+        var anchor = track.getBoundingClientRect().left + pad;
+        var cards = track.children, best = 0, bestDist = Infinity, d;
+        for (var i = 0; i < cards.length; i++) {
+          d = Math.abs(cards[i].getBoundingClientRect().left - anchor);
+          if (d < bestDist) { bestDist = d; best = i; }
+        }
+        return best;
+      }
+
+      function paintDots() {
+        var best = nearestIndex();
+        for (var i = 0; i < dots.length; i++) {
+          dots[i].classList.toggle('is-active', i === best);
+        }
+      }
+
+      var raf = null;
+      function requestSync() {
+        if (raf === null) {
+          raf = window.requestAnimationFrame(function () { raf = null; paintDots(); });
+        }
+      }
+
+      function goTo(i) {
+        var card = track.children[i];
+        if (!card) return;
+        card.scrollIntoView({
+          behavior: calm.matches ? 'auto' : 'smooth',
+          block: 'nearest',     // never drags the page vertically
+          inline: 'start'       // honours the track's scroll-padding-left
+        });
+      }
+
+      /* ---- auto-advance ---- */
+      var timer = null;
+      function running() {
+        return narrow.matches && !calm.matches && !document.hidden && inView && !hover;
+      }
+      function stop() {
+        if (timer) { clearTimeout(timer); timer = null; }
+      }
+      function schedule(delay) {
+        stop();
+        if (!running()) return;
+        timer = setTimeout(function () {
+          timer = null;
+          var n = track.children.length;
+          if (n) goTo((nearestIndex() + 1) % n);   // last card wraps back to the first
+          schedule(DWELL);
+        }, delay);
+      }
+      /* The visitor touched or tabbed into the slider: stand down, then come
+         back only after a full RESUME gap so it never fights them. */
+      function suspend() {
+        lastTouch = Date.now();
+        stop();
+        schedule(RESUME);
+      }
+
+      track.addEventListener('pointerdown', suspend, { passive: true });
+      track.addEventListener('focusin', suspend, { passive: true });
+      track.addEventListener('pointerenter', function () { hover = true; stop(); }, { passive: true });
+      track.addEventListener('pointerleave', function () {
+        hover = false;
+        var since = Date.now() - lastTouch;
+        schedule(since < RESUME ? RESUME - since : DWELL);
+      }, { passive: true });
+
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) stop(); else schedule(DWELL);
+      });
+
+      /* Don't burn cycles — or yank the page around — once the hero is gone. */
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) {
+          inView = entries[0].isIntersecting;
+          if (inView) schedule(DWELL); else stop();
+        }).observe(track);
+      }
+
+      /* OS settings / window size can change while the page is open. */
+      function watch(mq) {
+        if (mq.addEventListener) mq.addEventListener('change', function () { schedule(DWELL); });
+      }
+      watch(narrow);
+      watch(calm);
+
+      track.addEventListener('scroll', requestSync, { passive: true });
+      window.addEventListener('resize', requestSync);
+      dots.forEach(function (dot, i) {
+        dot.addEventListener('click', function () { goTo(i); suspend(); });
+      });
+
+      requestSync();
+      schedule(DWELL);
+    })();
+  </script>
 </body>
 
 </html>

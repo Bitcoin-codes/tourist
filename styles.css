@@ -393,6 +393,18 @@ ul { list-style: none; }
   animation: heroKenBurns 28s ease-in-out infinite alternate;
   will-change: transform;
 }
+/* Looping background video: Ken Burns push-in + 1s crossfades across six
+   Ghana scenes. Sits above the still, which stays as the fallback if the
+   video is blocked, slow, or unsupported. */
+.hero-bg-video {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 42%;
+}
 /* Scrim. Deliberately uneven: dark text needs a LIGHT backing to clear
    contrast, so the top stays heavy — subtitle #4A5568 at 17.6px is normal
    text and needs bg luminance >= 0.578, i.e. alpha >= 0.74 over dark photo
@@ -403,6 +415,7 @@ ul { list-style: none; }
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 2;                /* scrim must sit above both the still and the video */
   background: linear-gradient(180deg,
     rgba(255, 255, 255, 0.80) 0%,
     rgba(255, 255, 255, 0.76) 45%,
@@ -429,6 +442,10 @@ ul { list-style: none; }
   .hero-bg img {
     animation: none;
     transform: scale(1.12);
+  }
+  /* no autoplaying video either — the still above stands in for it */
+  .hero-bg-video {
+    display: none;
   }
 }
 .hero-title {

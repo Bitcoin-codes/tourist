@@ -992,17 +992,30 @@ function setupEventListeners() {
 }
 
 // Theme Toggle Initialization
+// Must stay in sync with frontend/js/ui.js (and therefore app.bundle.js), which
+// index/planner/regions all load: same key, same default, same cross-tab sync.
+// This used 'visitGhanaTheme' defaulting to 'dark', so booking.html ignored a
+// Light choice saved by the other pages and forced dark instead — and a toggle
+// made here never reached them.
 function initThemeToggle() {
-  const savedTheme = localStorage.getItem('visitGhanaTheme') || 'dark';
-  document.documentElement.setAttribute('data-theme', savedTheme);
+  let saved = 'light';
+  try { saved = localStorage.getItem('memorra-theme') || 'light'; } catch (e) {}
+  document.documentElement.setAttribute('data-theme', saved === 'dark' ? 'dark' : 'light');
+
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'memorra-theme') {
+      document.documentElement.setAttribute('data-theme',
+        e.newValue === 'dark' ? 'dark' : 'light');
+    }
+  });
 
   const themeBtns = document.querySelectorAll('.theme-toggle-btn');
   themeBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
       const nextTheme = current === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', nextTheme);
-      localStorage.setItem('visitGhanaTheme', nextTheme);
+      try { localStorage.setItem('memorra-theme', nextTheme); } catch (e) {}
       showToast(`Switched to ${nextTheme === 'light' ? 'Light' : 'Dark'} Theme`);
     });
   });

@@ -13,6 +13,9 @@ supabase/.temp/
 **/.supabase/
 .vercel
 .env*
+# The template carries setup notes (NOTIFY_EMAIL) and no secrets — only the
+# real .env stays out.
+!.env.example
 
 # Unreferenced screenshot artifact
 hero-preview.png

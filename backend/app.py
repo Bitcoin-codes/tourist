@@ -5,6 +5,7 @@ from flask_cors import CORS
 from datetime import datetime
 import json
 import os
+import re
 import io
 import base64
 import uuid
@@ -268,6 +269,81 @@ def send_confirmation_email(booking: dict, pass_url: str, qr_png: bytes | None) 
                 server.starttls()
             server.login(user, password)
             server.sendmail(mail_from, [booking.get('email', '')], msg.as_string())
+        return True
+    except Exception:
+        return False
+
+
+def send_contact_email(name: str, email: str, message: str, ticket: str) -> bool:
+    """Email a chatbot handoff to a human agent (free: same Brevo SMTP).
+
+    The visitor never leaves the chat — they hand the conversation off here
+    and the agent replies to the address they typed. `NOTIFY_EMAIL` decides
+    who receives it and falls back to the verified sender, so this works with
+    nothing new to configure.
+
+    Both name and message come straight from the visitor, so they are escaped
+    before they reach HTML, newlines are stripped from anything that lands in
+    a header (Subject injection), and the visitor's address only ever appears
+    in Reply-To — never as From or To — so it cannot spoof the sender.
+    """
+    host = os.environ.get('MAIL_HOST')
+    port = int(os.environ.get('MAIL_PORT', '587'))
+    user = os.environ.get('MAIL_USER')
+    password = os.environ.get('MAIL_PASS')
+    if not (host and user and password):
+        return False
+
+    _, mail_from = parseaddr(os.environ.get('MAIL_FROM') or user or '')
+    mail_from = mail_from or user
+    mail_from_name = (os.environ.get('MAIL_FROM_NAME') or '').strip()
+
+    _, notify = parseaddr(os.environ.get('NOTIFY_EMAIL') or mail_from)
+    notify = notify or mail_from
+
+    # Header-safe forms: no CR/LF may survive into a header value.
+    subj_name = re.sub(r'[\r\n]+', ' ', name).strip()[:80] or 'visitor'
+    subj_email = re.sub(r'[\r\n]+', ' ', email).strip()
+
+    safe_name = escape(name)[:120] or 'Not given'
+    safe_email = escape(email)
+    safe_ticket = escape(ticket)
+    safe_msg = (escape(message)[:2000]
+                .replace('\r\n', '<br>')
+                .replace('\n', '<br>'))
+
+    html = f"""
+    <div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:auto;">
+      <h2 style="color:#0066CC;">Chat handoff {safe_ticket}</h2>
+      <p>A visitor asked the chatbot to be passed to a human agent.</p>
+      <table style="border-collapse:collapse;width:100%;line-height:1.7;">
+        <tr><th style="text-align:left;color:#555;padding:4px 8px;">From</th><td>{safe_name}</td></tr>
+        <tr><th style="text-align:left;color:#555;padding:4px 8px;">Reply to</th><td><a href="mailto:{safe_email}">{safe_email}</a></td></tr>
+        <tr><th style="text-align:left;color:#555;padding:4px 8px;">Ticket</th><td><strong>{safe_ticket}</strong></td></tr>
+      </table>
+      <p style="background:#f7f9fc;border-left:3px solid #0066CC;padding:10px 12px;border-radius:4px;margin:14px 0;">{safe_msg}</p>
+      <p style="color:#888;font-size:0.85rem;">Reply to this email to reach the visitor directly.</p>
+    </div>
+    """
+
+    msg = MIMEMultipart('alternative')
+    msg['Subject'] = f'Chat handoff {ticket} - {subj_name}'
+    msg['From'] = f'{mail_from_name} <{mail_from}>' if mail_from_name else mail_from
+    msg['To'] = notify
+    msg['Reply-To'] = f'{subj_name} <{subj_email}>' if subj_email else notify
+    msg.attach(MIMEText(
+        f'Chat handoff {ticket}\n'
+        f'From: {subj_name} <{subj_email}>\n\n'
+        f'{message}', 'plain'))
+    msg.attach(MIMEText(html, 'html'))
+
+    try:
+        with smtplib.SMTP(host, port, timeout=15) as server:
+            server.ehlo()
+            if os.environ.get('MAIL_STARTTLS', '1') == '1':
+                server.starttls()
+            server.login(user, password)
+            server.sendmail(mail_from, [notify], msg.as_string())
         return True
     except Exception:
         return False
@@ -562,6 +638,50 @@ def generate_itinerary():
         ]
 
     return jsonify({'success': True, 'data': itinerary})
+
+
+# ── Agent Handoff ──────────────────────────────────────────────────────
+
+@app.route('/api/contact', methods=['POST'])
+def contact_agent():
+    """Chatbot → human agent handoff.
+
+    The visitor types a question, the bot admits it cannot help, and hands
+    the conversation over here. No paid provider: this is the same free
+    Brevo SMTP the booking confirmations already use.
+    """
+    data = request.get_json(silent=True) or {}
+
+    name = str(data.get('name') or '').strip()[:120]
+    email = str(data.get('email') or '').strip()[:254]
+    message = str(data.get('message') or '').strip()[:2000]
+
+    if not message:
+        return jsonify({'success': False, 'error': 'Message is required.'}), 400
+    # Deliberately permissive: a missing TLD or a +tagged address is still a
+    # deliverable address, and whitespace/newlines are excluded so this value
+    # can never be smuggled into a mail header.
+    if not re.fullmatch(r'[^@\s]+@[^@\s]+\.[^@\s]{2,}', email):
+        return jsonify({'success': False,
+                        'error': 'Please enter a valid email address.'}), 400
+
+    ticket = f"MSG-{datetime.now().year}-{uuid.uuid4().int % 9000 + 1000}"
+    sent = send_contact_email(name, email, message, ticket)
+
+    # `contact` is the mailbox the agent actually reads. The frontend shows it
+    # only when `emailSent` is false, so a refused send still leaves the
+    # visitor with a real way to reach a person instead of a dead end.
+    _, fallback = parseaddr(os.environ.get('NOTIFY_EMAIL')
+                            or os.environ.get('MAIL_FROM') or '')
+
+    # There is no `contacts` table, so nothing is persisted — SMTP is the
+    # delivery channel. Report the truth rather than claiming success.
+    return jsonify({
+        'success': True,
+        'ticket': ticket,
+        'emailSent': sent,
+        'contact': fallback
+    }), 201
 
 
 # ── Health Check ───────────────────────────────────────────────────────

@@ -1085,6 +1085,12 @@ function handleAIChatSubmit(e) {
 }
 
 function generateAIResponse(q) {
+  // Human handoff runs before any keyword branch. It returns null for an
+  // ordinary question (having still recorded it, in case the visitor hands
+  // off on their next turn), so fall through and answer normally then.
+  const handoff = typeof window.agentHandoff === 'function' ? window.agentHandoff(q) : null;
+  if (handoff) return handoff;
+
   const query = q.toLowerCase();
 
   if (query.includes('monk') || query.includes('tafi') || query.includes('boabeng') || query.includes('animal')) {
@@ -1147,7 +1153,8 @@ function generateAIResponse(q) {
   }
 
   return `<p><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px; vertical-align: middle;"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg> <strong>Akwaaba!</strong> Thank you for asking. Ghana offers iconic monkey sanctuaries, castles, waterfalls, and royal festivals.</p>
-          <p>Try searching destinations above or tap one of the suggestion chips below for instant answers!</p>`;
+          <p>Try searching destinations above or tap one of the suggestion chips below for instant answers!</p>` +
+      (typeof window.agentHandoffCTA === 'function' ? window.agentHandoffCTA() : '');
 }
 
 function escapeHTML(str) {

@@ -710,6 +710,11 @@ function handleChat(e) {
     }, 750);
 }
 function chatResponse(q) {
+    // Human handoff runs before any keyword branch. It returns null for an
+    // ordinary question (having still recorded it, in case the visitor hands
+    // off on their next turn), so fall through and answer normally then.
+    const handoff = typeof window.agentHandoff === 'function' ? window.agentHandoff(q) : null;
+    if (handoff) return handoff;
     const l = q.toLowerCase();
     if (l.includes('monk') || l.includes('tafi'))
         return `<p><strong>Monkey Sanctuaries:</strong> Tafi Atome (Volta) and Boabeng-Fiema (Bono East) let you feed Mona monkeys by hand!</p>`;
@@ -727,7 +732,8 @@ function chatResponse(q) {
         return `<p><strong>Itineraries:</strong> 3-day express, 7-day essential, or 14-day grand explorer. Use the Trip Planner below!</p>`;
     if (l.includes('hello') || l.includes('hi') || l.includes('akwaaba'))
         return `<p><strong>Akwaaba!</strong> Welcome! I can help with destinations, castles, festivals, bookings, and itineraries.</p>`;
-    return `<p><strong>Akwaaba!</strong> I can help with Ghana's sanctuaries, castles, waterfalls, festivals, and travel planning. Try the chips below!</p>`;
+    return `<p><strong>Akwaaba!</strong> I can help with Ghana's sanctuaries, castles, waterfalls, festivals, and travel planning. Try the chips below!</p>` +
+        (typeof window.agentHandoffCTA === 'function' ? window.agentHandoffCTA() : '');
 }
 // ── Hero Search ───────────────────────────────────────────────────────
 function initHeroSearch() {

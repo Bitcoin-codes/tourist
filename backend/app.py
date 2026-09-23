@@ -274,18 +274,20 @@ def send_confirmation_email(booking: dict, pass_url: str, qr_png: bytes | None) 
         return False
 
 
-def send_contact_email(name: str, email: str, message: str, ticket: str) -> bool:
+def send_contact_email(name: str, contact: str, message: str, ticket: str) -> bool:
     """Email a chatbot handoff to a human agent (free: same Brevo SMTP).
 
     The visitor never leaves the chat — they hand the conversation off here
-    and the agent replies to the address they typed. `NOTIFY_EMAIL` decides
-    who receives it and falls back to the verified sender, so this works with
-    nothing new to configure.
+    and the agent reaches them on whatever they gave: a phone number or an
+    address. `NOTIFY_EMAIL` decides who receives it and falls back to the
+    verified sender, so this works with nothing new to configure.
 
     Both name and message come straight from the visitor, so they are escaped
     before they reach HTML, newlines are stripped from anything that lands in
-    a header (Subject injection), and the visitor's address only ever appears
+    a header (Subject injection), and the visitor's contact only ever appears
     in Reply-To — never as From or To — so it cannot spoof the sender.
+    Reply-To is set only for an address: a phone number is meaningless there,
+    so it is put in the body instead where the agent can call or WhatsApp it.
     """
     host = os.environ.get('MAIL_HOST')
     port = int(os.environ.get('MAIL_PORT', '587'))
@@ -303,14 +305,34 @@ def send_contact_email(name: str, email: str, message: str, ticket: str) -> bool
 
     # Header-safe forms: no CR/LF may survive into a header value.
     subj_name = re.sub(r'[\r\n]+', ' ', name).strip()[:80] or 'visitor'
-    subj_email = re.sub(r'[\r\n]+', ' ', email).strip()
+    subj_contact = re.sub(r'[\r\n]+', ' ', contact).strip()[:120]
+
+    # Reply-To only means something for an address.
+    is_email = bool(re.fullmatch(r'[^@\s]+@[^@\s]+\.[^@\s]{2,}', contact))
+    reply_to = contact if is_email else ''
+    # `UNKNOWN` is what the chatbot substitutes when a visitor demanded an
+    # immediate transfer before giving details — render it as absence, not
+    # as a literal word the agent would have to decode.
+    shown_contact = '' if contact.upper() == 'UNKNOWN' else contact
 
     safe_name = escape(name)[:120] or 'Not given'
-    safe_email = escape(email)
+    safe_contact = escape(shown_contact)[:254]
     safe_ticket = escape(ticket)
     safe_msg = (escape(message)[:2000]
                 .replace('\r\n', '<br>')
                 .replace('\n', '<br>'))
+
+    if not safe_contact:
+        reply_cell = '<em style="color:#999;">Not provided</em>'
+    elif is_email:
+        reply_cell = f'<a href="mailto:{safe_contact}">{safe_contact}</a>'
+    else:
+        reply_cell = (f'{safe_contact} '
+                      '<span style="color:#888;font-size:0.85rem;">(phone — call or WhatsApp)</span>')
+
+    footer = ('Reply to this email to reach the visitor directly.' if is_email else
+              'Call or WhatsApp the number above to reach the visitor directly.' if safe_contact else
+              'No reply channel was given — the visitor only wanted the request logged.')
 
     html = f"""
     <div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:auto;">
@@ -318,11 +340,11 @@ def send_contact_email(name: str, email: str, message: str, ticket: str) -> bool
       <p>A visitor asked the chatbot to be passed to a human agent.</p>
       <table style="border-collapse:collapse;width:100%;line-height:1.7;">
         <tr><th style="text-align:left;color:#555;padding:4px 8px;">From</th><td>{safe_name}</td></tr>
-        <tr><th style="text-align:left;color:#555;padding:4px 8px;">Reply to</th><td><a href="mailto:{safe_email}">{safe_email}</a></td></tr>
+        <tr><th style="text-align:left;color:#555;padding:4px 8px;">Reply to</th><td>{reply_cell}</td></tr>
         <tr><th style="text-align:left;color:#555;padding:4px 8px;">Ticket</th><td><strong>{safe_ticket}</strong></td></tr>
       </table>
       <p style="background:#f7f9fc;border-left:3px solid #0066CC;padding:10px 12px;border-radius:4px;margin:14px 0;">{safe_msg}</p>
-      <p style="color:#888;font-size:0.85rem;">Reply to this email to reach the visitor directly.</p>
+      <p style="color:#888;font-size:0.85rem;">{footer}</p>
     </div>
     """
 
@@ -330,10 +352,11 @@ def send_contact_email(name: str, email: str, message: str, ticket: str) -> bool
     msg['Subject'] = f'Chat handoff {ticket} - {subj_name}'
     msg['From'] = f'{mail_from_name} <{mail_from}>' if mail_from_name else mail_from
     msg['To'] = notify
-    msg['Reply-To'] = f'{subj_name} <{subj_email}>' if subj_email else notify
+    msg['Reply-To'] = f'{subj_name} <{reply_to}>' if reply_to else notify
     msg.attach(MIMEText(
         f'Chat handoff {ticket}\n'
-        f'From: {subj_name} <{subj_email}>\n\n'
+        f'From: {subj_name}\n'
+        f'Contact: {subj_contact or "not provided"}\n\n'
         f'{message}', 'plain'))
     msg.attach(MIMEText(html, 'html'))
 
@@ -653,20 +676,29 @@ def contact_agent():
     data = request.get_json(silent=True) or {}
 
     name = str(data.get('name') or '').strip()[:120]
-    email = str(data.get('email') or '').strip()[:254]
+    # The chatbot collects "phone number / email", so this may be either.
+    # `email` is still read so an older caller keeps working unchanged.
+    contact = str(data.get('contact') or data.get('email') or '').strip()[:254]
     message = str(data.get('message') or '').strip()[:2000]
 
     if not message:
         return jsonify({'success': False, 'error': 'Message is required.'}), 400
-    # Deliberately permissive: a missing TLD or a +tagged address is still a
-    # deliverable address, and whitespace/newlines are excluded so this value
-    # can never be smuggled into a mail header.
-    if not re.fullmatch(r'[^@\s]+@[^@\s]+\.[^@\s]{2,}', email):
-        return jsonify({'success': False,
-                        'error': 'Please enter a valid email address.'}), 400
+
+    # `UNKNOWN` is what the frontend sends when a visitor demanded an immediate
+    # transfer before giving details. Worth logging, but it has no reply channel.
+    # Anything else must be a real address or a real number: whitespace and
+    # newlines are excluded so this value can never be smuggled into a header.
+    if contact and contact.upper() != 'UNKNOWN':
+        is_email = bool(re.fullmatch(r'[^@\s]+@[^@\s]+\.[^@\s]{2,}', contact))
+        digits = re.sub(r'\D', '', contact)
+        is_phone = (bool(re.fullmatch(r'\+?[\d\s().-]{7,25}', contact))
+                    and 7 <= len(digits) <= 15)
+        if not (is_email or is_phone):
+            return jsonify({'success': False,
+                            'error': 'Please enter a valid email address or phone number.'}), 400
 
     ticket = f"MSG-{datetime.now().year}-{uuid.uuid4().int % 9000 + 1000}"
-    sent = send_contact_email(name, email, message, ticket)
+    sent = send_contact_email(name, contact, message, ticket)
 
     # `contact` is the mailbox the agent actually reads. The frontend shows it
     # only when `emailSent` is false, so a refused send still leaves the

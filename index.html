@@ -146,9 +146,20 @@
         <!-- Tour Type Tiles -->
         <div class="hero-tiles">
           <div class="hero-tiles-track">
-            <button type="button" class="hero-tile" onclick="selectTourCategory('cultural')">
+            <button type="button" class="hero-tile" onclick="selectTourType('coastal-beach')">
               <span class="hero-tile-media">
-                <img src="assets/images/attractions/manhyia-palace.jpg" alt="Historical & Heritage Tours" loading="lazy">
+                <img src="assets/images/attractions/butre-beach.jpg" alt="Coastal &amp; Beach Tours" loading="lazy">
+              </span>
+              <span class="hero-tile-body">
+                <span class="hero-tile-title">Coastal &amp; Beach Tours</span>
+                <span class="hero-tile-desc">Golden Atlantic sand at Kokrobite, Bojo and Labadi, with lagoon creeks, fishing beaches and island shores to wander.</span>
+                <span class="hero-tile-link">Explore these tours</span>
+              </span>
+            </button>
+
+            <button type="button" class="hero-tile" onclick="selectTourType('historical-heritage')">
+              <span class="hero-tile-media">
+                <img src="assets/images/attractions/cape-coast-castle.jpg" alt="Historical &amp; Heritage Tours" loading="lazy">
               </span>
               <span class="hero-tile-body">
                 <span class="hero-tile-title">Historical &amp; Heritage Tours</span>
@@ -157,9 +168,53 @@
               </span>
             </button>
 
-            <button type="button" class="hero-tile" onclick="selectTourCategory('historical')">
+            <button type="button" class="hero-tile" onclick="selectTourType('food-market')">
               <span class="hero-tile-media">
-                <img src="assets/images/attractions/cape-coast-castle.jpg" alt="Diaspora Tours" loading="lazy">
+                <img src="assets/images/attractions/kejetia-market.jpg" alt="Food &amp; Market Tours" loading="lazy" style="object-position: center 20%;">
+              </span>
+              <span class="hero-tile-body">
+                <span class="hero-tile-title">Food &amp; Market Tours</span>
+                <span class="hero-tile-desc">Trade through Kejetia Market and the Accra Arts Centre, then watch kente and adinkra woven by hand in the craft villages.</span>
+                <span class="hero-tile-link">Explore these tours</span>
+              </span>
+            </button>
+
+            <button type="button" class="hero-tile" onclick="selectTourType('agriculture-farm')">
+              <span class="hero-tile-media">
+                <img src="assets/images/attractions/ahafo-cocoa-forest.jpg" alt="Agriculture &amp; Farm Tours" loading="lazy" style="object-position: center 60%;">
+              </span>
+              <span class="hero-tile-body">
+                <span class="hero-tile-title">Agriculture &amp; Farm Tours</span>
+                <span class="hero-tile-desc">Trace the cocoa pod from Tetteh Quarshie's first farm to the research fields, then wander the botanical gardens at Aburi and Legon.</span>
+                <span class="hero-tile-link">Explore these tours</span>
+              </span>
+            </button>
+
+            <button type="button" class="hero-tile" onclick="selectTourType('music-festival')">
+              <span class="hero-tile-media">
+                <img src="assets/images/aboakyer_festival.jpg" alt="Music &amp; Festival Tours" loading="lazy">
+              </span>
+              <span class="hero-tile-body">
+                <span class="hero-tile-title">Music &amp; Festival Tours</span>
+                <span class="hero-tile-desc">Drums, durbar and dance — time your trip around Homowo, Aboakyer or Damba and stand in as the chiefs ride out.</span>
+                <span class="hero-tile-link">Explore these tours</span>
+              </span>
+            </button>
+
+            <button type="button" class="hero-tile" onclick="selectTourType('wildlife-nature')">
+              <span class="hero-tile-media">
+                <img src="assets/images/attractions/mole-national-park.jpg" alt="Wildlife &amp; Nature Tours" loading="lazy">
+              </span>
+              <span class="hero-tile-body">
+                <span class="hero-tile-title">Wildlife &amp; Nature Tours</span>
+                <span class="hero-tile-desc">Safari the northern savannah for elephants at Mole, walk Kakum's canopy bridge and chase rainforest waterfalls.</span>
+                <span class="hero-tile-link">Explore these tours</span>
+              </span>
+            </button>
+
+            <button type="button" class="hero-tile" onclick="selectTourType('diaspora')">
+              <span class="hero-tile-media">
+                <img src="assets/images/attractions/elmina-castle.jpg" alt="Diaspora Tours" loading="lazy">
               </span>
               <span class="hero-tile-body">
                 <span class="hero-tile-title">Diaspora Tours</span>
@@ -168,9 +223,9 @@
               </span>
             </button>
 
-            <button type="button" class="hero-tile" onclick="selectTourCategory('national-parks')">
+            <button type="button" class="hero-tile" onclick="selectTourType('leisure-recreational')">
               <span class="hero-tile-media">
-                <img src="assets/images/attractions/mole-national-park.jpg" alt="Leisure & Recreational Tours" loading="lazy">
+                <img src="assets/images/attractions/kakum-national-park.jpg" alt="Leisure &amp; Recreational Tours" loading="lazy">
               </span>
               <span class="hero-tile-body">
                 <span class="hero-tile-title">Leisure &amp; Recreational Tours</span>
@@ -181,7 +236,12 @@
           </div>
 
           <div class="hero-tile-dots">
-            <button type="button" class="hero-tile-dot is-active" aria-label="Show Historical and Heritage Tours"></button>
+            <button type="button" class="hero-tile-dot is-active" aria-label="Show Coastal and Beach Tours"></button>
+            <button type="button" class="hero-tile-dot" aria-label="Show Historical and Heritage Tours"></button>
+            <button type="button" class="hero-tile-dot" aria-label="Show Food and Market Tours"></button>
+            <button type="button" class="hero-tile-dot" aria-label="Show Agriculture and Farm Tours"></button>
+            <button type="button" class="hero-tile-dot" aria-label="Show Music and Festival Tours"></button>
+            <button type="button" class="hero-tile-dot" aria-label="Show Wildlife and Nature Tours"></button>
             <button type="button" class="hero-tile-dot" aria-label="Show Diaspora Tours"></button>
             <button type="button" class="hero-tile-dot" aria-label="Show Leisure and Recreational Tours"></button>
           </div>
@@ -214,13 +274,23 @@
         </div>
       </div>
 
-      <div class="category-tabs">
-        <button class="tab-btn active" data-category="all">All Destinations</button>
-        <button class="tab-btn" data-category="national-parks">Parks & Sanctuaries</button>
-        <button class="tab-btn" data-category="historical">Historical Sites</button>
-        <button class="tab-btn" data-category="waterfalls">Waterfalls</button>
-        <button class="tab-btn" data-category="cultural">Cultural Landmarks</button>
+      <div class="category-tabs-wrap">
+        <div class="category-tabs">
+          <button class="tab-btn active" data-tour-type="all">All Destinations</button>
+          <button class="tab-btn" data-tour-type="coastal-beach">Coastal &amp; Beach</button>
+          <button class="tab-btn" data-tour-type="historical-heritage">Historical &amp; Heritage</button>
+          <button class="tab-btn" data-tour-type="food-market">Food &amp; Market</button>
+          <button class="tab-btn" data-tour-type="agriculture-farm">Agriculture &amp; Farm</button>
+          <button class="tab-btn" data-tour-type="music-festival">Music &amp; Festival</button>
+          <button class="tab-btn" data-tour-type="wildlife-nature">Wildlife &amp; Nature</button>
+          <button class="tab-btn" data-tour-type="diaspora">Diaspora</button>
+          <button class="tab-btn" data-tour-type="leisure-recreational">Leisure &amp; Recreational</button>
+        </div>
       </div>
+
+      <!-- Live count: filtering can open on the same first cards as "All
+           Destinations", so without this the change is invisible at a glance. -->
+      <p class="results-summary" id="results-summary" role="status"></p>
 
       <div id="destinations-grid" class="destinations-grid"></div>
     </section>
@@ -344,9 +414,26 @@
   <script src="frontend/js/akwaaba.js"></script>
   <script src="frontend/js/app.bundle.js"></script>
   <script>
+    /* Right-edge fade on the category strip. The strip's own scrollbar is
+       hidden, so this is the only hint that Diaspora/Leisure sit beyond the
+       edge — it appears only while there is actually something to the right. */
+    (function () {
+      var strip = document.querySelector('.category-tabs');
+      var wrap = document.querySelector('.category-tabs-wrap');
+      if (!strip || !wrap) return;
+      function sync() {
+        wrap.classList.toggle('is-scrollable-right',
+          strip.scrollLeft + strip.clientWidth < strip.scrollWidth - 2);
+      }
+      strip.addEventListener('scroll', sync);
+      window.addEventListener('resize', sync);
+      window.addEventListener('load', sync);
+      sync();
+    })();
+
     /* Hero tile slider — pagination dots + auto-advance.
        Below 768px the tiles are a swipeable slider that also advances on its
-       own every DWELL ms. Above that they are a static 3-up grid, the dots are
+       own every DWELL ms. Above that they are a static grid, the dots are
        display:none and the width query never matches, so `running()` is false
        from the start and no timer is ever armed — desktop stays inert. */
     (function () {

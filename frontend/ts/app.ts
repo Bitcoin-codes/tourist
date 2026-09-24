@@ -4,12 +4,12 @@
  */
 
 import { initThemeToggle, initMobileNav, initHeaderScroll, initModalClose, openModal, closeModal, showToast } from './ui';
-import { initDestinations, toggleBookmark, openDestinationModal, clearSearch, renderDestinations, selectTourCategory } from './destinations';
+import { initDestinations, toggleBookmark, openDestinationModal, clearSearch, renderDestinations, selectTourCategory, selectTourType } from './destinations';
 import { initFestivals, openFestivalModal } from './festivals';
 import { initChat, initGlobalChatFunctions } from './chat';
 import { getPracticalInfo, generateItinerary } from './api';
 import { escapeHTML } from './ui';
-import type { Category } from './types';
+import type { Category, TourType } from './types';
 
 // ── DOMContentLoaded ──────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
@@ -35,6 +35,7 @@ function initGlobalFunctions(): void {
   window.clearSearch = clearSearch;
   window.renderDestinations = renderDestinations;
   window.selectTourCategory = selectTourCategory;
+  window.selectTourType = selectTourType;
   window.openInfoModal = openInfoModal;
   window.generateItineraryUI = generateItineraryUI;
 }
@@ -144,6 +145,7 @@ declare global {
     clearSearch: () => void;
     renderDestinations: () => void;
     selectTourCategory: (category: Category) => void;
+    selectTourType: (type: TourType) => void;
     openInfoModal: (type: string) => void;
     generateItineraryUI: () => void;
     sendQuickPrompt: (text: string) => void;

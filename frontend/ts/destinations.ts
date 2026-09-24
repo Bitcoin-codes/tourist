@@ -2,13 +2,15 @@
  * Destinations Module — Rendering, Filtering, Modals
  */
 
-import type { Destination, Category } from './types';
+import type { Destination, Category, TourType } from './types';
 import { getDestinations } from './api';
 import { $, $$, openModal, closeModal, showToast, escapeHTML } from './ui';
 
 let currentCategory: Category = 'all';
+let currentTourType: TourType = 'all';
 let searchQuery: string = '';
 let savedBookmarks: string[] = JSON.parse(localStorage.getItem('visitGhanaBookmarks') || '[]');
+let destinationsTotal: number = 0;
 
 export function initDestinations(): void {
   renderDestinations();
@@ -16,13 +18,43 @@ export function initDestinations(): void {
   initSearch();
 }
 
+/* Filtering can open on the same first cards as the unfiltered list — Leisure
+   shares its first two with "All Destinations" and diverges only at card 3 —
+   so the grid alone gives no feedback that the click registered. Keeps a live
+   count above it. */
+function updateResultsSummary(count: number, isError = false): void {
+  const el = document.getElementById('results-summary');
+  if (!el) return;
+  // Capture the unfiltered total whenever we happen to be rendering it.
+  if (currentTourType === 'all' && currentCategory === 'all' && !searchQuery && count > 0)
+    destinationsTotal = count;
+  if (isError) {
+    el.textContent = 'Unable to load destinations';
+    return;
+  }
+  const typeBtn = currentTourType !== 'all'
+    ? document.querySelector<HTMLElement>(`.tab-btn[data-tour-type="${currentTourType}"]`)
+    : null;
+  const filterLabel = typeBtn
+    ? (typeBtn.textContent || '').trim()
+    : (currentCategory !== 'all' ? currentCategory : '');
+  const q = searchQuery ? ` for "${searchQuery}"` : '';
+  const noun = count === 1 ? 'destination' : 'destinations';
+  const of = destinationsTotal && count < destinationsTotal ? ` of ${destinationsTotal}` : '';
+  const suffix = filterLabel ? ` · <span class="results-summary-filter">${escapeHTML(filterLabel)}</span>` : '';
+  el.innerHTML = count === 0
+    ? `No destinations${q}${suffix}`
+    : `${count}${of} ${noun}${q}${suffix}`;
+}
+
 export async function renderDestinations(): Promise<void> {
   const grid = document.getElementById('destinations-grid');
   if (!grid) return;
 
   try {
-    const response = await getDestinations(currentCategory, searchQuery);
+    const response = await getDestinations(currentCategory, searchQuery, currentTourType);
     const destinations = response.data;
+    updateResultsSummary(destinations.length);
 
     if (destinations.length === 0) {
       grid.innerHTML = `
@@ -88,6 +120,7 @@ export async function renderDestinations(): Promise<void> {
         </div>`;
     }).join('');
   } catch (error) {
+    updateResultsSummary(0, true);
     grid.innerHTML = `
       <div style="grid-column: 1/-1; text-align: center; padding: 48px 16px;">
         <p style="color: var(--text-muted);">Unable to load destinations. Make sure the server is running.</p>
@@ -96,15 +129,28 @@ export async function renderDestinations(): Promise<void> {
   }
 }
 
+function applyTourFilter(type: TourType): void {
+  currentTourType = type;
+  currentCategory = 'all';
+  searchQuery = '';
+  const input = document.getElementById('search-input') as HTMLInputElement | null;
+  if (input) input.value = '';
+  $$('.tab-btn').forEach(b => b.classList.toggle('active', (b as HTMLElement).dataset.tourType === type));
+  renderDestinations();
+}
+
 function initCategoryTabs(): void {
   $$('.tab-btn').forEach((btn: HTMLElement) => {
-    btn.addEventListener('click', (e: Event) => {
-      $$('.tab-btn').forEach((b: HTMLElement) => b.classList.remove('active'));
-      (e.currentTarget as HTMLElement).classList.add('active');
-      currentCategory = (e.currentTarget as HTMLElement).dataset.category as Category;
-      renderDestinations();
-    });
+    // Deliberately no scrollIntoView here — the strip is already on screen,
+    // and sliding to the grid you just tapped would bounce the page.
+    btn.addEventListener('click', () => applyTourFilter((btn as HTMLElement).dataset.tourType as TourType));
   });
+}
+
+export function selectTourType(type: TourType): void {
+  applyTourFilter(type);
+  const section = document.getElementById('destinations');
+  if (section) section.scrollIntoView({ behavior: 'smooth' });
 }
 
 function initSearch(): void {
@@ -130,6 +176,7 @@ export function clearSearch(): void {
 
 export function selectTourCategory(category: Category): void {
   currentCategory = category;
+  currentTourType = 'all';
   clearSearch();
   $$('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.category === category));
   const section = document.getElementById('destinations');
@@ -217,5 +264,6 @@ declare global {
     clearSearch: () => void;
     renderDestinations: () => void;
     selectTourCategory: (category: Category) => void;
+    selectTourType: (type: TourType) => void;
   }
 }

@@ -389,12 +389,23 @@ def normalize_phone(raw: str) -> str:
 @app.route('/api/destinations', methods=['GET'])
 def get_destinations():
     category = request.args.get('category', 'all')
+    tour_type = request.args.get('tourType', 'all')
     search = request.args.get('search', '').lower().strip()
 
     destinations = load_json('destinations.json')
 
     if category != 'all':
         destinations = [d for d in destinations if d['category'] == category]
+
+    # A place can be several kinds of tour at once — Kejetia Market is both a
+    # market and heritage — so tourType is a membership test, not the equality
+    # comparison `category` uses. `.get` keeps a record written before this
+    # field existed from throwing a 500.
+    if tour_type != 'all':
+        destinations = [
+            d for d in destinations
+            if tour_type in (d.get('tourTypes') or [])
+        ]
 
     if search:
         destinations = [

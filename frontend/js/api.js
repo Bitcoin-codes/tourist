@@ -21,10 +21,12 @@ async function fetchAPI(endpoint, options) {
         throw error;
     }
 }
-export async function getDestinations(category = 'all', search = '') {
+export async function getDestinations(category = 'all', search = '', tourType = 'all') {
     const params = new URLSearchParams();
     if (category !== 'all')
         params.append('category', category);
+    if (tourType !== 'all')
+        params.append('tourType', tourType);
     if (search)
         params.append('search', search);
     const query = params.toString() ? `?${params.toString()}` : '';

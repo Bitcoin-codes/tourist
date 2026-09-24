@@ -122,7 +122,18 @@ async function postProcess(ep, rows, body) {
     return rows;
 }
 async function apiFetch(endpoint, options) {
-    if (supabaseCfg()) {
+    const method = (options?.method || 'GET').toUpperCase();
+    // Destination reads must reach the Flask API. tourType is a membership test
+    // over the `tourTypes` array in destinations.json, and the Supabase table
+    // has no such column at all (20 columns; PostgREST answers 42703 "column
+    // destinations.tourTypes does not exist"). The shared __sbFetch adapter's
+    // /destinations branch forwards only `category` and `search`, so a tourType
+    // request silently came back unfiltered — every tile lit up its tab and
+    // scrolled correctly, but the grid still showed all 143 rows. The two
+    // sources are byte-identical across those other 20 columns, so routing
+    // reads here changes nothing else about what renders.
+    const destinationRead = method === 'GET' && /^\/destinations(\?|$)/.test(endpoint);
+    if (supabaseCfg() && !destinationRead) {
         // Route write/edge endpoints through the full adapter.
         if (options?.method === 'POST') {
             const body = options.body ? JSON.parse(String(options.body)) : {};
@@ -160,10 +171,12 @@ async function apiFetch(endpoint, options) {
         throw err;
     }
 }
-async function getDestinations(cat = 'all', q = '') {
+async function getDestinations(cat = 'all', q = '', tt = 'all') {
     const p = new URLSearchParams();
     if (cat !== 'all')
         p.append('category', cat);
+    if (tt !== 'all')
+        p.append('tourType', tt);
     if (q)
         p.append('search', q);
     const query = p.toString() ? `?${p}` : '';
@@ -225,6 +238,7 @@ function showToast(msg) {
 }
 // ── State ─────────────────────────────────────────────────────────────
 let currentCategory = 'all';
+let currentTourType = 'all';
 let searchQuery = '';
 let savedBookmarks = JSON.parse(localStorage.getItem('visitGhanaBookmarks') || '[]');
 // ── Theme ─────────────────────────────────────────────────────────────
@@ -325,13 +339,45 @@ function initModalClose() {
     });
 }
 // ── Destinations ──────────────────────────────────────────────────────
+let destinationsTotal = 0;
+/* Filtering can open on the same first cards as the unfiltered list — Leisure
+   shares its first two with "All Destinations" and diverges only at card 3 —
+   so the grid alone gives no feedback that the click registered. Keeps a live
+   count above it. */
+function updateResultsSummary(count, isError = false) {
+    const el = document.getElementById('results-summary');
+    if (!el)
+        return;
+    // Capture the unfiltered total whenever we happen to be rendering it.
+    if (currentTourType === 'all' && currentCategory === 'all' && !searchQuery && count > 0)
+        destinationsTotal = count;
+    if (isError) {
+        el.textContent = 'Unable to load destinations';
+        return;
+    }
+    const typeBtn = currentTourType !== 'all'
+        ? document.querySelector(`.tab-btn[data-tour-type="${currentTourType}"]`)
+        : null;
+    const filterLabel = typeBtn
+        ? typeBtn.textContent.trim()
+        : (currentCategory !== 'all' ? currentCategory : '');
+    const q = searchQuery ? ` for "${searchQuery}"` : '';
+    const noun = count === 1 ? 'destination' : 'destinations';
+    const of = destinationsTotal && count < destinationsTotal ? ` of ${destinationsTotal}` : '';
+    const suffix = filterLabel ? ` · <span class="results-summary-filter">${esc(filterLabel)}</span>` : '';
+    el.innerHTML = count === 0
+        ? `No destinations${q}${suffix}`
+        : `${count}${of} ${noun}${q}${suffix}`;
+}
+
 async function renderDestinations() {
     const grid = document.getElementById('destinations-grid');
     if (!grid)
         return;
     try {
-        const res = await getDestinations(currentCategory, searchQuery);
+        const res = await getDestinations(currentCategory, searchQuery, currentTourType);
         const items = res.data;
+        updateResultsSummary(items.length);
         if (!items.length) {
             grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:48px 16px;background:var(--bg-card);border-radius:var(--radius-lg);border:1px solid var(--border-light);">
         <h3 style="font-size:1.2rem;margin-bottom:6px;color:var(--text-heading);">No destinations found</h3>
@@ -380,17 +426,34 @@ async function renderDestinations() {
         }).join('');
     }
     catch {
+        updateResultsSummary(0, true);
         grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:48px;"><p style="color:var(--text-muted);">Unable to load. Is the Flask server running on port 5000?</p></div>`;
     }
 }
+function applyTourFilter(type) {
+    currentTourType = type;
+    currentCategory = 'all';
+    searchQuery = '';
+    const input = document.getElementById('search-input');
+    if (input)
+        input.value = '';
+    $$('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tourType === type));
+    renderDestinations();
+}
 function initCategoryTabs() {
-    $$('.tab-btn').forEach(btn => btn.addEventListener('click', (e) => {
-        $$('.tab-btn').forEach(b => b.classList.remove('active'));
-        e.currentTarget.classList.add('active');
-        currentCategory = e.currentTarget.dataset.category;
-        renderDestinations();
+    $$('.tab-btn').forEach(btn => btn.addEventListener('click', () => {
+        // No scroll here: the tab strip is already on screen, and scrolling to
+        // the grid you just clicked would bounce the page under the thumb.
+        applyTourFilter(btn.dataset.tourType);
     }));
 }
+function selectTourType(type) {
+    applyTourFilter(type);
+    const section = document.getElementById('destinations');
+    if (section)
+        section.scrollIntoView({ behavior: 'smooth' });
+}
+window.selectTourType = selectTourType;
 function initSearch() {
     const input = document.getElementById('search-input');
     if (!input)
@@ -409,7 +472,10 @@ function clearSearch() {
     renderDestinations();
 }
 function selectTourCategory(category) {
+    // Kept working for anything still filtering by the old single-value
+    // category; it clears the tour-type filter so the two never compound.
     currentCategory = category;
+    currentTourType = 'all';
     searchQuery = '';
     const input = document.getElementById('search-input');
     if (input)

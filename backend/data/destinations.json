@@ -4,6 +4,10 @@
     "name": "Tafi Atome Monkey Sanctuary",
     "category": "national-parks",
     "categoryName": "Wildlife Sanctuary",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Volta Region",
     "location": "Tafi Atome, Hohoe District",
     "image": "assets/images/attractions/tafi-atome-monkey-sanctuary.jpg",
@@ -35,6 +39,10 @@
     "name": "Boabeng-Fiema Monkey Sanctuary",
     "category": "national-parks",
     "categoryName": "Wildlife Sanctuary",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Bono East",
     "location": "Nkoranza North District",
     "image": "assets/images/attractions/boabeng-fiema-monkey-sanctuary.jpg",
@@ -66,6 +74,10 @@
     "name": "Cape Coast Castle",
     "category": "historical",
     "categoryName": "Historical Site",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Central Region",
     "location": "Cape Coast, Atlantic Coast",
     "image": "assets/images/attractions/cape-coast-castle.jpg",
@@ -97,6 +109,10 @@
     "name": "Kakum National Park Canopy Walk",
     "category": "national-parks",
     "categoryName": "National Park",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Central Region",
     "location": "Cape Coast / Abrafo",
     "image": "assets/images/attractions/kakum-national-park.jpg",
@@ -128,6 +144,10 @@
     "name": "Wli Waterfalls",
     "category": "waterfalls",
     "categoryName": "Waterfall",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Volta Region",
     "location": "Hohoe, Volta Region",
     "image": "assets/images/attractions/wli-waterfall.jpg",
@@ -159,6 +179,10 @@
     "name": "Mole National Park Elephant Safari",
     "category": "national-parks",
     "categoryName": "National Park",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Savannah Region",
     "location": "Damongo, Northern Ghana",
     "image": "assets/images/attractions/mole-national-park.jpg",
@@ -190,6 +214,9 @@
     "name": "Black Star Square & Independence Arch",
     "category": "cultural",
     "categoryName": "Cultural Landmark",
+    "tourTypes": [
+      "historical-heritage"
+    ],
     "region": "Greater Accra",
     "location": "Accra Central Coast",
     "image": "assets/images/attractions/black-star-square.jpg",
@@ -221,6 +248,9 @@
     "name": "Paga Sacred Crocodile Pond",
     "category": "cultural",
     "categoryName": "Sacred Sanctuary",
+    "tourTypes": [
+      "wildlife-nature"
+    ],
     "region": "Upper East",
     "location": "Paga, Burkina Faso Border",
     "image": "assets/images/attractions/paga-crocodile-pond.jpg",
@@ -252,6 +282,10 @@
     "name": "Nzulezo Stilt Village",
     "category": "historical",
     "categoryName": "UNESCO Heritage Site",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Western Region",
     "location": "Beyin, Lake Tadane",
     "image": "assets/images/attractions/nzulezo-stilt-village.jpg",
@@ -283,6 +317,10 @@
     "name": "Mount Afadja (Afadjato)",
     "category": "national-parks",
     "categoryName": "Adventure Mountain",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Volta Region",
     "location": "Liati Wote, Gbledi",
     "image": "assets/images/attractions/mount-afadjato.jpg",
@@ -314,6 +352,10 @@
     "name": "Boti Waterfalls & Umbrella Rock",
     "category": "waterfalls",
     "categoryName": "Waterfall",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Eastern Region",
     "location": "Yilo Krobo, Koforidua",
     "image": "assets/images/attractions/boti-waterfalls.jpg",
@@ -345,6 +387,10 @@
     "name": "Elmina Castle (St. George's Castle)",
     "category": "historical",
     "categoryName": "UNESCO Heritage Site",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Central Region",
     "location": "Elmina, Central Coast",
     "image": "assets/images/attractions/elmina-castle.jpg",
@@ -376,6 +422,10 @@
     "name": "Larabanga Ancient Mosque",
     "category": "historical",
     "categoryName": "Architectural Heritage",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Savannah Region",
     "location": "Larabanga, near Mole Park",
     "image": "assets/images/attractions/larabanga-mosque.jpg",
@@ -407,6 +457,11 @@
     "name": "Aburi Botanical Gardens",
     "category": "national-parks",
     "categoryName": "Botanical Reserve",
+    "tourTypes": [
+      "wildlife-nature",
+      "agriculture-farm",
+      "leisure-recreational"
+    ],
     "region": "Eastern Region",
     "location": "Aburi, Akuapem Hills",
     "image": "assets/images/attractions/aburi-botanical-gardens.jpg",
@@ -438,6 +493,10 @@
     "name": "Bonwire Kente Weaving Village",
     "category": "cultural",
     "categoryName": "Craft Heritage",
+    "tourTypes": [
+      "food-market",
+      "historical-heritage"
+    ],
     "region": "Ashanti Region",
     "location": "Bonwire, near Kumasi",
     "image": "assets/images/attractions/bonwire-kente-village.jpg",
@@ -469,6 +528,9 @@
     "name": "Kwame Nkrumah Memorial Park & Mausoleum",
     "category": "cultural",
     "categoryName": "National Memorial",
+    "tourTypes": [
+      "historical-heritage"
+    ],
     "region": "Greater Accra",
     "location": "Accra Central",
     "image": "assets/images/attractions/kwame-nkrumah-mausoleum.jpg",
@@ -496,6 +558,11 @@
     "name": "Manhyia Palace Museum",
     "category": "historical",
     "categoryName": "Royal Museum",
+    "tourTypes": [
+      "historical-heritage",
+      "music-festival",
+      "diaspora"
+    ],
     "region": "Ashanti Region",
     "location": "Kumasi",
     "image": "assets/images/attractions/manhyia-palace.jpg",
@@ -523,6 +590,10 @@
     "name": "Lake Bosomtwe Crater Lake",
     "category": "waterfalls",
     "categoryName": "Crater Lake",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Ashanti Region",
     "location": "Lake Bosomtwe, near Kumasi",
     "image": "assets/images/attractions/lake-bosomtwe.jpg",
@@ -550,6 +621,10 @@
     "name": "Ahwiaa Woodcarving Village",
     "category": "cultural",
     "categoryName": "Craft Village",
+    "tourTypes": [
+      "food-market",
+      "historical-heritage"
+    ],
     "region": "Ashanti Region",
     "location": "Ahwiaa, near Kumasi",
     "image": "assets/images/attractions/ahwiaa-woodcarving-village.jpg",
@@ -577,6 +652,10 @@
     "name": "Fort Apollonia",
     "category": "historical",
     "categoryName": "UNESCO Heritage Site",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Western Region",
     "location": "Beyin, near Nzulezo",
     "image": "assets/images/attractions/fort-apollonia.jpg",
@@ -604,6 +683,10 @@
     "name": "Ankasa Conservation Area",
     "category": "national-parks",
     "categoryName": "Rainforest & Wetland",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Western Region",
     "location": "Near Axim / Elubo",
     "image": "assets/images/attractions/ankasa-forest-reserve.jpg",
@@ -631,6 +714,10 @@
     "name": "Sekondi-Takoradi Beach",
     "category": "coastal",
     "categoryName": "Coastal Beach",
+    "tourTypes": [
+      "coastal-beach",
+      "leisure-recreational"
+    ],
     "region": "Western Region",
     "location": "Sekondi-Takoradi",
     "image": "assets/images/attractions/sekondi-takoradi-beach.jpg",
@@ -658,6 +745,9 @@
     "name": "Techiman Heritage & Culture Museum",
     "category": "cultural",
     "categoryName": "Heritage Museum",
+    "tourTypes": [
+      "historical-heritage"
+    ],
     "region": "Bono Region",
     "location": "Techiman",
     "image": "assets/images/attractions/techiman-history-museum.jpg",
@@ -685,6 +775,10 @@
     "name": "Kintampo Waterfalls",
     "category": "waterfalls",
     "categoryName": "Waterfall",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Bono East",
     "location": "Kintampo",
     "image": "assets/images/attractions/kintampo-waterfalls.jpg",
@@ -712,6 +806,11 @@
     "name": "Gbewaa Palace (Daboya)",
     "category": "historical",
     "categoryName": "Royal Site",
+    "tourTypes": [
+      "historical-heritage",
+      "music-festival",
+      "diaspora"
+    ],
     "region": "Northern Region",
     "location": "Daboya, near Tamale",
     "image": "assets/images/attractions/gbewaa-palace.jpg",
@@ -739,6 +838,10 @@
     "name": "Navrongo Catholic Basilica",
     "category": "historical",
     "categoryName": "Historic Church",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Upper East",
     "location": "Navrongo",
     "image": "assets/images/attractions/navrongo-basilica.jpg",
@@ -766,6 +869,10 @@
     "name": "Bolgatanga Basket Weaving Village",
     "category": "cultural",
     "categoryName": "Craft Village",
+    "tourTypes": [
+      "food-market",
+      "historical-heritage"
+    ],
     "region": "Upper East",
     "location": "Bolgatanga",
     "image": "assets/images/attractions/bolgatanga-basketry-village.jpg",
@@ -793,6 +900,10 @@
     "name": "Nania Slave Route",
     "category": "historical",
     "categoryName": "Heritage Trail",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Upper East",
     "location": "Nania, near Paga",
     "image": "assets/images/attractions/nania-slave-route.jpg",
@@ -820,6 +931,10 @@
     "name": "Mount Gemi",
     "category": "national-parks",
     "categoryName": "Adventure Mountain",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Volta Region",
     "location": "Gbledi, near Afadjato",
     "image": "assets/images/attractions/mount-gemi.jpg",
@@ -847,6 +962,10 @@
     "name": "Tagbo Falls",
     "category": "waterfalls",
     "categoryName": "Waterfall",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Volta Region",
     "location": "Liati Wote, near Afadjato",
     "image": "assets/images/attractions/tagbo-falls.jpg",
@@ -874,6 +993,10 @@
     "name": "Bunso Honey & Palm Wine Eco-Park",
     "category": "national-parks",
     "categoryName": "Eco-Park",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Eastern Region",
     "location": "Bunso, Akuapem Ridge",
     "image": "assets/images/attractions/bunso-eco-park.jpg",
@@ -901,6 +1024,10 @@
     "name": "Lake Volta Shore at Dambai",
     "category": "national-parks",
     "categoryName": "Lake & Jetty",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Oti Region",
     "location": "Dambai, Oti",
     "image": "assets/images/attractions/dambai-lake-volta.jpg",
@@ -928,6 +1055,10 @@
     "name": "Gambaga Lookout & Nahiley Escarpment",
     "category": "national-parks",
     "categoryName": "Scenic Viewpoint",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "North East",
     "location": "Nalerigu / Gambaga",
     "image": "assets/images/attractions/gambaga-escarpment-lookout.jpg",
@@ -955,6 +1086,11 @@
     "name": "Wa Naa Palace",
     "category": "historical",
     "categoryName": "Royal Site",
+    "tourTypes": [
+      "historical-heritage",
+      "music-festival",
+      "diaspora"
+    ],
     "region": "Upper West",
     "location": "Wa, Upper West",
     "image": "assets/images/attractions/wa-naa-palace.jpg",
@@ -982,6 +1118,10 @@
     "name": "Sefwi Wiawso Paramount Chief's Palace",
     "category": "cultural",
     "categoryName": "Royal Site",
+    "tourTypes": [
+      "music-festival",
+      "historical-heritage"
+    ],
     "region": "Western North",
     "location": "Sefwi Wiawso, Western North",
     "image": "assets/images/attractions/sefwi-wiawso-palace.jpg",
@@ -1004,6 +1144,11 @@
     "name": "Goaso Cocoa & Forest Belt",
     "category": "national-parks",
     "categoryName": "Nature & Cocoa",
+    "tourTypes": [
+      "wildlife-nature",
+      "agriculture-farm",
+      "leisure-recreational"
+    ],
     "region": "Ahafo Region",
     "location": "Goaso, Ahafo Region",
     "image": "assets/images/attractions/ahafo-cocoa-forest.jpg",
@@ -1026,6 +1171,10 @@
     "name": "Asumura Rockfowl Sanctuary",
     "category": "national-parks",
     "categoryName": "Wildlife Sanctuary",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Ahafo Region",
     "location": "Asumura, Ahafo",
     "image": "assets/images/attractions/asumura-rockfowl-sanctuary.jpg",
@@ -1048,6 +1197,10 @@
     "name": "Bobiri Forest Reserve",
     "category": "national-parks",
     "categoryName": "Forest Reserve",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Ashanti Region",
     "location": "Bobiri, Ashanti",
     "image": "assets/images/attractions/bobiri-forest-reserve.jpg",
@@ -1070,6 +1223,10 @@
     "name": "Owabi Wildlife Sanctuary",
     "category": "national-parks",
     "categoryName": "Wildlife Sanctuary",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Ashanti Region",
     "location": "Owabi Reservoir, near Kumasi",
     "image": "assets/images/attractions/owabi-wildlife-sanctuary.jpg",
@@ -1092,6 +1249,10 @@
     "name": "Bomfobiri Wildlife Sanctuary",
     "category": "national-parks",
     "categoryName": "Wildlife Sanctuary",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Ashanti Region",
     "location": "Bomfobiri, Ashanti",
     "image": "assets/images/attractions/bomfobiri-wildlife-sanctuary.jpg",
@@ -1114,6 +1275,10 @@
     "name": "Kumasi Fort",
     "category": "historical",
     "categoryName": "Historic Fort",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Ashanti Region",
     "location": "Kumasi",
     "image": "assets/images/attractions/kumasi-fort.jpg",
@@ -1136,6 +1301,9 @@
     "name": "Kumasi Military Museum",
     "category": "cultural",
     "categoryName": "Museum",
+    "tourTypes": [
+      "historical-heritage"
+    ],
     "region": "Ashanti Region",
     "location": "Kumasi",
     "image": "assets/images/attractions/kumasi-military-museum.jpg",
@@ -1158,6 +1326,11 @@
     "name": "Prempeh II Jubilee Museum",
     "category": "historical",
     "categoryName": "Royal Museum",
+    "tourTypes": [
+      "historical-heritage",
+      "music-festival",
+      "diaspora"
+    ],
     "region": "Ashanti Region",
     "location": "Kumasi",
     "image": "assets/images/attractions/prempeh-ii-jubilee-museum.jpg",
@@ -1180,6 +1353,9 @@
     "name": "Komfo Anokye Sword Site",
     "category": "cultural",
     "categoryName": "Historic Site",
+    "tourTypes": [
+      "historical-heritage"
+    ],
     "region": "Ashanti Region",
     "location": "Komfo Anokye, Ashanti",
     "image": "assets/images/attractions/komfo-anokye-sword-site.jpg",
@@ -1202,6 +1378,10 @@
     "name": "Ntonso Adinkra Village",
     "category": "cultural",
     "categoryName": "Craft Village",
+    "tourTypes": [
+      "food-market",
+      "historical-heritage"
+    ],
     "region": "Ashanti Region",
     "location": "Ntonso, near Kumasi",
     "image": "assets/images/attractions/ntonso-adinkra-village.jpg",
@@ -1224,6 +1404,10 @@
     "name": "Adanwomase Kente Village",
     "category": "cultural",
     "categoryName": "Craft Village",
+    "tourTypes": [
+      "food-market",
+      "historical-heritage"
+    ],
     "region": "Ashanti Region",
     "location": "Adanwomase, near Kumasi",
     "image": "assets/images/attractions/adanwomase-kente-village.jpg",
@@ -1246,6 +1430,10 @@
     "name": "Kejetia Market",
     "category": "cultural",
     "categoryName": "Market",
+    "tourTypes": [
+      "food-market",
+      "historical-heritage"
+    ],
     "region": "Ashanti Region",
     "location": "Kumasi Central",
     "image": "assets/images/attractions/kejetia-market.jpg",
@@ -1268,6 +1456,10 @@
     "name": "Centre for National Culture",
     "category": "cultural",
     "categoryName": "Cultural Centre",
+    "tourTypes": [
+      "music-festival",
+      "historical-heritage"
+    ],
     "region": "Ashanti Region",
     "location": "Kumasi",
     "image": "assets/images/attractions/centre-for-national-culture.jpg",
@@ -1290,6 +1482,10 @@
     "name": "Nchiraa Waterfalls",
     "category": "waterfalls",
     "categoryName": "Waterfall",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Bono Region",
     "location": "Nchiraa, Bono",
     "image": "assets/images/attractions/nchiraa-waterfalls.jpg",
@@ -1312,6 +1508,10 @@
     "name": "Duasidan Monkey Sanctuary",
     "category": "national-parks",
     "categoryName": "Wildlife Sanctuary",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Bono Region",
     "location": "Duasidan, Bono",
     "image": "assets/images/attractions/duasidan-monkey-sanctuary.jpg",
@@ -1334,6 +1534,10 @@
     "name": "Wurobo Ancestral Caves",
     "category": "national-parks",
     "categoryName": "Caves",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Bono Region",
     "location": "Wurobo, Bono",
     "image": "assets/images/attractions/wurobo-ancestral-caves.jpg",
@@ -1356,6 +1560,10 @@
     "name": "Tanoboase Sacred Grove",
     "category": "cultural",
     "categoryName": "Sacred Site",
+    "tourTypes": [
+      "music-festival",
+      "historical-heritage"
+    ],
     "region": "Bono Region",
     "location": "Tanoboase, Techiman",
     "image": "assets/images/attractions/tanoboase-sacred-grove.jpg",
@@ -1378,6 +1586,10 @@
     "name": "Fuller Falls",
     "category": "waterfalls",
     "categoryName": "Waterfall",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Bono East",
     "location": "Kintampo, Bono East",
     "image": "assets/images/attractions/fuller-falls.jpg",
@@ -1400,6 +1612,10 @@
     "name": "Buoyem Caves",
     "category": "national-parks",
     "categoryName": "Caves",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Bono East",
     "location": "Buoyem, Bono East",
     "image": "assets/images/attractions/buoyem-caves.jpg",
@@ -1422,6 +1638,10 @@
     "name": "Fort St. Jago",
     "category": "historical",
     "categoryName": "Historic Fort",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Central Region",
     "location": "Cape Coast",
     "image": "assets/images/attractions/fort-st-jago.jpg",
@@ -1444,6 +1664,10 @@
     "name": "Fort Victoria",
     "category": "historical",
     "categoryName": "Historic Fort",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Central Region",
     "location": "Cape Coast",
     "image": "assets/images/attractions/fort-victoria.jpg",
@@ -1466,6 +1690,10 @@
     "name": "Fort William (Cape Coast)",
     "category": "historical",
     "categoryName": "Historic Fort",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Central Region",
     "location": "Cape Coast",
     "image": "assets/images/attractions/fort-william-cape-coast.jpg",
@@ -1488,6 +1716,10 @@
     "name": "Fort Royal",
     "category": "historical",
     "categoryName": "Historic Fort",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Central Region",
     "location": "Cape Coast",
     "image": "assets/images/attractions/fort-royal.jpg",
@@ -1510,6 +1742,10 @@
     "name": "Fort McCarthy",
     "category": "historical",
     "categoryName": "Historic Fort",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Central Region",
     "location": "Pra Amukoe/Prampram",
     "image": "assets/images/attractions/fort-mccarthy.jpg",
@@ -1532,6 +1768,10 @@
     "name": "Fort Amsterdam (Abandzi)",
     "category": "historical",
     "categoryName": "Historic Fort",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Central Region",
     "location": "Abandzi, Elmina",
     "image": "assets/images/attractions/fort-amsterdam-abandzi.jpg",
@@ -1554,6 +1794,10 @@
     "name": "Fort Good Hope",
     "category": "historical",
     "categoryName": "Historic Fort",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Central Region",
     "location": "Abandzi/Elmina",
     "image": "assets/images/attractions/fort-good-hope.jpg",
@@ -1576,6 +1820,10 @@
     "name": "Fort Patience",
     "category": "historical",
     "categoryName": "Historic Fort",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Central Region",
     "location": "Elmina",
     "image": "assets/images/attractions/fort-patience.jpg",
@@ -1598,6 +1846,10 @@
     "name": "Fort Nassau (Mouri)",
     "category": "historical",
     "categoryName": "Historic Fort",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Central Region",
     "location": "Mouri, near Elmina",
     "image": "assets/images/attractions/fort-nassau-mouri.jpg",
@@ -1620,6 +1872,10 @@
     "name": "Fort William (Anomabu)",
     "category": "historical",
     "categoryName": "Historic Fort",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Central Region",
     "location": "Anomabu",
     "image": "assets/images/attractions/fort-william-anomabu.jpg",
@@ -1642,6 +1898,10 @@
     "name": "Assin Manso Slave River",
     "category": "historical",
     "categoryName": "Memorial Site",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Central Region",
     "location": "Assin Manso, near Cape Coast",
     "image": "assets/images/attractions/assin-manso-slave-river.jpg",
@@ -1664,6 +1924,10 @@
     "name": "Posuban Shrines (Cape Coast)",
     "category": "cultural",
     "categoryName": "Sacred Site",
+    "tourTypes": [
+      "music-festival",
+      "historical-heritage"
+    ],
     "region": "Central Region",
     "location": "Cape Coast",
     "image": "assets/images/attractions/posuban-shrines.jpg",
@@ -1686,6 +1950,10 @@
     "name": "Begoro Falls",
     "category": "waterfalls",
     "categoryName": "Waterfall",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Eastern Region",
     "location": "Begoro, Akuapem",
     "image": "assets/images/attractions/begoro-falls.jpg",
@@ -1708,6 +1976,10 @@
     "name": "Akaa Falls",
     "category": "waterfalls",
     "categoryName": "Waterfall",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Eastern Region",
     "location": "Akaa, Eastern Region",
     "image": "assets/images/attractions/akaa-falls.jpg",
@@ -1730,6 +2002,10 @@
     "name": "Krobo Mountains",
     "category": "national-parks",
     "categoryName": "Mountains",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Eastern Region",
     "location": "Krobo, near Koforidua",
     "image": "assets/images/attractions/krobo-mountains.jpg",
@@ -1752,6 +2028,10 @@
     "name": "Akuapim Ridge",
     "category": "national-parks",
     "categoryName": "Mountains",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Eastern Region",
     "location": "Akuapim, Eastern Region",
     "image": "assets/images/attractions/akwapim-ridge.jpg",
@@ -1774,6 +2054,10 @@
     "name": "Kwahu Scarp",
     "category": "national-parks",
     "categoryName": "Scenic Highlands",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Eastern Region",
     "location": "Kwahu, Eastern Region",
     "image": "assets/images/attractions/kwahu-scarp.jpg",
@@ -1796,6 +2080,10 @@
     "name": "Atiwa Forest Reserve",
     "category": "national-parks",
     "categoryName": "Forest Reserve",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Eastern Region",
     "location": "Atiwa, Eastern Region",
     "image": "assets/images/attractions/atiwa-forest-reserve.jpg",
@@ -1818,6 +2106,10 @@
     "name": "Akosombo Dam",
     "category": "waterfalls",
     "categoryName": "Hydroelectric Dam",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Eastern Region",
     "location": "Akosombo, Lower Volta",
     "image": "assets/images/attractions/akosombo-dam.jpg",
@@ -1840,6 +2132,10 @@
     "name": "Adomi Bridge",
     "category": "historical",
     "categoryName": "Bridge Landmark",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Eastern Region",
     "location": "Adomi, Lower Volta",
     "image": "assets/images/attractions/adomi-bridge.jpg",
@@ -1862,6 +2158,10 @@
     "name": "Tetteh Quarshie Cocoa Farm",
     "category": "cultural",
     "categoryName": "Historic Farm",
+    "tourTypes": [
+      "agriculture-farm",
+      "historical-heritage"
+    ],
     "region": "Eastern Region",
     "location": "Mampong, Akuapim",
     "image": "assets/images/attractions/tetteh-quarshie-cocoa-farm.jpg",
@@ -1884,6 +2184,10 @@
     "name": "Cocoa Research Institute (CRIG)",
     "category": "cultural",
     "categoryName": "Research Institute",
+    "tourTypes": [
+      "agriculture-farm",
+      "historical-heritage"
+    ],
     "region": "Eastern Region",
     "location": "New Tafo, Akuapim",
     "image": "assets/images/attractions/cocoa-research-institute.jpg",
@@ -1906,6 +2210,10 @@
     "name": "Shai Hills Resource Reserve",
     "category": "national-parks",
     "categoryName": "Nature Reserve",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Greater Accra",
     "location": "Shai Hills, Dodowa",
     "image": "assets/images/attractions/shai-hills-reserve.jpg",
@@ -1928,6 +2236,10 @@
     "name": "Labadi Pleasure Beach",
     "category": "coastal",
     "categoryName": "Beach",
+    "tourTypes": [
+      "coastal-beach",
+      "leisure-recreational"
+    ],
     "region": "Greater Accra",
     "location": "La, Accra",
     "image": "assets/images/attractions/labadi-beach.jpg",
@@ -1950,6 +2262,10 @@
     "name": "Kokrobite Beach",
     "category": "coastal",
     "categoryName": "Beach",
+    "tourTypes": [
+      "coastal-beach",
+      "leisure-recreational"
+    ],
     "region": "Greater Accra",
     "location": "Kokrobite, west of Accra",
     "image": "assets/images/attractions/kokrobite-beach.jpg",
@@ -1972,6 +2288,10 @@
     "name": "Bojo Beach",
     "category": "coastal",
     "categoryName": "Beach",
+    "tourTypes": [
+      "coastal-beach",
+      "leisure-recreational"
+    ],
     "region": "Greater Accra",
     "location": "Bojo, near Ada",
     "image": "assets/images/attractions/bojo-beach.jpg",
@@ -1994,6 +2314,10 @@
     "name": "Ada Foah Beach",
     "category": "coastal",
     "categoryName": "Beach",
+    "tourTypes": [
+      "coastal-beach",
+      "leisure-recreational"
+    ],
     "region": "Greater Accra",
     "location": "Ada Foah, Volta estuary",
     "image": "assets/images/attractions/ada-foah-beach.jpg",
@@ -2016,6 +2340,10 @@
     "name": "Songor Ramsar Lagoon",
     "category": "national-parks",
     "categoryName": "Lagoon & Wetland",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Greater Accra",
     "location": "Ada, Greater Accra",
     "image": "assets/images/attractions/songor-lagoon.jpg",
@@ -2038,6 +2366,10 @@
     "name": "Sakumono Lagoon",
     "category": "national-parks",
     "categoryName": "Lagoon & Wetland",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Greater Accra",
     "location": "Sakumono, Tema",
     "image": "assets/images/attractions/sakumono-lagoon.jpg",
@@ -2060,6 +2392,10 @@
     "name": "Densu Delta Ramsar Site",
     "category": "national-parks",
     "categoryName": "Wetland Delta",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Greater Accra",
     "location": "Weija, Densu River",
     "image": "assets/images/attractions/densu-delta.jpg",
@@ -2082,6 +2418,10 @@
     "name": "Se Yo Cave",
     "category": "national-parks",
     "categoryName": "Caves",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Greater Accra",
     "location": "Se Yo, Greater Accra",
     "image": "assets/images/attractions/se-yo-cave.jpg",
@@ -2104,6 +2444,9 @@
     "name": "National Museum of Ghana",
     "category": "cultural",
     "categoryName": "Museum",
+    "tourTypes": [
+      "historical-heritage"
+    ],
     "region": "Greater Accra",
     "location": "Accra Central",
     "image": "assets/images/attractions/national-museum-ghana.jpg",
@@ -2126,6 +2469,10 @@
     "name": "National Theatre",
     "category": "cultural",
     "categoryName": "Theatre",
+    "tourTypes": [
+      "music-festival",
+      "historical-heritage"
+    ],
     "region": "Greater Accra",
     "location": "Accra Central",
     "image": "assets/images/attractions/national-theatre.jpg",
@@ -2148,6 +2495,10 @@
     "name": "Osu Castle (Fort Christiansborg)",
     "category": "historical",
     "categoryName": "Historic Fort",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Greater Accra",
     "location": "Osu, Accra",
     "image": "assets/images/attractions/osu-castle.jpg",
@@ -2170,6 +2521,10 @@
     "name": "Ussher Fort",
     "category": "historical",
     "categoryName": "Historic Fort",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Greater Accra",
     "location": "Accra, Tema coast",
     "image": "assets/images/attractions/ussher-fort.jpg",
@@ -2192,6 +2547,10 @@
     "name": "James Fort (Accra)",
     "category": "historical",
     "categoryName": "Historic Fort",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Greater Accra",
     "location": "Jamestown, Accra",
     "image": "assets/images/attractions/james-fort.jpg",
@@ -2214,6 +2573,9 @@
     "name": "Jamestown Lighthouse",
     "category": "cultural",
     "categoryName": "Historic Lighthouse",
+    "tourTypes": [
+      "historical-heritage"
+    ],
     "region": "Greater Accra",
     "location": "Jamestown, Accra",
     "image": "assets/images/attractions/jamestown-lighthouse.jpg",
@@ -2236,6 +2598,9 @@
     "name": "W.E.B. Du Bois Memorial Centre",
     "category": "cultural",
     "categoryName": "Memorial Centre",
+    "tourTypes": [
+      "historical-heritage"
+    ],
     "region": "Greater Accra",
     "location": "Cantonments, Accra",
     "image": "assets/images/attractions/w.e.b-du-bois-memorial.jpg",
@@ -2258,6 +2623,10 @@
     "name": "Accra Arts Centre",
     "category": "cultural",
     "categoryName": "Arts Centre",
+    "tourTypes": [
+      "food-market",
+      "historical-heritage"
+    ],
     "region": "Greater Accra",
     "location": "Accra Central",
     "image": "assets/images/attractions/accra-arts-centre.jpg",
@@ -2280,6 +2649,11 @@
     "name": "Legon Botanical Gardens",
     "category": "national-parks",
     "categoryName": "Botanical Garden",
+    "tourTypes": [
+      "wildlife-nature",
+      "agriculture-farm",
+      "leisure-recreational"
+    ],
     "region": "Greater Accra",
     "location": "University of Ghana, Legon",
     "image": "assets/images/attractions/legon-botanical-gardens.jpg",
@@ -2302,6 +2676,9 @@
     "name": "Accra International Conference Centre",
     "category": "cultural",
     "categoryName": "Conference Centre",
+    "tourTypes": [
+      "music-festival"
+    ],
     "region": "Greater Accra",
     "location": "Accra, near Black Star Square",
     "image": "assets/images/attractions/accra-international-conference-centre.jpg",
@@ -2324,6 +2701,10 @@
     "name": "Nakpanduri Cliffs",
     "category": "national-parks",
     "categoryName": "Cliffs & Views",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "North East",
     "location": "Nakpanduri",
     "image": "assets/images/attractions/nakpanduri-cliffs.jpg",
@@ -2346,6 +2727,10 @@
     "name": "Naa Jaringa Defence Wall",
     "category": "historical",
     "categoryName": "Defence Wall",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "North East",
     "location": "Naa Jaringa, North East",
     "image": "assets/images/attractions/naa-jaringa-defence-wall.jpg",
@@ -2368,6 +2753,10 @@
     "name": "Nalerigu Defence Wall",
     "category": "historical",
     "categoryName": "Defence Wall",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "North East",
     "location": "Nalerigu",
     "image": "assets/images/attractions/nalerigu-defence-wall.jpg",
@@ -2390,6 +2779,11 @@
     "name": "Gambaga Chief's Palace",
     "category": "historical",
     "categoryName": "Royal Site",
+    "tourTypes": [
+      "historical-heritage",
+      "music-festival",
+      "diaspora"
+    ],
     "region": "North East",
     "location": "Gambaga",
     "image": "assets/images/attractions/gambaga-chief-palace.jpg",
@@ -2412,6 +2806,10 @@
     "name": "Tamale Cultural Centre",
     "category": "cultural",
     "categoryName": "Cultural Centre",
+    "tourTypes": [
+      "music-festival",
+      "historical-heritage"
+    ],
     "region": "Northern Region",
     "location": "Tamale",
     "image": "assets/images/attractions/tamale-cultural-centre.jpg",
@@ -2434,6 +2832,10 @@
     "name": "Daboya Fugu Weaving Village",
     "category": "cultural",
     "categoryName": "Craft Village",
+    "tourTypes": [
+      "food-market",
+      "historical-heritage"
+    ],
     "region": "Northern Region",
     "location": "Daboya, near Tamale",
     "image": "assets/images/attractions/daboya-fugu-weaving-village.jpg",
@@ -2456,6 +2858,10 @@
     "name": "Kukuo Pottery Centre",
     "category": "cultural",
     "categoryName": "Craft Centre",
+    "tourTypes": [
+      "food-market",
+      "historical-heritage"
+    ],
     "region": "Northern Region",
     "location": "Kukuo, Northern Region",
     "image": "assets/images/attractions/kukuo-pottery-centre.jpg",
@@ -2478,6 +2884,10 @@
     "name": "Gushiegu Local Textile Centre",
     "category": "cultural",
     "categoryName": "Craft Centre",
+    "tourTypes": [
+      "food-market",
+      "historical-heritage"
+    ],
     "region": "Northern Region",
     "location": "Gushiegu",
     "image": "assets/images/attractions/gushiegu-textile-centre.jpg",
@@ -2500,6 +2910,10 @@
     "name": "Kyabobo National Park",
     "category": "national-parks",
     "categoryName": "National Park",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Oti Region",
     "location": "Kyabobo, near Chilingo",
     "image": "assets/images/attractions/kyabobo-national-park.jpg",
@@ -2522,6 +2936,9 @@
     "name": "Kete Krachi Museum",
     "category": "cultural",
     "categoryName": "Museum",
+    "tourTypes": [
+      "historical-heritage"
+    ],
     "region": "Oti Region",
     "location": "Kete Krachi, Oti",
     "image": "assets/images/attractions/kete-krachi-museum.jpg",
@@ -2544,6 +2961,10 @@
     "name": "Mognori Eco-Village",
     "category": "cultural",
     "categoryName": "Eco-Village",
+    "tourTypes": [
+      "agriculture-farm",
+      "historical-heritage"
+    ],
     "region": "Savannah Region",
     "location": "Mognori, Black Volta",
     "image": "assets/images/attractions/mognori-ecovillage.jpg",
@@ -2566,6 +2987,10 @@
     "name": "Black Volta River",
     "category": "national-parks",
     "categoryName": "River",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Savannah Region",
     "location": "Black Volta, Savannah",
     "image": "assets/images/attractions/black-volta-river.jpg",
@@ -2588,6 +3013,10 @@
     "name": "Tongo Hills",
     "category": "national-parks",
     "categoryName": "Mountains",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Upper East",
     "location": "Tongo, Upper East",
     "image": "assets/images/attractions/tongo-hills.jpg",
@@ -2610,6 +3039,10 @@
     "name": "Tengzug Shrine Complex",
     "category": "cultural",
     "categoryName": "Sacred Site",
+    "tourTypes": [
+      "music-festival",
+      "historical-heritage"
+    ],
     "region": "Upper East",
     "location": "Tengzug",
     "image": "assets/images/attractions/tengzug-shrine.jpg",
@@ -2632,6 +3065,10 @@
     "name": "Zebilla Hills",
     "category": "national-parks",
     "categoryName": "Mountains",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Upper East",
     "location": "Zebilla",
     "image": "assets/images/attractions/zebilla-hills.jpg",
@@ -2654,6 +3091,11 @@
     "name": "Paga Chief's Palace",
     "category": "historical",
     "categoryName": "Royal Site",
+    "tourTypes": [
+      "historical-heritage",
+      "music-festival",
+      "diaspora"
+    ],
     "region": "Upper East",
     "location": "Paga",
     "image": "assets/images/attractions/paga-chief-palace.jpg",
@@ -2676,6 +3118,10 @@
     "name": "Paga Slave Camp",
     "category": "historical",
     "categoryName": "Historic Site",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Upper East",
     "location": "Paga, near Nania",
     "image": "assets/images/attractions/paga-slave-camp.jpg",
@@ -2698,6 +3144,9 @@
     "name": "Sirigu Traditional Houses",
     "category": "cultural",
     "categoryName": "Heritage Houses",
+    "tourTypes": [
+      "historical-heritage"
+    ],
     "region": "Upper East",
     "location": "Sirigu, Upper East",
     "image": "assets/images/attractions/sirigu-traditional-houses.jpg",
@@ -2720,6 +3169,10 @@
     "name": "Sirigu Pottery Centre",
     "category": "cultural",
     "categoryName": "Craft Centre",
+    "tourTypes": [
+      "food-market",
+      "historical-heritage"
+    ],
     "region": "Upper East",
     "location": "Sirigu, Upper East",
     "image": "assets/images/attractions/sirigu-pottery.jpg",
@@ -2742,6 +3195,10 @@
     "name": "Wechiau Community Hippo Sanctuary",
     "category": "national-parks",
     "categoryName": "Wildlife Sanctuary",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Upper West",
     "location": "Wechiau, Black Volta",
     "image": "assets/images/attractions/wechiau-hippo-sanctuary.jpg",
@@ -2764,6 +3221,10 @@
     "name": "Gbele Game Reserve",
     "category": "national-parks",
     "categoryName": "Game Reserve",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Upper West",
     "location": "Gbele, Wa",
     "image": "assets/images/attractions/gbele-game-reserve.jpg",
@@ -2786,6 +3247,10 @@
     "name": "Bulenga Caves",
     "category": "national-parks",
     "categoryName": "Caves",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Upper West",
     "location": "Bulenga, Upper West",
     "image": "assets/images/attractions/bulenga-caves.jpg",
@@ -2808,6 +3273,10 @@
     "name": "Dahili Caves",
     "category": "national-parks",
     "categoryName": "Caves",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Upper West",
     "location": "Dahili, Upper West",
     "image": "assets/images/attractions/dahili-caves.jpg",
@@ -2830,6 +3299,10 @@
     "name": "Sankana Caves",
     "category": "national-parks",
     "categoryName": "Caves",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Upper West",
     "location": "Sankana, Upper West",
     "image": "assets/images/attractions/sankana-caves.jpg",
@@ -2852,6 +3325,10 @@
     "name": "Gwollu Slave Defence Wall",
     "category": "historical",
     "categoryName": "Defence Wall",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Upper West",
     "location": "Gwollu",
     "image": "assets/images/attractions/gwollu-slave-defence-wall.jpg",
@@ -2874,6 +3351,10 @@
     "name": "Nakore Ancient Mosque",
     "category": "historical",
     "categoryName": "Ancient Mosque",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Upper West",
     "location": "Nakore",
     "image": "assets/images/attractions/nakore-ancient-mosque.jpg",
@@ -2896,6 +3377,10 @@
     "name": "Dondoli Ancient Mosque",
     "category": "historical",
     "categoryName": "Ancient Mosque",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Upper West",
     "location": "Dondoli",
     "image": "assets/images/attractions/dondoli-ancient-mosque.jpg",
@@ -2918,6 +3403,10 @@
     "name": "Kassana Slave Camp",
     "category": "historical",
     "categoryName": "Historic Site",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Upper West",
     "location": "Kassana, near Gwollu",
     "image": "assets/images/attractions/kassana-slave-camp.jpg",
@@ -2940,6 +3429,10 @@
     "name": "Liati Wote Waterfalls",
     "category": "waterfalls",
     "categoryName": "Waterfall",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Volta Region",
     "location": "Liati Wote",
     "image": "assets/images/attractions/liati-wote-waterfalls.jpg",
@@ -2962,6 +3455,10 @@
     "name": "Amedzofe Mountains",
     "category": "national-parks",
     "categoryName": "Mountains",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Volta Region",
     "location": "Amedzofe",
     "image": "assets/images/attractions/amedzofe-mountains.jpg",
@@ -2984,6 +3481,10 @@
     "name": "Fort Prinzenstein",
     "category": "historical",
     "categoryName": "Historic Fort",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Volta Region",
     "location": "Keta, Volta",
     "image": "assets/images/attractions/fort-prinzenstein.jpg",
@@ -3006,6 +3507,10 @@
     "name": "Cape Three Points",
     "category": "coastal",
     "categoryName": "Coastal Headland",
+    "tourTypes": [
+      "coastal-beach",
+      "leisure-recreational"
+    ],
     "region": "Western Region",
     "location": "Cape Three Points",
     "image": "assets/images/attractions/cape-three-points.jpg",
@@ -3028,6 +3533,10 @@
     "name": "Busua Beach",
     "category": "coastal",
     "categoryName": "Beach",
+    "tourTypes": [
+      "coastal-beach",
+      "leisure-recreational"
+    ],
     "region": "Western Region",
     "location": "Busua, near Dixcove",
     "image": "assets/images/attractions/busua-beach.jpg",
@@ -3050,6 +3559,10 @@
     "name": "Axim Beach",
     "category": "coastal",
     "categoryName": "Beach",
+    "tourTypes": [
+      "coastal-beach",
+      "leisure-recreational"
+    ],
     "region": "Western Region",
     "location": "Axim",
     "image": "assets/images/attractions/axim-beach.jpg",
@@ -3072,6 +3585,10 @@
     "name": "Butre Beach",
     "category": "coastal",
     "categoryName": "Beach",
+    "tourTypes": [
+      "coastal-beach",
+      "leisure-recreational"
+    ],
     "region": "Western Region",
     "location": "Butre",
     "image": "assets/images/attractions/butre-beach.jpg",
@@ -3094,6 +3611,10 @@
     "name": "Princess Town Beach",
     "category": "coastal",
     "categoryName": "Beach",
+    "tourTypes": [
+      "coastal-beach",
+      "leisure-recreational"
+    ],
     "region": "Western Region",
     "location": "Princess Town",
     "image": "assets/images/attractions/princess-town-beach.jpg",
@@ -3116,6 +3637,10 @@
     "name": "Fort Metal Cross",
     "category": "historical",
     "categoryName": "Historic Fort",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Western Region",
     "location": "Dixcove",
     "image": "assets/images/attractions/fort-metal-cross.jpg",
@@ -3138,6 +3663,10 @@
     "name": "Fort St. Anthony",
     "category": "historical",
     "categoryName": "Historic Fort",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Western Region",
     "location": "Axim",
     "image": "assets/images/attractions/fort-st-anthony.jpg",
@@ -3160,6 +3689,10 @@
     "name": "Fort Groß Friedrichsburg",
     "category": "historical",
     "categoryName": "Historic Fort",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Western Region",
     "location": "Axim",
     "image": "assets/images/attractions/fort-gross-friedrichsburg.jpg",
@@ -3182,6 +3715,10 @@
     "name": "Fort Dorothea",
     "category": "historical",
     "categoryName": "Historic Fort",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Western Region",
     "location": "Akwidaa, Sekondi",
     "image": "assets/images/attractions/fort-dorothea.jpg",
@@ -3204,6 +3741,10 @@
     "name": "Fort Batenstein",
     "category": "historical",
     "categoryName": "Historic Fort",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Western Region",
     "location": "Butre",
     "image": "assets/images/attractions/fort-batenstein.jpg",
@@ -3226,6 +3767,10 @@
     "name": "Fort Orange",
     "category": "historical",
     "categoryName": "Historic Fort",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Western Region",
     "location": "Sekondi",
     "image": "assets/images/attractions/fort-orange.jpg",
@@ -3248,6 +3793,10 @@
     "name": "Fort St. Sebastian",
     "category": "historical",
     "categoryName": "Historic Fort",
+    "tourTypes": [
+      "historical-heritage",
+      "diaspora"
+    ],
     "region": "Western Region",
     "location": "Shama, near Axim",
     "image": "assets/images/attractions/fort-st-sebastian.jpg",
@@ -3270,6 +3819,10 @@
     "name": "Bia National Park",
     "category": "national-parks",
     "categoryName": "National Park",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Western Region",
     "location": "Bia, southeast Ghana",
     "image": "assets/images/attractions/bia-national-park.jpg",
@@ -3292,6 +3845,10 @@
     "name": "Bia Resource Reserve",
     "category": "national-parks",
     "categoryName": "Forest Reserve",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Western North",
     "location": "Bia, Western North",
     "image": "assets/images/attractions/bia-resource-reserve.jpg",
@@ -3314,6 +3871,10 @@
     "name": "Dadieso Forest Reserve",
     "category": "national-parks",
     "categoryName": "Forest Reserve",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Western North",
     "location": "Dadieso, Western North",
     "image": "assets/images/attractions/dadieso-forest-reserve.jpg",
@@ -3336,6 +3897,10 @@
     "name": "Sui River",
     "category": "national-parks",
     "categoryName": "River",
+    "tourTypes": [
+      "wildlife-nature",
+      "leisure-recreational"
+    ],
     "region": "Western North",
     "location": "Sui, Western North",
     "image": "assets/images/attractions/sui-river.jpg",
@@ -3358,6 +3923,9 @@
     "name": "Gomoa Wonderland",
     "category": "cultural",
     "categoryName": "Amusement Park",
+    "tourTypes": [
+      "coastal-beach"
+    ],
     "region": "Central Region",
     "location": "Gomoa Fetteh, near Winneba",
     "image": "assets/images/attractions/gomoa-wonderland.jpg",

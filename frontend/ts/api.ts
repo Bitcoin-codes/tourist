@@ -27,9 +27,10 @@ async function fetchAPI<T>(endpoint: string, options?: RequestInit): Promise<Api
   }
 }
 
-export async function getDestinations(category: string = 'all', search: string = ''): Promise<ApiResponse<Destination[]>> {
+export async function getDestinations(category: string = 'all', search: string = '', tourType: string = 'all'): Promise<ApiResponse<Destination[]>> {
   const params = new URLSearchParams();
   if (category !== 'all') params.append('category', category);
+  if (tourType !== 'all') params.append('tourType', tourType);
   if (search) params.append('search', search);
 
   const query = params.toString() ? `?${params.toString()}` : '';

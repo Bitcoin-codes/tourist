@@ -99,4 +99,10 @@ export interface ChatMessage {
 }
 
 export type Theme = 'light' | 'dark';
-export type Category = 'all' | 'national-parks' | 'historical' | 'waterfalls' | 'cultural';
+export type Category = 'all' | 'national-parks' | 'historical' | 'waterfalls' | 'cultural' | 'coastal';
+/** The tour types offered on the hero tiles, sent as `?tourType=`.
+ *  Unlike Category this is a list on each destination — Kejetia Market is
+ *  both a market and heritage — so a place usually carries more than one. */
+export type TourType = 'all' | 'coastal-beach' | 'historical-heritage' | 'food-market'
+  | 'agriculture-farm' | 'music-festival' | 'wildlife-nature'
+  | 'diaspora' | 'leisure-recreational';

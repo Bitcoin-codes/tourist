@@ -473,9 +473,9 @@ ul { list-style: none; }
   max-width: 960px;
   margin: 0 auto var(--sp-8);
 }
-/* Desktop keeps the three-up grid. Below 768px this same track becomes a
-   horizontal scroll-snap slider — the glow stays pinned on .hero-tiles so
-   it doesn't scroll away with the cards. */
+/* Desktop keeps the three-up grid — the six tour types fall across two rows.
+   Below 768px this same track becomes a horizontal scroll-snap slider — the
+   glow stays pinned on .hero-tiles so it doesn't scroll away with the cards. */
 .hero-tiles-track {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -527,6 +527,11 @@ ul { list-style: none; }
 }
 .hero-tile:nth-child(2) { animation-delay: 110ms; }
 .hero-tile:nth-child(3) { animation-delay: 220ms; }
+.hero-tile:nth-child(4) { animation-delay: 330ms; }
+.hero-tile:nth-child(5) { animation-delay: 440ms; }
+.hero-tile:nth-child(6) { animation-delay: 550ms; }
+.hero-tile:nth-child(7) { animation-delay: 660ms; }
+.hero-tile:nth-child(8) { animation-delay: 770ms; }
 @keyframes tileIn {
   from { opacity: 0; transform: translateY(24px); }
   to { opacity: 1; transform: translateY(0); }
@@ -751,6 +756,43 @@ ul { list-style: none; }
   background: var(--brand-primary);
   color: var(--text-inverse);
   box-shadow: var(--shadow-sm);
+}
+
+/* Right-edge fade. The strip now carries 9 tabs (1410px of pills) inside a
+   ~1230px container and overflows at every width, with its scrollbar hidden —
+   so there was no hint that Diaspora/Leisure sat beyond the edge. Only shown
+   while there is actually something to the right. */
+.category-tabs-wrap {
+  position: relative;
+}
+.category-tabs-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 52px;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0), var(--bg-body) 78%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+.category-tabs-wrap.is-scrollable-right::after {
+  opacity: 1;
+}
+
+/* Live result count above the grid. A filtered list can open on the same
+   first cards as "All Destinations" (Leisure shares its first two), so the
+   change is invisible at a glance without a count. */
+.results-summary {
+  margin: 0 0 var(--sp-4);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.results-summary-filter {
+  color: var(--brand-primary);
+  font-weight: 800;
 }
 
 /* =====================================================================

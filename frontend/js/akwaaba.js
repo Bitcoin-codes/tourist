@@ -143,13 +143,14 @@
             'just type <strong>agent</strong> — or I\'ll offer to pass you over.</p>' },
 
     // Payment honesty. Spec: do NOT claim to handle direct payment
-    // processing and do NOT invent booking guarantees. This deliberately
-    // runs ahead of the responders' canned "Zero upfront! Pay on arrival"
-    // line, which is exactly the kind of promise that must not be made by
-    // an automated guide.
+    // processing and do NOT invent booking guarantees. Online deposits now
+    // exist, so this no longer says there is no way to pay — it is careful
+    // about the one thing that is still true: the deposit is taken on the
+    // booking page by Paystack/Flutterwave, never here in the chat.
     { re: /\b(pay|paying|payment|payments|paid|price|prices|pricing|cost|costs|deposit|refund|refundable|guarantee|guaranteed|guarantees|card|cards|momo|mobile\s+money|invoice|receipt)\b/i,
-      html: '<p>I can\'t take payments or promise bookings from the chat — I don\'t process payments directly. ' +
-            'Our agents confirm availability, pricing and payment with you personally.</p>' +
+      html: '<p>I can\'t take a payment in this chat — deposits are paid on the booking page itself, ' +
+            'by card (Visa/Mastercard), Mobile Money, or PayPal where available, and our agents ' +
+            'confirm the balance with you personally.</p>' +
             '<p style="color:var(--text-muted);font-size:0.9rem;">Want me to pass you to one now?</p>' +
             '<button type="button" onclick="startAgentHandoff()" ' +
             'style="background:var(--brand-primary);color:#fff;border:none;border-radius:6px;' +

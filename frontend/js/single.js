@@ -695,7 +695,7 @@ function chatResponse(q) {
     if (l.includes('airport') || l.includes('pickup'))
         return `<p><strong>Airport Transfer:</strong> VIP meet & greet at Kotoka (ACC), GHS 350 (~$30).</p>`;
     if (l.includes('pay') || l.includes('card'))
-        return `<p><strong>Payment:</strong> Zero upfront! Pay on arrival via Visa, MoMo, or cash.</p>`;
+        return `<p><strong>Payment:</strong> Reserve with nothing upfront and settle on arrival (Visa, MoMo or cash), or pay a deposit online by card, MoMo or PayPal.</p>`;
     if (l.includes('itinerar') || l.includes('plan'))
         return `<p><strong>Itineraries:</strong> 3-day express, 7-day essential, or 14-day grand explorer. Use the Trip Planner below!</p>`;
     if (l.includes('hello') || l.includes('hi') || l.includes('akwaaba'))

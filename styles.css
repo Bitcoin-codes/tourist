@@ -2096,6 +2096,22 @@ ul { list-style: none; }
   background: radial-gradient(circle at 100% 0%, rgba(0,102,204,0.06), transparent 60%);
   pointer-events: none;
 }
+/* Deposit split shown only when the guest pays online now. */
+.summary-deposit-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  font-size: 0.85rem;
+  padding: 0 var(--sp-1) var(--sp-4);
+}
+.summary-deposit-box[hidden] { display: none; }
+.summary-deposit-box .summary-item strong { color: var(--brand-primary); }
+.field-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+  line-height: 1.5;
+}
 .booking-trust-guarantee {
   font-size: 0.78rem;
   color: var(--text-muted);

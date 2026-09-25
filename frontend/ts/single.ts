@@ -684,7 +684,7 @@ function chatResponse(q: string): string {
   if (l.includes('festiv') || l.includes('aboakyer') || l.includes('homowo')) return `<p><strong>Festivals:</strong> Aboakyer (May, deer hunt), Homowo (Aug, harvest), Damba (Jul-Aug, horse dances).</p>`;
   if (l.includes('waterfall') || l.includes('wli')) return `<p><strong>Waterfalls:</strong> Wli (highest in West Africa), Boti (twin falls + Umbrella Rock).</p>`;
   if (l.includes('airport') || l.includes('pickup')) return `<p><strong>Airport Transfer:</strong> VIP meet & greet at Kotoka (ACC), GHS 350 (~$30).</p>`;
-  if (l.includes('pay') || l.includes('card')) return `<p><strong>Payment:</strong> Reserve with nothing upfront and settle on arrival (Visa, MoMo or cash), or pay a deposit online by card, MoMo or PayPal.</p>`;
+  if (l.includes('pay') || l.includes('card')) return `<p><strong>Payment:</strong> Reserve with nothing upfront and settle on arrival (Visa, MoMo or cash), or pay a deposit online by card or Mobile Money.</p>`;
   if (l.includes('itinerar') || l.includes('plan')) return `<p><strong>Itineraries:</strong> 3-day express, 7-day essential, or 14-day grand explorer. Use the Trip Planner below!</p>`;
   if (l.includes('hello') || l.includes('hi') || l.includes('akwaaba')) return `<p><strong>Akwaaba!</strong> Welcome! I can help with destinations, castles, festivals, bookings, and itineraries.</p>`;
   return `<p><strong>Akwaaba!</strong> I can help with Ghana's sanctuaries, castles, waterfalls, festivals, and travel planning. Try the chips below!</p>`;

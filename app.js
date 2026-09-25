@@ -1095,7 +1095,7 @@ function generateAIResponse(q) {
 
   if (query.includes('pay') || query.includes('cash') || query.includes('card') || query.includes('arrival')) {
     return `<p><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px; vertical-align: middle;"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg> <strong>Payment Options:</strong></p>
-            <p>You can reserve all services online right now with <strong>Zero Upfront Payment</strong> and settle on arrival — or pay a deposit online by card, Mobile Money or PayPal.</p>
+            <p>You can reserve all services online right now with <strong>Zero Upfront Payment</strong> and settle on arrival — or pay a deposit online by card or Mobile Money.</p>
             <p>You simply choose "Pay on Arrival" and settle the bill via Visa, Mastercard, or local Cedis/USD cash directly with your concierge when you land.</p>`;
   }
 

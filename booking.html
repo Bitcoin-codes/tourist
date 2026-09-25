@@ -747,9 +747,12 @@
 
       if (sumGhs) sumGhs.innerText = money(total, currency);
       if (sumUsd) {
+        // The secondary line is only ever an estimate: a Ghana Paystack
+        // account is charged in cedis, so the guest's own bank does the
+        // conversion. Never present this as the amount they will be billed.
         sumUsd.innerText = currency === 'USD'
           ? 'Balance settled on arrival'
-          : '~' + money(totalGHS / rate, 'USD') + ' USD';
+          : '~' + money(totalGHS / rate, 'USD') + ' · charged in cedis';
       }
 
       const box = document.getElementById('deposit-breakdown');

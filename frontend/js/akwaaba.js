@@ -149,7 +149,7 @@
     // booking page by Paystack/Flutterwave, never here in the chat.
     { re: /\b(pay|paying|payment|payments|paid|price|prices|pricing|cost|costs|deposit|refund|refundable|guarantee|guaranteed|guarantees|card|cards|momo|mobile\s+money|invoice|receipt)\b/i,
       html: '<p>I can\'t take a payment in this chat — deposits are paid on the booking page itself, ' +
-            'by card (Visa/Mastercard), Mobile Money, or PayPal where available, and our agents ' +
+            'by card (Visa/Mastercard) or Mobile Money, and our agents ' +
             'confirm the balance with you personally.</p>' +
             '<p style="color:var(--text-muted);font-size:0.9rem;">Want me to pass you to one now?</p>' +
             '<button type="button" onclick="startAgentHandoff()" ' +

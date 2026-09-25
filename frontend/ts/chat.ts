@@ -77,7 +77,7 @@ function generateResponse(query: string): string {
 
   if (q.includes('pay') || q.includes('cash') || q.includes('card') || q.includes('arrival')) {
     return `<p><strong>Payment Options:</strong></p>
-      <p>Pay a small deposit online by card, Mobile Money or PayPal \u2014 or reserve with nothing upfront and settle on arrival with Visa, Mastercard, MoMo or cash.</p>`;
+      <p>Pay a small deposit online by card or Mobile Money \u2014 or reserve with nothing upfront and settle on arrival with Visa, Mastercard, MoMo or cash.</p>`;
   }
 
   if (q.includes('castle') || q.includes('cape coast') || q.includes('elmina') || q.includes('history')) {

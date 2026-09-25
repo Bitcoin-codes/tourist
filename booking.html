@@ -547,6 +547,10 @@
   <script src="frontend/js/akwaaba.js"></script>
 
   <!-- Custom App JavaScript -->
+  <!-- Shared theme: the one implementation every page uses (index, planner,
+       regions, booking) so the light/dark choice always travels with you.
+       Replaces app.js's own copy, which could drift from the others. -->
+  <script src="frontend/js/theme.js"></script>
   <script src="app.js"></script>
   <script>
     // Inline Page Specific Booking Script for Summary & Confirmation

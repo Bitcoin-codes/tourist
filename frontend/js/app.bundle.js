@@ -242,26 +242,13 @@ let currentTourType = 'all';
 let searchQuery = '';
 let savedBookmarks = JSON.parse(localStorage.getItem('visitGhanaBookmarks') || '[]');
 // ── Theme ─────────────────────────────────────────────────────────────
-function initTheme() {
-    let saved = 'light';
-    try { saved = localStorage.getItem('memorra-theme') || 'light'; } catch (e) {}
-    document.documentElement.setAttribute('data-theme', saved === 'dark' ? 'dark' : 'light');
-    window.addEventListener('storage', (e) => {
-        if (e.key === 'memorra-theme') {
-            document.documentElement.setAttribute('data-theme',
-                                                  e.newValue === 'dark' ? 'dark' : 'light');
-        }
-    });
-    $$('.theme-toggle-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const cur = document.documentElement.getAttribute('data-theme') || 'light';
-            const next = cur === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', next);
-            try { localStorage.setItem('memorra-theme', next); } catch (e) {}
-            showToast(`Switched to ${next === 'light' ? 'Light' : 'Dark'} theme`);
-        });
-    });
-}
+// Moved out to frontend/js/theme.js, which every page loads (index, planner,
+// regions, booking). app.js used to keep its own near-identical copy for
+// booking.html and the two drifted once already — one file now, so booking
+// follows exactly the same logic as this bundle. It also re-applies the saved
+// theme on pageshow/visibilitychange, which this copy never did: a page
+// restored from the back/forward cache kept the theme it was cached with, so
+// booking could be dark while the next page opened light.
 // ── Mobile Nav ────────────────────────────────────────────────────────
 function initMobileNav() {
     const toggle = document.getElementById('mobile-toggle-btn');
@@ -1110,7 +1097,8 @@ function handleAIChatSubmit(e) { e.preventDefault(); handleChat(e); }
 window.handleAIChatSubmit = handleAIChatSubmit;
 // ── Bootstrap ─────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-    initTheme();
+    // Theme is bound by frontend/js/theme.js (loaded by every page) — see the
+    // note above initTheme. Calling it here too would double-bind the buttons.
     initMobileNav();
     initHeaderScroll();
     initModalClose();

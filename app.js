@@ -613,7 +613,9 @@ let savedBookmarks = JSON.parse(localStorage.getItem('visitGhanaBookmarks') || '
 
 // DOM Loaded Initialization
 document.addEventListener('DOMContentLoaded', () => {
-  initThemeToggle();
+  // Theme comes from frontend/js/theme.js (loaded by every page) — see
+  // initThemeToggle below. Binding it here as well would double-bind the
+  // toggle buttons and flip the theme twice per click.
   renderDestinations();
   renderFestivals();
   setupEventListeners();
@@ -992,34 +994,13 @@ function setupEventListeners() {
 }
 
 // Theme Toggle Initialization
-// Must stay in sync with frontend/js/ui.js (and therefore app.bundle.js), which
-// index/planner/regions all load: same key, same default, same cross-tab sync.
-// This used 'visitGhanaTheme' defaulting to 'dark', so booking.html ignored a
-// Light choice saved by the other pages and forced dark instead — and a toggle
-// made here never reached them.
-function initThemeToggle() {
-  let saved = 'light';
-  try { saved = localStorage.getItem('memorra-theme') || 'light'; } catch (e) {}
-  document.documentElement.setAttribute('data-theme', saved === 'dark' ? 'dark' : 'light');
-
-  window.addEventListener('storage', (e) => {
-    if (e.key === 'memorra-theme') {
-      document.documentElement.setAttribute('data-theme',
-        e.newValue === 'dark' ? 'dark' : 'light');
-    }
-  });
-
-  const themeBtns = document.querySelectorAll('.theme-toggle-btn');
-  themeBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const current = document.documentElement.getAttribute('data-theme') || 'light';
-      const nextTheme = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', nextTheme);
-      try { localStorage.setItem('memorra-theme', nextTheme); } catch (e) {}
-      showToast(`Switched to ${nextTheme === 'light' ? 'Light' : 'Dark'} Theme`);
-    });
-  });
-}
+// REMOVED — booking.html now loads frontend/js/theme.js, the exact same file
+// index/planner/regions load (app.bundle.js no longer keeps a private copy
+// either). This was a third copy of that logic: the one that had drifted to
+// 'visitGhanaTheme' and left booking out of step with the other pages, and it
+// never re-applied the saved theme when a page came back from the
+// back/forward cache — which is how booking could sit in dark mode while the
+// next page opened light. One implementation, all four pages, cannot drift.
 
 // AI Chatbot Controller & Intelligence Engine
 function toggleAIChat() {

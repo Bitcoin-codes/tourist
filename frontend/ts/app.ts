@@ -3,7 +3,7 @@
  * TypeScript + Flask REST API Architecture
  */
 
-import { initThemeToggle, initMobileNav, initHeaderScroll, initModalClose, openModal, closeModal, showToast } from './ui';
+import { initMobileNav, initHeaderScroll, initModalClose, openModal, closeModal, showToast } from './ui';
 import { initDestinations, toggleBookmark, openDestinationModal, clearSearch, renderDestinations, selectTourCategory, selectTourType } from './destinations';
 import { initFestivals, openFestivalModal } from './festivals';
 import { initChat, initGlobalChatFunctions } from './chat';
@@ -13,7 +13,8 @@ import type { Category, TourType } from './types';
 
 // ── DOMContentLoaded ──────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  initThemeToggle();
+  // Theme is bound by frontend/js/theme.js, loaded as a plain <script> by all
+  // four pages — binding it here too would double-bind the toggle buttons.
   initMobileNav();
   initHeaderScroll();
   initModalClose();

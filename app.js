@@ -282,7 +282,7 @@ const DESTINATIONS = [
     categoryName: "Waterfall",
     region: "Eastern Region",
     location: "Yilo Krobo, Koforidua",
-    image: "assets/images/boti .jpeg",
+    image: "assets/images/boti.jpeg",
     rating: 4.7,
     reviews: 1250,
     fee: "GHS 80 / $7",
@@ -658,7 +658,7 @@ function renderDestinations() {
     return `
       <div class="destination-card" data-id="${item.id}">
         <div class="card-media">
-          <img src="${item.image}" alt="${item.name}" loading="lazy">
+          ${imgTag(item.image, item.name, { slot: 'card' })}
           <span class="card-badge">${item.categoryName}</span>
           <button class="card-bookmark-btn ${isSaved ? 'saved' : ''}" onclick="toggleBookmark('${item.id}', event)" title="Bookmark Destination">
             <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
@@ -700,7 +700,7 @@ function renderFestivals() {
     return `
       <div class="festival-card-expanded">
         <div class="festival-card-img">
-          <img src="${item.image}" alt="${item.name}" loading="lazy">
+          ${imgTag(item.image, item.name, { slot: 'card' })}
           <span class="festival-month-badge" style="display: inline-flex; align-items: center; gap: 4px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> ${item.month}</span>
         </div>
         <div class="festival-card-content">
@@ -734,7 +734,7 @@ function openFestivalModal(id) {
 
   card.innerHTML = `
     <button class="modal-close-btn" onclick="closeModal('destination-modal-overlay')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-    <img src="${festival.image}" class="modal-hero-img" alt="${festival.name}">
+    ${imgTag(festival.image, festival.name, { slot: 'modal', className: 'modal-hero-img' })}
     <div class="modal-content-body">
       <div class="modal-header-meta">
         <span class="card-badge" style="background: var(--crimson-gradient); color: #FFF; border: none; display: inline-flex; align-items: center; gap: 4px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg> ${festival.culture}</span>
@@ -794,7 +794,7 @@ function openDestinationModal(id) {
 
   card.innerHTML = `
     <button class="modal-close-btn" onclick="closeModal('destination-modal-overlay')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-    <img src="${item.image}" class="modal-hero-img" alt="${item.name}">
+    ${imgTag(item.image, item.name, { slot: 'modal', className: 'modal-hero-img' })}
     <div class="modal-content-body">
       <div class="modal-header-meta">
         <span class="card-badge">${item.categoryName}</span>

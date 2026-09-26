@@ -59,11 +59,22 @@ licence requires.
 
 ## Notes for maintainers
 
+- **Every image is served as a generated derivative, not the original.**
+  `tools/build_image_variants.py` writes `<name>-400.jpg` and `<name>-800.jpg`
+  next to each original, and `frontend/js/images.js` picks between them with
+  `srcset`/`sizes`. The originals stay in the repository as the
+  licence-attributed source and are only served when a derivative would not be
+  smaller (see below). If you add a photograph, re-run that script; do not
+  hand-edit the generated `frontend/js/image-variants.js`.
 - The three masquerade files above are **resized copies** (1920px wide) of the
   originals, which are 6000×3376. The Makola files are likewise resized copies
   (1920px wide) of a 6000×4000 original. The crops you see on the tile come from
   CSS (`object-fit: cover` in `.hero-tile-media`), not from editing the file, so
   the stored image is an unmodified work apart from scaling.
+- The `-400`/`-800` derivatives are **downscaled and re-encoded** versions of
+  those same files, for delivery at the size the browser actually paints. They
+  are the same photographs, uncropped and unretouched, and the credit above
+  applies to them unchanged.
 - CC BY-SA 4.0 asks that adaptations carry the same licence. Displaying these
   resized-but-otherwise-unaltered images on a page does not create a derivative
   of the site's own code, so nothing in this repository needs relicensing. If you

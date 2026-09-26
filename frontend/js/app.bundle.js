@@ -379,7 +379,7 @@ async function renderDestinations() {
             const spots = Math.floor(Math.random() * 8) + 2;
             return `<div class="destination-card" data-id="${item.id}" style="animation-delay:${i * 50}ms">
         <div class="card-media">
-          <img src="${item.image}" alt="${esc(item.name)}" loading="lazy">
+          ${imgTag(item.image, esc(item.name), { slot: 'card' })}
           <span class="card-badge">${esc(item.categoryName)}</span>
           ${top ? '<span class="card-urgency-badge">Top Rated</span>' : ''}
           <button class="card-bookmark-btn ${saved ? 'saved' : ''}" onclick="toggleBookmark('${item.id}',event)" title="Save">
@@ -506,7 +506,7 @@ async function openDestinationModal(id) {
             return;
         card.innerHTML = `
       <button class="modal-close-btn" onclick="closeModal('destination-modal-overlay')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-      <img src="${item.image}" class="modal-hero-img" alt="${esc(item.name)}" loading="lazy">
+      ${imgTag(item.image, esc(item.name), { slot: 'modal', className: 'modal-hero-img' })}
       <div class="modal-content-body">
         <div class="modal-header-meta">
           <span class="card-badge" style="position:static;">${esc(item.categoryName)}</span>
@@ -550,7 +550,7 @@ async function renderFestivals() {
         c.innerHTML = res.data.map((f) => `
       <div class="festival-card-expanded">
         <div class="festival-card-img">
-          <img src="${f.image}" alt="${esc(f.name)}" loading="lazy">
+          ${imgTag(f.image, esc(f.name), { slot: 'card' })}
           <span class="festival-month-badge">${esc(f.month.split('(')[0].trim())}</span>
         </div>
         <div class="festival-card-content">
@@ -581,7 +581,7 @@ async function openFestivalModal(id) {
             return;
         card.innerHTML = `
       <button class="modal-close-btn" onclick="closeModal('destination-modal-overlay')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-      <img src="${f.image}" class="modal-hero-img" alt="${esc(f.name)}" loading="lazy">
+      ${imgTag(f.image, esc(f.name), { slot: 'modal', className: 'modal-hero-img' })}
       <div class="modal-content-body">
         <div class="modal-header-meta">
           <span class="card-badge" style="position:static;background:var(--accent-coral);color:var(--text-inverse);border:none;">${esc(f.culture)}</span>
@@ -729,7 +729,7 @@ async function generateItineraryUI() {
         const cat = d && d.categoryName ? esc(d.categoryName) : '';
         const blurb = d && d.shortDesc ? esc(d.shortDesc) : '';
         html += `<div class="itinerary-day">
-      <div class="itinerary-day-media"><img src="${img}" alt="${name}" loading="lazy"><span class="day-tag">${esc(p.day)}</span></div>
+      <div class="itinerary-day-media">${imgTag(img, name, { slot: 'card' })}<span class="day-tag">${esc(p.day)}</span></div>
       <div class="itinerary-day-content">
         <h4>${name}</h4>
         <span class="day-meta">${region}${cat ? ' · ' + cat : ''}</span>
@@ -1031,7 +1031,7 @@ async function openRegionModal(id) {
          <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">
            ${r.festivals.map(f => `
              <button class="region-listing-item" onclick="openFestivalModal('${f.id}')">
-               <img src="${f.image}" alt="${escRegionContent(f.name)}" loading="lazy">
+               ${imgTag(f.image, escRegionContent(f.name), { slot: 'card' })}
                <div>
                  <strong>${escRegionContent(f.name)}</strong>
                  <span>${escRegionContent(f.month)} · ${escRegionContent(f.location)}</span>
@@ -1045,7 +1045,7 @@ async function openRegionModal(id) {
          <div style="display:flex;flex-direction:column;gap:10px;">
            ${r.destinations.map(d => `
              <button class="region-listing-item" onclick="openDestinationModal('${d.id}')">
-               <img src="${d.image}" alt="${escRegionContent(d.name)}" loading="lazy">
+               ${imgTag(d.image, escRegionContent(d.name), { slot: 'card' })}
                <div>
                  <strong>${escRegionContent(d.name)}</strong>
                  <span>${escRegionContent(d.categoryName)} · ${escRegionContent(d.fee)}</span>

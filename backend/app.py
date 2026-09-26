@@ -1054,5 +1054,59 @@ def health_check():
     })
 
 
+# ── Response caching ────────────────────────────────────────────────────
+#
+# Every response was being sent as `max-age=0, must-revalidate`, so even a
+# plain GET of the bundled destinations.json cold-started a serverless function
+# and took 2-4 seconds. That is slow enough to look broken, and it is why the
+# grid intermittently failed with "Unable to load".
+#
+# The catalogue never changes between deploys, so it is safe at the edge. But
+# several endpoints are per-guest and carry personal data - /api/bookings/<ref>,
+# /api/payments/status, /api/pass-qr/<ref> - and those must never be cached by
+# a browser, a proxy or Vercel.
+#
+# So this is an allowlist, not a denylist: anything not named here is sent
+# `no-store`, which means a future per-guest endpoint is private by default
+# rather than by remembering to opt out.
+
+# Read-only, identical for every visitor, derived from files baked into the
+# deploy. Long enough to absorb a redeploy, short enough that a content change
+# lands within a minute.
+PUBLIC_CACHEABLE = (
+    '/api/destinations',
+    '/api/festivals',
+    '/api/regions',
+    '/api/info/',
+    '/api/payments/methods',
+)
+
+CATALOG_MAX_AGE = 60           # seconds a shared client/proxy may reuse
+CATALOG_STALE_REVALIDATE = 300  # serve stale while one refresh happens behind it
+
+
+@app.after_request
+def set_cache_headers(response):
+    path = request.path
+    # A per-guest response must never be reused, whatever else is true.
+    is_private = (
+        request.method != 'GET'
+        or path.startswith('/api/bookings')
+        or path.startswith('/api/wishlist')
+        or path.startswith('/api/payments/status')
+        or path.startswith('/api/pass-qr')
+    )
+    if is_private:
+        response.headers['Cache-Control'] = 'no-store'
+    elif any(path == p or path.startswith(p) for p in PUBLIC_CACHEABLE):
+        response.headers['Cache-Control'] = (
+            f'public, max-age={CATALOG_MAX_AGE}, '
+            f'stale-while-revalidate={CATALOG_STALE_REVALIDATE}'
+        )
+    else:
+        response.headers['Cache-Control'] = 'no-store'
+    return response
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

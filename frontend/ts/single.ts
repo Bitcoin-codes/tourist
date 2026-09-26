@@ -374,7 +374,13 @@ async function renderDestinations(): Promise<void> {
         </div></div>`;
     }).join('');
   } catch {
-    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:48px;"><p style="color:var(--text-muted);">Unable to load. Is the Flask server running on port 5000?</p></div>`;
+    // Never show a guest our stack. This endpoint fails transiently (a redeploy
+    // mid-request, or a slow upstream), so say so plainly and offer a retry
+    // rather than leaving them at a dead end.
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:48px 16px;background:var(--bg-card);border-radius:var(--radius-lg);border:1px solid var(--border-light);">
+      <h3 style="font-size:1.2rem;margin-bottom:6px;color:var(--text-heading);">We couldn&rsquo;t load these just now</h3>
+      <p style="color:var(--text-muted);margin-bottom:14px;font-size:0.9rem;">This is usually temporary. Please try again.</p>
+      <button class="btn-card-details" onclick="renderDestinations()">Try again</button></div>`;
   }
 }
 

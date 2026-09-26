@@ -31,12 +31,39 @@ licence requires.
 - **Licence:** [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
 - **Source:** [commons.wikimedia.org/wiki/File:Old_Man_and_the_Son_Masqurade_Dressing_in_Takoradi.jpg](https://commons.wikimedia.org/wiki/File:Old_Man_and_the_Son_Masqurade_Dressing_in_Takoradi.jpg)
 
+### MAKOLA
+
+- **File used on:** Food & Market Tours tile (`index.html`)
+- **Local copy:** `assets/images/market_makola.jpg`
+- **Author:** Amuzujoe
+- **Licence:** [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+- **Source:** [commons.wikimedia.org/wiki/File:MAKOLA.jpg](https://commons.wikimedia.org/wiki/File:MAKOLA.jpg)
+- **Subject:** Makola Market, Accra — the largest market in Ghana, trading
+  food, cloth and everyday goods.
+
+### A trader at Makola Market *(alternate, not currently displayed)*
+
+- **Local copy:** `assets/images/market_makola_trader.jpg`
+- **Author:** Vrinda Khushu
+- **Licence:** [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+- **Source:** [commons.wikimedia.org/wiki/File:A_trader_at_Makola_Market.jpg](https://commons.wikimedia.org/wiki/File:A_trader_at_Makola_Market.jpg)
+
+### Makola Kayeyei *(alternate, not currently displayed)*
+
+- **Local copy:** `assets/images/market_makola_kayeyei.jpg`
+- **Author:** mariamayunusah
+- **Licence:** [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+- **Source:** [commons.wikimedia.org/wiki/File:Makola_Kayeyei.jpg](https://commons.wikimedia.org/wiki/File:Makola_Kayeyei.jpg)
+- **Note:** Kayeyei is the cloth and garment section of Makola, so this is the
+  clearest "clothes" image of the set.
+
 ## Notes for maintainers
 
-- The three files above are **resized copies** (1920px wide) of the originals,
-  which are 6000×3376. The crops you see on the tile come from CSS
-  (`object-fit: cover` in `.hero-tile-media`), not from editing the file, so the
-  stored image is an unmodified work apart from scaling.
+- The three masquerade files above are **resized copies** (1920px wide) of the
+  originals, which are 6000×3376. The Makola files are likewise resized copies
+  (1920px wide) of a 6000×4000 original. The crops you see on the tile come from
+  CSS (`object-fit: cover` in `.hero-tile-media`), not from editing the file, so
+  the stored image is an unmodified work apart from scaling.
 - CC BY-SA 4.0 asks that adaptations carry the same licence. Displaying these
   resized-but-otherwise-unaltered images on a page does not create a derivative
   of the site's own code, so nothing in this repository needs relicensing. If you

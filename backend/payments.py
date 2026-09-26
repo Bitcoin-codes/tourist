@@ -22,11 +22,14 @@ Three rules this module exists to enforce:
 import hashlib
 import hmac
 import json
+import logging
 import math
 import os
 import urllib.error
 import urllib.parse
 import urllib.request
+
+log = logging.getLogger(__name__)
 
 PAYSTACK_API = 'https://api.paystack.co'
 FLW_API = 'https://api.flutterwave.com/v3'
@@ -198,24 +201,43 @@ def parse_choice(value: str):
 
 # ── HTTP ───────────────────────────────────────────────────────────────
 
+# urllib sends "Python-urllib/3.x" by default, and both gateways sit behind
+# Cloudflare, which rejects that signature with 403 "error code: 1010". It looks
+# exactly like a bad API key, so a real card payment would fail in production
+# while every stubbed test still passed. Identify the app honestly instead.
+USER_AGENT = 'AkwaabaTours/1.0 (+https://tourist-ten-psi.vercel.app)'
+
+
 def _request(url: str, payload=None, headers=None, timeout: int = 25) -> dict:
     data = json.dumps(payload).encode('utf-8') if payload is not None else None
     req = urllib.request.Request(
         url,
         data=data,
-        headers={'Content-Type': 'application/json', **(headers or {})},
+        headers={'Content-Type': 'application/json', 'User-Agent': USER_AGENT,
+                 **(headers or {})},
         method='POST' if data is not None else 'GET')
     try:
         with urllib.request.urlopen(req, timeout=timeout) as res:
             body = res.read().decode('utf-8')
     except urllib.error.HTTPError as e:
         code = e.code
-        detail = ''
+        raw = ''
         try:
-            detail = json.loads(e.read().decode('utf-8')).get('message') or ''
+            raw = e.read().decode('utf-8', 'replace')
         except Exception:
             pass
+        # Gateways answer with JSON, but a WAF refusal ("error code: 1010") is
+        # plain text, so fall back to the raw body rather than losing it.
+        try:
+            detail = json.loads(raw).get('message') or ''
+        except Exception:
+            detail = ''
         if code in (401, 403):
+            # Either a wrong/revoked key, or an edge (Cloudflare/WAF) refusal.
+            # The guest gets the same safe message for both; the raw body goes to
+            # the log so a block is diagnosable instead of looking like a typo.
+            log.warning('gateway %s rejected the request: HTTP %s %s', url, code,
+                        (detail or raw)[:120])
             # A wrong, revoked or still-unset key. That's our mistake, not the
             # guest's, and "Invalid key" would be meaningless to them.
             raise PaymentError(

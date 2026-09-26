@@ -1750,8 +1750,24 @@ ul { list-style: none; }
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
   font-size: 0.82rem;
   color: rgba(255,255,255,0.4);
+}
+
+/* Required attribution for the CC BY-SA masquerade photo. Kept quieter than
+   the rest of the footer so it reads as a credit, not as navigation. */
+.footer-credit {
+  flex-basis: 100%;
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.3);
+  text-align: right;
+}
+.footer-credit a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 /* =====================================================================
@@ -2499,6 +2515,7 @@ ul { list-style: none; }
   .festivals-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; gap: var(--sp-6); }
   .footer-bottom { flex-direction: column; gap: var(--sp-2); text-align: center; }
+  .footer-credit { text-align: center; }
 
   .modal-hero-img { height: 200px; }
   .modal-content-body { padding: var(--sp-4); }

@@ -31,9 +31,40 @@ licence requires.
 - **Licence:** [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
 - **Source:** [commons.wikimedia.org/wiki/File:Old_Man_and_the_Son_Masqurade_Dressing_in_Takoradi.jpg](https://commons.wikimedia.org/wiki/File:Old_Man_and_the_Son_Masqurade_Dressing_in_Takoradi.jpg)
 
-### 18th-Century Slave Shackles from Tamale
+### The Slave Scene
 
 - **File used on:** Diaspora Tours tile (`index.html`)
+- **Local copy:** `assets/images/slave_scene_captives.jpg`
+- **Authors:** Nji Gbetkom Salifou (sculptor), Chief Mongbet Vessah Ibrahim,
+  Bruno Kemayou and David W. Reed PhD
+- **Licence:** [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+- **Source:** [commons.wikimedia.org/wiki/File:The_Slave_Scene_by_Nji_Gbetkom_Salifou_(Tikar_Bamum).jpg](https://commons.wikimedia.org/wiki/File:The_Slave_Scene_by_Nji_Gbetkom_Salifou_(Tikar_Bamum).jpg)
+- **Subject:** Six bronze statues, cast c. 1946-1950, showing four Tikar captives
+  driven in chains down to a coastal port by a colonial guard and a royal guard
+  in the pay of the slave merchants. The captives are nude and shoeless, wearing
+  wooden beads at neck, waist and ankle that mark their shared village. The
+  woman wears chains earned by resisting; the two chained men were to be
+  manacled below deck; the elderly man is travelling unbound. Sculpted by
+  Nji Gbetkom Salifou, a Bamoun artist of Cameroon's Grasslands.
+- **Note on the subject:** the captives are Tikar, from what is now northern
+  Cameroon, not Ghana. The tile caption and alt text say so. Do not describe
+  them as Ghanaians.
+- **Edits made** (CC BY-SA 4.0 asks that changes be indicated):
+  1. cropped to 16:10 — the statue group already spans the full width, so this
+     trimmed 6px of height and nothing of substance;
+  2. white balance — the raw frame is lit by tungsten and was heavily orange
+     (mean channel gain applied: R x0.735, G x0.991, B x1.586);
+  3. saturation reduced to 0.70, because correcting the cast left it too warm
+     next to the naturally-lit tiles;
+  4. shadows lifted (x0.90 + 16) so the black backdrop reads as space rather
+     than a dead hole;
+  5. downscaled from 2500x1568 to 1920x1204.
+  The figures themselves were not retouched, moved or removed. If you ever
+  change these numbers, the measured effect is in `tools/`-adjacent notes in the
+  commit message — re-derive them rather than guessing.
+
+### 18th-Century Slave Shackles from Tamale *(alternate, not currently displayed)*
+
 - **Local copy:** `assets/images/slave_shackles_tamale.jpg`
 - **Author:** Adam Jones (Flickr)
 - **Licence:** [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0)
@@ -41,11 +72,14 @@ licence requires.
 - **Original:** <https://www.flickr.com/photos/adam_jones/28144996426/>
 - **Subject:** Eighteenth-century iron slave shackles made in Tamale, Northern
   Region, Ghana, photographed on display at the International Slavery Museum
-  in Liverpool. The shackles are Ghana-made, which is why they stand in for the
-  tile rather than a generic European artefact.
+  in Liverpool. The shackles are Ghana-made, which is why they are the fallback
+  for the tile rather than a generic European artefact.
 - **Edit made:** downscaled from 3648x2736 to 1920x1440 and re-encoded. Nothing
-  else — no crop, no retouch. The tile's 16:10 crop is done by CSS
-  (`object-fit: cover` in `.hero-tile-media`), not by editing the file.
+  else.
+- **To restore:** point the tile `img` in `index.html` back at
+  `assets/images/slave_shackles_tamale-400.jpg` / `-800.jpg`, put Adam Jones
+  back in the footer credit, and drop the "not currently displayed" note above.
+  The derivatives are already generated and in the repository.
 
 ### MAKOLA
 

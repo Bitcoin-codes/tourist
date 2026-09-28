@@ -161,7 +161,7 @@ window.IMAGE_VARIANTS = {
     "assets/images/market_makola.jpg": [400, 800],
     "assets/images/masquerade_takoradi_dancing.jpg": [400, 800],
     "assets/images/mole_elephants.png": [400, 800],
-    "assets/images/slave_shackles_tamale.jpg": [400, 800],
+    "assets/images/slave_scene_captives.jpg": [400, 800],
     "assets/images/tafi_atome_monkeys_1.png": [400],
     "assets/images/tafi_atome_monkeys_2.jpg": [400, 800],
     "assets/images/wli_waterfall.png": [400, 800],

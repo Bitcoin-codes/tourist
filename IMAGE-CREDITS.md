@@ -147,9 +147,31 @@ photo of somewhere else:
   back in the footer credit, and drop the "not currently displayed" note above.
   The derivatives are already generated and in the repository.
 
-### MAKOLA
+### Ghanaian women in Kente cloth and beads
 
 - **File used on:** Food & Market Tours tile (`index.html`)
+- **Local copy:** `assets/images/market_kente_attire.jpg`
+- **Author:** [Pambelle12](https://commons.wikimedia.org/wiki/User:Pambelle12)
+- **Licence:** [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+- **Source:** [commons.wikimedia.org/wiki/File:Ghanaian_women_in_Kente_cloth_and_beads.jpg](https://commons.wikimedia.org/wiki/File:Ghanaian_women_in_Kente_cloth_and_beads.jpg)
+- **Subject:** A Ghanaian woman in kente cloth and beaded traditional regalia.
+- **Why this file replaced the previous one:** the tile previously used `MAKOLA`
+  (below), which is a correct photograph of Makola Market but reads as an empty
+  scene rather than the goods on sale. Measured at the tile size it scored 22nd
+  of 24 candidates: edge detail 677 in the top half against 2422 in the bottom
+  (balance 0.28), so the upper half of the tile was a flat bright band. Twenty-two
+  properly-licensed Ghanaian market photographs were shortlisted and measured at
+  16:10 before this one was chosen.
+- **Edits made:** downscaled from 3456×2304 to 1920×1280 (Lanczos, downscale
+  only), re-encoded at quality 82. The colour was left alone. The frame measures
+  a 0.505 overall cast, but that is the subject rather than a fault: the
+  highlights are near-neutral (channel means R 206 / G 198 / B 158) and the
+  warmth sits in the mid-tones (R 129 / G 93 / B 62), which is skin, kente and
+  wood. Correcting it would have drained the kente. The frame was **not** cropped
+  — the tile crops in CSS via `object-fit: cover`.
+
+### MAKOLA *(alternate, not currently displayed)*
+
 - **Local copy:** `assets/images/market_makola.jpg`
 - **Author:** Amuzujoe
 - **Licence:** [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
@@ -208,9 +230,10 @@ photo of somewhere else:
   hand-edit the generated `frontend/js/image-variants.js`.
 - The three masquerade files above are **resized copies** (1920px wide) of the
   originals, which are 6000×3376. The Makola files are likewise resized copies
-  (1920px wide) of a 6000×4000 original. The crops you see on the tile come from
-  CSS (`object-fit: cover` in `.hero-tile-media`), not from editing the file, so
-  the stored image is an unmodified work apart from scaling.
+  (1920px wide) of a 6000×4000 original. The kente and beads photo on the Food &
+  Market tile is a 1920px copy of a 3456×2304 original. The crops you see on the
+  tile come from CSS (`object-fit: cover` in `.hero-tile-media`), not from editing
+  the file, so the stored image is an unmodified work apart from scaling.
 - The `-400`/`-800` derivatives are **downscaled and re-encoded** versions of
   those same files, for delivery at the size the browser actually paints. They
   are the same photographs, uncropped and unretouched, and the credit above

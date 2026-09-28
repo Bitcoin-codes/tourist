@@ -95,6 +95,7 @@ window.IMAGE_VARIANTS = {
     "assets/images/attractions/kwahu-scarp.jpg": [400, 800],
     "assets/images/attractions/kwame-nkrumah-mausoleum.jpg": [400, 800],
     "assets/images/attractions/kyabobo-national-park.jpg": [400, 800],
+    "assets/images/attractions/lake-bosomtwe.jpg": [400, 800],
     "assets/images/attractions/larabanga-mosque.jpg": [400, 800],
     "assets/images/attractions/legon-botanical-gardens.jpg": [400, 800],
     "assets/images/attractions/liati-wote-waterfalls.jpg": [400],

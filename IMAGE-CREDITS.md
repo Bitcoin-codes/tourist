@@ -91,6 +91,30 @@ licence requires.
 - **Subject:** Makola Market, Accra — the largest market in Ghana, trading
   food, cloth and everyday goods.
 
+### Lake Bosomtwe 100
+
+- **File used on:** Lake Bosomtwe Crater Lake destination card
+  (`backend/data/destinations.json`, id `lake-bosomtwe`)
+- **Local copy:** `assets/images/attractions/lake-bosomtwe.jpg`
+- **Author:** Amuzujoe
+- **Licence:** [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+- **Source:** [commons.wikimedia.org/wiki/File:Lake_Bosomtwe_100.jpg](https://commons.wikimedia.org/wiki/File:Lake_Bosomtwe_100.jpg)
+- **Subject:** Lake Bosomtwe, the natural crater lake in the Ashanti Region, near
+  Kumasi. Photographed 12 February 2023.
+- **Why this file replaced the previous one:** the file at this path used to be
+  105×1024 pixels, so the 291×180 destination card was being painted from a
+  105px-wide sliver — a 2.8× upscale at 1x and 6.8× at 2x. That is why the card
+  read as blurry. Nothing was wrong with the card CSS; the pixels were not there.
+- **Edits made:**
+  1. downscaled from 4847×3226 to 1920×1278 (Lanczos, downscale only);
+  2. white balanced — the original is shot through a heavy cyan cast (channel
+     means R 133 / G 181 / B 186). Applied after the downscale so the resampler
+     averages the chroma noise before it is multiplied. Measured gain on the
+     1920px result was R ×1.131, G ×0.9526, B ×0.938, which brought the cast
+     from 0.319 to 0.004. No saturation reduction was needed afterwards.
+  The frame was **not** cropped. The card crops in CSS via `object-fit: cover`,
+  as with every other image in the set.
+
 ### A trader at Makola Market *(alternate, not currently displayed)*
 
 - **Local copy:** `assets/images/market_makola_trader.jpg`

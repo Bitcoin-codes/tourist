@@ -171,7 +171,7 @@ window.IMAGE_VARIANTS = {
     "assets/images/homowo_festival.jpg": [400, 800],
     "assets/images/kakum_canopy.png": [400, 800],
     "assets/images/kloyo_sikplemi_festival.jpg": [400, 800],
-    "assets/images/market_kente_attire.jpg": [400, 800],
+    "assets/images/market_makola_foodstuffs.jpg": [400, 800],
     "assets/images/masquerade_takoradi_dancing.jpg": [400, 800],
     "assets/images/mole_elephants.png": [400, 800],
     "assets/images/slave_scene_captives.jpg": [400, 800],

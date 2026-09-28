@@ -31,6 +31,22 @@ licence requires.
 - **Licence:** [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
 - **Source:** [commons.wikimedia.org/wiki/File:Old_Man_and_the_Son_Masqurade_Dressing_in_Takoradi.jpg](https://commons.wikimedia.org/wiki/File:Old_Man_and_the_Son_Masqurade_Dressing_in_Takoradi.jpg)
 
+### 18th-Century Slave Shackles from Tamale
+
+- **File used on:** Diaspora Tours tile (`index.html`)
+- **Local copy:** `assets/images/slave_shackles_tamale.jpg`
+- **Author:** Adam Jones (Flickr)
+- **Licence:** [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0)
+- **Source:** [commons.wikimedia.org/wiki/File:18th-Century_Slave_Shackles_from_Tamale,_Northern_Ghana_-_International_Slavery_Museum_-_Liverpool,_England_(28144996426).jpg](https://commons.wikimedia.org/wiki/File:18th-Century_Slave_Shackles_from_Tamale,_Northern_Ghana_-_International_Slavery_Museum_-_Liverpool,_England_(28144996426).jpg)
+- **Original:** <https://www.flickr.com/photos/adam_jones/28144996426/>
+- **Subject:** Eighteenth-century iron slave shackles made in Tamale, Northern
+  Region, Ghana, photographed on display at the International Slavery Museum
+  in Liverpool. The shackles are Ghana-made, which is why they stand in for the
+  tile rather than a generic European artefact.
+- **Edit made:** downscaled from 3648x2736 to 1920x1440 and re-encoded. Nothing
+  else — no crop, no retouch. The tile's 16:10 crop is done by CSS
+  (`object-fit: cover` in `.hero-tile-media`), not by editing the file.
+
 ### MAKOLA
 
 - **File used on:** Food & Market Tours tile (`index.html`)

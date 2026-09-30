@@ -438,11 +438,40 @@ def main() -> int:
                 }
             )
         plan[entity] = rows
+        # Written after every entity, not once at the end.
+        #
+        # This run died partway through on a DNS failure, after matching 19 of 29
+        # destinations, and the plan was only ever written at the end -- so the
+        # matches existed in the log and nowhere else, and recovering them meant
+        # re-running the whole thing. An hour of throttled API calls to reconstruct
+        # a file that had already been computed is exactly the failure this whole
+        # pipeline moved into the repository to avoid. Each entity's rows are
+        # complete on the line after its print, so the write is safe to repeat.
+        PLAN_OUT.parent.mkdir(parents=True, exist_ok=True)
+        PLAN_OUT.write_text(json.dumps(plan, indent=2, sort_keys=True))
+        write_report(plan, report, stats, client)
         print(f"  {len(rows)}/{len(names)} matched")
 
     PLAN_OUT.parent.mkdir(parents=True, exist_ok=True)
     PLAN_OUT.write_text(json.dumps(plan, indent=2, sort_keys=True))
+    write_report(plan, report, stats, client)
 
+    print(
+        f"\nby filename {stats['name']}, by pixels {stats['pixels']}, "
+        f"unmatched {stats['unmatched']}\n"
+        f"api calls {client.calls} ({client.cache_hits} cached)\n"
+        f"plan    {PLAN_OUT}\nreport  {REPORT_OUT}"
+    )
+    return 1 if args.strict and stats["unmatched"] else 0
+
+
+def write_report(
+    plan: dict[str, list[dict[str, Any]]],
+    report: list[str],
+    stats: dict[str, int],
+    client: Any,
+) -> None:
+    """Write the human-readable half of the run: what matched, and what did not."""
     lines = [
         "GALLERY RECOVERY REPORT",
         "=" * 60,
@@ -458,14 +487,6 @@ def main() -> int:
     ]
     lines += report or ["  (none -- every file matched by name with no ambiguity)"]
     REPORT_OUT.write_text("\n".join(lines) + "\n")
-
-    print(
-        f"\nby filename {stats['name']}, by pixels {stats['pixels']}, "
-        f"unmatched {stats['unmatched']}\n"
-        f"api calls {client.calls} ({client.cache_hits} cached)\n"
-        f"plan    {PLAN_OUT}\nreport  {REPORT_OUT}"
-    )
-    return 1 if args.strict and stats["unmatched"] else 0
 
 
 if __name__ == "__main__":

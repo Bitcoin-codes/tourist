@@ -72,12 +72,19 @@ FALLBACK_SLOTS: list[tuple[str, int, int]] = [
 ]
 
 
-def slots() -> list[tuple[str, int, int]]:
-    """The display slots, measured from the stylesheet where possible."""
+def slots() -> tuple[list[tuple[str, int, int]], str]:
+    """The display slots, and where the numbers came from.
+
+    The source is returned as well as the numbers because the fallbacks are
+    currently identical to what the parse produces, so comparing the two lists
+    cannot tell success from failure -- it reports a fallback on a clean parse and
+    would report success if the fallback happened to match. A check that
+    misreports its own provenance is not a check.
+    """
     try:
         css = STYLES.read_text()
-    except OSError:
-        return FALLBACK_SLOTS
+    except OSError as error:
+        return FALLBACK_SLOTS, f"styles.css unreadable ({error.strerror}), using recorded values"
 
     def px(name: str) -> int | None:
         match = re.search(rf"--{name}:\s*(\d+)px", css)
@@ -90,30 +97,32 @@ def slots() -> list[tuple[str, int, int]]:
         re.S,
     )
     gallery = re.search(r"\.modal-gallery\s*\{[^}]*?padding:[^;]*", css, re.S)
-
     if not (card and item and gallery):
-        return FALLBACK_SLOTS
+        return FALLBACK_SLOTS, "could not find the modal rules in styles.css, using recorded values"
 
     sides = re.findall(r"var\(--sp-(\d+)\)", gallery.group(0))
-    sp3, sp6 = px(f"sp-{item.group(1)}"), px(f"sp-{sides[1] if len(sides) > 1 else 6}")
-    if not (sp3 and sp6):
-        return FALLBACK_SLOTS
+    gap, side = px(f"sp-{item.group(1)}"), px(f"sp-{sides[1] if len(sides) > 1 else 6}")
+    if not (gap and side):
+        return FALLBACK_SLOTS, "could not read the spacing scale, using recorded values"
 
     modal = int(card.group(1))
-    track = modal - 2 * sp6
+    track = modal - 2 * side
     # Rounded up, not to nearest: the computed width is 242.67, and truncating it
     # to 242 would let through a 484px file that is 1.4px short at 2x. A check
     # that is a hair too strict costs nothing; one that is a hair too lax is the
     # blurred photograph this whole script exists to prevent.
-    thumb = math.ceil((track - 2 * sp3) / 3)
+    thumb = math.ceil((track - 2 * gap) / 3)
     # The viewer is capped by the viewport, not by a fixed width, so its number is
-    # the master's own width: the master is the widest file this repository holds
+    # the master's own width: the master is the widest file this repository holds,
     # and displaying it at 1x is the case that is always sharp.
-    return [
-        ("gallery thumbnail", thumb, 2),
-        ("modal hero", modal, 2),
-        ("full-size viewer", 1920, 1),
-    ]
+    return (
+        [
+            ("gallery thumbnail", thumb, 2),
+            ("modal hero", modal, 2),
+            ("full-size viewer", 1920, 1),
+        ],
+        f"measured from styles.css (modal {modal}px, {side}px side padding, {gap}px gap)",
+    )
 
 # Licence words that must appear in a credit string. A credit that names an author
 # but not a licence does not satisfy CC BY or CC BY-SA attribution.
@@ -196,7 +205,7 @@ def main() -> int:
                 # The thumbnail is centre-cropped to 3:2, so what matters there is
                 # that the frame is wide enough. A portrait file is not an error --
                 # cover crops it -- but it is worth saying out loud.
-                for name, css, ratio in slots():
+                for name, css, ratio in slots()[0]:
                     needed = css * ratio
                     if width < needed:
                         message = f"{where}: {relative} is {width}px, {name} needs {needed}px"
@@ -242,9 +251,8 @@ def main() -> int:
     print(f"galleries checked : {len(DATA_FILES)} data files")
     print(f"photographs       : {total}")
     print(f"files referenced  : {len(used_by)}")
-    measured = slots()
-    if measured == FALLBACK_SLOTS:
-        print("  (slots could not be measured out of styles.css; using the recorded values)")
+    measured, source = slots()
+    print(f"  slots: {source}")
     for name, css, ratio in measured:
         print(f"  {name:20} {css} CSS px at {ratio}x = {css * ratio}px needed")
     if thin:

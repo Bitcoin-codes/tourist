@@ -494,6 +494,24 @@ function toggleBookmark(id, event) {
     localStorage.setItem('visitGhanaBookmarks', JSON.stringify(savedBookmarks));
     renderDestinations();
 }
+/**
+ * Turn an `images` entry from destinations.json into objects the gallery can
+ * render.
+ *
+ * The data holds either bare paths or objects, and a path on its own carries no
+ * alternative text. A photo without alt text is worse than no photo, because
+ * screen readers announce the filename, so anything without its own `alt`
+ * inherits a description of the place instead. The hero is dropped: it is
+ * already on screen, and repeating it in the row would be a duplicate.
+ */
+function normaliseExtraPhotos(list) {
+    if (!Array.isArray(list))
+        return [];
+    return list
+        .map(p => typeof p === 'string' ? { image: p } : p)
+        .filter(p => p && p.image && typeof p.image === 'string')
+        .map(p => ({ image: p.image, alt: p.alt || '', credit: p.credit || '' }));
+}
 async function openDestinationModal(id) {
     const overlay = document.getElementById('destination-modal-overlay');
     const card = document.getElementById('destination-modal-card');
@@ -504,9 +522,15 @@ async function openDestinationModal(id) {
         const item = res.data.find((d) => d.id === id);
         if (!item)
             return;
+        // Photos of this same place, beyond the hero. Recorded on the full-screen
+        // viewer so paging runs from the hero into the extra shots and back.
+        const heroAlt = esc(item.name);
+        const extra = normaliseExtraPhotos(item.images);
+        ModalGallery.setPhotos({ image: item.image, alt: heroAlt }, extra);
         card.innerHTML = `
       <button class="modal-close-btn" onclick="closeModal('destination-modal-overlay')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-      ${imgTag(item.image, esc(item.name), { slot: 'modal', className: 'modal-hero-img' })}
+      ${imgTag(item.image, heroAlt, { slot: 'modal', className: 'modal-hero-img' })}
+      ${ModalGallery.stripHtml(extra)}
       <div class="modal-content-body">
         <div class="modal-header-meta">
           <span class="card-badge" style="position:static;">${esc(item.categoryName)}</span>
@@ -579,9 +603,15 @@ async function openFestivalModal(id) {
         const f = res.data.find((x) => x.id === id);
         if (!f)
             return;
+        // Festivals get the same treatment as tour sites: further photographs of
+        // this festival, credited in IMAGE-CREDITS.md.
+        const fHeroAlt = esc(f.name);
+        const fExtra = normaliseExtraPhotos(f.images);
+        ModalGallery.setPhotos({ image: f.image, alt: fHeroAlt }, fExtra);
         card.innerHTML = `
       <button class="modal-close-btn" onclick="closeModal('destination-modal-overlay')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-      ${imgTag(f.image, esc(f.name), { slot: 'modal', className: 'modal-hero-img' })}
+      ${imgTag(f.image, fHeroAlt, { slot: 'modal', className: 'modal-hero-img' })}
+      ${ModalGallery.stripHtml(fExtra)}
       <div class="modal-content-body">
         <div class="modal-header-meta">
           <span class="card-badge" style="position:static;background:var(--accent-coral);color:var(--text-inverse);border:none;">${esc(f.culture)}</span>

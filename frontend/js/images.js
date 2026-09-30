@@ -30,7 +30,14 @@
   var SIZES = {
     card: '(max-width: 700px) 92vw, 300px',
     tile: '(max-width: 700px) 92vw, 320px',
-    modal: '(max-width: 900px) 100vw, 800px'
+    modal: '(max-width: 900px) 100vw, 800px',
+    // Thumbnails in the modal's "More photos" row. Three across an 800px modal
+    // with 24px padding and 12px gaps leaves ~243px each, hence 245px above the
+    // 768px breakpoint. Below it the modal is full width and the padding drops
+    // to 16px, so a third of the screen is a slight over-estimate, which is the
+    // safe direction: the browser then fetches the 800w file rather than too
+    // small a one on a 2x phone.
+    modalThumb: '(max-width: 768px) 31vw, 245px'
   };
 
   /**

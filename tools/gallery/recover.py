@@ -51,6 +51,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from commons import Commons, artist_of, licence_of  # noqa: E402
+import pixels  # noqa: E402
 
 try:
     from PIL import Image
@@ -64,24 +65,17 @@ THUMBS = SCRATCH / "thumbs"
 PLAN_OUT = SCRATCH / "gallery_plan.json"
 REPORT_OUT = SCRATCH / "recover-report.txt"
 
-# Signature size. 16x16 is 256 numbers, enough to tell photographs apart and
-# small enough that a crop and a colour shift barely move it.
-SIG = 16
-
-
-def _pixels(image: "Image.Image") -> list[float]:
-    """The image's pixel values as a flat list.
-
-    `getdata` is deprecated in Pillow 12 in favour of `get_flattened_data`, but
-    the replacement is not in older Pillow, so try both rather than pinning the
-    project to one version of a library that only has to open a JPEG.
-    """
-    reader = getattr(image, "get_flattened_data", None) or image.getdata
-    return list(reader())
-
-# Mean absolute difference between two 16x16 grayscale signatures, 0-255.
-# Same photograph, re-encoded and cropped: under ~18. Different photographs of
-# outdoor places: usually 30+. The gap is wide, so the threshold is not delicate.
+# Mean absolute difference between two 16x16 grayscale signatures, 0-255. The
+# signature itself lives in `pixels`, shared with select.py and check.py so that
+# one threshold decides "same picture" everywhere. These two are looser than
+# pixels.SAME because this stage is answering a different question: it is matching
+# an installed file against a candidate it has not seen, where a wrong match
+# attaches a photographer's name to somebody else's photograph. It is better to
+# report a miss and let a person decide than to guess.
+#
+# Measured on this repository's own files: the same photograph, resized and
+# re-encoded, scores under 1.3. Different photographs of the same place score
+# above 30. The gap is wide, so the threshold is not delicate.
 MATCH_THRESHOLD = 20.0
 
 # Above this, we call it a miss and say so rather than inventing a match.
@@ -125,12 +119,7 @@ def local_key(filename: str) -> str:
 
 def signature(path: Path) -> list[float] | None:
     """16x16 grayscale signature of an image, or None if unreadable."""
-    try:
-        with Image.open(path) as raw:
-            image = raw.convert("L").resize((SIG, SIG), Image.LANCZOS)
-            return _pixels(image)
-    except Exception:
-        return None
+    return pixels.of_path(path)
 
 
 def signature_of_ratio(path: Path, ratio: float) -> list[float] | None:
@@ -152,14 +141,14 @@ def signature_of_ratio(path: Path, ratio: float) -> list[float] | None:
                 new_height = int(round(width / ratio))
                 top = (height - new_height) // 2
                 image = image.crop((0, top, width, top + new_height))
-            return _pixels(image.resize((SIG, SIG), Image.LANCZOS))
+            return pixels.pixels(image)
     except Exception:
         return None
 
 
 def distance(a: list[float], b: list[float]) -> float:
-    """Mean absolute difference between two signatures."""
-    return sum(abs(x - y) for x, y in zip(a, b)) / len(a)
+    """Mean absolute difference between two signatures. See `pixels.distance`."""
+    return pixels.distance(a, b)
 
 
 def best_score(

@@ -39,6 +39,9 @@ from typing import Any
 
 from PIL import Image
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import pixels  # noqa: E402
+
 ROOT = Path(__file__).resolve().parent.parent.parent
 DATA_FILES = [
     ROOT / "backend" / "data" / "destinations.json",
@@ -146,9 +149,12 @@ def main() -> int:
     errors: list[str] = []
     warnings: list[str] = []
 
-    # path -> the entities that use it, and the pixel sha1 for duplicate detection
+    # path -> the entities that use it, and the pixel signatures for duplicate
+    # detection. A signature is a list of grey levels, not a hash, so this is a
+    # list to scan rather than a dict to look up.
     used_by: dict[str, list[str]] = {}
-    by_content: dict[str, list[str]] = {}
+    by_content: list[tuple[str, list[float]]] = []
+    duplicates: list[str] = []
     thin: list[str] = []
     thin_alts: list[str] = []
     total = 0
@@ -221,15 +227,19 @@ def main() -> int:
                     )
 
                 # Byte-identical detection is not enough: two Commons thumbnails
-                # of the same photograph at the same size have different bytes but
-                # the same picture. Comparing a downscaled grayscale signature
-                # catches that, at the cost of decoding the file once.
-                try:
-                    with Image.open(path) as image:
-                        signature = image.convert("L").resize((8, 8)).tobytes().hex()
-                except Exception:
-                    signature = f"{width}x{height}"
-                by_content.setdefault(signature, []).append(entity)
+                # of the same photograph have different bytes and the same picture.
+                # `pixels` is the shared implementation, so this, select.py and
+                # recover.py all decide "same picture" with one threshold rather
+                # than three that drift apart.
+                mark = pixels.of_path(path)
+                if mark is not None:
+                    twin = pixels.first_duplicate(mark, by_content)
+                    if twin is not None:
+                        duplicates.append(
+                            f"{entity} and {twin} hold the same picture, via {relative}"
+                        )
+                    else:
+                        by_content.append((entity, mark))
 
             for alt, count in alts.items():
                 if count > 1 and len(set(alts)) < len(images):
@@ -241,12 +251,7 @@ def main() -> int:
                 f"{relative} is in {len(entities)} galleries: {', '.join(sorted(set(entities)))}. "
                 f"A photograph belongs to one place; fix the plan, not the data file."
             )
-    for signature, entities in sorted(by_content.items()):
-        if len(set(entities)) > 1:
-            errors.append(
-                f"the same picture is filed under {len(set(entities))} places: "
-                f"{', '.join(sorted(set(entities)))}"
-            )
+    errors.extend(f"the same picture is filed twice: {item}" for item in duplicates)
 
     print(f"galleries checked : {len(DATA_FILES)} data files")
     print(f"photographs       : {total}")

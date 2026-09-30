@@ -57,6 +57,7 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from commons import USER_AGENT, Commons, artist_of, licence_of  # noqa: E402
+import pixels  # noqa: E402
 from filters import (  # noqa: E402
     _description,
     _category_text,
@@ -316,13 +317,54 @@ def local_name(entity_id: str, record: dict[str, Any], index: int) -> str:
     return f"{entity_id}-{slug}.jpg"
 
 
+def fetch(record: dict[str, Any]) -> bytes:
+    """Download one Commons thumbnail."""
+    import urllib.request
+
+    request = urllib.request.Request(
+        record["thumburl"], headers={"User-Agent": USER_AGENT}
+    )
+    with urllib.request.urlopen(request, timeout=120) as response:
+        return response.read()
+
+
 def install(
     galleries: dict[str, list[dict]], *, write: bool, report_only: bool
-) -> list[dict]:
-    """Download and write each chosen photograph. Returns the installed rows."""
+) -> tuple[list[dict], list[str]]:
+    """Download and write each chosen photograph.
+
+    Returns (plan rows, notes). Three things are checked on the way, all of which
+    matter more than they look:
+
+    * **A file already on disk is verified, not trusted.** The name is derived from
+      the Commons title, so a re-run after the search results changed finds a file
+      of the same name holding a different photograph. Trusting the name means the
+      plan says one thing and the site shows another, and the credit in
+      IMAGE-CREDITS.md is then attached to the wrong picture -- a licence failure
+      that reads as a filename convention.
+    * **A photograph already claimed is dropped.** `assign` gives one photograph to
+      one gallery using metadata alone, which cannot see that two Commons files are
+      the same frame. This is the second line of defence, and the only one that
+      looks at the picture.
+    * **A file that is not the thumbnail byte-for-byte is rewritten.** Installs are
+      meant to be unmodified Commons downscales, which is what lets
+      `recover.py`'s pixel signature prove what a local file is.
+    """
     if write and not report_only:
         GALLERY.mkdir(parents=True, exist_ok=True)
     rows: list[dict] = []
+    notes: list[str] = []
+    # Signatures of what is already installed, labelled by the file holding them.
+    # Seeded from disk as well as from this run, so a photograph already installed
+    # for one destination is not installed again for another on a later run.
+    seen: list[tuple[str, list[float]]] = []
+    for existing in sorted(GALLERY.glob("*.jpg")):
+        if existing.stem.endswith(("-400", "-800")):
+            continue
+        mark = pixels.of_path(existing)
+        if mark is not None:
+            seen.append((existing.name, mark))
+
     for entity_id, records in sorted(galleries.items()):
         for index, record in enumerate(records):
             name = local_name(entity_id, record, index)
@@ -341,16 +383,42 @@ def install(
                 "licence_url": record.get("extmetadata", {}).get("LicenseUrl", ""),
                 "source": record.get("descriptionurl", ""),
             }
-            if write and not report_only and not target.exists():
-                import urllib.request
 
-                request = urllib.request.Request(
-                    record["thumburl"], headers={"User-Agent": USER_AGENT}
+            if report_only:
+                rows.append(row)
+                continue
+
+            try:
+                data = fetch(record)
+            except Exception as error:  # network, 429, a moved file
+                notes.append(f"{entity_id}/{name}: not downloaded ({error})")
+                continue
+
+            mark = pixels.of_bytes(data)
+            if mark is None:
+                notes.append(f"{entity_id}/{name}: not a readable image")
+                continue
+
+            twin = pixels.first_duplicate(mark, seen)
+            if twin is not None:
+                notes.append(
+                    f"{entity_id}/{name}: the same picture is already installed as "
+                    f"{twin}, from {record['title'].rsplit(':', 1)[-1]}"
                 )
-                with urllib.request.urlopen(request, timeout=120) as response:
-                    target.write_bytes(response.read())
+                continue
+            seen.append((name, mark))
+
+            if target.exists() and target.read_bytes() == data:
+                notes.append(f"{entity_id}/{name}: already installed, identical")
+            else:
+                if target.exists():
+                    notes.append(
+                        f"{entity_id}/{name}: REPLACED -- a different file was under this "
+                        f"name, and the plan and the site would otherwise disagree"
+                    )
+                target.write_bytes(data)
             rows.append(row)
-    return rows
+    return rows, notes
 
 
 def main() -> int:
@@ -377,7 +445,7 @@ def main() -> int:
     print("searching and filtering")
     passing, rejected = collect(client, entities, known_names)
     galleries, unassigned = assign(passing, entities)
-    rows = install(galleries, write=args.install, report_only=args.report_only)
+    rows, notes = install(galleries, write=args.install, report_only=args.report_only)
 
     ready = {k: v for k, v in galleries.items() if len(v) >= MIN_WANT}
     thin = {k: v for k, v in galleries.items() if 0 < len(v) < MIN_WANT}
@@ -419,12 +487,34 @@ def main() -> int:
         "-" * 60,
     ]
     lines += [f"  {u['title']} (nearest: {u['near']})" for u in unassigned[:40]] or ["  (none)"]
+
+    replaced = [note for note in notes if "REPLACED" in note]
+    duplicates = [note for note in notes if "same picture" in note]
+    failed = [note for note in notes if note.startswith("  ") is False and "REPLACED" not in note and "same picture" not in note]
+    lines += [
+        "",
+        "Installation notes",
+        "-" * 60,
+        f"  already present and identical : {sum('identical' in n for n in notes)}",
+        f"  written                        : {sum('identical' not in n for n in notes if 'REPLACED' not in n and 'same picture' not in n)}",
+        f"  replaced a different file      : {len(replaced)}",
+        f"  dropped as a duplicate picture : {len(duplicates)}",
+        f"  failed to fetch                : {len(failed)}",
+    ]
+    for note in replaced + duplicates + failed:
+        lines.append(f"    {note.strip()}")
     REPORT_OUT.write_text("\n".join(lines) + "\n")
 
     print(
         f"\n{len(ready)} galleries with a strip, {len(rows)} photographs, "
         f"{len(thin)} too thin, {len(unassigned)} unassigned"
     )
+    if replaced:
+        print(f"  {len(replaced)} file(s) replaced a different file under the same name")
+    if duplicates:
+        print(f"  {len(duplicates)} dropped as a duplicate picture")
+    if failed:
+        print(f"  {len(failed)} failed to fetch")
     print(f"plan   {PLAN_OUT}\nreport {REPORT_OUT}")
     return 0
 

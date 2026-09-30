@@ -228,6 +228,7 @@ class Commons:
                 info = page["imageinfo"][0]
                 ext = {k: v.get("value", "") for k, v in info.get("extmetadata", {}).items()}
                 out[page["title"]] = {
+                    "title": page["title"],
                     "width": info.get("width", 0),
                     "height": info.get("height", 0),
                     "mime": info.get("mime", ""),

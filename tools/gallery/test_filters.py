@@ -185,11 +185,16 @@ CASES: list[tuple[str, dict[str, Any], str, bool]] = [
     ),
 
     # -- alternative names --------------------------------------------------
+    # "Accra" is Osu Castle's city and also appears in three other destination
+    # names, so this case needs the region passed in to survive. That is the
+    # honest shape of the problem: the filters cannot know where a place is, so
+    # the caller has to say.
     (
         "Osu Castle is also called Fort Christiansborg",
         rec("Fort Christiansborg, Accra", ["Forts in Ghana", "Osu"]),
         "Osu Castle",
         True,
+        "Accra",
     ),
 
     # -- the name lives outside the title -----------------------------------
@@ -224,6 +229,7 @@ CASES: list[tuple[str, dict[str, Any], str, bool]] = [
         rec("Kejetia Market, Kumasi", ["Kumasi", "Markets in Ghana"]),
         "Kejetia Market",
         True,
+        "Kumasi Central",
     ),
 
     # -- licences -----------------------------------------------------------
@@ -276,6 +282,13 @@ ALL_PLACE_NAMES = [
     "National Museum of Ghana",
     "Fort Amsterdam",
     "Fort Batenstein",
+    # Three Accra destinations and two Kumasi ones. These are what made "Osu
+    # Castle, Accra" look ambiguous before the host-word exemption existed.
+    "James Fort (Accra)",
+    "Accra Arts Centre",
+    "Accra International Conference Centre",
+    "Kumasi Fort",
+    "Kumasi Cultural Centre",
 ]
 KNOWN_PLACES = set(ALL_PLACE_NAMES)
 
@@ -308,6 +321,45 @@ AMBIGUOUS_CASES: list[tuple[str, dict[str, Any], str, bool]] = [
         "Fort William Anomabu",
         True,
     ),
+    (
+        "a city in the title that is also in two other destinations' names is a conflict",
+        rec("Osu Castle, Accra", ["Osu Castle"]),
+        "Osu Castle",
+        False,
+    ),
+    (
+        "a possessive fragment is too short to count as evidence",
+        rec("Chief's Palace", ["Sefwi Wiawso Paramount Chief's Palace", "Kumasi Fort"]),
+        "Fort William Anomabu",
+        True,
+    ),
+    (
+        "a real town in the title is still a conflict without the region",
+        rec("Osu Castle, Kumasi", ["Osu Castle"]),
+        "Osu Castle (Fort Christiansborg)",
+        False,
+    ),
+]
+
+# Cases where the entity's own region rescues the title. Tested separately because
+# the exemption has to be passed in: the filters deliberately do not look up
+# region data themselves, so a caller that forgets it gets a rejection rather
+# than a wrong answer, which is the safe direction to fail in.
+HOST_CASES: list[tuple[str, dict[str, Any], str, str, bool]] = [
+    (
+        "Osu Castle in Accra is not ambiguous because Accra is its city",
+        rec("Osu Castle, Accra", ["Osu Castle"]),
+        "Osu Castle (Fort Christiansborg)",
+        "Greater Accra",
+        True,
+    ),
+    (
+        "the region exemption does not rescue an unrelated city",
+        rec("Osu Castle, Kumasi", ["Osu Castle"]),
+        "Osu Castle (Fort Christiansborg)",
+        "Greater Accra",
+        False,
+    ),
 ]
 
 
@@ -321,8 +373,10 @@ def run() -> int:
     failures: list[str] = []
     passed = 0
 
-    for label, record, entity, expect_accept in CASES:
-        reason = screen(record, entity, KNOWN_PLACES)
+    for case in CASES:
+        label, record, entity, expect_accept = case[:4]
+        hosts = [case[4]] if len(case) > 4 else []
+        reason = screen(record, entity, KNOWN_PLACES, hosts)
         accepted = reason == ""
         if accepted == expect_accept:
             passed += 1
@@ -339,6 +393,17 @@ def run() -> int:
         else:
             failures.append(
                 f"  place_conflicts: {label} -> got {reason or 'accepted'!r}, "
+                f"wanted {'accept' if expect_accept else 'reject'}"
+            )
+
+    for label, record, entity, region, expect_accept in HOST_CASES:
+        reason = place_conflicts(record, entity, KNOWN_PLACES, [region])
+        accepted = reason == ""
+        if accepted == expect_accept:
+            passed += 1
+        else:
+            failures.append(
+                f"  host words: {label} -> got {reason or 'accepted'!r}, "
                 f"wanted {'accept' if expect_accept else 'reject'}"
             )
 

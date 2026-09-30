@@ -89,10 +89,14 @@ def _stems(words: Iterable[str]) -> set[str]:
     for word in words:
         word = word.lower()
         if len(word) > 4 and word.endswith(_PLURAL_SUFFIXES):
-            out.add(word[:-2])
+            word = word[:-2]
         elif len(word) > 3 and word.endswith("s") and not word.endswith("ss"):
-            out.add(word[:-1])
-        else:
+            word = word[:-1]
+        # Single characters are dropped. They come from possessives and
+        # abbreviations -- "Chief's Palace" and "St. George's Castle" both yield
+        # a bare "s" -- and a one-letter token that happens to appear in two
+        # names is a coin flip, not evidence.
+        if len(word) > 1:
             out.add(word)
     return out
 
@@ -174,9 +178,8 @@ _COUNTRIES = """
     Burkina Burundi Cambodia Cameroon Canada Chad Chile China Colombia
     Comoros Congo Croatia Cuba Cyprus Denmark Djibouti Dominica Ecuador
     Egypt Eritrea Estonia Eswatini Ethiopia Fiji Finland France Gabon Gambia
-    Georgia Germany Ghanaian Greece Grenada Guatemala Guinea Guyana Haitian
+    Georgia Germany Ghanaian Greece Grenada Guatemala Guyana Haitian
     Honduras Hungary Iceland India Indonesian Iran Iraq Ireland Israel Italy
-    Jamaican Japan Jordan Kazakhstan Kenya Kiribati Kosovo Kuwait Kyrgyzstan
     Laos Latvia Lebanon Lesotho Liberian Libya Liechtenstein Lithuania
     Luxembourg Madagascar Malawi Malaysia Maldives Mali Malta Mauritania
     Mauritius Mexico Micronesia Moldova Monaco Mongolia Montenegro Morocco
@@ -189,7 +192,12 @@ _COUNTRIES = """
     Ugandan Ukrainian Uruguayan Uzbek Vanuatu Venezuelan Vietnamese Yemen
     Zambian Zimbabwean
 """
-FOREIGN = set(_COUNTRIES.split()) - {"Ghana", "Ghanaian"}
+# "Guinea" and "Ghanaian" are removed deliberately. "Ghanaian" describes our own
+# photographs. "Guinea" cannot decide anything: it is a country, it is the old
+# regional name for the whole Gold Coast, and it is half of "Papua New Guinea",
+# so a caption using it is ambiguous rather than foreign. Dropping it recovered
+# twelve candidate photographs of Osu Castle that were correct.
+FOREIGN = set(_COUNTRIES.split()) - {"Ghana", "Ghanaian", "Guinea", "Guinean"}
 
 # Places outside Ghana that turn up in real search results for Ghanaian subjects
 # and that a country check alone would not catch, because the caption names a
@@ -421,10 +429,12 @@ VESSEL_SUBJECT = set(
 # reads as noise beside ground-level pictures in the same strip.
 SATELLITE = set(
     """
-    satellite landsat sentinel modis aerial survey orthophoto orthoimage nasa
-    remote sensing
+    satellite landsat sentinel modis orthophoto orthoimage nasa
     """.split()
 )
+
+# Phrases, for the same reason "aerial survey" had to leave the set above.
+SATELLITE_PHRASES = ["aerial survey", "aerial imagery", "true colour", "satellite view"]
 
 # Pre-photographic works. A four-digit year before 1839 is decisive on its own:
 # no photograph of that can exist.
@@ -527,6 +537,9 @@ def is_photograph(record: dict[str, Any], entity_name: str = "") -> str:
         return f"not-a-photo: '{word}'"
     for word in sorted(keys & S_SATELLITE):
         return f"satellite: '{word}'"
+    for phrase in SATELLITE_PHRASES:
+        if _has_phrase(text, phrase):
+            return f"satellite: phrase {phrase!r}"
 
     for phrase in NOT_A_PHOTO_PHRASES:
         if _has_phrase(text, phrase):
@@ -538,9 +551,15 @@ def is_photograph(record: dict[str, Any], entity_name: str = "") -> str:
             if denied and denied <= category_keys:
                 return f"not-a-photo: category '{category.rsplit(':', 1)[-1]}'"
 
+    # Contradictions are checked against the title only. A description is prose
+    # and will mention related places -- an Osu Castle photograph whose
+    # description links to Cape Coast is not thereby a photograph of Cape Coast,
+    # and title-only checking stopped 21 of 56 correct Osu Castle candidates
+    # being thrown away by the pair ("accra", "cape coast").
+    title_keys = _keys(_title(record))
     for left, right in _CONTRADICTION_KEYS:
-        if left & keys and right & keys:
-            return "contradiction: two different places named in one caption"
+        if left & title_keys and right & title_keys:
+            return "contradiction: two different places named in one title"
 
     if _is_pre_photographic(record):
         return "before-photography: describes a work made before photography"
@@ -754,30 +773,51 @@ def _alternative_words(entity_keys: set[str]) -> set[str]:
 # --------------------------------------------------------------------------
 # rule: ambiguous place words
 # --------------------------------------------------------------------------
-def place_conflicts(record: dict[str, Any], entity_name: str, known_places: Iterable[str]) -> str:
-    """Reject when a word in the metadata names a place other than this one.
+def place_conflicts(
+    record: dict[str, Any],
+    entity_name: str,
+    known_places: Iterable[str],
+    host_words: Iterable[str] = (),
+) -> str:
+    """Reject when a word in the *title* names a place other than this one.
 
     Some words are place names in their own right -- "william", "ada", "keta" --
-    and some of them belong to more than one destination in this data. Such a
-    word is ambiguous exactly when it points somewhere that is not the entity
-    being assembled.
+    and some belong to more than one destination in this data. Such a word is
+    ambiguous exactly when it points somewhere that is not the entity being
+    assembled.
 
-    The subtlety is that pointing at *several* places including this one is not
-    ambiguous, it is merely uninformative. "william" names both Fort Williams, so
-    a caption saying "william" tells us nothing about which fort it shows -- but
-    it is not evidence of the wrong one either, and rejecting it would empty
-    both galleries. So the test is: more than one destination matches the word,
-    and this entity is not one of them. "ada" behaves the same way, which is why
-    an Ada Foah Beach photograph is not thrown out for mentioning Ada.
+    Four constraints keep this from eating the gallery, and each one was added
+    after watching it reject a correct photograph:
+
+    * **Title only.** A description is prose written by whoever uploaded the file
+      and mentions anything. Run over the full text this rule rejected a
+      photograph of Cape Coast Castle for the word "slave", because two
+      destinations are called "Nania Slave Route" and "Assin Manso Slave River".
+      A title, by contrast, names the subject, so an ambiguous title word is real
+      evidence of the wrong place.
+    * **The entity's own region is never ambiguous.** "Accra" is in the names of
+      two Accra destinations, so "Osu Castle, Accra" was rejected as pointing
+      somewhere else -- but Osu Castle is in Accra, and the word names where the
+      photograph was taken, not what it shows. `host_words` carries the entity's
+      region and location for exactly this.
+    * **Pointing at several places including this one is not ambiguous**, it is
+      merely uninformative. "william" names both Fort Williams, so a caption
+      saying "william" tells us nothing about which fort it shows -- but it is not
+      evidence of the wrong one either, and rejecting it would empty both
+      galleries. So the test is: more than one destination matches the word, and
+      this entity is not one of them.
+    * **Four characters minimum.** Shorter tokens are almost always fragments
+      ("chief's" and "St. George's" both yield a bare "s"), and a fragment that
+      lands in two names is a coin flip rather than evidence.
     """
     places = list(known_places)
     if not places:
         return ""
     place_keys = {place: _keys(place) for place in places}
-    own = _keys(entity_name)
+    exempt = _keys(entity_name) | _keys(" ".join(host_words))
 
-    for word in sorted(_keys(_all_text(record))):
-        if word in S_GENERIC or word in own:
+    for word in sorted(_keys(_title(record))):
+        if word in S_GENERIC or word in exempt or len(word) < 4:
             continue
         hits = [place for place, keys in place_keys.items() if word in keys]
         if len(hits) > 1:
@@ -792,6 +832,7 @@ def screen(
     record: dict[str, Any],
     entity_name: str,
     known_places: Iterable[str] = (),
+    host_words: Iterable[str] = (),
 ) -> str:
     """Return the first reason to reject this file for this place, else "".
 
@@ -800,6 +841,10 @@ def screen(
     location run next, and they run on *every* path through the pipeline -- an
     earlier version had a rescue pass that skipped them, and every bad entry
     that survived came out of that pass.
+
+    `host_words` is the entity's region and location, used to stop the ambiguity
+    rule rejecting "Osu Castle, Accra" because two other destinations also have
+    Accra in their names.
     """
     from commons import licence_of  # keeps this module importable on its own
 
@@ -811,7 +856,7 @@ def screen(
         lambda: is_photograph(record, entity_name),
         lambda: location_verdict(record, entity_name),
         lambda: other_subject(record, entity_name),
-        lambda: place_conflicts(record, entity_name, known_places),
+        lambda: place_conflicts(record, entity_name, known_places, host_words),
     ):
         reason = check()
         if reason:

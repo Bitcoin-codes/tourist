@@ -30,6 +30,7 @@ Exit status is non-zero on any error, so this can gate a commit.
 from __future__ import annotations
 
 import json
+import math
 import re
 import sys
 from collections import Counter
@@ -50,15 +51,69 @@ CREDITS = ROOT / "IMAGE-CREDITS.md"
 MIN_WANT = 2
 MAX_PHOTOS = 6
 
-# Slots, in CSS pixels, and the device pixel ratio each has to survive. Taken from
-# styles.css and frontend/js/images.js; if those change, these must change with
-# them or this check stops meaning anything.
-SLOTS: list[tuple[str, int, int]] = [
-    # name, css width, device pixel ratio to survive
-    ("gallery thumbnail", 245, 2),   # .modal-gallery-thumb, 3:2
-    ("modal hero", 800, 2),          # .modal-hero image, 800w
-    ("full-size viewer", 1920, 1),   # serves the master itself
+# Slots, in CSS pixels, and the device pixel ratio each has to survive.
+#
+# The first two are measured out of styles.css rather than written down here, so
+# that restyling the modal cannot quietly leave this check measuring a box that no
+# longer exists. The arithmetic, which is what the numbers came from originally:
+#
+#   .modal-card { max-width: 800px }
+#   .modal-gallery { padding: var(--sp-4) var(--sp-6) 0 }   -> track is 800-48 = 752
+#   .modal-gallery-item { flex: 0 0 calc((100% - 2 * var(--sp-3)) / 3) }
+#                                                          -> (752-24)/3 = 242.7
+#
+# If the CSS cannot be parsed the fallbacks below are used and the run says so,
+# because a check that silently measures the wrong box is worse than none.
+STYLES = ROOT / "styles.css"
+FALLBACK_SLOTS: list[tuple[str, int, int]] = [
+    ("gallery thumbnail", 243, 2),
+    ("modal hero", 800, 2),
+    ("full-size viewer", 1920, 1),
 ]
+
+
+def slots() -> list[tuple[str, int, int]]:
+    """The display slots, measured from the stylesheet where possible."""
+    try:
+        css = STYLES.read_text()
+    except OSError:
+        return FALLBACK_SLOTS
+
+    def px(name: str) -> int | None:
+        match = re.search(rf"--{name}:\s*(\d+)px", css)
+        return int(match.group(1)) if match else None
+
+    card = re.search(r"\.modal-card\s*\{[^}]*?max-width:\s*(\d+)px", css, re.S)
+    item = re.search(
+        r"\.modal-gallery-item\s*\{[^}]*?flex:\s*0 0 calc\(\(100% - 2 \* var\(--sp-(\d+)\)\)",
+        css,
+        re.S,
+    )
+    gallery = re.search(r"\.modal-gallery\s*\{[^}]*?padding:[^;]*", css, re.S)
+
+    if not (card and item and gallery):
+        return FALLBACK_SLOTS
+
+    sides = re.findall(r"var\(--sp-(\d+)\)", gallery.group(0))
+    sp3, sp6 = px(f"sp-{item.group(1)}"), px(f"sp-{sides[1] if len(sides) > 1 else 6}")
+    if not (sp3 and sp6):
+        return FALLBACK_SLOTS
+
+    modal = int(card.group(1))
+    track = modal - 2 * sp6
+    # Rounded up, not to nearest: the computed width is 242.67, and truncating it
+    # to 242 would let through a 484px file that is 1.4px short at 2x. A check
+    # that is a hair too strict costs nothing; one that is a hair too lax is the
+    # blurred photograph this whole script exists to prevent.
+    thumb = math.ceil((track - 2 * sp3) / 3)
+    # The viewer is capped by the viewport, not by a fixed width, so its number is
+    # the master's own width: the master is the widest file this repository holds
+    # and displaying it at 1x is the case that is always sharp.
+    return [
+        ("gallery thumbnail", thumb, 2),
+        ("modal hero", modal, 2),
+        ("full-size viewer", 1920, 1),
+    ]
 
 # Licence words that must appear in a credit string. A credit that names an author
 # but not a licence does not satisfy CC BY or CC BY-SA attribution.
@@ -141,7 +196,7 @@ def main() -> int:
                 # The thumbnail is centre-cropped to 3:2, so what matters there is
                 # that the frame is wide enough. A portrait file is not an error --
                 # cover crops it -- but it is worth saying out loud.
-                for name, css, ratio in SLOTS:
+                for name, css, ratio in slots():
                     needed = css * ratio
                     if width < needed:
                         message = f"{where}: {relative} is {width}px, {name} needs {needed}px"
@@ -187,7 +242,10 @@ def main() -> int:
     print(f"galleries checked : {len(DATA_FILES)} data files")
     print(f"photographs       : {total}")
     print(f"files referenced  : {len(used_by)}")
-    for name, css, ratio in SLOTS:
+    measured = slots()
+    if measured == FALLBACK_SLOTS:
+        print("  (slots could not be measured out of styles.css; using the recorded values)")
+    for name, css, ratio in measured:
         print(f"  {name:20} {css} CSS px at {ratio}x = {css * ratio}px needed")
     if thin:
         print(f"\ntoo thin to render a strip ({len(thin)}):")

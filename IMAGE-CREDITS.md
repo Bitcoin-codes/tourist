@@ -97,37 +97,24 @@ photo of somewhere else:
 - **Licence:** [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
 - **Source:** [commons.wikimedia.org/wiki/File:Old_Man_and_the_Son_Masqurade_Dressing_in_Takoradi.jpg](https://commons.wikimedia.org/wiki/File:Old_Man_and_the_Son_Masqurade_Dressing_in_Takoradi.jpg)
 
-### The Slave Scene
+### Slave trade photograph
 
 - **File used on:** Diaspora Tours tile (`index.html`)
-- **Local copy:** `assets/images/slave_scene_captives.jpg`
-- **Authors:** Nji Gbetkom Salifou (sculptor), Chief Mongbet Vessah Ibrahim,
-  Bruno Kemayou and David W. Reed PhD
-- **Licence:** [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
-- **Source:** [commons.wikimedia.org/wiki/File:The_Slave_Scene_by_Nji_Gbetkom_Salifou_(Tikar_Bamum).jpg](https://commons.wikimedia.org/wiki/File:The_Slave_Scene_by_Nji_Gbetkom_Salifou_(Tikar_Bamum).jpg)
-- **Subject:** Six bronze statues, cast c. 1946-1950, showing four Tikar captives
-  driven in chains down to a coastal port by a colonial guard and a royal guard
-  in the pay of the slave merchants. The captives are nude and shoeless, wearing
-  wooden beads at neck, waist and ankle that mark their shared village. The
-  woman wears chains earned by resisting; the two chained men were to be
-  manacled below deck; the elderly man is travelling unbound. Sculpted by
-  Nji Gbetkom Salifou, a Bamoun artist of Cameroon's Grasslands.
-- **Note on the subject:** the captives are Tikar, from what is now northern
-  Cameroon, not Ghana. The tile caption and alt text say so. Do not describe
-  them as Ghanaians.
-- **Edits made** (CC BY-SA 4.0 asks that changes be indicated):
-  1. cropped to 16:10 — the statue group already spans the full width, so this
-     trimmed 6px of height and nothing of substance;
-  2. white balance — the raw frame is lit by tungsten and was heavily orange
-     (mean channel gain applied: R x0.735, G x0.991, B x1.586);
-  3. saturation reduced to 0.70, because correcting the cast left it too warm
-     next to the naturally-lit tiles;
-  4. shadows lifted (x0.90 + 16) so the black backdrop reads as space rather
-     than a dead hole;
-  5. downscaled from 2500x1568 to 1920x1204.
-  The figures themselves were not retouched, moved or removed. If you ever
-  change these numbers, the measured effect is in `tools/`-adjacent notes in the
-  commit message — re-derive them rather than guessing.
+- **Local copy:** `assets/images/slavetrade.jpeg` (678x452, 26 KB) with the
+  generated `slavetrade-400.jpg`
+- **Authors:** unknown
+- **Licence:** unknown
+- **Source:** supplied directly for this project by the site owner
+- **Subject:** unknown. The file arrived with no accompanying description and the
+  frame has not been visually verified, so the alt text (`Slave trade history`)
+  names the tile's subject rather than claiming to describe the photograph.
+- **Status — verify before launch:** the provenance and licence above are
+  placeholders, not findings. This is the one image on the site whose right to
+  display has not been established. The previous tile image was a Wikimedia
+  bronze, `The Slave Scene` by Nji Gbetkom Salifou (CC BY-SA 4.0), which was
+  removed because the captives it depicts are Tikar from what is now northern
+  Cameroon rather than Ghanaian. Confirm what this photograph shows, who made it
+  and under what licence, then replace this section.
 
 ### 18th-Century Slave Shackles from Tamale *(alternate, not currently displayed)*
 
@@ -138,8 +125,8 @@ photo of somewhere else:
 - **Original:** <https://www.flickr.com/photos/adam_jones/28144996426/>
 - **Subject:** Eighteenth-century iron slave shackles made in Tamale, Northern
   Region, Ghana, photographed on display at the International Slavery Museum
-  in Liverpool. The shackles are Ghana-made, which is why they are the fallback
-  for the tile rather than a generic European artefact.
+  in Liverpool. The shackles are Ghana-made, which is why it was the first
+  fallback for the tile rather than a generic European artefact.
 - **Edit made:** downscaled from 3648x2736 to 1920x1440 and re-encoded. Nothing
   else.
 - **To restore:** point the tile `img` in `index.html` back at

@@ -110,7 +110,11 @@ def referenced_images() -> list[Path]:
         except json.JSONDecodeError as exc:
             print(f"  warning: {data_file.name} is not valid JSON ({exc})", file=sys.stderr)
 
-    pattern = re.compile(r"""["'(](assets/images/[^"')]+)["')]""")
+    # A path can be followed by more text inside the same quote: in a `srcset`
+    # the value is "a.jpg 400w, b.jpg 800w", and the candidates are separated
+    # by a comma rather than a quote. So accept a quote, an open bracket or a
+    # comma as the delimiter, and let whitespace and commas end the path.
+    pattern = re.compile(r"""["'(,]\s*(assets/images/[^"')\s,]+)""")
     for html_file in sorted(ROOT.glob("*.html")):
         for match in pattern.finditer(html_file.read_text(errors="ignore")):
             add(match.group(1))

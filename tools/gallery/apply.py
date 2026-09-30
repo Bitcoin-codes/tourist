@@ -314,13 +314,23 @@ def write_json(path: Path, rows: list[dict[str, Any]]) -> None:
 
 def insert_images(
     rows: list[dict[str, Any]], existing: list[dict[str, Any]]
-) -> tuple[list[dict[str, Any]], list[str]]:
+) -> tuple[list[dict[str, Any]], list[str], list[str]]:
     """Rebuild each row with an `images` array, positioned after `image`.
 
     Rebuilding rather than mutating in place is what keeps the key order stable:
     `dict` preserves insertion order, so starting a fresh dict from the original
     row and adding `images` at the point where `image` was puts it in a sensible
     place instead of at the end, next to `guideContact`.
+
+    A place with fewer than `MIN_WANT` photographs gets no array at all. The row
+    would be ignored by `stripHtml()`, which returns an empty string below two, so
+    writing one puts data in the file that a maintainer will reasonably believe is
+    being shown and is not. Those photographs still appear in the credits table,
+    which is generated from the plan rather than from the data, so the
+    attribution survives without the data file implying a display that does not
+    happen.
+
+    Returns (rows, entities with an array, entities with too few photographs).
     """
     plans: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for plan_row in rows:
@@ -328,13 +338,19 @@ def insert_images(
 
     out: list[dict[str, Any]] = []
     touched: list[str] = []
+    too_thin: list[str] = []
     for row in existing:
         entity_id = row["id"]
         if entity_id not in plans:
             out.append(row)
             continue
+        chosen = plans[entity_id][:MAX_PHOTOS]
+        if len(chosen) < MIN_WANT:
+            out.append(row)
+            too_thin.append(f"{entity_id} ({len(chosen)})")
+            continue
         images = []
-        for plan_row in plans[entity_id][:MAX_PHOTOS]:
+        for plan_row in chosen:
             alt, _ = alt_text(plan_row, row.get("name", entity_id))
             credit = ", ".join(
                 part for part in (plan_row.get("author"), plan_row.get("licence")) if part
@@ -342,9 +358,6 @@ def insert_images(
             images.append(
                 {"image": f"assets/images/{plan_row['file']}", "alt": alt, "credit": credit}
             )
-        if not images:
-            out.append(row)
-            continue
         rebuilt: dict[str, Any] = {}
         for key, value in row.items():
             rebuilt[key] = value
@@ -354,7 +367,7 @@ def insert_images(
             rebuilt["images"] = images
         out.append(rebuilt)
         touched.append(entity_id)
-    return out, touched
+    return out, touched, too_thin
 
 
 def main() -> int:
@@ -416,15 +429,23 @@ def main() -> int:
         print("\ndry run, nothing written")
         return 0
 
+    skipped: list[str] = []
     for kind, path in DATA_FILES.items():
         rows = load_json(path)
         ids = {row["id"] for row in rows}
         subset = [row for row in plan if row["entity"] in ids]
         if not subset:
             continue
-        rebuilt, touched = insert_images(subset, rows)
+        rebuilt, touched, too_thin = insert_images(subset, rows)
         write_json(path, rebuilt)
-        print(f"  {path.name}: {len(touched)} places updated")
+        skipped.extend(too_thin)
+        print(f"  {path.name}: {len(touched)} places given an images array")
+
+    if skipped:
+        print(
+            f"  {len(skipped)} place(s) have too few photographs for the row to render, "
+            f"so none was written: {', '.join(skipped)}"
+        )
 
     CREDITS.write_text(replace_credits(plan, names))
     print("  IMAGE-CREDITS.md: gallery table written")

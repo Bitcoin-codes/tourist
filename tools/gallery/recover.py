@@ -423,8 +423,10 @@ def main() -> int:
                 report.append(f"  !! {name} licence: {lic['reason']}")
             rows.append(
                 {
+                    "entity": entity,
                     "file": f"gallery/{name}",
                     "title": title,
+                    "description": record.get("extmetadata", {}).get("ImageDescription", ""),
                     "match": kind,
                     "score": round(score, 2),
                     "author": artist_of(record),

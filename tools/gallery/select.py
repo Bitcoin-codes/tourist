@@ -294,12 +294,24 @@ def local_name(entity_id: str, record: dict[str, Any], index: int) -> str:
     is looking at the directory, and the destination prefix keeps the gallery
     reconstructible from the filenames alone if this script is ever lost again --
     which it was, once.
+
+    The title slug is trimmed where it merely repeats the prefix. "Cape Coast
+    Castle 34" under a `cape-coast-castle-` prefix is 45 characters of which 16
+    say nothing, and a directory of 200 photographs should be readable.
     """
     stem = record["title"].split(":", 1)[-1].rsplit(".", 1)[0]
     slug = "".join(c if c.isalnum() else "-" for c in stem.lower()).strip("-")
     slug = "-".join(part for part in slug.split("-") if part)[:60].strip("-")
-    if not slug or slug == entity_id:
-        suffix = f"-{index}" if index else ""
+
+    # Commons titles carry their own "File:" prefix stripped, but the destination
+    # name often appears in the title as well. Cut it once, at the start.
+    for _ in range(2):
+        if slug.startswith(entity_id + "-"):
+            slug = slug[len(entity_id) + 1 :]
+    slug = slug.strip("-")
+
+    if not slug:
+        suffix = f"-{index + 1}" if index else ""
         return f"{entity_id}{suffix}.jpg"
     return f"{entity_id}-{slug}.jpg"
 
@@ -319,6 +331,7 @@ def install(
                 "entity": entity_id,
                 "file": f"gallery/{name}",
                 "title": record["title"],
+                "description": record.get("extmetadata", {}).get("ImageDescription", ""),
                 "width": record.get("width", 0),
                 "height": record.get("height", 0),
                 "thumbwidth": record.get("thumbwidth", 0),

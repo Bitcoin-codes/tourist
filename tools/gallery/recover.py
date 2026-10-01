@@ -50,7 +50,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from commons import Commons, artist_of, licence_of  # noqa: E402
+from commons import Commons, artist_of, is_raster_image, licence_of  # noqa: E402
 import pixels  # noqa: E402
 
 try:
@@ -269,7 +269,7 @@ def main() -> int:
     client = Commons(SCRATCH / "api-cache", throttle=0.4)
     plan: dict[str, list[dict]] = {}
     report: list[str] = []
-    stats = {"name": 0, "pixels": 0, "unmatched": 0}
+    stats = {"name": 0, "pixels": 0, "unmatched": 0, "non_image": 0}
 
     entities = sorted(by_entity)
     if args.limit:
@@ -362,6 +362,12 @@ def main() -> int:
                 for title in batch:
                     record = records[title]
                     if not record.get("thumburl"):
+                        continue
+                    # Before it is downloaded, and before it can be compared to
+                    # anything. See commons.is_raster_image for why this has to be
+                    # a separate test rather than something the matcher notices.
+                    if not is_raster_image(record):
+                        stats["non_image"] += 1
                         continue
                     cache_name = f"{record.get('sha1', 'x')[:16]}_{slug_key(title)[:40]}.jpg"
                     path = download(record["thumburl"], THUMBS / cache_name)
@@ -468,6 +474,7 @@ def write_report(
         f"matched by filename : {stats['name']}",
         f"matched by pixels   : {stats['pixels']}",
         f"UNMATCHED           : {stats['unmatched']}",
+        f"refused as non-image: {stats['non_image']}   (PDF, DjVu, scan -- not photographs)",
         f"API calls           : {client.calls} ({client.cache_hits} cache hits)",
         "",
         "Entries needing a human decision, and every pixel-only match:",

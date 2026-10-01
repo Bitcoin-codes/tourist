@@ -56,7 +56,13 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from commons import USER_AGENT, Commons, artist_of, licence_of  # noqa: E402
+from commons import (  # noqa: E402
+    USER_AGENT,
+    Commons,
+    artist_of,
+    is_raster_image,
+    licence_of,
+)
 import pixels  # noqa: E402
 from filters import (  # noqa: E402
     _description,
@@ -220,6 +226,19 @@ def collect(
         hosts = host_words(entity)
         for title in sorted(records):
             record = records[title]
+
+            # Before the sha1 dedupe and before any content screening, because a
+            # scanned book is not a photograph of anywhere and no amount of reading
+            # its title, categories or description will establish that it is. A
+            # PDF of a book about Scotland has a title, categories and a
+            # description, and passes all of them.
+            if not is_raster_image(record):
+                counts["non-image"] = counts.get("non-image", 0) + 1
+                rejected.setdefault(entity["id"], []).append(
+                    {"title": title, "reason": "not a photograph (PDF, DjVu or scan)"}
+                )
+                continue
+
             if record.get("sha1"):
                 if record["sha1"] in seen:
                     continue

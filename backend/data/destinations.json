@@ -49,7 +49,7 @@
     "images": [
       {
         "image": "assets/images/gallery/boabeng-fiema-monkey-sanctuary-forest-monkey.jpg",
-        "alt": "Boabeng-Fiema Monkey Sanctuary: Tee dugo m'be pug",
+        "alt": "Boabeng-Fiema Monkey Sanctuary: Dugo m'be",
         "credit": "Cdilalo47, CC BY-SA 4.0"
       },
       {
@@ -95,14 +95,34 @@
     "image": "assets/images/attractions/cape-coast-castle.jpg",
     "images": [
       {
-        "image": "assets/images/gallery/cape-coast-castle-courtyard.jpg",
-        "alt": "The inner courtyard of Cape Coast Castle, looking up at the whitewashed walls and arches",
+        "image": "assets/images/gallery/cape-coast-castle-09-05-2025.jpg",
+        "alt": "Photograph of Cape Coast Castle",
+        "credit": "Jenef Offei Emmanuel, CC BY 4.0"
+      },
+      {
+        "image": "assets/images/gallery/cape-coast-castle-34.jpg",
+        "alt": "Photograph of Cape Coast Castle",
+        "credit": "Antorsu10, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/cape-coast-castle-35.jpg",
+        "alt": "Photograph of Cape Coast Castle",
+        "credit": "Antorsu10, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/cape-coast-castle-cape-coast-ghana-castle-2.jpg",
+        "alt": "Photograph of Cape Coast Castle",
         "credit": "Philip Nalangan, CC BY 4.0"
       },
       {
-        "image": "assets/images/gallery/cape-coast-castle-elmina-view.jpg",
-        "alt": "Cape Coast Castle seen from across the bay at Elmina",
-        "credit": "Kodex, CC BY-SA 3.0"
+        "image": "assets/images/gallery/cape-coast-castle-cape-coast-ghana-castle-3.jpg",
+        "alt": "Photograph of Cape Coast Castle",
+        "credit": "Philip Nalangan, CC BY 4.0"
+      },
+      {
+        "image": "assets/images/gallery/cape-coast-castle-coast-2.jpg",
+        "alt": "Photograph of Cape Coast Castle",
+        "credit": "Antorsu10, CC BY-SA 4.0"
       }
     ],
     "rating": 4.9,
@@ -252,7 +272,7 @@
       },
       {
         "image": "assets/images/gallery/black-star-square-square.jpg",
-        "alt": "Black Star Square & Independence Arch: Pano korle klottey img pano",
+        "alt": "Black Star Square & Independence Arch: Korle klottey",
         "credit": "Matti Blume, CC BY-SA 4.0"
       }
     ],
@@ -1534,7 +1554,7 @@
     "images": [
       {
         "image": "assets/images/gallery/centre-for-national-culture-3.jpg",
-        "alt": "Centre for National Culture: Fijai panoramio",
+        "alt": "Centre for National Culture: Fijai",
         "credit": "Nate N., CC BY-SA 3.0"
       },
       {
@@ -1960,7 +1980,7 @@
     "images": [
       {
         "image": "assets/images/gallery/fort-nassau-mouri-2.jpg",
-        "alt": "Fort Nassau: Overzicht rce",
+        "alt": "Fort Nassau: Overzicht",
         "credit": "Coenraad Liebrecht Temminck Groll, CC BY-SA 4.0"
       },
       {
@@ -1970,12 +1990,12 @@
       },
       {
         "image": "assets/images/gallery/fort-nassau-mouri-4.jpg",
-        "alt": "Fort Nassau: Poort rce",
+        "alt": "Fort Nassau: Poort",
         "credit": "Coenraad Liebrecht Temminck Groll, CC BY-SA 4.0"
       },
       {
         "image": "assets/images/gallery/fort-nassau-mouri.jpg",
-        "alt": "Fort Nassau: Westelijk bastion rce",
+        "alt": "Fort Nassau: Westelijk bastion",
         "credit": "Coenraad Liebrecht Temminck Groll, CC BY-SA 4.0"
       }
     ],
@@ -2247,7 +2267,7 @@
       },
       {
         "image": "assets/images/gallery/akosombo-dam-view.jpg",
-        "alt": "Akosombo Dam: P1100018 pano",
+        "alt": "Photograph of Akosombo Dam",
         "credit": "Matti Blume, CC BY-SA 4.0"
       },
       {
@@ -2290,12 +2310,12 @@
       },
       {
         "image": "assets/images/gallery/adomi-bridge-bridge-2.jpg",
-        "alt": "Adomi Bridge: Asuogyaman p1090970",
+        "alt": "Adomi Bridge: Asuogyaman",
         "credit": "Matti Blume, CC BY-SA 4.0"
       },
       {
         "image": "assets/images/gallery/adomi-bridge-bridge-3.jpg",
-        "alt": "Adomi Bridge: Atimpoku p1100005",
+        "alt": "Adomi Bridge: Atimpoku",
         "credit": "Matti Blume, CC BY-SA 4.0"
       },
       {
@@ -3803,7 +3823,7 @@
       },
       {
         "image": "assets/images/gallery/busua-beach-beach.jpg",
-        "alt": "Busua Beach: Rainy day",
+        "alt": "Busua Beach: Rainy",
         "credit": "Tom Lubbe, CC BY-SA 3.0"
       }
     ],
@@ -4030,7 +4050,7 @@
     "images": [
       {
         "image": "assets/images/gallery/fort-batenstein-2.jpg",
-        "alt": "Fort Batenstein: Overzicht met bovenop heuvel butre",
+        "alt": "Fort Batenstein: Overzicht bovenop heuvel butre",
         "credit": "Loek Tangel, CC BY-SA 4.0"
       },
       {

@@ -33,6 +33,7 @@ import json
 import math
 import re
 import sys
+import urllib.parse
 from collections import Counter
 from pathlib import Path
 from typing import Any
@@ -47,7 +48,6 @@ DATA_FILES = [
     ROOT / "backend" / "data" / "destinations.json",
     ROOT / "backend" / "data" / "festivals.json",
 ]
-CREDITS = ROOT / "IMAGE-CREDITS.md"
 
 # The strip renders only when there is a hero plus at least two more, so an array
 # of one is dead weight in the data file. Must match select.py and apply.py.
@@ -68,11 +68,86 @@ MAX_PHOTOS = 6
 # If the CSS cannot be parsed the fallbacks below are used and the run says so,
 # because a check that silently measures the wrong box is worse than none.
 STYLES = ROOT / "styles.css"
+CREDITS_PATH = ROOT / "IMAGE-CREDITS.md"
 FALLBACK_SLOTS: list[tuple[str, int, int]] = [
     ("gallery thumbnail", 243, 2),
     ("modal hero", 800, 2),
     ("full-size viewer", 1920, 1),
 ]
+
+
+# Markdown links whose target contains parentheses, which Commons filenames
+# routinely do: "File:Studies_of_nature_(IA_abc123).pdf". A `[text](url)`
+# pattern stops at the first ")" and leaves the tail of the URL glued to the
+# text, which put "…W Noel.pdf))" in an author name the first time this was
+# written. Balanced one level of nesting, which is all these need.
+_LINK = re.compile(r"\[([^\]]*)\]\(((?:[^()\s]|\([^()]*\))*)\)")
+
+
+def _unlink(text: str) -> str:
+    """The URL a markdown link points at, or the text unchanged if it is not one."""
+    match = _LINK.search(text)
+    return match.group(2).strip() if match else text.strip()
+
+
+def _link_text(text: str) -> str:
+    """The visible text of a markdown link, or the text unchanged if it is not one."""
+    match = _LINK.search(text)
+    return match.group(1).strip() if match else text.strip()
+
+
+def credits_rows(markdown: str) -> list[tuple[str, str, str, str]] | None:
+    """The gallery credits table as (place, filename, author, source) tuples.
+
+    Returns None when the markers or the header are absent, so the caller can
+    report that rather than quietly checking nothing -- a check that reads an
+    empty table and finds it clean is the failure mode this function exists to
+    avoid.
+    """
+    start = markdown.find("<!-- gallery-credits:start -->")
+    end = markdown.find("<!-- gallery-credits:end -->")
+    if start == -1 or end == -1 or end < start:
+        return None
+
+    rows: list[tuple[str, str, str, str]] = []
+    header_seen = False
+    for line in markdown[start:end].splitlines():
+        if not line.startswith("|"):
+            continue
+        cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+        if len(cells) != 5:
+            continue
+        if cells[0] == "Place":
+            header_seen = True
+            continue
+        if set(cells[0]) <= set("-: "):
+            continue
+        if not header_seen:
+            continue
+        place, filename, author, _licence, source = cells
+        rows.append(
+            (place, filename.strip("`"), _link_text(author), _unlink(source))
+        )
+    return rows if header_seen else None
+
+
+def non_image_credits(
+    rows: list[tuple[str, str, str, str]]
+) -> list[tuple[str, str, str, str]]:
+    """Credits whose source is a scanned document rather than a photograph."""
+    out = []
+    for place, filename, author, source in rows:
+        match = re.search(r"commons\.wikimedia\.org/wiki/File:(.+)$", source)
+        target = (match.group(1) if match else source).strip()
+        # Commons URLs percent-encode punctuation, and the markdown cell may still
+        # carry a trailing bracket. Undo both before looking at the extension, or
+        # the suffix reads ".pdf)" and the check passes on the very rows it exists
+        # to catch -- which is what happened the first time this was written.
+        target = urllib.parse.unquote(target).strip("()[]<> \t")
+        suffix = ("." + target.rsplit(".", 1)[-1].lower()) if "." in target else ""
+        if suffix in {".pdf", ".djvu", ".djv", ".djt", ".chm", ".epub"}:
+            out.append((place, filename, author, target))
+    return out
 
 
 def slots() -> tuple[list[tuple[str, int, int]], str]:
@@ -147,6 +222,7 @@ def size_of(path: Path) -> tuple[int, int] | None:
 
 def main() -> int:
     errors: list[str] = []
+    credits = credits_rows(CREDITS_PATH.read_text()) if CREDITS_PATH.exists() else None
     warnings: list[str] = []
 
     # path -> the entities that use it, and the pixel signatures for duplicate
@@ -277,6 +353,49 @@ def main() -> int:
             )
     errors.extend(f"the same picture is filed twice: {item}" for item in duplicates)
 
+    # -- photographs on disk that nothing shows ------------------------------
+    # A warning, not an error: an unreferenced file needs no attribution and
+    # breaks no licence. But it is dead weight in the repository, and it is the
+    # visible trace of photographs the credit recovery installed and then failed
+    # to match -- including the two scanned books that were credited to castles
+    # before the file-type guard existed. Reporting them is how those stayed
+    # findable after the plan that produced them was lost.
+    gallery_dir = ROOT / "assets" / "images" / "gallery"
+    if gallery_dir.is_dir():
+        credited = {filename for _p, filename, _a, _s in (credits or [])}
+        orphans = sorted(
+            path.name
+            for path in gallery_dir.glob("*.jpg")
+            if not path.stem.endswith(("-400", "-800"))
+            and f"assets/images/gallery/{path.name}" not in used_by
+            and path.name not in credited
+        )
+        if orphans:
+            spare = sum((gallery_dir / name).stat().st_size for name in orphans) / 1e6
+            warnings.append(
+                f"{len(orphans)} photograph(s) in assets/images/gallery are neither "
+                f"shown nor credited ({spare:.1f} MB of dead weight): {', '.join(orphans[:4])}"
+                f"{' ...' if len(orphans) > 4 else ''}"
+            )
+
+    # -- the credits table -------------------------------------------------
+    # Parsed back out of IMAGE-CREDITS.md rather than read from the plan, because
+    # the file is the durable record: /tmp has been wiped twice and the plan was
+    # in it. A credit that survived into the published table while pointing at a
+    # scanned book is an attribution to the wrong author, which is a licence
+    # failure and not a cosmetic one.
+    if credits is None:
+        errors.append(
+            f"the gallery credits table could not be read from {CREDITS_PATH.name}"
+        )
+    else:
+        for place, filename, author, source in non_image_credits(credits):
+            errors.append(
+                f"{filename} (shown for {place}, credited to {author}) points at a "
+                f"scanned document rather than a photograph: {source}. It cannot be "
+                f"an image of the place, and crediting it to that author is wrong."
+            )
+
     print(f"galleries checked : {len(DATA_FILES)} data files")
     print(f"photographs       : {total}")
     print(f"files referenced  : {len(used_by)}")
@@ -301,9 +420,18 @@ def main() -> int:
 
     # Attribution is a licence condition, so a photograph with no row in the
     # credits table is an error rather than a warning.
-    text = CREDITS.read_text()
+    #
+    # Checked against the parsed rows, not against a substring search of the whole
+    # file. The old version asked whether the filename appeared anywhere in
+    # IMAGE-CREDITS.md between backticks, which a sentence of prose mentioning the
+    # file would satisfy just as well as a table row -- so a photograph could be
+    # unrecredited and the check would still pass, which is the failure this script
+    # exists to prevent.
+    credited_files = {filename for _place, filename, _author, _source in (credits or [])}
     missing_credits = [
-        relative for relative in used_by if f"`{Path(relative).name}`" not in text
+        relative
+        for relative in used_by
+        if Path(relative).name not in credited_files
     ]
     if missing_credits:
         errors.append(

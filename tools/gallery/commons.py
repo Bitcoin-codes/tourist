@@ -96,6 +96,65 @@ def _plain(value: str) -> str:
     return _WS_RE.sub(" ", _TAG_RE.sub(" ", value or "")).strip()
 
 
+# Wikimedia Commons holds scanned books, manuscripts and archival documents next
+# to photographs, and it renders a PDF or DjVu to a perfectly ordinary JPEG of its
+# first page. The pixel matcher cannot tell that rendered book page from a
+# photograph -- it compares grey levels, and a page of nineteenth-century text is
+# grey levels like anything else.
+#
+# That is not hypothetical. Two photographs installed for Cape Coast Castle were
+# matched by pixels to "Studies of nature on the coast of Arran" and "A Voyage
+# Round the Coasts of Scotland and the Isles", both PDFs of books about Scotland,
+# and one of them was credited to them and displayed. The grey-level distance was
+# small because the local files were themselves page-shaped, not because the
+# matcher understood anything.
+#
+# So the candidate's file type has to be checked before it is downloaded, in every
+# path that can reach a match. This is the check that says no.
+NON_IMAGE_SUFFIXES = frozenset(
+    {".pdf", ".djvu", ".djv", ".djt", ".djvu.xml", ".chm", ".epub", ".pages"}
+)
+
+
+def is_raster_image(record: dict[str, Any]) -> bool:
+    """True when a Commons file is a photograph we could legitimately show.
+
+    Checked in this order, and the reason is that each later test is weaker than
+    the one before it:
+
+    1. the extension of the file's own title, which is what Commons itself uses to
+       decide how to render it;
+    2. the MIME type from imageinfo, which catches a `.tif` or `.svg` that is a
+       scan or a diagram rather than a photograph;
+    3. as a last resort, the format of the thumbnail URL, because a `.jpg`
+       thumbnail is served for a PDF too and that is precisely the trap.
+    """
+    title = str(record.get("title", ""))
+    suffix = ("." + title.rsplit(".", 1)[-1].lower()) if "." in title else ""
+    if suffix in NON_IMAGE_SUFFIXES:
+        return False
+
+    mime = str(record.get("mime", "")).lower()
+    if mime:
+        if not mime.startswith("image/"):
+            return False
+        # image/tiff is a scan or a raw camera file, not a displayable photograph.
+        if mime in {"image/tiff", "image/svg+xml", "image/x-icon"}:
+            return False
+
+    thumb = str(record.get("thumburl", "")).lower()
+    if thumb:
+        if any(thumb.endswith(s) for s in NON_IMAGE_SUFFIXES):
+            return False
+        # Commons renders page 1 of a multi-page document as "page1.jpg" or
+        # "page1-1920px.jpg" whatever the original's type claims, so the file name
+        # of the thumbnail is the remaining tell.
+        basename = thumb.rsplit("/", 1)[-1]
+        if re.match(r"page\d+([-_.]|$)", basename):
+            return False
+    return True
+
+
 def field(ext: dict[str, Any], key: str, default: str = "") -> str:
     """Read one `extmetadata` value, tolerating both shapes it arrives in.
 

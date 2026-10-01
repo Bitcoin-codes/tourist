@@ -95,6 +95,23 @@ FILLER = set(
 # a subject. Bare digits are dropped so they cannot be mistaken for one.
 _NUMBER = re.compile(r"^\d+$")
 
+# The vocabulary of taking and processing photographs rather than the vocabulary
+# of what a photograph shows. These come out of Commons file names constantly and
+# describe the file rather than its subject, so putting them in an alt attribute
+# fills it with words that tell a listener nothing about the place.
+TECHNICAL = set(
+    """
+    pano panoramio panorama panoramas wideangle wide angle fisheye telephoto
+    macro closeup closeupe lens camera cam digicam dslr phone smartphone mobile
+    img imgs filename filenames filename2 resized resizing crop cropped thumbnail
+    thumb original originals version copy duplicate edited processing processed
+    raw jpeg jpg png tiff upload uploaded uploader download
+    dsc dscn dscio picasa flickr geograph trek earth nasa
+    hdr monochrome greyscale grayscale sepia tone contrast sharpen
+    quality resolution dimension dimensions size sized aspect
+    """.split()
+)
+
 MAX_SALIENT_WORDS = 5
 
 
@@ -104,11 +121,39 @@ def _content_words(text: str, place_words: set[str]) -> list[str]:
     `place_words` is every word that names this destination, including its
     alternative names, so "Christiansborg Castle, Osu" contributes nothing while
     "the inner court" contributes two words.
+
+    The bar for what counts as adding something is deliberately high, because a
+    detail that says nothing is worse than no detail. "Photograph of Fort Nassau"
+    tells a screen-reader user something true. "Fort Nassau: Overzicht rce" adds
+    a Dutch monument-register code, and "Adomi Bridge: P1100018 pano" adds a
+    camera serial and the word "panorama" -- neither of which describes a view,
+    and both of which crowd out the one fact that would have.
+
+    So three kinds of word are dropped:
+
+    * anything shorter than four characters, which takes out register codes like
+      "rce" and the "dsc" every camera puts on its filenames;
+    * anything mixing letters and digits, which is a serial: P1090970, B001,
+      09-05-2025. These are the photographer's file naming, not the subject;
+    * the vocabulary of photography itself -- pano, img, DSC, panoramio -- which
+      describes how the picture was taken rather than what is in it.
+
+    What this cannot catch is a file name in a language the alt is not in.
+    "Tee dugo m'be pug" is Ewe, survives every test above, and is no more use to a
+    listener than a serial number would be. Detecting that needs a language
+    identifier, and guessing at one would put worse text in than it removes.
+    Those are left for a person, and `--alt-review` reports them.
     """
     out: list[str] = []
     for word in re.split(r"[^A-Za-z0-9']+", text):
         clean = word.strip("'").lower()
-        if len(clean) < 3 or _NUMBER.match(clean) or clean in FILLER:
+        if len(clean) < 4 or _NUMBER.match(clean) or clean in FILLER:
+            continue
+        if clean in TECHNICAL:
+            continue
+        # A serial: letters and digits together, in either order. "P1100018",
+        # "b001", "09-05-2025". No English word looks like this.
+        if any(ch.isdigit() for ch in clean) and any(ch.isalpha() for ch in clean):
             continue
         if clean in place_words:
             continue
@@ -360,6 +405,18 @@ def insert_images(
             )
         rebuilt: dict[str, Any] = {}
         for key, value in row.items():
+            # The old `images` array is skipped rather than copied. Copying it
+            # would overwrite the array just built above, because dicts preserve
+            # insertion order and `images` comes after `image` in every row that
+            # already had one -- so the copy lands second and wins.
+            #
+            # That is not a hypothetical ordering. It is why two hand-written test
+            # entries survived a full re-apply while the credits table was
+            # regenerated underneath them: the plan said one thing, the data file
+            # said another, and check.py compared the data file against the credits
+            # table and found two photographs with no credit at all.
+            if key == "images":
+                continue
             rebuilt[key] = value
             if key == "image":
                 rebuilt["images"] = images

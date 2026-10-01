@@ -8,6 +8,23 @@
     "location": "Winneba",
     "region": "Central Region",
     "image": "assets/images/aboakyer_festival.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/aboakyer-festival-2.jpg",
+        "alt": "Aboakyer Festival: Hunters",
+        "credit": "Fquasie, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/aboakyer-festival-3.jpg",
+        "alt": "Aboakyer Festival: Winneba",
+        "credit": "Fquasie, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/aboakyer-festival.jpg",
+        "alt": "Photograph of Aboakyer Festival",
+        "credit": "Fquasie, CC BY-SA 4.0"
+      }
+    ],
     "shortDesc": "Famous deer hunting ritual where rival Asafo warrior companies capture a live bushbuck deer unarmed to present to the Paramount Chief.",
     "fullDesc": "The Aboakyer festival is celebrated on the 1st Saturday in May by the Effutu people of Winneba in the Central Region. It commemorates their migration from the ancient Western Sudan Empire to their present settlement. The highlight features a fierce competitive deer hunt between two traditional Asafo warrior groups—the Dentsefo and Tuafo. The first group to capture a live, uninjured deer using only bare hands wins high prestige, presenting it to the Simpa Otuano royal stool.",
     "keyRituals": [
@@ -98,6 +115,28 @@
     "location": "Elmina",
     "region": "Central Region",
     "image": "assets/images/bakatue_festival.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/bakatue-festival-2.jpg",
+        "alt": "Photograph of Bakatue Festival",
+        "credit": "Robertjamal12, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/bakatue-festival-boat-boats.jpg",
+        "alt": "Bakatue Festival: B001",
+        "credit": "official photographer of the US Embassy in Ghana/USAID in Ghana, Public domain"
+      },
+      {
+        "image": "assets/images/gallery/bakatue-festival-boats-fishing.jpg",
+        "alt": "Bakatue Festival: Elmina b002",
+        "credit": "official photographer of the US Embassy in Ghana / USAID in Ghana, Public domain"
+      },
+      {
+        "image": "assets/images/gallery/bakatue-festival.jpg",
+        "alt": "Bakatue Festival: Celebrated people elmina",
+        "credit": "Imagez2010, CC BY-SA 4.0"
+      }
+    ],
     "shortDesc": "Meaning 'opening of the lagoon', marking the start of the fishing season with royal canoe races and sea rituals.",
     "fullDesc": "Bakatue means 'the opening of the lagoon' (Benya Lagoon). Celebrated by the chiefs and people of Elmina, the festival invokes ancestral blessings for a bountiful fishing harvest. The Paramount Chief casts a net into the lagoon 3 times, after which colorful decorated canoes race across the water in front of Castle Elmina.",
     "keyRituals": [
@@ -116,6 +155,28 @@
     "location": "Tamale, Yendi, Wa",
     "region": "Northern & Savannah Regions",
     "image": "assets/images/damba_festival.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/damba-festival-2.jpg",
+        "alt": "Damba Festival: Celebration",
+        "credit": "Alliance abio, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/damba-festival-3.jpg",
+        "alt": "Damba Festival: Celebration",
+        "credit": "Abdulfatawu12, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/damba-festival-drumming.jpg",
+        "alt": "Photograph of Damba Festival",
+        "credit": "Celestinesucess, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/damba-festival.jpg",
+        "alt": "Photograph of Damba Festival",
+        "credit": "Celestinesucess, CC BY-SA 4.0"
+      }
+    ],
     "shortDesc": "Vibrant Northern festival featuring royal horse riding displays, traditional Batakari smocks, and talking drum performances.",
     "fullDesc": "Damba is one of the most prominent cultural festivals in Northern Ghana, celebrated by the Dagbamba, Gonja, Mamprusi, and Waala ethnic groups. Originally marking the birth of Prophet Muhammad, it has evolved into a glorious display of chieftaincy, horse-riding choreography, traditional Northern smocks (Batakari), and intricate talking drum (Dondo) dancing.",
     "keyRituals": [
@@ -134,6 +195,28 @@
     "location": "Somanya & Odumase Krobo",
     "region": "Eastern Region",
     "image": "assets/images/dipo_festival.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/dipo-festival-2.jpg",
+        "alt": "Dipo: Rites ornaments",
+        "credit": "FatawuY1, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/dipo-festival-3.jpg",
+        "alt": "Dipo: Rites",
+        "credit": "SaeedLescott1, CC BY 4.0"
+      },
+      {
+        "image": "assets/images/gallery/dipo-festival-procession.jpg",
+        "alt": "Dipo: Rights procession",
+        "credit": "FatawuY1, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/dipo-festival.jpg",
+        "alt": "Photograph of Dipo",
+        "credit": "Sunkanmi12, CC BY-SA 4.0"
+      }
+    ],
     "shortDesc": "Ancient initiation rites ushering young women into womanhood, adorned in famous Krobo glass beads and royal attire.",
     "fullDesc": "Dipo is a traditional puberty rite celebrated by the Krobo people of the Eastern Region. It marks the transition of young maidens from adolescence into womanhood. Initiates are adorned with precious Krobo glass beads, silk cloths, and woven hats, performing the traditional Klama dance on sacred initiation stones.",
     "keyRituals": [

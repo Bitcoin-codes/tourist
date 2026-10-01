@@ -46,6 +46,18 @@
     "region": "Bono East",
     "location": "Nkoranza North District",
     "image": "assets/images/attractions/boabeng-fiema-monkey-sanctuary.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/boabeng-fiema-monkey-sanctuary-forest-monkey.jpg",
+        "alt": "Boabeng-Fiema Monkey Sanctuary: Tee dugo m'be pug",
+        "credit": "Cdilalo47, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/boabeng-fiema-monkey-sanctuary-monkey-sanctuary.jpg",
+        "alt": "Photograph of Boabeng-Fiema Monkey Sanctuary",
+        "credit": "Malibu xoxo, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.8,
     "reviews": 720,
     "fee": "GHS 70 / $6",
@@ -81,6 +93,18 @@
     "region": "Central Region",
     "location": "Cape Coast, Atlantic Coast",
     "image": "assets/images/attractions/cape-coast-castle.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/cape-coast-castle-courtyard.jpg",
+        "alt": "The inner courtyard of Cape Coast Castle, looking up at the whitewashed walls and arches",
+        "credit": "Philip Nalangan, CC BY 4.0"
+      },
+      {
+        "image": "assets/images/gallery/cape-coast-castle-elmina-view.jpg",
+        "alt": "Cape Coast Castle seen from across the bay at Elmina",
+        "credit": "Kodex, CC BY-SA 3.0"
+      }
+    ],
     "rating": 4.9,
     "reviews": 1420,
     "fee": "GHS 120 / $10",
@@ -220,6 +244,18 @@
     "region": "Greater Accra",
     "location": "Accra Central Coast",
     "image": "assets/images/attractions/black-star-square.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/black-star-square-square-2.jpg",
+        "alt": "Black Star Square & Independence Arch: Ghana's",
+        "credit": "Sir Amugi, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/black-star-square-square.jpg",
+        "alt": "Black Star Square & Independence Arch: Pano korle klottey img pano",
+        "credit": "Matti Blume, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.7,
     "reviews": 3100,
     "fee": "Free Entry",
@@ -394,6 +430,38 @@
     "region": "Central Region",
     "location": "Elmina, Central Coast",
     "image": "assets/images/attractions/elmina-castle.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/elmina-castle-11.jpg",
+        "alt": "Photograph of Elmina Castle",
+        "credit": "Esthee2010, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/elmina-castle-12.jpg",
+        "alt": "Photograph of Elmina Castle",
+        "credit": "Esthee2010, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/elmina-castle-13.jpg",
+        "alt": "Photograph of Elmina Castle",
+        "credit": "Esthee2010, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/elmina-castle-14.jpg",
+        "alt": "Photograph of Elmina Castle",
+        "credit": "Esthee2010, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/elmina-castle-2.jpg",
+        "alt": "Photograph of Elmina Castle",
+        "credit": "Barrowbob, CC0"
+      },
+      {
+        "image": "assets/images/gallery/elmina-castle-elmina.jpg",
+        "alt": "Photograph of Elmina Castle",
+        "credit": "Brans Wyte GH, CC0"
+      }
+    ],
     "rating": 4.9,
     "reviews": 1890,
     "fee": "GHS 120 / $10",
@@ -1463,6 +1531,18 @@
     "region": "Ashanti Region",
     "location": "Kumasi",
     "image": "assets/images/attractions/centre-for-national-culture.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/centre-for-national-culture-3.jpg",
+        "alt": "Centre for National Culture: Fijai panoramio",
+        "credit": "Nate N., CC BY-SA 3.0"
+      },
+      {
+        "image": "assets/images/gallery/centre-for-national-culture.jpg",
+        "alt": "Centre for National Culture: Kumasi",
+        "credit": "Jude Hammond, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -1801,6 +1881,18 @@
     "region": "Central Region",
     "location": "Abandzi/Elmina",
     "image": "assets/images/attractions/fort-good-hope.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/fort-good-hope-2.jpg",
+        "alt": "Photograph of Fort Good Hope",
+        "credit": "mattcatpurple from Hay River, Canada, CC BY-SA 2.0"
+      },
+      {
+        "image": "assets/images/gallery/fort-good-hope.jpg",
+        "alt": "Photograph of Fort Good Hope",
+        "credit": "Treysam, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -1827,6 +1919,18 @@
     "region": "Central Region",
     "location": "Elmina",
     "image": "assets/images/attractions/fort-patience.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/fort-patience-walls.jpg",
+        "alt": "Fort Patience: Overzicht achterzijde vanaf buitenmuur apam",
+        "credit": "Loek Tangel, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/fort-patience.jpg",
+        "alt": "Fort Patience: Apam",
+        "credit": "HijabGirl1, CC0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -1853,6 +1957,28 @@
     "region": "Central Region",
     "location": "Mouri, near Elmina",
     "image": "assets/images/attractions/fort-nassau-mouri.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/fort-nassau-mouri-2.jpg",
+        "alt": "Fort Nassau: Overzicht rce",
+        "credit": "Coenraad Liebrecht Temminck Groll, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/fort-nassau-mouri-3.jpg",
+        "alt": "Photograph of Fort Nassau",
+        "credit": "Noahalorwu, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/fort-nassau-mouri-4.jpg",
+        "alt": "Fort Nassau: Poort rce",
+        "credit": "Coenraad Liebrecht Temminck Groll, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/fort-nassau-mouri.jpg",
+        "alt": "Fort Nassau: Westelijk bastion rce",
+        "credit": "Coenraad Liebrecht Temminck Groll, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -2113,6 +2239,23 @@
     "region": "Eastern Region",
     "location": "Akosombo, Lower Volta",
     "image": "assets/images/attractions/akosombo-dam.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/akosombo-dam-river.jpg",
+        "alt": "Akosombo Dam: Spilling water",
+        "credit": "ZSM, CC BY-SA 3.0"
+      },
+      {
+        "image": "assets/images/gallery/akosombo-dam-view.jpg",
+        "alt": "Akosombo Dam: P1100018 pano",
+        "credit": "Matti Blume, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/akosombo-dam.jpg",
+        "alt": "Photograph of Akosombo Dam",
+        "credit": "jbdodane, CC BY 2.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -2139,6 +2282,28 @@
     "region": "Eastern Region",
     "location": "Adomi, Lower Volta",
     "image": "assets/images/attractions/adomi-bridge.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/adomi-bridge-boats-bridge.jpg",
+        "alt": "Photograph of Adomi Bridge",
+        "credit": "mariamayunusah, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/adomi-bridge-bridge-2.jpg",
+        "alt": "Adomi Bridge: Asuogyaman p1090970",
+        "credit": "Matti Blume, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/adomi-bridge-bridge-3.jpg",
+        "alt": "Adomi Bridge: Atimpoku p1100005",
+        "credit": "Matti Blume, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/adomi-bridge-bridge.jpg",
+        "alt": "Adomi Bridge: Frimpongs",
+        "credit": "Df181, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -2321,6 +2486,18 @@
     "region": "Greater Accra",
     "location": "Ada Foah, Volta estuary",
     "image": "assets/images/attractions/ada-foah-beach.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/ada-foah-beach-beach-boats.jpg",
+        "alt": "Photograph of Ada Foah Beach",
+        "credit": "Philip Nalangan, CC BY 4.0"
+      },
+      {
+        "image": "assets/images/gallery/ada-foah-beach-boats-fishing.jpg",
+        "alt": "Ada Foah Beach: Fishing boats",
+        "credit": "Peter Fitzgerald, CC BY 3.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -2502,6 +2679,38 @@
     "region": "Greater Accra",
     "location": "Osu, Accra",
     "image": "assets/images/attractions/osu-castle.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/osu-castle-fort-christiansborg-castle-10.jpg",
+        "alt": "Photograph of Osu Castle",
+        "credit": "Esthee2010, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/osu-castle-fort-christiansborg-castle-11.jpg",
+        "alt": "Photograph of Osu Castle",
+        "credit": "Esthee2010, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/osu-castle-fort-christiansborg-castle-2.jpg",
+        "alt": "Photograph of Osu Castle",
+        "credit": "Esthee2010, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/osu-castle-fort-christiansborg-castle-3.jpg",
+        "alt": "Photograph of Osu Castle",
+        "credit": "Esthee2010, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/osu-castle-fort-christiansborg-castle-4.jpg",
+        "alt": "Photograph of Osu Castle",
+        "credit": "Esthee2010, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/osu-castle-osu-castle.jpg",
+        "alt": "Photograph of Osu Castle",
+        "credit": "Kwameghana, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -2682,6 +2891,18 @@
     "region": "Greater Accra",
     "location": "Accra, near Black Star Square",
     "image": "assets/images/attractions/accra-international-conference-centre.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/accra-international-conference-centre-2.jpg",
+        "alt": "Accra International Conference Centre: Center fore court",
+        "credit": "Fkoku, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/accra-international-conference-centre.jpg",
+        "alt": "Accra International Conference Centre: Hall",
+        "credit": "Michael Sean Gallagher, CC BY-SA 2.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -2994,6 +3215,18 @@
     "region": "Savannah Region",
     "location": "Black Volta, Savannah",
     "image": "assets/images/attractions/black-volta-river.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/black-volta-river-river-2.jpg",
+        "alt": "Black Volta River: Passing bamboi",
+        "credit": "Knowledge and philosophy, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/black-volta-river-river.jpg",
+        "alt": "Black Volta River: Beautiful",
+        "credit": "Andreas Aryeh, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -3462,6 +3695,23 @@
     "region": "Volta Region",
     "location": "Amedzofe",
     "image": "assets/images/attractions/amedzofe-mountains.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/amedzofe-mountains-aerial-view.jpg",
+        "alt": "Photograph of Amedzofe Mountains",
+        "credit": "Williams Penuku, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/amedzofe-mountains-aerial-village.jpg",
+        "alt": "Amedzofe Mountains: Village",
+        "credit": "Williams Penuku, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/amedzofe-mountains-trees.jpg",
+        "alt": "Amedzofe Mountains: Scenery",
+        "credit": "Kobby.ak, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -3540,6 +3790,23 @@
     "region": "Western Region",
     "location": "Busua, near Dixcove",
     "image": "assets/images/attractions/busua-beach.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/busua-beach-beach-2.jpg",
+        "alt": "Busua Beach: Resort setting",
+        "credit": "Mac-Jordan Degadjor, CC BY 2.0"
+      },
+      {
+        "image": "assets/images/gallery/busua-beach-beach-3.jpg",
+        "alt": "Busua Beach: Seashore",
+        "credit": "Mac Jordan, CC BY 2.0"
+      },
+      {
+        "image": "assets/images/gallery/busua-beach-beach.jpg",
+        "alt": "Busua Beach: Rainy day",
+        "credit": "Tom Lubbe, CC BY-SA 3.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -3696,6 +3963,18 @@
     "region": "Western Region",
     "location": "Axim",
     "image": "assets/images/attractions/fort-gross-friedrichsburg.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/fort-gross-friedrichsburg-2.jpg",
+        "alt": "Photograph of Fort Groß Friedrichsburg",
+        "credit": "Obruni, CC BY 3.0"
+      },
+      {
+        "image": "assets/images/gallery/fort-gross-friedrichsburg.jpg",
+        "alt": "Photograph of Fort Groß Friedrichsburg",
+        "credit": "Timothy Asare, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -3748,6 +4027,18 @@
     "region": "Western Region",
     "location": "Butre",
     "image": "assets/images/attractions/fort-batenstein.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/fort-batenstein-2.jpg",
+        "alt": "Fort Batenstein: Overzicht met bovenop heuvel butre",
+        "credit": "Loek Tangel, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/fort-batenstein.jpg",
+        "alt": "Photograph of Fort Batenstein",
+        "credit": "Kwameghana, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -3826,6 +4117,18 @@
     "region": "Western Region",
     "location": "Bia, southeast Ghana",
     "image": "assets/images/attractions/bia-national-park.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/bia-national-park-entrance-forest.jpg",
+        "alt": "Bia National Park: Entrance forest reserve",
+        "credit": "Akiwumi, CC BY-SA 3.0"
+      },
+      {
+        "image": "assets/images/gallery/bia-national-park.jpg",
+        "alt": "Photograph of Bia National Park",
+        "credit": "AmarAfshin, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",

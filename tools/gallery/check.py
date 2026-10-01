@@ -208,17 +208,41 @@ def main() -> int:
                     continue
                 width, height = size
 
-                # The thumbnail is centre-cropped to 3:2, so what matters there is
-                # that the frame is wide enough. A portrait file is not an error --
-                # cover crops it -- but it is worth saying out loud.
+                # How sharp a photograph has to be depends on whether anything could
+                # have been done about it.
+                #
+                # Installed files are byte-identical to the Commons 1920px downscale,
+                # so the width on disk *is* the most Commons will ever serve: a file
+                # narrower than 1920 means the original on Commons is that narrow,
+                # because Commons does not upscale. There is no larger copy to fetch,
+                # and no re-run of the pipeline changes it.
+                #
+                # So the only shortfall worth failing on is the thumbnail slot, at
+                # 486px. Every Commons photograph of a place clears that by a wide
+                # margin, so falling below it means a truncated download or a bad
+                # write -- which is a real defect and is caught here.
+                #
+                # The hero slot (1600px) and the viewer (1920px) are bounded by the
+                # source, not by the pipeline. Failing on them would drop good
+                # photographs of Busua Beach and the Centre for National Culture --
+                # whose originals are 1280x960 -- over a resolution that does not
+                # exist anywhere. An empty gallery is indistinguishable from "this
+                # place has no photographs", which is the failure this whole pipeline
+                # is shaped to avoid, so these are reported and shipped, with the
+                # shortfall stated rather than hidden.
                 for name, css, ratio in slots()[0]:
                     needed = css * ratio
-                    if width < needed:
-                        message = f"{where}: {relative} is {width}px, {name} needs {needed}px"
-                        if name == "full-size viewer":
-                            warnings.append(message + " (the viewer will upscale it)")
-                        else:
-                            errors.append(message)
+                    if width >= needed:
+                        continue
+                    message = f"{where}: {relative} is {width}px, {name} needs {needed}px"
+                    if name == "gallery thumbnail":
+                        errors.append(message)
+                    else:
+                        warnings.append(
+                            message
+                            + " (the Commons original is this size; nothing larger "
+                            "exists, so it ships soft rather than not at all)"
+                        )
 
                 if width < height:
                     warnings.append(

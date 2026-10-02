@@ -691,6 +691,24 @@ def install(
         GALLERY.mkdir(parents=True, exist_ok=True)
     rows: list[dict] = []
     notes: list[str] = []
+    # Filenames already taken this run, mapped to the title that took them.
+    #
+    # `local_name` slugs the Commons title, which is case-insensitive about
+    # everything except its first letter -- and Commons is not. Three real files
+    # called "A View from the Summit.jpg", "A view from the Summit.jpg" and
+    # "A view from the summit.jpg" reduce to one local name. All three downloaded
+    # (different bytes, so the pixel check below could not call them twins), each
+    # overwrote the same path, and each emitted its own row.
+    #
+    # The site then showed one photograph three times while the plan and the
+    # credits claimed three photographs from three sources -- with the credit
+    # belonging to whichever file was written last. check.py caught it only
+    # because the same path appearing twice makes a mark compare against itself,
+    # which reads as a duplicate rather than as a collision.
+    #
+    # The first claimant wins: `galleries` is sorted by specificity, so the
+    # record that kept the name is the one that named the place best.
+    claimed: dict[str, str] = {}
     # Signatures of what is already installed, labelled by the file holding them.
     # Seeded from disk as well as from this run, so a photograph already installed
     # for one destination is not installed again for another on a later run.
@@ -706,6 +724,18 @@ def install(
         for index, record in enumerate(records):
             name = local_name(entity_id, record, index)
             target = GALLERY / name
+            # Colliding with a name already used in this run. Checked before the
+            # download, because nothing about it is worth fetching: the file is
+            # about to be overwritten by whichever record lands last, and the row
+            # would claim a source the bytes no longer match.
+            if name in claimed:
+                notes.append(
+                    f"{entity_id}/{name}: another Commons file slugs to this name "
+                    f"({claimed[name].rsplit(':', 1)[-1]!r} vs "
+                    f"{record['title'].rsplit(':', 1)[-1]!r}) -- dropped, keeping the first"
+                )
+                continue
+            claimed[name] = record["title"]
             row = {
                 "entity": entity_id,
                 "file": f"gallery/{name}",

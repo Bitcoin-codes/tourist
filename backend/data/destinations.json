@@ -406,12 +406,12 @@
       {
         "image": "assets/images/gallery/black-star-square-ii-1.jpg",
         "alt": "Photograph of Black Star Square & Independence Arch",
-        "credit": "[Kwaku Berko](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(1).jpg), CC BY-SA 4.0"
+        "credit": "[[[Kwaku Berko](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(1).jpg)]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(1).jpg))]([Wikimedia Commons]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(1).jpg))), CC BY-SA 4.0"
       },
       {
         "image": "assets/images/gallery/black-star-square-ii-3.jpg",
         "alt": "Photograph of Black Star Square & Independence Arch",
-        "credit": "[Kwaku Berko](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(3).jpg), CC BY-SA 4.0"
+        "credit": "[[[Kwaku Berko](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(3).jpg)]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(3).jpg))]([Wikimedia Commons]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(3).jpg))), CC BY-SA 4.0"
       }
     ],
     "rating": 4.7,
@@ -582,6 +582,28 @@
     "region": "Volta Region",
     "location": "Liati Wote, Gbledi",
     "image": "assets/images/attractions/mount-afadjato.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/mount-afadjato-223m-up.jpg",
+        "alt": "Photograph of Mount Afadja",
+        "credit": "Blaq dynamite, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/mount-afadjato-664m-up.jpg",
+        "alt": "Photograph of Mount Afadja",
+        "credit": "Blaq dynamite, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/mount-afadjato-a-view-from-the-summit.jpg",
+        "alt": "Mount Afadja: Summit",
+        "credit": "Blaq dynamite, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/mount-afadjato-wild-fruits-on-the-afadjato-mountain2.jpg",
+        "alt": "Mount Afadja: Wild fruits",
+        "credit": "Treysam, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.8,
     "reviews": 1100,
     "fee": "GHS 70 / $6",
@@ -617,6 +639,28 @@
     "region": "Eastern Region",
     "location": "Yilo Krobo, Koforidua",
     "image": "assets/images/attractions/boti-waterfalls.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/boti-waterfalls-boti-canopy-umbrella-rock.jpg",
+        "alt": "Boti Waterfalls & Umbrella Rock: Canopy",
+        "credit": "Penwills, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/boti-waterfalls-boti-umbrella-rock-serving-as-shade-for-natives.jpg",
+        "alt": "Boti Waterfalls & Umbrella Rock: Serving shade natives",
+        "credit": "Penwills, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/boti-waterfalls-boti-umbrella-rock.jpg",
+        "alt": "Photograph of Boti Waterfalls & Umbrella Rock",
+        "credit": "Penwills, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/boti-waterfalls-residents-of-boti-waterfalls-resting-under-the-umbrella-rock.jpg",
+        "alt": "Boti Waterfalls & Umbrella Rock: Residents waterfalls resting",
+        "credit": "Penwills, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.7,
     "reviews": 1250,
     "fee": "GHS 80 / $7",
@@ -721,16 +765,6 @@
     "image": "assets/images/attractions/larabanga-mosque.jpg",
     "images": [
       {
-        "image": "assets/images/gallery/larabanga-mosque-larabanga-central-mosque-side-view.jpg",
-        "alt": "Larabanga Ancient Mosque: Side",
-        "credit": "Amuzujoe, CC BY-SA 4.0"
-      },
-      {
-        "image": "assets/images/gallery/larabanga-mosque-larabanga-central-mosque.jpg",
-        "alt": "Photograph of Larabanga Ancient Mosque",
-        "credit": "Amuzujoe, CC BY-SA 4.0"
-      },
-      {
         "image": "assets/images/gallery/larabanga-mosque-0.jpg",
         "alt": "Photograph of Larabanga Ancient Mosque",
         "credit": "Amuzujoe, CC BY-SA 4.0"
@@ -742,6 +776,16 @@
       },
       {
         "image": "assets/images/gallery/larabanga-mosque-2.jpg",
+        "alt": "Photograph of Larabanga Ancient Mosque",
+        "credit": "Amuzujoe, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/larabanga-mosque-larabanga-central-mosque-side-view.jpg",
+        "alt": "Larabanga Ancient Mosque: Side",
+        "credit": "Amuzujoe, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/larabanga-mosque-larabanga-central-mosque.jpg",
         "alt": "Photograph of Larabanga Ancient Mosque",
         "credit": "Amuzujoe, CC BY-SA 4.0"
       },
@@ -822,6 +866,38 @@
     "region": "Ashanti Region",
     "location": "Bonwire, near Kumasi",
     "image": "assets/images/attractions/bonwire-kente-village.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/bonwire-kente-village-kente-72.jpg",
+        "alt": "Photograph of Bonwire Kente Weaving Village",
+        "credit": "Amuzujoe, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/bonwire-kente-village-kente-75.jpg",
+        "alt": "Photograph of Bonwire Kente Weaving Village",
+        "credit": "Amuzujoe, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/bonwire-kente-village-kente-80.jpg",
+        "alt": "Photograph of Bonwire Kente Weaving Village",
+        "credit": "Amuzujoe, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/bonwire-kente-village-kente-81.jpg",
+        "alt": "Photograph of Bonwire Kente Weaving Village",
+        "credit": "Amuzujoe, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/bonwire-kente-village-kente-84.jpg",
+        "alt": "Photograph of Bonwire Kente Weaving Village",
+        "credit": "Amuzujoe, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/bonwire-kente-village-kente-85.jpg",
+        "alt": "Photograph of Bonwire Kente Weaving Village",
+        "credit": "Amuzujoe, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.8,
     "reviews": 810,
     "fee": "Free Entry (Shopping extra)",
@@ -856,6 +932,38 @@
     "region": "Greater Accra",
     "location": "Accra Central",
     "image": "assets/images/attractions/kwame-nkrumah-mausoleum.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/kwame-nkrumah-mausoleum-kwame-nkrumah-memorial-park-mausoleum-02.jpg",
+        "alt": "Photograph of Kwame Nkrumah Memorial Park & Mausoleum",
+        "credit": "Amuzujoe, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/kwame-nkrumah-mausoleum-kwame-nkrumah-memorial-park-mausoleum-1.jpg",
+        "alt": "Photograph of Kwame Nkrumah Memorial Park & Mausoleum",
+        "credit": "Amuzujoe, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/kwame-nkrumah-mausoleum-kwame-nkrumah-memorial-park-mausoleum-2.jpg",
+        "alt": "Photograph of Kwame Nkrumah Memorial Park & Mausoleum",
+        "credit": "Fquasie, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/kwame-nkrumah-mausoleum-kwame-nkrumah-memorial-park-mausoleum-6.jpg",
+        "alt": "Photograph of Kwame Nkrumah Memorial Park & Mausoleum",
+        "credit": "Fquasie, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/kwame-nkrumah-mausoleum-kwame-nkrumah-memorial-park-mausoleum.jpg",
+        "alt": "Photograph of Kwame Nkrumah Memorial Park & Mausoleum",
+        "credit": "Fquasie, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/kwame-nkrumah-mausoleum-kwame-nkrumah-memorial-park-mausoleum-3.jpg",
+        "alt": "Photograph of Kwame Nkrumah Memorial Park & Mausoleum",
+        "credit": "Fquasie, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -888,6 +996,33 @@
     "region": "Ashanti Region",
     "location": "Kumasi",
     "image": "assets/images/attractions/manhyia-palace.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/manhyia-palace-museum-kumasi-ghana-2017.jpg",
+        "alt": "Photograph of Manhyia Palace Museum",
+        "credit": "Dan Sloan, CC BY-SA 2.0"
+      },
+      {
+        "image": "assets/images/gallery/manhyia-palace-an-image-baes-of-the-artifacts-at-the-manhyia-palace-museum.jpg",
+        "alt": "Manhyia Palace Museum: Baes artifacts",
+        "credit": "Nichoooo, CC BY 4.0"
+      },
+      {
+        "image": "assets/images/gallery/manhyia-palace-artifact-at-the-manhyia-palace-museum.jpg",
+        "alt": "Manhyia Palace Museum: Artifact",
+        "credit": "Nichoooo, CC BY 4.0"
+      },
+      {
+        "image": "assets/images/gallery/manhyia-palace-artifacts-at-the-manhyia-palace-museum.jpg",
+        "alt": "Manhyia Palace Museum: Artifacts",
+        "credit": "Nichoooo, CC BY 4.0"
+      },
+      {
+        "image": "assets/images/gallery/manhyia-palace-the-entrance-to-manhyia-palace-museum.jpg",
+        "alt": "Manhyia Palace Museum: Entrance",
+        "credit": "Achina Comfort Afrah, CC BY 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",

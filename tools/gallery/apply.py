@@ -161,12 +161,28 @@ def _content_words(text: str, place_words: set[str]) -> list[str]:
     return out
 
 
-def _place_words(place: str) -> set[str]:
+def _place_words(place: str, entity: dict[str, Any] | None = None) -> set[str]:
     """Every word that names this place, including known alternative names.
 
     Imported rather than reimplemented: `filters.py` already holds the alias
     table, and a second, smaller copy of it here would drift from the one the
     selection used.
+
+    `entity` contributes the region and the district, which say where the
+    photograph was taken rather than what it shows -- the same exemption
+    `select.host_words` gives the location filter. Kejetia Market sits in Kumasi
+    Central, Ashanti Region, so a Commons file called "Kente Kumasi 2010-06-30"
+    contributed the alt "Kejetia Market: Kente kumasi", which tells a listener
+    nothing: the heading already says which market, and the page already says
+    which city.
+
+    Also folds in translations of words the place is *already* named for. Commons
+    filenames about German and Dutch colonial buildings are full of them, and
+    "Kejetia-Markt" is the clearest case there is: "Markt" is German for "market",
+    the heading already says "market", and the extra syllable tells a listener
+    nothing at all. This is only applied where the translation lands on a word
+    already present, so "Fort Nassau: Poort" (Dutch for gate) still survives --
+    a gate is not something the name already said.
     """
     import sys
 
@@ -174,7 +190,26 @@ def _place_words(place: str) -> set[str]:
     from filters import _alternative_words, _keys
 
     keys = set(_alternative_words(_keys(place))) | _keys(place)
-    return keys | {word for words in keys for word in words}
+    words = keys | {word for words in keys for word in words}
+
+    if entity:
+        for field in ("region", "location"):
+            for word in _keys(entity.get(field) or ""):
+                words.add(word)
+
+    for foreign, english in _TRANSLATIONS.items():
+        if any(english == word for word in words):
+            words.add(foreign)
+    return words
+
+
+# Foreign words that mean a word already in a place's own name, so repeating them
+# in an alt adds nothing. Only the cases that actually arise in this project's
+# filenames are listed -- a full translation table would be a guess about
+# languages nobody here reads, and a wrong entry would delete a real description.
+_TRANSLATIONS = {
+    "markt": "market",  # German, ubiquitous in the German-colonial photo sets
+}
 
 
 def _phrase(words: list[str]) -> str:
@@ -184,7 +219,9 @@ def _phrase(words: list[str]) -> str:
     return text[0].upper() + text[1:]
 
 
-def alt_text(row: dict[str, Any], place: str) -> tuple[str, bool]:
+def alt_text(
+    row: dict[str, Any], place: str, entity: dict[str, Any] | None = None
+) -> tuple[str, bool]:
     """Return (alt, needs_review).
 
     An alt attribute is read by someone who cannot see the picture. The one thing
@@ -212,7 +249,7 @@ def alt_text(row: dict[str, Any], place: str) -> tuple[str, bool]:
     """
     title = row["title"].split(":", 1)[-1].rsplit(".", 1)[0].replace("_", " ")
     title = re.sub(r"\s+", " ", title).strip(" ,-–")
-    place_words = _place_words(place)
+    place_words = _place_words(place, entity)
 
     # The display name carries a parenthetical synonym -- "Osu Castle (Fort
     # Christiansborg)" -- which is a search aid in the data file and stutter in an
@@ -396,7 +433,7 @@ def insert_images(
             continue
         images = []
         for plan_row in chosen:
-            alt, _ = alt_text(plan_row, row.get("name", entity_id))
+            alt, _ = alt_text(plan_row, row.get("name", entity_id), row)
             credit = ", ".join(
                 part for part in (plan_row.get("author"), plan_row.get("licence")) if part
             )
@@ -442,9 +479,14 @@ def main() -> int:
 
     plan = load_plan(Path(args.plan))
     names: dict[str, str] = {}
+    # The whole record, not just the name: alt text needs the region and district
+    # so it can drop "kumasi" from a photo of a market that is in Kumasi. Kept
+    # alongside rather than instead of `names`, which the credits table needs.
+    entities: dict[str, dict[str, Any]] = {}
     for path in DATA_FILES.values():
         for row in load_json(path):
             names[row["id"]] = row.get("name") or row["id"]
+            entities[row["id"]] = row
 
     missing = [
         row["file"]
@@ -469,9 +511,15 @@ def main() -> int:
     print(f"  too thin, hero only      : {len(thin)} {thin if thin else ''}")
 
     thin_alts = [
-        (row["entity"], row["file"].split("/")[-1], alt_text(row, names.get(row["entity"], ""))[0])
+        (
+            row["entity"],
+            row["file"].split("/")[-1],
+            alt_text(
+                row, names.get(row["entity"], ""), entities.get(row["entity"])
+            )[0],
+        )
         for row in plan
-        if alt_text(row, names.get(row["entity"], ""))[1]
+        if alt_text(row, names.get(row["entity"], ""), entities.get(row["entity"]))[1]
     ]
     print(
         f"  alt text with nothing but the place name: {len(thin_alts)} of {len(plan)}"

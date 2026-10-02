@@ -332,6 +332,60 @@ def run() -> int:
         apply_.alt_text({"title": "Fort Nassau gate bastion.jpg"}, "Fort Nassau")[1] is False,
     )
 
+    # -- alt text must not repeat what the heading or the page already says ----
+    # The region and the district name where the photograph was taken, not what it
+    # shows -- the same exemption select.host_words gives the location filter.
+    # Without it, a photo of Kejetia Market filed as "Kente Kumasi 2010-06-30"
+    # shipped the alt "Kejetia Market: Kente kumasi": the heading already says
+    # which market, and the page already says which city.
+    kejetia = {
+        "id": "kejetia-market",
+        "name": "Kejetia Market",
+        "location": "Kumasi Central",
+        "region": "Ashanti Region",
+    }
+    check_that(
+        "the city the place is in is not repeated in the alt",
+        apply_.alt_text(
+            {"title": "Kente Kumasi 2010-06-30.jpg"}, "Kejetia Market", kejetia
+        )[0]
+        == "Kejetia Market: Kente",
+        apply_.alt_text({"title": "Kente Kumasi 2010-06-30.jpg"}, "Kejetia Market", kejetia)[0],
+    )
+    check_that(
+        "the district name is not repeated in the alt",
+        apply_.alt_text(
+            {"title": "Ashanti region view.jpg"}, "Kejetia Market", kejetia
+        )[0]
+        == "Photograph of Kejetia Market",
+        apply_.alt_text({"title": "Ashanti region view.jpg"}, "Kejetia Market", kejetia)[0],
+    )
+    # Without the entity there is nothing to know the city from, so the word stays.
+    # Asserted so a future change cannot quietly make the two paths agree.
+    check_that(
+        "with no entity, the city word is kept rather than guessed away",
+        apply_.alt_text({"title": "Kente Kumasi 2010-06-30.jpg"}, "Kejetia Market")[0]
+        == "Kejetia Market: Kente kumasi",
+        apply_.alt_text({"title": "Kente Kumasi 2010-06-30.jpg"}, "Kejetia Market")[0],
+    )
+
+    # A word the place is already named for, in another language. "Markt" is German
+    # for "market" and the heading says "market", so the syllable tells a listener
+    # nothing -- but only where it lands on a word already present. "Poort" is
+    # Dutch for gate, and nothing in "Fort Nassau" said gate, so it survives.
+    check_that(
+        "a translation of a word already in the place name is dropped",
+        apply_.alt_text({"title": "Kejetia-Markt.jpg"}, "Kejetia Market", kejetia)[0]
+        == "Photograph of Kejetia Market",
+        apply_.alt_text({"title": "Kejetia-Markt.jpg"}, "Kejetia Market", kejetia)[0],
+    )
+    check_that(
+        "a translation of something the name does NOT say is kept",
+        apply_.alt_text({"title": "Fort Nassau poort.jpg"}, "Fort Nassau")[0]
+        == "Fort Nassau: Poort",
+        apply_.alt_text({"title": "Fort Nassau poort.jpg"}, "Fort Nassau")[0],
+    )
+
     print(f"\n{passed + len(failures)} assertions, {passed} pass, {len(failures)} fail")
     for line in failures:
         print(line)

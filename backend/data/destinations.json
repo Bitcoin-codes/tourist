@@ -1525,6 +1525,23 @@
     "region": "Ashanti Region",
     "location": "Kumasi Central",
     "image": "assets/images/attractions/kejetia-market.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/kejetia-market-street-scene.jpg",
+        "alt": "Kejetia Market: Street scene",
+        "credit": "Adam Jones from Kelowna, BC, Canada, CC BY-SA 2.0"
+      },
+      {
+        "image": "assets/images/gallery/kejetia-market-kente-kumasi.jpg",
+        "alt": "Kejetia Market: Kente",
+        "credit": "Adam Jones, CC BY-SA 2.0"
+      },
+      {
+        "image": "assets/images/gallery/kejetia-market-markt.jpg",
+        "alt": "Photograph of Kejetia Market",
+        "credit": "Afus199620, CC0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -1559,7 +1576,7 @@
       },
       {
         "image": "assets/images/gallery/centre-for-national-culture.jpg",
-        "alt": "Centre for National Culture: Kumasi",
+        "alt": "Photograph of Centre for National Culture",
         "credit": "Jude Hammond, CC BY-SA 4.0"
       }
     ],
@@ -4050,7 +4067,7 @@
     "images": [
       {
         "image": "assets/images/gallery/fort-batenstein-2.jpg",
-        "alt": "Fort Batenstein: Overzicht bovenop heuvel butre",
+        "alt": "Fort Batenstein: Overzicht bovenop heuvel",
         "credit": "Loek Tangel, CC BY-SA 4.0"
       },
       {

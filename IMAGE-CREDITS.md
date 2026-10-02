@@ -134,6 +134,36 @@ photo of somewhere else:
   back in the footer credit, and drop the "not currently displayed" note above.
   The derivatives are already generated and in the repository.
 
+### Kejetia Market — destination front image
+
+- **File used on:** Kejetia Market card and modal hero (`index.html`)
+- **Local copy:** `assets/images/attractions/kejetia-market.jpg`
+- **Author:** [Afus199620](https://commons.wikimedia.org/wiki/User:Afus199620)
+- **Licence:** [CC0](https://creativecommons.org/publicdomain/zero/1.0/) (public domain
+  dedication — no attribution legally required; credited here because this file is
+  the project's record of where every image came from)
+- **Source:** [commons.wikimedia.org/wiki/File:Modern_market_hall_of_Kejetia_market.jpg](https://commons.wikimedia.org/wiki/File:Modern_market_hall_of_Kejetia_market.jpg)
+- **Subject:** the modern market hall at Kejetia Market, Kumasi. The file's own title
+  is the whole of what is claimed about it here.
+- **Why this file replaced the previous one:** the previous image was 683×1024 —
+  **portrait**, in a slot that is 268×180 **landscape** (aspect 1.49) rendered with
+  `object-fit: cover`. Only the middle ~45% of its height was ever visible; the top
+  and bottom were cropped away on every visitor's screen. At 683px wide it was also
+  below the 335px the slot needs at 1.25× device pixel ratio, so it was upscaled
+  as well as cropped. Both defects were measurable without looking at the picture.
+- **How it was chosen:** four properly-licensed Commons candidates were downloaded
+  at the 1920px master width and shown to the site owner cropped to the exact slot
+  with the site's own `object-fit`, so the comparison showed what would ship. The
+  owner chose this one. The other three became the additional photographs in the
+  destination's gallery, credited in the table below. All four are CC BY-SA 2.0 or
+  CC0; none was scraped from anywhere but Commons.
+- **Edits made:** downscaled from 4032×3024 to 1920×1440 (Lanczos, downscale only,
+  no crop, no colour change), then the `-400` and `-800` derivatives were generated
+  from that master.
+- **Not verified:** that the hall looks like this when a visitor stands there, and
+  whether it is the most attractive photograph of the market. The pipeline cannot
+  judge either; the owner chose from a comparison of four.
+
 ### A traditional market woman
 
 - **File used on:** Food & Market Tours tile (`index.html`)
@@ -296,6 +326,9 @@ downscales of that same master, and the credit applies to them unchanged.
 | Fort Nassau (Mouri) | `fort-nassau-mouri.jpg` | [Coenraad Liebrecht Temminck Groll](https://commons.wikimedia.org/wiki/File:Fort_Nassau,_westelijk_bastion_-_20651796_-_RCE.jpg) | CC BY-SA 4.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Fort_Nassau,_westelijk_bastion_-_20651796_-_RCE.jpg) |
 | Fort Patience | `fort-patience-walls.jpg` | [Loek Tangel](https://commons.wikimedia.org/wiki/File:Overzicht_achterzijde_vanaf_buitenmuur_-_Apam_-_20375239_-_RCE.jpg) | CC BY-SA 4.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Overzicht_achterzijde_vanaf_buitenmuur_-_Apam_-_20375239_-_RCE.jpg) |
 | Fort Patience | `fort-patience.jpg` | [HijabGirl1](https://commons.wikimedia.org/wiki/File:Fort_Patience_(Apam).jpg) | CC0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Fort_Patience_(Apam).jpg) |
+| Kejetia Market | `kejetia-market-kente-kumasi.jpg` | [Adam Jones](https://commons.wikimedia.org/wiki/File:Kente_Kumasi_2010-06-30.jpg) | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Kente_Kumasi_2010-06-30.jpg) |
+| Kejetia Market | `kejetia-market-markt.jpg` | [Afus199620](https://commons.wikimedia.org/wiki/File:Kejetia-Markt.jpg) | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Kejetia-Markt.jpg) |
+| Kejetia Market | `kejetia-market-street-scene.jpg` | [Adam Jones from Kelowna, BC, Canada](https://commons.wikimedia.org/wiki/File:Street_Scene_in_Kejetia_Market_-_Kumasi_-_Ghana_(4755556785).jpg) | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Street_Scene_in_Kejetia_Market_-_Kumasi_-_Ghana_(4755556785).jpg) |
 | Osu Castle (Fort Christiansborg) | `osu-castle-fort-christiansborg-castle-10.jpg` | [Esthee2010](https://commons.wikimedia.org/wiki/File:Fort_Christiansborg_Castle_10.jpg) | CC BY-SA 4.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Fort_Christiansborg_Castle_10.jpg) |
 | Osu Castle (Fort Christiansborg) | `osu-castle-fort-christiansborg-castle-11.jpg` | [Esthee2010](https://commons.wikimedia.org/wiki/File:Fort_Christiansborg_Castle_11.jpg) | CC BY-SA 4.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Fort_Christiansborg_Castle_11.jpg) |
 | Osu Castle (Fort Christiansborg) | `osu-castle-fort-christiansborg-castle-2.jpg` | [Esthee2010](https://commons.wikimedia.org/wiki/File:Fort_Christiansborg_Castle_2.jpg) | CC BY-SA 4.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Fort_Christiansborg_Castle_2.jpg) |
@@ -303,7 +336,7 @@ downscales of that same master, and the credit applies to them unchanged.
 | Osu Castle (Fort Christiansborg) | `osu-castle-fort-christiansborg-castle-4.jpg` | [Esthee2010](https://commons.wikimedia.org/wiki/File:Fort_Christiansborg_Castle_4.jpg) | CC BY-SA 4.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Fort_Christiansborg_Castle_4.jpg) |
 | Osu Castle (Fort Christiansborg) | `osu-castle-osu-castle.jpg` | [Kwameghana](https://commons.wikimedia.org/wiki/File:Osu_Castle.jpg) | CC BY-SA 4.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Osu_Castle.jpg) |
 
-78 photographs across 25 places, from 52 photographers. Licences in use: CC BY-SA 4.0 (53), CC BY 4.0 (5), CC BY-SA 3.0 (5), CC BY 2.0 (4), CC0 (4), CC BY-SA 2.0 (3), CC BY 3.0 (2), Public domain (2).
+81 photographs across 26 places, from 55 photographers. Licences in use: CC BY-SA 4.0 (53), CC BY-SA 2.0 (5), CC BY 4.0 (5), CC BY-SA 3.0 (5), CC0 (5), CC BY 2.0 (4), CC BY 3.0 (2), Public domain (2).
 <!-- gallery-credits:end -->
 
 ## Notes for maintainers

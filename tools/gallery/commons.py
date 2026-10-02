@@ -56,6 +56,21 @@ API = "https://commons.wikimedia.org/w/api.php"
 # 1920w full-size viewer without a single request 404ing.
 THUMB_WIDTH = 1920
 
+# One API cache, shared by every script in this pipeline.
+#
+# It used to be one directory per script -- `gallery-select/api-cache` and
+# `gallery-recovery/api-cache` -- which quietly split the cache in half. Search
+# fetched 39 responses into its own directory; recovery, run afterwards, opened
+# an empty one, found nothing, and reported every installed file as unmatched
+# when in fact the metadata for most of them was sitting on disk a few folders
+# away. The two never shared what they had learned from Commons, and neither
+# could tell that the other had already paid for it.
+#
+# Cache filenames are the SHA-256 of the request, so the same question always
+# lands on the same filename and merging two directories is a plain file copy
+# with no possibility of one run's answer overwriting another's.
+CACHE_DIR = Path("/tmp/opencode/gallery-cache")
+
 # Licences we are willing to publish under. Anything outside this set is treated
 # as unusable, including "no known copyright restrictions" style placeholders
 # which in practice usually mean the uploader did not check.
@@ -115,6 +130,25 @@ NON_IMAGE_SUFFIXES = frozenset(
     {".pdf", ".djvu", ".djv", ".djt", ".djvu.xml", ".chm", ".epub", ".pages"}
 )
 
+# The raster formats this project will install. Used by slug_key to drop a
+# trailing extension before reducing a title to letters and digits, so that a
+# Commons title and the filename derived from it reduce to the same string.
+IMAGE_SUFFIXES = frozenset(
+    {
+        ".jpg",
+        ".jpeg",
+        ".jpe",
+        ".png",
+        ".webp",
+        ".tif",
+        ".tiff",
+        ".gif",
+        ".bmp",
+        ".apng",
+        ".avif",
+    }
+)
+
 
 def is_raster_image(record: dict[str, Any]) -> bool:
     """True when a Commons file is a photograph we could legitimately show.
@@ -170,16 +204,95 @@ def field(ext: dict[str, Any], key: str, default: str = "") -> str:
     return value if isinstance(value, str) else default
 
 
+def records_of(payload: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    """Flatten one API response into `{title: record}`.
+
+    Split out of `Commons.info` so the identical shape can be rebuilt from a
+    cache file without making a request. See `cached_records`.
+    """
+    out: dict[str, dict[str, Any]] = {}
+    for page in payload.get("query", {}).get("pages", {}).values():
+        if "missing" in page or not page.get("imageinfo"):
+            continue
+        info = page["imageinfo"][0]
+        ext = {k: v.get("value", "") for k, v in info.get("extmetadata", {}).items()}
+        out[page["title"]] = {
+            "title": page["title"],
+            "width": info.get("width", 0),
+            "height": info.get("height", 0),
+            "mime": info.get("mime", ""),
+            "sha1": info.get("sha1", ""),
+            "descriptionurl": info.get("descriptionurl", ""),
+            "thumburl": info.get("thumburl") or info.get("url", ""),
+            "thumbwidth": info.get("thumbwidth", 0),
+            "thumbheight": info.get("thumbheight", 0),
+            "extmetadata": ext,
+            "categories": [c["title"] for c in page.get("categories", [])],
+        }
+    return out
+
+
+def cached_records(cache_dir: Path) -> dict[str, dict[str, Any]]:
+    """Every file record ever fetched, rebuilt from the on-disk cache alone.
+
+    The cache is a record of what the pipeline has already asked Commons, and
+    after a run it holds the metadata for every candidate that run saw --
+    including the ones it went on to reject. That makes it a search-free
+    candidate pool: a photograph already sitting on disk can be credited by
+    matching its filename against the titles in the cache, with no network
+    traffic whatsoever.
+
+    That matters because Commons rate-limits by client, and the selection search
+    is currently throttled hard enough to stall for minutes at a time. Running
+    a second job against the same limit in that state makes it worse. Reading
+    the cache costs nothing and cannot earn a 429.
+
+    Records are keyed by title, so a file fetched by more than one run collapses
+    to a single entry. Later files win, and that is deliberate: these are the
+    same Commons file, so if the metadata ever did differ the newer fetch is the
+    one to trust.
+    """
+    out: dict[str, dict[str, Any]] = {}
+    if not cache_dir.exists():
+        return out
+    for path in sorted(cache_dir.glob("*.json")):
+        try:
+            payload = json.loads(path.read_text())
+        except (json.JSONDecodeError, OSError):
+            # A truncated write from a run that was killed mid-response. Skipping
+            # is safe: a record is only ever a bonus here, never a requirement.
+            continue
+        if "query" not in payload:
+            continue
+        out.update(records_of(payload))
+    return out
+
+
 class Commons:
     """Cached wrapper over the few Commons API calls this project needs."""
 
-    def __init__(self, cache_dir: Path, *, throttle: float = 1.5) -> None:
+    def __init__(
+        self, cache_dir: Path, *, throttle: float = 1.5, offline: bool = False
+    ) -> None:
         self.cache_dir = cache_dir
         self.cache_dir.mkdir(parents=True, exist_ok=True)
         # Commons asks anonymous clients to stay well under 1 request/second and
         # answers a burst with HTTP 429. 1.5s is slow but the pipeline is a
         # build-time job that runs once; being a good citizen costs minutes.
         self.throttle = throttle
+        # Offline means "the cache is the whole world, and a miss is an error".
+        #
+        # This is how credit recovery runs safely alongside the selection search.
+        # Both talk to Commons, and two clients sharing an anonymous rate limit
+        # is what earns the 429s that stall the search for minutes at a time. But
+        # recovery only needs metadata for files already downloaded, and every
+        # earlier run cached the metadata for exactly those files. So recovery can
+        # be answered entirely from disk -- and making that a hard failure rather
+        # than a silent fallback is the point: if offline were allowed to fall
+        # through to the network, it would be a slower way of doing the thing it
+        # was switched on to prevent, and the throttling would come back with no
+        # obvious cause.
+        self.offline = offline
         self._last_call = 0.0
         self.calls = 0
         self.cache_hits = 0
@@ -200,6 +313,12 @@ class Commons:
         if path.exists():
             self.cache_hits += 1
             return json.loads(path.read_text())
+
+        if self.offline:
+            raise CommonsError(
+                "offline: not in the cache, and refusing to touch the network: "
+                f"{params.get('titles') or params}"
+            )
 
         url = f"{API}?{urllib.parse.urlencode(params)}"
         last_error: Exception | None = None
@@ -281,24 +400,7 @@ class Commons:
                 "formatversion": 1,
             }
             payload = self._get(params)
-            for page in payload.get("query", {}).get("pages", {}).values():
-                if "missing" in page or not page.get("imageinfo"):
-                    continue
-                info = page["imageinfo"][0]
-                ext = {k: v.get("value", "") for k, v in info.get("extmetadata", {}).items()}
-                out[page["title"]] = {
-                    "title": page["title"],
-                    "width": info.get("width", 0),
-                    "height": info.get("height", 0),
-                    "mime": info.get("mime", ""),
-                    "sha1": info.get("sha1", ""),
-                    "descriptionurl": info.get("descriptionurl", ""),
-                    "thumburl": info.get("thumburl") or info.get("url", ""),
-                    "thumbwidth": info.get("thumbwidth", 0),
-                    "thumbheight": info.get("thumbheight", 0),
-                    "extmetadata": ext,
-                    "categories": [c["title"] for c in page.get("categories", [])],
-                }
+            out.update(records_of(payload))
         return out
 
     def categories(self, titles: list[str]) -> dict[str, list[str]]:

@@ -57,6 +57,8 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from commons import (  # noqa: E402
+    CACHE_DIR,
+    NON_IMAGE_SUFFIXES,
     USER_AGENT,
     Commons,
     artist_of,
@@ -209,7 +211,7 @@ def collect(
     checkpoint: Path | None = None,
     resume: bool = True,
 ) -> tuple[dict[str, list[dict]], dict[str, list[dict]]]:
-    """Search and filter. Returns (passing, rejected) keyed by entity id.
+    """Search and filter. Returns (passing, rejected, failed) keyed by entity id.
 
     `rejected` keeps one representative reason per entity, because "no
     candidates" and "every candidate filtered out" call for different responses
@@ -228,6 +230,9 @@ def collect(
     """
     passing: dict[str, list[dict]] = {}
     rejected: dict[str, list[dict]] = {}
+    # Entities whose search or metadata fetch failed. Kept apart from `rejected`
+    # on purpose: we never found out whether Commons has photographs here.
+    failed: dict[str, str] = {}
 
     if checkpoint is not None and resume and checkpoint.exists():
         good = checkpoint.read_text().splitlines()
@@ -262,15 +267,60 @@ def collect(
         if entity["id"] in passing:
             continue
 
-        titles: set[str] = set()
-        for term in search_terms(entity):
-            titles.update(client.search(term, limit=50))
+        # One entity must never end the run.
+        #
+        # A 429 is not a per-entity condition: Commons hands them out to whole
+        # clients, and a batch of fifty titles asking about "Black Star Square"
+        # came back with a dozen PDFs about American independence in it, which made
+        # the request URL several kilobytes long and helped earn the 429 that
+        # killed the run at entity 6 of 156. `Commons._get` exhausts its backoff
+        # and raises, and an exception there propagated out of collect() and took
+        # every unvisited entity with it.
+        #
+        # So an entity that cannot be fetched is recorded as such and the run moves
+        # on. It is recorded in `failed` rather than in `rejected`, because "we
+        # could not ask" is not the same claim as "we asked and there was nothing",
+        # and collapsing the two would quietly under-report how much of Commons was
+        # actually searched.
+        try:
+            titles: set[str] = set()
+            for term in search_terms(entity):
+                titles.update(client.search(term, limit=50))
+        except Exception as error:  # noqa: BLE001 - any failure is this entity's
+            failed[entity["id"]] = f"{type(error).__name__}: {error}"
+            print(f"  {entity['id']}: FETCH FAILED -- {type(error).__name__}", flush=True)
+            continue
+
         if not titles:
             rejected[entity["id"]] = [{"title": "", "reason": "no candidates found"}]
             checkpoint_entity(entity["id"], [], rejected[entity["id"]])
             continue
 
-        records = client.info(sorted(titles))
+        # Drop the documents by title before asking about them.
+        #
+        # This is the same judgement `is_raster_image` makes, applied one step
+        # earlier because the extension is in the title and the MIME type is not
+        # available until the request that is trying to fail. A search for a place
+        # with a common word in its name returns a shelf of 19th-century books --
+        # searching "Black Star Square" returned thirty PDFs, most of them about
+        # the Declaration of Independence -- and fetching metadata for those costs
+        # the request several kilobytes and earns rate-limit pressure for documents
+        # that were going to be refused anyway.
+        non_image_titles = sorted(t for t in titles if _non_image_title(t))
+        titles = {t for t in titles if not _non_image_title(t)}
+
+        try:
+            records = client.info(sorted(titles))
+        except Exception as error:  # noqa: BLE001
+            failed[entity["id"]] = f"{type(error).__name__}: {error}"
+            print(f"  {entity['id']}: FETCH FAILED -- {type(error).__name__}", flush=True)
+            continue
+
+        for title in non_image_titles:
+            rejected.setdefault(entity["id"], []).append(
+                {"title": title, "reason": "not a photograph (PDF, DjVu or scan)"}
+            )
+
         kept: list[dict] = []
         seen: set[str] = set()
         counts: dict[str, int] = {}
@@ -315,7 +365,7 @@ def collect(
             + (f" ({counts.get('rejected', 0)} filtered)" if counts.get("rejected") else ""),
             flush=True,
         )
-    return passing, rejected
+    return passing, rejected, failed
 
 
 def _parses(line: str) -> bool:
@@ -324,6 +374,19 @@ def _parses(line: str) -> bool:
         return True
     except json.JSONDecodeError:
         return False
+
+
+def _non_image_title(title: str) -> bool:
+    """True when a Commons file title alone says this is a document.
+
+    The extension is what Commons itself uses to decide how to render a file, so
+    this is not a guess. It is the same test `commons.is_raster_image` makes on
+    the full record, available before the record has been fetched.
+    """
+    name = title.rsplit(":", 1)[-1] if ":" in title else title
+    if "." not in name:
+        return False
+    return ("." + name.rsplit(".", 1)[-1].lower()) in NON_IMAGE_SUFFIXES
 
 
 def assign(
@@ -527,7 +590,7 @@ def main() -> int:
     load_sibling_map(known_names)
 
     print(f"{len(entities)} entities, {len(known_names)} known names\n")
-    client = Commons(SCRATCH / "api-cache", throttle=1.5)
+    client = Commons(CACHE_DIR, throttle=1.5)
 
     print("searching and filtering")
     if args.fresh:
@@ -535,7 +598,7 @@ def main() -> int:
     # `--limit` bounds one invocation rather than the whole entity set, so a run
     # can be topped up over several sittings without ever starting over.
     batch = entities[: args.limit] if args.limit else entities
-    passing, rejected = collect(
+    passing, rejected, failed = collect(
         client, batch, known_names, checkpoint=CHECKPOINT_OUT, resume=not args.fresh
     )
     galleries, unassigned = assign(passing, entities)
@@ -558,6 +621,8 @@ def main() -> int:
         "GALLERY SELECTION REPORT",
         "=" * 60,
         f"entities searched     : {len(entities)}",
+        f"  not reached (limit) : {max(0, len(entities) - len(batch))}",
+        f"  fetch failed        : {len(failed)}",
         f"galleries with >= {MIN_WANT} : {len(ready)}",
         f"photographs chosen    : {len(rows)}",
         f"too thin to show      : {len(thin)}",
@@ -572,6 +637,16 @@ def main() -> int:
         if entity["id"] in ready:
             continue
         found = len(galleries.get(entity["id"], []))
+        # A fetch failure is reported as its own thing, not as "nothing found".
+        # Saying a place has no photographs when we were simply never allowed to
+        # ask is the one way this report could lie about the state of Commons, and
+        # the whole reason `failed` is a separate dict.
+        if entity["id"] in failed:
+            lines.append(f"  {entity['id']} FETCH FAILED, not searched: {failed[entity['id']][:90]}")
+            continue
+        if entity["id"] not in passing:
+            lines.append(f"  {entity['id']} NOT REACHED in this run")
+            continue
         top = reasons.get(entity["id"], [])[:2]
         why = "; ".join(f"{reason} x{count}" for reason, count in top) or "nothing found"
         lines.append(f"  {entity['id']} ({found} usable) {why}")

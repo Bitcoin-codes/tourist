@@ -50,7 +50,15 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from commons import Commons, artist_of, is_raster_image, licence_of  # noqa: E402
+from commons import (  # noqa: E402
+    CACHE_DIR,
+    IMAGE_SUFFIXES,
+    Commons,
+    artist_of,
+    cached_records,
+    is_raster_image,
+    licence_of,
+)
 import pixels  # noqa: E402
 
 try:
@@ -91,30 +99,77 @@ PERFECT = 3.0
 MAX_CANDIDATES = 45
 
 _ALNUM_RE = re.compile(r"[^a-z0-9]+")
+# Trailing extension, captured so slug_key can check it against the image suffixes
+# and drop only those. A title like "Fort Nassau 1990" must keep its digits.
+_EXTENSION_RE = re.compile(r"\.[a-z0-9]{2,5}$")
 
 
 def slug_key(text: str) -> str:
-    """Letters and digits only, lowercased and accent-folded.
+    """Letters and digits only, lowercased, accent-folded, extension dropped.
 
     The local filenames were slugified from Commons titles, which is lossy about
     case, spacing, underscores and punctuation. Stripping all of it maximises the
     chance that both sides reduce to the same string. `Nji Gbetkom` and
     `Nji-Gbetkom` and `Nji  Gbetkom` all become `njigbetkom`.
+
+    The extension has to go, and dropping it here rather than in `local_key` is
+    deliberate: `slug_key` is applied to a Commons *title*, which carries the
+    extension, and `local_key` to a *filename*. Keeping it on one side only made
+    the two keys differ by a trailing "jpg" for every single file, so the
+    name-matching stage never once succeeded and all credit recovery quietly fell
+    through to the pixel stage instead. Nothing errored -- an unmatched key simply
+    looks like a file Commons has not heard of, which is indistinguishable from
+    the truth.
     """
     folded = unicodedata.normalize("NFKD", text)
     folded = "".join(c for c in folded if not unicodedata.combining(c))
-    return _ALNUM_RE.sub("", folded.lower())
+    folded = folded.lower()
+    # "j", "p" and "g" are all letters, so an extension survives the alnum filter
+    # intact. It has to be removed while the dot is still there to find it.
+    for suffix in _EXTENSION_RE.findall(folded):
+        if suffix in IMAGE_SUFFIXES:
+            folded = folded[: -len(suffix)]
+            break
+    return _ALNUM_RE.sub("", folded)
 
 
 def local_key(filename: str) -> str:
-    """The key for an installed file, with the entity prefix removed first.
+    """The key for an installed file: its slug, with the extension dropped.
 
-    `adomi-bridge-boats-bridge.jpg` in entity `adomi-bridge` must not reduce to
-    the key of the entity itself, so the caller passes the entity id and this
-    strips it. What is left is the slugified Commons title.
+    The entity prefix is *not* removed here. See `local_keys` for why both forms
+    have to be tried, and note that the docstring here used to promise the prefix
+    would be stripped by this function while no caller ever passed an entity id
+    for it to strip -- so the promise was not kept and nothing noticed.
     """
     stem = filename[:-4] if filename.lower().endswith(".jpg") else filename
     return slug_key(stem)
+
+
+def local_keys(filename: str, entity: str) -> list[str]:
+    """Both keys an installed filename could have been derived from.
+
+    The installed names are not consistent about whether they carry the entity
+    id, because they were slugified from Commons titles by more than one code
+    path over the life of the project:
+
+      `fort-nassau-mouri-poort.jpg`     Commons title "Fort Nassau poort"
+      `kejetia-market-markt.jpg`        Commons title "Kejetia-Markt"
+
+    The first repeats the entity id and the Commons title does not, so only the
+    stripped key can match. The second repeats words that the Commons title also
+    contains, so only the unstripped key can match. Guessing one convention loses
+    half the files, which is why both are offered and the first that resolves wins.
+
+    Order matters only for which of two equally good candidates gets reported
+    first; the ambiguity handling downstream is the same either way.
+    """
+    full = local_key(filename)
+    keys = [full]
+    if filename.startswith(entity + "-"):
+        stripped = local_key(filename[len(entity) + 1 :])
+        if stripped and stripped != full:
+            keys.append(stripped)
+    return keys
 
 
 def signature(path: Path) -> list[float] | None:
@@ -260,13 +315,37 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--strict", action="store_true", help="exit 1 if any file matched only by pixels or not at all")
     parser.add_argument("--limit", type=int, default=0, help="stop after N entities (debugging)")
+    parser.add_argument(
+        "--offline",
+        action="store_true",
+        help=(
+            "answer only from the on-disk API cache and fail on a miss, so this "
+            "can run alongside select.py without spending Commons' rate limit"
+        ),
+    )
+    parser.add_argument(
+        "--from-cache",
+        action="store_true",
+        help=(
+            "match against every Commons file the pipeline has already fetched "
+            "instead of searching again; implies no network traffic"
+        ),
+    )
     args = parser.parse_args()
+    if args.from_cache:
+        args.offline = True  # the whole point is that nothing here needs the network
 
     names_by_id, by_entity = load_entities()
     total = sum(len(v) for v in by_entity.values())
     print(f"{total} installed originals across {len(by_entity)} entities\n")
 
-    client = Commons(SCRATCH / "api-cache", throttle=0.4)
+    client = Commons(CACHE_DIR, throttle=0.4, offline=args.offline)
+    pool = cached_records(CACHE_DIR) if args.from_cache else {}
+    if pool:
+        print(
+            f"  candidate pool from cache: {len(pool)} Commons files, "
+            f"{sum(1 for r in pool.values() if is_raster_image(r))} of them photographs\n"
+        )
     plan: dict[str, list[dict]] = {}
     report: list[str] = []
     stats = {"name": 0, "pixels": 0, "unmatched": 0, "non_image": 0}
@@ -311,14 +390,26 @@ def main() -> int:
                 terms.append(term)
         terms = terms[:3]
 
-        titles: set[str] = set()
-        for term in terms:
-            titles.update(client.search(term, limit=50))
-        if not titles:
-            report.append(f"{entity}: no Commons candidates at all")
-            continue
+        if args.from_cache:
+            # No search: match against every title the pipeline has ever fetched.
+            #
+            # The search index is the one thing the cache does not hold, because
+            # every search this session was answered with a 429 that outlasted the
+            # retry budget and so was never written down. What the cache does hold
+            # is metadata for 390-odd candidate files, and a name match against
+            # those is the whole of what stage 1 needs. Anything still unmatched
+            # falls through to the pixel comparison below, which uses the same
+            # pool and also needs no network.
+            records = dict(pool)
+        else:
+            titles: set[str] = set()
+            for term in terms:
+                titles.update(client.search(term, limit=50))
+            if not titles:
+                report.append(f"{entity}: no Commons candidates at all")
+                continue
+            records = client.info(sorted(titles))
 
-        records = client.info(sorted(titles))
         by_key: dict[str, list[str]] = {}
         for title in records:
             stem = title.split(":", 1)[-1]
@@ -327,8 +418,11 @@ def main() -> int:
         # Stage 1: exact slug match, no download needed.
         matched: dict[str, str] = {}
         for name in names:
-            key = local_key(name)
-            cands = by_key.get(key, [])
+            cands: list[str] = []
+            for key in local_keys(name, entity):
+                cands = by_key.get(key, [])
+                if cands:
+                    break
             if len(cands) == 1:
                 matched[name] = cands[0]
             elif len(cands) > 1:
@@ -348,6 +442,26 @@ def main() -> int:
         # as every remaining file has a near-identical match, because a score
         # under PERFECT cannot be improved on.
         still = [n for n in names if n not in matched and n in local]
+        if still and args.from_cache:
+            # Stage 2 is not available in this mode, and pretending otherwise
+            # would be the exact bug this flag exists to prevent.
+            #
+            # `Commons.offline` covers the API only. Stage 2 fetches thumbnails
+            # over plain HTTP, which never touches the cache, so "offline" as a
+            # promise about network traffic would simply be untrue if stage 2
+            # ran. Downloading dozens of images while the selection search is
+            # being throttled is also the thing most likely to make the throttling
+            # worse for both jobs.
+            #
+            # So this mode is name-match only. Anything left over is reported as
+            # uncredited and needs a networked run to resolve -- which is the
+            # honest outcome, rather than a claim of coverage the run did not have.
+            for name in still:
+                report.append(
+                    f"{entity}/{name}: not in the cache pool by name -- needs a "
+                    f"networked run to confirm by pixels"
+                )
+            still = []
         if still:
             ranked = rank_candidates(titles, records, entity)
             # Widen the download window rather than giving up. A first pass over

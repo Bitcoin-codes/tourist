@@ -13,21 +13,6 @@
     "image": "assets/images/attractions/tafi-atome-monkey-sanctuary.jpg",
     "images": [
       {
-        "image": "assets/images/gallery/tafi-atome-monkey-sanctuary-a-monkey-on-top-of-a-tree-at-the-tafi-atome-monkey-sanctuary.jpg",
-        "alt": "Tafi Atome Monkey Sanctuary: Tree",
-        "credit": "Treysam, CC BY-SA 4.0"
-      },
-      {
-        "image": "assets/images/gallery/tafi-atome-monkey-sanctuary-a-monkey-specie-in-the-tafi-atome-monkey-sanctuary-in-the-vo.jpg",
-        "alt": "Tafi Atome Monkey Sanctuary: Specie",
-        "credit": "Treysam, CC BY-SA 4.0"
-      },
-      {
-        "image": "assets/images/gallery/tafi-atome-monkey-sanctuary-a-monkey-specie-in-the-tafi-atome-monkey-sanctuary-located-i.jpg",
-        "alt": "Tafi Atome Monkey Sanctuary: Specie",
-        "credit": "Treysam, CC BY-SA 4.0"
-      },
-      {
         "image": "assets/images/gallery/tafi-atome-monkey-sanctuary-3.jpg",
         "alt": "Photograph of Tafi Atome Monkey Sanctuary",
         "credit": "Malibu xoxo, CC BY-SA 4.0"
@@ -41,6 +26,21 @@
         "image": "assets/images/gallery/tafi-atome-monkey-sanctuary-9.jpg",
         "alt": "Photograph of Tafi Atome Monkey Sanctuary",
         "credit": "Malibu xoxo, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/tafi-atome-monkey-sanctuary-a-monkey-on-top-of-a-tree-at-the-tafi-atome-monkey-sanctuary.jpg",
+        "alt": "Tafi Atome Monkey Sanctuary: Tree",
+        "credit": "Treysam, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/tafi-atome-monkey-sanctuary-a-monkey-specie-in-the-tafi-atome-monkey-sanctuary-in-the-vo.jpg",
+        "alt": "Tafi Atome Monkey Sanctuary: Specie",
+        "credit": "Treysam, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/tafi-atome-monkey-sanctuary-a-monkey-specie-in-the-tafi-atome-monkey-sanctuary-located-i.jpg",
+        "alt": "Tafi Atome Monkey Sanctuary: Specie",
+        "credit": "Treysam, CC BY-SA 4.0"
       }
     ],
     "rating": 4.9,
@@ -80,16 +80,6 @@
     "image": "assets/images/attractions/boabeng-fiema-monkey-sanctuary.jpg",
     "images": [
       {
-        "image": "assets/images/gallery/boabeng-fiema-monkey-sanctuary-koczkodan-liberyjski.jpg",
-        "alt": "Boabeng-Fiema Monkey Sanctuary: Koczkodan liberyjski",
-        "credit": "Nero2022, CC BY-SA 4.0"
-      },
-      {
-        "image": "assets/images/gallery/boabeng-fiema-monkey-sanctuary-małpi-cmentarz-w-fiema-boabeng-monkey-sanctuary.jpg",
-        "alt": "Boabeng-Fiema Monkey Sanctuary: Cmentarz",
-        "credit": "Nero2022, CC BY-SA 4.0"
-      },
-      {
         "image": "assets/images/gallery/boabeng-fiema-monkey-sanctuary-2.jpg",
         "alt": "Photograph of Boabeng-Fiema Monkey Sanctuary",
         "credit": "Malibu xoxo, CC BY-SA 4.0"
@@ -103,6 +93,16 @@
         "image": "assets/images/gallery/boabeng-fiema-monkey-sanctuary-4.jpg",
         "alt": "Photograph of Boabeng-Fiema Monkey Sanctuary",
         "credit": "Malibu xoxo, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/boabeng-fiema-monkey-sanctuary-koczkodan-liberyjski.jpg",
+        "alt": "Boabeng-Fiema Monkey Sanctuary: Koczkodan liberyjski",
+        "credit": "Nero2022, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/boabeng-fiema-monkey-sanctuary-małpi-cmentarz-w-fiema-boabeng-monkey-sanctuary.jpg",
+        "alt": "Boabeng-Fiema Monkey Sanctuary: Cmentarz",
+        "credit": "Nero2022, CC BY-SA 4.0"
       }
     ],
     "rating": 4.8,
@@ -209,9 +209,19 @@
     "image": "assets/images/attractions/kakum-national-park.jpg",
     "images": [
       {
+        "image": "assets/images/gallery/kakum-national-park-a-section-of-kakum.jpg",
+        "alt": "Kakum National Park Canopy Walk: Section",
+        "credit": "Kojo kissi, CC BY-SA 4.0"
+      },
+      {
         "image": "assets/images/gallery/kakum-national-park-canopy-walk.jpg",
         "alt": "Photograph of Kakum National Park Canopy Walk",
         "credit": "Dieu-Donné Gameli, CC BY-SA 3.0"
+      },
+      {
+        "image": "assets/images/gallery/kakum-national-park-canopy-walkway.jpg",
+        "alt": "Kakum National Park Canopy Walk: Walkway",
+        "credit": "Kojo kissi, CC BY-SA 4.0"
       },
       {
         "image": "assets/images/gallery/kakum-national-park-from-the-canopy-walk.jpg",
@@ -222,16 +232,6 @@
         "image": "assets/images/gallery/kakum-national-park-kakum-canopy-walk-kakum-national-park-ghana.jpg",
         "alt": "Photograph of Kakum National Park Canopy Walk",
         "credit": "Benggriff, CC BY-SA 3.0"
-      },
-      {
-        "image": "assets/images/gallery/kakum-national-park-a-section-of-kakum.jpg",
-        "alt": "Kakum National Park Canopy Walk: Section",
-        "credit": "Kojo kissi, CC BY-SA 4.0"
-      },
-      {
-        "image": "assets/images/gallery/kakum-national-park-canopy-walkway.jpg",
-        "alt": "Kakum National Park Canopy Walk: Walkway",
-        "credit": "Kojo kissi, CC BY-SA 4.0"
       },
       {
         "image": "assets/images/gallery/kakum-national-park-kakum-park-canopy-walk.jpg",
@@ -276,16 +276,6 @@
     "image": "assets/images/attractions/wli-waterfall.jpg",
     "images": [
       {
-        "image": "assets/images/gallery/wli-waterfall-volta-region-wli-waterfalls-2.jpg",
-        "alt": "Wli Waterfalls: Waterfalls",
-        "credit": "Malibu xoxo, CC BY-SA 4.0"
-      },
-      {
-        "image": "assets/images/gallery/wli-waterfall-volta-region-wli-waterfalls-5.jpg",
-        "alt": "Wli Waterfalls: Waterfalls",
-        "credit": "Malibu xoxo, CC BY-SA 4.0"
-      },
-      {
         "image": "assets/images/gallery/wli-waterfall-volta-region-way-to-wli-waterfalls-10.jpg",
         "alt": "Wli Waterfalls: Waterfalls",
         "credit": "Malibu xoxo, CC BY-SA 4.0"
@@ -302,6 +292,16 @@
       },
       {
         "image": "assets/images/gallery/wli-waterfall-volta-region-way-to-wli-waterfalls-4.jpg",
+        "alt": "Wli Waterfalls: Waterfalls",
+        "credit": "Malibu xoxo, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/wli-waterfall-volta-region-wli-waterfalls-2.jpg",
+        "alt": "Wli Waterfalls: Waterfalls",
+        "credit": "Malibu xoxo, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/wli-waterfall-volta-region-wli-waterfalls-5.jpg",
         "alt": "Wli Waterfalls: Waterfalls",
         "credit": "Malibu xoxo, CC BY-SA 4.0"
       }
@@ -343,6 +343,11 @@
     "image": "assets/images/attractions/mole-national-park.jpg",
     "images": [
       {
+        "image": "assets/images/gallery/mole-national-park-safari-in-mole-191042526.jpg",
+        "alt": "Photograph of Mole National Park Elephant Safari",
+        "credit": "Stig Nygaard, CC BY 2.0"
+      },
+      {
         "image": "assets/images/gallery/mole-national-park-savanna-landscape-northern-region-ghana.jpg",
         "alt": "Mole National Park Elephant Safari: Savanna landscape",
         "credit": "Stig Nygaard, CC BY 2.0"
@@ -351,11 +356,6 @@
         "image": "assets/images/gallery/mole-national-park-éléphant-120916033.jpg",
         "alt": "Mole National Park Elephant Safari: Phant",
         "credit": "Alexandre Ultré, CC BY-SA 3.0"
-      },
-      {
-        "image": "assets/images/gallery/mole-national-park-safari-in-mole-191042526.jpg",
-        "alt": "Photograph of Mole National Park Elephant Safari",
-        "credit": "Stig Nygaard, CC BY 2.0"
       }
     ],
     "rating": 4.9,
@@ -406,12 +406,12 @@
       {
         "image": "assets/images/gallery/black-star-square-ii-1.jpg",
         "alt": "Photograph of Black Star Square & Independence Arch",
-        "credit": "Kwaku Berko, CC BY-SA 4.0"
+        "credit": "[Kwaku Berko](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(1).jpg), CC BY-SA 4.0"
       },
       {
         "image": "assets/images/gallery/black-star-square-ii-3.jpg",
         "alt": "Photograph of Black Star Square & Independence Arch",
-        "credit": "Kwaku Berko, CC BY-SA 4.0"
+        "credit": "[Kwaku Berko](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(3).jpg), CC BY-SA 4.0"
       }
     ],
     "rating": 4.7,
@@ -448,6 +448,38 @@
     "region": "Upper East",
     "location": "Paga, Burkina Faso Border",
     "image": "assets/images/attractions/paga-crocodile-pond.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/paga-crocodile-pond-a-crocodile-partially-submerged-in-paga-pond.jpg",
+        "alt": "Paga Sacred Crocodile Pond: Partially submerged",
+        "credit": "Ibrahim Achiri, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/paga-crocodile-pond-crocodile-at-paga-crocodile-pond.jpg",
+        "alt": "Photograph of Paga Sacred Crocodile Pond",
+        "credit": "Knowledge and philosophy, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/paga-crocodile-pond-crocodile-in-water-at-paga-crocodile-pond.jpg",
+        "alt": "Paga Sacred Crocodile Pond: Water",
+        "credit": "Knowledge and philosophy, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/paga-crocodile-pond-crocodile-inside-paga-crocodile-pond.jpg",
+        "alt": "Paga Sacred Crocodile Pond: Inside",
+        "credit": "Knowledge and philosophy, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/paga-crocodile-pond-crocodile-resting-at-the-shore-of-paga-crocodile-pond.jpg",
+        "alt": "Paga Sacred Crocodile Pond: Resting shore",
+        "credit": "Knowledge and philosophy, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/paga-crocodile-pond-crocodile-walking-out-of-water-at-paga-crocodile-pond.jpg",
+        "alt": "Paga Sacred Crocodile Pond: Walking water",
+        "credit": "Knowledge and philosophy, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.6,
     "reviews": 580,
     "fee": "GHS 50 / $4",
@@ -485,14 +517,14 @@
     "image": "assets/images/attractions/nzulezo-stilt-village.jpg",
     "images": [
       {
-        "image": "assets/images/gallery/nzulezo-stilt-village-nzulezo-stilt-village.jpg",
-        "alt": "Photograph of Nzulezo Stilt Village",
-        "credit": "Luke Bosman, CC BY-SA 1.0"
-      },
-      {
         "image": "assets/images/gallery/nzulezo-stilt-village-nzulezo-home.jpg",
         "alt": "Nzulezo Stilt Village: Home",
         "credit": "KwesiRaul, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/nzulezo-stilt-village-nzulezo-stilt-village.jpg",
+        "alt": "Photograph of Nzulezo Stilt Village",
+        "credit": "Luke Bosman, CC BY-SA 1.0"
       },
       {
         "image": "assets/images/gallery/nzulezo-stilt-village-nzulezo-village-1.jpg",
@@ -687,6 +719,38 @@
     "region": "Savannah Region",
     "location": "Larabanga, near Mole Park",
     "image": "assets/images/attractions/larabanga-mosque.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/larabanga-mosque-larabanga-central-mosque-side-view.jpg",
+        "alt": "Larabanga Ancient Mosque: Side",
+        "credit": "Amuzujoe, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/larabanga-mosque-larabanga-central-mosque.jpg",
+        "alt": "Photograph of Larabanga Ancient Mosque",
+        "credit": "Amuzujoe, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/larabanga-mosque-0.jpg",
+        "alt": "Photograph of Larabanga Ancient Mosque",
+        "credit": "Amuzujoe, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/larabanga-mosque-1.jpg",
+        "alt": "Photograph of Larabanga Ancient Mosque",
+        "credit": "Amuzujoe, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/larabanga-mosque-2.jpg",
+        "alt": "Photograph of Larabanga Ancient Mosque",
+        "credit": "Amuzujoe, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/larabanga-mosque-mistry-stone-in-larabanja.jpg",
+        "alt": "Larabanga Ancient Mosque: Mistry stone larabanja",
+        "credit": "Amuzujoe, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.7,
     "reviews": 640,
     "fee": "GHS 40 / $3",
@@ -1697,11 +1761,6 @@
     "image": "assets/images/attractions/kejetia-market.jpg",
     "images": [
       {
-        "image": "assets/images/gallery/kejetia-market-street-scene.jpg",
-        "alt": "Kejetia Market: Street scene",
-        "credit": "Adam Jones from Kelowna, BC, Canada, CC BY-SA 2.0"
-      },
-      {
         "image": "assets/images/gallery/kejetia-market-kente-kumasi.jpg",
         "alt": "Kejetia Market: Kente",
         "credit": "Adam Jones, CC BY-SA 2.0"
@@ -1710,6 +1769,11 @@
         "image": "assets/images/gallery/kejetia-market-markt.jpg",
         "alt": "Photograph of Kejetia Market",
         "credit": "Afus199620, CC0"
+      },
+      {
+        "image": "assets/images/gallery/kejetia-market-street-scene.jpg",
+        "alt": "Kejetia Market: Street scene",
+        "credit": "Adam Jones from Kelowna, BC, Canada, CC BY-SA 2.0"
       }
     ],
     "rating": 4.5,

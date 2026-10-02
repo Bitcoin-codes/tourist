@@ -280,6 +280,10 @@ class Commons:
         # answers a burst with HTTP 429. 1.5s is slow but the pipeline is a
         # build-time job that runs once; being a good citizen costs minutes.
         self.throttle = throttle
+        # The floor the throttle decays back to. Seeded separately from
+        # `self.throttle` because that one is a ceiling-climbing value -- see the
+        # success path in `_get`.
+        self.base_throttle = throttle
         # Offline means "the cache is the whole world, and a miss is an error".
         #
         # This is how credit recovery runs safely alongside the selection search.
@@ -334,6 +338,25 @@ class Commons:
                     payload = json.loads(response.read().decode("utf-8"))
                 self._last_call = time.monotonic()
                 self.calls += 1
+                # Ease off again after a success.
+                #
+                # The throttle used to climb 1.5x on every 429 and never come
+                # back down, so four or five rate-limit responses pushed it to
+                # its 8-second ceiling and it stayed there for the rest of the
+                # run -- after which every single request waited 8 seconds,
+                # including the ones made long after Commons had stopped
+                # objecting. A run that hit a burst of 429s early was
+                # permanently ~5x slower than one that did not, and nothing
+                # reported it: the log just looked "slow", which reads as
+                # "Commons is rate limiting us" rather than "we are rate
+                # limiting ourselves".
+                #
+                # This is the standard additive-increase/multiplicative-decrease
+                # shape: back off sharply on congestion, probe gently upwards
+                # again on success. It cannot overshoot below the configured
+                # floor, so politeness is preserved -- it only stops a transient
+                # 429 from costing the whole run.
+                self.throttle = max(self.base_throttle, self.throttle * 0.85)
                 break
             except urllib.error.HTTPError as exc:
                 self._last_call = time.monotonic()

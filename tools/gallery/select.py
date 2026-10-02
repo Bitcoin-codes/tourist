@@ -81,6 +81,9 @@ GALLERY = ROOT / "assets" / "images" / "gallery"
 SCRATCH = Path("/tmp/opencode/gallery-select")
 PLAN_OUT = SCRATCH / "select-plan.json"
 REPORT_OUT = SCRATCH / "select-report.txt"
+# Appended one line per entity as it finishes, so a run interrupted by a 429 or a
+# killed shell resumes instead of starting over. See collect().
+CHECKPOINT_OUT = SCRATCH / "select-checkpoint.jsonl"
 
 # At most this many photographs in one gallery. The UI shows a hero plus a
 # scrolling strip; more than six is unreachable behind a swipe.
@@ -200,23 +203,71 @@ def specificity(record: dict[str, Any], entity: dict[str, Any]) -> int:
 # the run
 # --------------------------------------------------------------------------
 def collect(
-    client: Commons, entities: list[dict[str, Any]], known_names: list[str]
+    client: Commons,
+    entities: list[dict[str, Any]],
+    known_names: list[str],
+    checkpoint: Path | None = None,
+    resume: bool = True,
 ) -> tuple[dict[str, list[dict]], dict[str, list[dict]]]:
     """Search and filter. Returns (passing, rejected) keyed by entity id.
 
     `rejected` keeps one representative reason per entity, because "no
     candidates" and "every candidate filtered out" call for different responses
     and the site owner needs to be able to tell them apart.
+
+    Results are appended to `checkpoint`, one JSON object per entity, the moment
+    each entity finishes. A full run over 156 entities is hours of throttled
+    requests against a service that answers 429 under any burst, so it will
+    eventually hit an exception, and losing everything at that point is what
+    happened to the recovery run -- it died at entity 19 of 29 having written
+    nothing. Re-running resumes from the checkpoint instead.
+
+    The last line is truncated away before each append, so a process killed
+    mid-write leaves a short final line rather than a corrupt one, and the
+    unreadable line is skipped on load.
     """
     passing: dict[str, list[dict]] = {}
     rejected: dict[str, list[dict]] = {}
 
+    if checkpoint is not None and resume and checkpoint.exists():
+        good = checkpoint.read_text().splitlines()
+        for line in good:
+            if not line.strip():
+                continue
+            try:
+                done = json.loads(line)
+            except json.JSONDecodeError:
+                continue  # a partial final line from a killed process
+            passing[done["id"]] = done["kept"]
+            rejected[done["id"]] = done["rejected"]
+        if passing:
+            print(f"  resuming: {len(passing)} entities already searched\n", flush=True)
+
+    def checkpoint_entity(entity_id: str, kept: list[dict], why: list[dict]) -> None:
+        if checkpoint is None:
+            return
+        checkpoint.parent.mkdir(parents=True, exist_ok=True)
+        # Not `checkpoint.read_text()`: mkdir has created the directory but not
+        # the file, and the very first entity of the very first run is exactly
+        # when that matters.
+        lines = [
+            line
+            for line in checkpoint.read_text().splitlines()
+            if line.strip() and _parses(line)
+        ] if checkpoint.exists() else []
+        lines.append(json.dumps({"id": entity_id, "kept": kept, "rejected": why}, sort_keys=True))
+        checkpoint.write_text("\n".join(lines) + "\n")
+
     for entity in entities:
+        if entity["id"] in passing:
+            continue
+
         titles: set[str] = set()
         for term in search_terms(entity):
             titles.update(client.search(term, limit=50))
         if not titles:
             rejected[entity["id"]] = [{"title": "", "reason": "no candidates found"}]
+            checkpoint_entity(entity["id"], [], rejected[entity["id"]])
             continue
 
         records = client.info(sorted(titles))
@@ -258,12 +309,21 @@ def collect(
             kept.append(record)
 
         passing[entity["id"]] = kept
+        checkpoint_entity(entity["id"], kept, rejected.get(entity["id"], []))
         print(
             f"  {entity['id']}: {len(kept)} of {len(records)} pass"
             + (f" ({counts.get('rejected', 0)} filtered)" if counts.get("rejected") else ""),
             flush=True,
         )
     return passing, rejected
+
+
+def _parses(line: str) -> bool:
+    try:
+        json.loads(line)
+        return True
+    except json.JSONDecodeError:
+        return False
 
 
 def assign(
@@ -447,6 +507,14 @@ def main() -> int:
     parser.add_argument("--install", action="store_true", help="write the chosen files to disk")
     parser.add_argument("--report-only", action="store_true", help="search and filter but write nothing")
     parser.add_argument("--entity", action="append", default=[], help="limit to these entity ids")
+    parser.add_argument(
+        "--fresh",
+        action="store_true",
+        help="ignore any checkpoint and search every entity again",
+    )
+    parser.add_argument(
+        "--limit", type=int, default=0, help="stop after this many entities this run"
+    )
     args = parser.parse_args()
 
     entities = load_entities()
@@ -462,7 +530,14 @@ def main() -> int:
     client = Commons(SCRATCH / "api-cache", throttle=1.5)
 
     print("searching and filtering")
-    passing, rejected = collect(client, entities, known_names)
+    if args.fresh:
+        CHECKPOINT_OUT.unlink(missing_ok=True)
+    # `--limit` bounds one invocation rather than the whole entity set, so a run
+    # can be topped up over several sittings without ever starting over.
+    batch = entities[: args.limit] if args.limit else entities
+    passing, rejected = collect(
+        client, batch, known_names, checkpoint=CHECKPOINT_OUT, resume=not args.fresh
+    )
     galleries, unassigned = assign(passing, entities)
     rows, notes = install(galleries, write=args.install, report_only=args.report_only)
 

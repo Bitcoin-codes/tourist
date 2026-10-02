@@ -90,10 +90,20 @@ CHECKPOINT_OUT = SCRATCH / "select-checkpoint.jsonl"
 # At most this many photographs in one gallery. The UI shows a hero plus a
 # scrolling strip; more than six is unreachable behind a swipe.
 MAX_PHOTOS = 6
-
 # A gallery strip renders only when a destination has a hero plus at least two
 # more, so a second photograph is the point at which it is worth building.
 MIN_WANT = 2
+
+# How many plausible candidates to stop searching at.
+#
+# Not how many to keep -- MAX_PHOTOS does that, and it is six. This is the point
+# at which another search term is judged unlikely to change what selection ends
+# up with. screen() rejects a large share for licence, subject and location, and
+# then assign() ranks what is left, so a pool of forty photographs is already far
+# more than enough to yield six that survive. It has to be generous for the same
+# reason: stopping early with a pool that filtering then empties would show up as
+# a destination with no gallery and no explanation.
+SEARCH_ENOUGH = 40
 
 # A photograph must name a destination at least this specifically to be used.
 # The scale, from weakest to strongest, is built by `specificity` below.
@@ -437,9 +447,27 @@ def collect(
         # and collapsing the two would quietly under-report how much of Commons was
         # actually searched.
         try:
+            # Stop as soon as there is enough to choose from.
+            #
+            # Every term is another request, and the run is spending six of them
+            # per entity even when the first came back with fifty candidates.
+            # Under an anonymous rate limit answering bursts with 429s, five of
+            # those six were buying nothing -- and two entities in a row failed
+            # outright because the budget had already been spent on terms whose
+            # results were never going to be needed.
+            #
+            # The threshold is deliberately well above what selection keeps:
+            # MAX_PHOTOS is 6, and screen() rejects a large share for licence,
+            # subject or location, so a pool of 40 photographs is already more
+            # than enough to leave 6 that survive. A term that returns little
+            # still falls through to the next one, so a thinly-covered place
+            # searches just as deeply as it did before.
             titles: set[str] = set()
             for term in search_terms(entity):
-                titles.update(client.search(term, limit=50))
+                found = client.search(term, limit=50)
+                titles.update(found)
+                if _count_usable(titles) >= SEARCH_ENOUGH:
+                    break
         except Exception as error:  # noqa: BLE001 - any failure is this entity's
             failed[entity["id"]] = f"{type(error).__name__}: {error}"
             print(f"  {entity['id']}: FETCH FAILED -- {type(error).__name__}", flush=True)
@@ -541,6 +569,19 @@ def _non_image_title(title: str) -> bool:
     if "." not in name:
         return False
     return ("." + name.rsplit(".", 1)[-1].lower()) in NON_IMAGE_SUFFIXES
+
+
+def _count_usable(titles: set[str]) -> int:
+    """How many of a result set could be photographs at all.
+
+    Counts by title only, because it is consulted between search terms and the
+    metadata has not been fetched yet. A search for a place with a common word in
+    its name returns shelves of 19th-century books, and counting those as
+    candidates would stop the search early on a pool of things that were always
+    going to be refused -- which is exactly the failure the threshold exists to
+    avoid.
+    """
+    return sum(1 for t in titles if not _non_image_title(t))
 
 
 def assign(

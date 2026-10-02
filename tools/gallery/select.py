@@ -123,6 +123,13 @@ def load_entities() -> list[dict[str, Any]]:
                     "description": row.get("description") or "",
                     "region": row.get("region") or "",
                     "location": row.get("location") or "",
+                    # What a festival is *made of*. Selection needs these because
+                    # a photograph of a festival's own ritual is a photograph of
+                    # that festival even when the caption never says the festival's
+                    # name -- "Kpokpoi sprinkling" is Homowo, and a Commons
+                    # uploader filing that picture almost never repeats the word
+                    # Homowo when the ritual itself is better known.
+                    "keyRituals": list(row.get("keyRituals") or []),
                 }
             )
     return out
@@ -138,6 +145,106 @@ def host_words(entity: dict[str, Any]) -> list[str]:
     return [entity.get("region") or "", entity.get("location") or ""]
 
 
+# Which festival each ritual word belongs to. Built over every festival, in the
+# same way the sibling map is built over every name, and for the same reason:
+# on its own a word looks identifying that is not identifying anywhere.
+#
+# "Durbar", "chiefs", "royal" and "drumming" appear in several festivals'
+# rituals. Counting any of them would accept a photograph for the wrong festival,
+# which is exactly the wrong-place photograph this pipeline exists to prevent --
+# and unlike a mismatched place name it would read as plausible, because a durbar
+# really is what a festival gallery is supposed to show.
+#
+# 111 of the 134 ritual words are unique to one festival, so the loss from
+# ignoring shared words is small and the loss from trusting them is not.
+RITUAL_OWNER: dict[str, set[str]] = {}
+
+RITUAL_STOP = frozenset(
+    {
+        "the",
+        "and",
+        "for",
+        "with",
+        "from",
+        "that",
+        "this",
+        "their",
+        "his",
+        "her",
+        "onto",
+        "into",
+        "are",
+        "was",
+        "not",
+        "its",
+    }
+)
+
+
+def load_ritual_map(entities: list[dict[str, Any]]) -> None:
+    """Map every word to the entities that claim it, rituals and names alike.
+
+    Names go in as well as rituals, because `specificity` is about to accept a
+    photograph for naming this festival's ritual while naming no festival at all,
+    and that has to be weighed against every other entity that *does* claim the
+    word -- in a name as well as in a ritual. Registering only rituals would let
+    a word through that another festival's own title uses.
+
+    Replaces rather than extends, so calling it twice with different sets leaves
+    the map describing the latest one. A map that silently accumulated would
+    survive a filtered run and then mark a word as shared with an entity that
+    was never in scope.
+    """
+    RITUAL_OWNER.clear()
+    for entity in entities:
+        for token in _keys(entity["name"]):
+            if len(token) < 4 or token in RITUAL_STOP:
+                continue
+            RITUAL_OWNER.setdefault(token, set()).add(entity["id"])
+        for phrase in entity.get("keyRituals") or []:
+            for token in _keys(phrase):
+                if len(token) < 4 or token in RITUAL_STOP:
+                    continue
+                RITUAL_OWNER.setdefault(token, set()).add(entity["id"])
+
+
+def ritual_terms(entity: dict[str, Any]) -> list[str]:
+    """The festival's own rituals, as Commons search phrases.
+
+    Kept separate from `search_terms`' name-derived terms and ranked after them:
+    the festival name is what an uploader would have typed first, and only if
+    that comes up thin do the rituals add reach. Capped rather than unrestricted
+    because each phrase is another request against an anonymous rate limit that
+    is already returning 429s.
+    """
+    out: list[str] = []
+    for phrase in entity.get("keyRituals") or []:
+        phrase = " ".join(phrase.split())
+        if len(phrase) > 3 and phrase.lower() not in {t.lower() for t in out}:
+            out.append(phrase)
+    return out[:3]
+
+
+def distinctive_ritual_keys(entity: dict[str, Any]) -> set[str]:
+    """Ritual words that identify this festival and only this festival.
+
+    Empty for a destination: places have no rituals, and treating a name that
+    happens to look like one as if it did would just widen the gate.
+    """
+    if entity.get("kind") != "festival":
+        return set()
+    if not RITUAL_OWNER:
+        return set()
+    mine: set[str] = set()
+    for phrase in entity.get("keyRituals") or []:
+        for token in _keys(phrase):
+            if len(token) < 4 or token in RITUAL_STOP:
+                continue
+            if RITUAL_OWNER.get(token) == {entity["id"]}:
+                mine.add(token)
+    return mine
+
+
 def search_terms(entity: dict[str, Any]) -> list[str]:
     """What to ask Commons for, most productive first.
 
@@ -146,21 +253,46 @@ def search_terms(entity: dict[str, Any]) -> list[str]:
     The bare distinctive words catch the cases where the destination's own name is
     a Commons category nobody searched -- "Fort Batenstein" is filed under
     "Princes Town" as often as under its own name.
+
+    A festival then adds its rituals, behind the name terms rather than mixed in
+    with them: photographs of "Asafo Warrior Deer Hunt" are filed under those
+    words far more often than under "Aboakyer Festival", so searching only the
+    name would find the durbar and miss the hunt. Two caps, not one -- three of
+    each, because every extra phrase is another request against an anonymous rate
+    limit that is already returning 429s, and six is where this stops being a
+    search and starts being a crawl.
     """
-    terms = [entity["name"]]
-    if entity["region"] and entity["region"] != entity["name"]:
-        terms.append(f"{entity['name']} {entity['region']}")
+    # The name, with any parenthetical dropped.
+    #
+    # The parenthetical is a search aid in the data -- "Aboakyer Festival (Deer
+    # Hunting Festival)" -- but Commons matches it literally, and a query
+    # containing it returns nothing at all where the bare name returns dozens:
+    #
+    #     "Aboakyer Festival (Deer Hunting Festival)"  ->  0 results
+    #     "Aboakyer Festival"                          ->  36 results
+    #
+    # This is not a narrow edge case. Seven of the thirteen festivals carry a
+    # parenthetical, and because the name leads the term list, a festival with one
+    # spent its first search on a query guaranteed to find nothing -- and then the
+    # second search on the same name plus its region, which also finds nothing.
+    # Two guaranteed-zero searches against an anonymous rate limit that answers
+    # bursts with 429s, before the searches that could have worked were reached.
+    bare = entity["name"].split(" (")[0].strip() or entity["name"]
+    terms = [bare]
+    if entity["region"] and entity["region"] != bare:
+        terms.append(f"{bare} {entity['region']}")
     distinctive = distinctive_tokens(entity["name"])
     if distinctive:
         terms.append(" ".join(sorted(distinctive)))
-    seen: set[str] = set()
+
     out: list[str] = []
-    for term in terms:
+    seen: set[str] = set()
+    for term in terms + ritual_terms(entity):
         key = term.lower()
         if len(term) > 3 and key not in seen:
             seen.add(key)
             out.append(term)
-    return out[:3]
+    return out[:6]
 
 
 # --------------------------------------------------------------------------
@@ -198,6 +330,28 @@ def specificity(record: dict[str, Any], entity: dict[str, Any]) -> int:
         return 2
     if distinctive & _keys(description):
         return 1
+
+    # A festival's own ritual, named when the festival is not.
+    #
+    # This is the case a festival gallery exists for and the name rules cannot
+    # reach: Commons is rich in photographs of Kpokpoi sprinkling, Asafo deer
+    # hunts and stool consecrations, and their captions and categories say those
+    # things -- not "Homowo Festival", which the uploader had no reason to repeat
+    # when the ritual itself is the better known label. Without this they all
+    # score 0, which is indistinguishable from having nothing.
+    #
+    # Scored 2 rather than 3, so a file that names the festival outright still
+    # beats one that names only a ritual, and a shared word cannot win at all:
+    # `distinctive_ritual_keys` only returns words no other entity claims,
+    # whether in a ritual or in a name of its own. "Durbar" therefore scores
+    # nothing here, while "Kpokpoi" scores 2 for Homowo and for Homowo alone.
+    ritual = distinctive_ritual_keys(entity)
+    if ritual & _keys(title):
+        return 2
+    if ritual & _keys(categories):
+        return 2
+    if ritual & _keys(description):
+        return 2
     return 0
 
 
@@ -588,6 +742,13 @@ def main() -> int:
     # computed over the whole set, not the filtered subset, or a word looks
     # distinctive here that is not distinctive anywhere else.
     load_sibling_map(known_names)
+    # The ritual map has the same requirement, and gets a fresh full load for it
+    # rather than the possibly-filtered `entities` above. A ritual word has to be
+    # checked against every other claim on it -- including a destination's own
+    # name, which a `--entity` festival-only run never saw. Built from 13
+    # festivals instead, "deer" would look distinctive to Aboakyer and any
+    # photograph mentioning a deer would be accepted for it.
+    load_ritual_map(load_entities())
 
     print(f"{len(entities)} entities, {len(known_names)} known names\n")
     client = Commons(CACHE_DIR, throttle=1.5)

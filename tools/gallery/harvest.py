@@ -88,6 +88,7 @@ def main() -> int:
     # it on 8 would call "Castle" distinctive and hand every castle its neighbours'
     # photographs.
     select.load_sibling_map([e["name"] for e in entities])
+    select.load_ritual_map(entities)
 
     searched = read_checkpoint(Path(args.checkpoint))
     passing = {i: r["kept"] for i, r in searched.items() if r.get("kept")}

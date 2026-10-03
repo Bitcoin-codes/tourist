@@ -406,12 +406,12 @@
       {
         "image": "assets/images/gallery/black-star-square-ii-1.jpg",
         "alt": "Photograph of Black Star Square & Independence Arch",
-        "credit": "[[[[[[Kwaku Berko](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(1).jpg)]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(1).jpg))]([Wikimedia Commons]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(1).jpg)))]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(1).jpg))))]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(1).jpg)))))]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(1).jpg)))))), CC BY-SA 4.0"
+        "credit": "[[[[[[[Kwaku Berko](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(1).jpg)]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(1).jpg))]([Wikimedia Commons]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(1).jpg)))]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(1).jpg))))]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(1).jpg)))))]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(1).jpg))))))]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(1).jpg))))))), CC BY-SA 4.0"
       },
       {
         "image": "assets/images/gallery/black-star-square-ii-3.jpg",
         "alt": "Photograph of Black Star Square & Independence Arch",
-        "credit": "[[[[[[Kwaku Berko](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(3).jpg)]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(3).jpg))]([Wikimedia Commons]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(3).jpg)))]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(3).jpg))))]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(3).jpg)))))]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(3).jpg)))))), CC BY-SA 4.0"
+        "credit": "[[[[[[[Kwaku Berko](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(3).jpg)]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(3).jpg))]([Wikimedia Commons]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(3).jpg)))]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(3).jpg))))]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(3).jpg)))))]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(3).jpg))))))]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons]([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Black_star_square_(ii-(3).jpg))))))), CC BY-SA 4.0"
       }
     ],
     "rating": 4.7,
@@ -833,11 +833,6 @@
     "image": "assets/images/attractions/aburi-botanical-gardens.jpg",
     "images": [
       {
-        "image": "assets/images/gallery/aburi-botanical-gardens-park.jpg",
-        "alt": "Photograph of Aburi Botanical Gardens",
-        "credit": "Kradolferp, CC BY-SA 4.0"
-      },
-      {
         "image": "assets/images/gallery/aburi-botanical-gardens-08.jpg",
         "alt": "Photograph of Aburi Botanical Gardens",
         "credit": "Nkansahrexford, CC BY-SA 4.0"
@@ -861,6 +856,11 @@
         "image": "assets/images/gallery/aburi-botanical-gardens-18.jpg",
         "alt": "Photograph of Aburi Botanical Gardens",
         "credit": "Nkansahrexford, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/aburi-botanical-gardens-park.jpg",
+        "alt": "Photograph of Aburi Botanical Gardens",
+        "credit": "Kradolferp, CC BY-SA 4.0"
       }
     ],
     "rating": 4.7,
@@ -1691,12 +1691,17 @@
     "image": "assets/images/attractions/tagbo-falls.jpg",
     "images": [
       {
-        "image": "assets/images/gallery/tagbo-falls-ghana.jpg",
+        "image": "assets/images/gallery/tagbo-falls-by-liati-wote.jpg",
         "alt": "Tagbo Falls: Falls",
-        "credit": "Jimmynoton, CC BY-SA 3.0"
+        "credit": "Kradolferp, CC BY-SA 4.0"
       },
       {
-        "image": "assets/images/gallery/tagbo-falls-tagbo-falls.jpg",
+        "image": "assets/images/gallery/tagbo-falls-flows-from-the-ghana-togo-range.jpg",
+        "alt": "Tagbo Falls: Falls flows togo range",
+        "credit": "Kradolferp, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/tagbo-falls-ghana.jpg",
         "alt": "Tagbo Falls: Falls",
         "credit": "Jimmynoton, CC BY-SA 3.0"
       },
@@ -1706,14 +1711,9 @@
         "credit": "Dangbe23, CC BY-SA 4.0"
       },
       {
-        "image": "assets/images/gallery/tagbo-falls-by-liati-wote.jpg",
+        "image": "assets/images/gallery/tagbo-falls-tagbo-falls.jpg",
         "alt": "Tagbo Falls: Falls",
-        "credit": "Kradolferp, CC BY-SA 4.0"
-      },
-      {
-        "image": "assets/images/gallery/tagbo-falls-flows-from-the-ghana-togo-range.jpg",
-        "alt": "Tagbo Falls: Falls flows togo range",
-        "credit": "Kradolferp, CC BY-SA 4.0"
+        "credit": "Jimmynoton, CC BY-SA 3.0"
       },
       {
         "image": "assets/images/gallery/tagbo-falls-the-lush-tagbo-falls.jpg",
@@ -1846,6 +1846,38 @@
     "region": "Upper West",
     "location": "Wa, Upper West",
     "image": "assets/images/attractions/wa-naa-palace.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/wa-naa-palace-15.jpg",
+        "alt": "Photograph of Wa Naa Palace",
+        "credit": "Isaac Gyemfi, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/wa-naa-palace-19.jpg",
+        "alt": "Photograph of Wa Naa Palace",
+        "credit": "Isaac Gyemfi, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/wa-naa-palace-16.jpg",
+        "alt": "Photograph of Wa Naa Palace",
+        "credit": "Isaac Gyemfi, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/wa-naa-palace-14.jpg",
+        "alt": "Photograph of Wa Naa Palace",
+        "credit": "Isaac Gyamfi Assumeng, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/wa-naa-palace-visit-by-amb-jackson-25642607907.jpg",
+        "alt": "Wa Naa Palace: Visit jackson",
+        "credit": "U.S. Embassy Ghana, CC BY 2.0"
+      },
+      {
+        "image": "assets/images/gallery/wa-naa-palace-where-the-wa-naa-and-his-kingmen-sit-for-meeting.jpg",
+        "alt": "Wa Naa Palace: Kingmen meeting",
+        "credit": "Abarikajr, CC BY 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -3111,6 +3143,21 @@
     "image": "assets/images/attractions/labadi-beach.jpg",
     "images": [
       {
+        "image": "assets/images/gallery/labadi-beach-a-lady-playing-archery-at-labadi-beach.jpg",
+        "alt": "Labadi Pleasure Beach: Lady playing archery",
+        "credit": "Noahalorwu, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/labadi-beach-a-lady-playing-archery-at-labadi-beach2.jpg",
+        "alt": "Labadi Pleasure Beach: Lady playing archery",
+        "credit": "Noahalorwu, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/labadi-beach-early-morning-in-ghana-at-labadi-beach-accra.jpg",
+        "alt": "Labadi Pleasure Beach: Early morning",
+        "credit": "Mr Khal, CC BY-SA 4.0"
+      },
+      {
         "image": "assets/images/gallery/labadi-beach-labadi-neighborhood-at-sundown.jpg",
         "alt": "Labadi Pleasure Beach: Neighborhood sundown",
         "credit": "Kwameghana, CC BY-SA 4.0"
@@ -3124,21 +3171,6 @@
         "image": "assets/images/gallery/labadi-beach-wikimedians-on-labadi-beach.jpg",
         "alt": "Labadi Pleasure Beach: Wikimedians",
         "credit": "ZMcCune (WMF), CC BY-SA 4.0"
-      },
-      {
-        "image": "assets/images/gallery/labadi-beach-early-morning-in-ghana-at-labadi-beach-accra.jpg",
-        "alt": "Labadi Pleasure Beach: Early morning",
-        "credit": "Mr Khal, CC BY-SA 4.0"
-      },
-      {
-        "image": "assets/images/gallery/labadi-beach-a-lady-playing-archery-at-labadi-beach.jpg",
-        "alt": "Labadi Pleasure Beach: Lady playing archery",
-        "credit": "Noahalorwu, CC BY-SA 4.0"
-      },
-      {
-        "image": "assets/images/gallery/labadi-beach-a-lady-playing-archery-at-labadi-beach2.jpg",
-        "alt": "Labadi Pleasure Beach: Lady playing archery",
-        "credit": "Noahalorwu, CC BY-SA 4.0"
       }
     ],
     "rating": 4.5,
@@ -3386,6 +3418,38 @@
     "region": "Greater Accra",
     "location": "Accra Central",
     "image": "assets/images/attractions/national-theatre.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/national-theatre-london-south-bank-jubilee-walkway-view-ene-along-royal-natio.jpg",
+        "alt": "National Theatre: London south bank jubilee walkway",
+        "credit": "Txllxt TxllxT, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/national-theatre-london.jpg",
+        "alt": "National Theatre: London",
+        "credit": "Aurelien Guichard from London, United Kingdom, CC BY-SA 2.0"
+      },
+      {
+        "image": "assets/images/gallery/national-theatre-london-south-bank-under-waterloo-bridge-1945-jubilee-walkway.jpg",
+        "alt": "National Theatre: London south bank waterloo bridge",
+        "credit": "Txllxt TxllxT, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/national-theatre-london-2026-01.jpg",
+        "alt": "National Theatre: London",
+        "credit": "Julian Herzog ( Website ), CC BY 4.0"
+      },
+      {
+        "image": "assets/images/gallery/national-theatre-budapest.jpg",
+        "alt": "National Theatre: Budapest",
+        "credit": "Yelkrokoyade, CC BY-SA 3.0"
+      },
+      {
+        "image": "assets/images/gallery/national-theatre-โรงละครแห-งชาต-april2021-thailand-national-theatre-bangkok-0.jpg",
+        "alt": "National Theatre: Thailand bangkok",
+        "credit": "Chainwit., CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -3496,6 +3560,38 @@
     "region": "Greater Accra",
     "location": "Jamestown, Accra",
     "image": "assets/images/attractions/james-fort.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/james-fort-accra.jpg",
+        "alt": "James Fort: James",
+        "credit": "Newfoundlandguy, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/james-fort-panoramic-photo.jpg",
+        "alt": "James Fort: James panoramic",
+        "credit": "Rogue29567, CC0"
+      },
+      {
+        "image": "assets/images/gallery/james-fort-ghana-2.jpg",
+        "alt": "James Fort: James",
+        "credit": "Shahadusadik, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/james-fort-ghana-3.jpg",
+        "alt": "James Fort: James",
+        "credit": "Shahadusadik, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/james-fort-ghana-4.jpg",
+        "alt": "James Fort: James",
+        "credit": "Shahadusadik, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/james-fort-ghana-5.jpg",
+        "alt": "James Fort: James",
+        "credit": "Shahadusadik, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",

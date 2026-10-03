@@ -45,21 +45,6 @@
     "image": "assets/images/homowo_festival.jpg",
     "images": [
       {
-        "image": "assets/images/gallery/homowo-festival-teshie-homowo-366.jpg",
-        "alt": "Homowo Festival: Teshie",
-        "credit": "Jwale2, CC BY-SA 4.0"
-      },
-      {
-        "image": "assets/images/gallery/homowo-festival-teshie-homowo-376.jpg",
-        "alt": "Homowo Festival: Teshie",
-        "credit": "Jwale2, CC BY-SA 4.0"
-      },
-      {
-        "image": "assets/images/gallery/homowo-festival-in-ghana-3.jpg",
-        "alt": "Photograph of Homowo Festival",
-        "credit": "Fquasie, CC BY-SA 4.0"
-      },
-      {
         "image": "assets/images/gallery/homowo-festival-50.jpg",
         "alt": "Photograph of Homowo Festival",
         "credit": "Jwale2, CC BY-SA 4.0"
@@ -72,6 +57,21 @@
       {
         "image": "assets/images/gallery/homowo-festival-55.jpg",
         "alt": "Photograph of Homowo Festival",
+        "credit": "Jwale2, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/homowo-festival-in-ghana-3.jpg",
+        "alt": "Photograph of Homowo Festival",
+        "credit": "Fquasie, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/homowo-festival-teshie-homowo-366.jpg",
+        "alt": "Homowo Festival: Teshie",
+        "credit": "Jwale2, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/homowo-festival-teshie-homowo-376.jpg",
+        "alt": "Homowo Festival: Teshie",
         "credit": "Jwale2, CC BY-SA 4.0"
       }
     ],

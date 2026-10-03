@@ -287,6 +287,33 @@ def cached_records(cache_dir: Path) -> dict[str, dict[str, Any]]:
     return out
 
 
+def retry_after_of(error: urllib.error.HTTPError) -> float:
+    """Seconds the server asked us to wait, read from its own 429.
+
+    Wikimedia's rate-limit response carries `Retry-After: 25`, and the body says
+    so in prose as well: *"You are making too many requests to the API. Please
+    follow the best practices."* The header is the authoritative number, so it is
+    read rather than guessed at.
+
+    Zero means "no instruction" -- a 503 from a proxy, a malformed value, a
+    header that is absent. Falling back to a guess in that case is right, because
+    there is nothing to honour.
+
+    It cannot be trusted as a float blindly: HTTP permits both an integer number
+    of seconds and an `HTTP-date`, and a date here would raise `ValueError` and
+    take the whole run down over a header we could simply have ignored.
+    """
+    try:
+        raw = error.headers.get("Retry-After", "") or ""
+    except (AttributeError, TypeError):
+        return 0.0
+    try:
+        seconds = float(raw)
+    except (TypeError, ValueError):
+        return 0.0
+    return max(0.0, seconds)
+
+
 class Commons:
     """Cached wrapper over the few Commons API calls this project needs."""
 
@@ -320,6 +347,19 @@ class Commons:
         self.calls = 0
         self.cache_hits = 0
         self.throttled = 0
+        # The spacing Commons has explicitly asked for, in seconds, read from the
+        # `Retry-After` header of its own 429.
+        #
+        # This is the number the whole run turns on, and it was being ignored.
+        # Commons returns `Retry-After: 25`, the client guessed instead -- 10s,
+        # 20s, 40s -- and worse, only after a violation, so the steady-state
+        # spacing stayed at the 1.5s the client had been configured with. The
+        # limit is per User-Agent (`vary: User-Agent`), so the deficit is ours
+        # alone and it does not drain by waiting somewhere else.
+        #
+        # A server saying "come back in 25 seconds" is an instruction, not a
+        # hint, and honouring it is both correct and the only thing that works.
+        self.retry_after = 0.0
 
     # -- transport ---------------------------------------------------------
     def _cache_path(self, params: dict[str, Any]) -> Path:
@@ -347,7 +387,13 @@ class Commons:
         last_error: Exception | None = None
 
         for attempt in range(RETRY_ATTEMPTS):
-            wait = self.throttle - (time.monotonic() - self._last_call)
+            # Space the request by whichever is wider: the AIMD throttle we work
+            # out ourselves, or the number Commons asked for in `Retry-After`.
+            # Guessing slower than we were told is the failure this prevents --
+            # the whole point of the header is that the server already knows.
+            wait = max(self.throttle, self.retry_after) - (
+                time.monotonic() - self._last_call
+            )
             if wait > 0:
                 time.sleep(wait)
 
@@ -375,7 +421,16 @@ class Commons:
                 # again on success. It cannot overshoot below the configured
                 # floor, so politeness is preserved -- it only stops a transient
                 # 429 from costing the whole run.
-                self.throttle = max(self.base_throttle, self.throttle * 0.85)
+                #
+                # The floor is `retry_after` as well as the configured value, and
+                # that ordering is the important part. Decaying back to the 1.5s
+                # we started with, straight after a 429 that asked for 25, would
+                # re-violate on the very next request and hand the deficit straight
+                # back. The AIMD term recovers how fast *we* think is safe; the
+                # server's number is not ours to negotiate.
+                self.throttle = max(
+                    max(self.base_throttle, self.retry_after), self.throttle * 0.85
+                )
                 break
             except urllib.error.HTTPError as exc:
                 self._last_call = time.monotonic()
@@ -385,9 +440,33 @@ class Commons:
                 # say so: silently retrying at the same speed is what got us
                 # throttled in the first place.
                 self.throttled += 1
-                delay = min(RETRY_MAX_DELAY, RETRY_BASE_DELAY * (2**attempt))
-                print(f"  {exc.code} from Commons; waiting {delay:.0f}s", file=sys.stderr)
-                self.throttle = min(self.throttle * 1.5, 8.0)
+                # Honour the server's own number first. Commons answers with
+                # `Retry-After: 25`; guessing 10 and then 20 meant two more
+                # violations before the first guess that cleared it, and the
+                # configured 1.5s spacing was restored on success regardless, so
+                # the deficit never had a chance to drain.
+                asked = retry_after_of(exc)
+                # The latest instruction, not the largest ever given.
+                #
+                # Commons does not name one constant: across three requests in a
+                # row it asked for 43s, then 12s, then 28s, because the number
+                # describes our own deficit and that drains as we comply. Keeping
+                # the maximum would lock the run to 43s for the rest of its life
+                # on the strength of one bad moment, and the ask would then never
+                # be heard again -- we would be listening to a snapshot instead
+                # of to the server. Zero means "no instruction here", so an
+                # instruction-free 503 cannot wipe out a real one.
+                if asked > 0:
+                    self.retry_after = asked
+                delay = min(RETRY_MAX_DELAY, max(asked, RETRY_BASE_DELAY * (2**attempt)))
+                print(
+                    f"  {exc.code} from Commons; waiting {delay:.0f}s"
+                    + (f" (the server asked for {asked:.0f}s)" if asked else ""),
+                    file=sys.stderr,
+                )
+                # Additive increase, but never to a ceiling below the spacing we
+                # were just told to keep -- an 8-second cap is a refusal to listen.
+                self.throttle = min(self.throttle * 1.5, max(8.0, asked))
                 time.sleep(delay)
                 last_error = exc
             except urllib.error.URLError as exc:

@@ -903,7 +903,9 @@ def main() -> int:
         f"API calls             : {client.calls} ({client.cache_hits} cached, {client.throttled} throttled)",
         # Surfaced because a throttle stuck at its ceiling looks exactly like
         # Commons still rate limiting us, and the two have opposite fixes.
-        f"  current spacing      : {client.throttle:.2f}s (floor {client.base_throttle:.2f}s)",
+        f"  current spacing      : {max(client.throttle, client.retry_after):.2f}s "
+        f"(configured floor {client.base_throttle:.2f}s, "
+        f"server asked for {client.retry_after:.0f}s)",
         "",
         "Why an entity has no gallery. This is the honest gap: it is what",
         "Wikimedia coverage looks like, not a failure of the pipeline.",

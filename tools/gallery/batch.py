@@ -42,6 +42,23 @@ def counts() -> tuple[int, int, int]:
     return len(dest_row), len(dest), sum(len(r["images"]) for r in with_row)
 
 
+def _shown_for(rows: list[dict], entity_id: str, min_want: int) -> set[str]:
+    """Filenames an entity's photo strip actually renders.
+
+    Below `min_want` an entity has no array at all -- `apply` declines to write
+    one -- so this is empty rather than partial, which is what keeps the caller's
+    test "not shown" from quietly matching entities that show nothing.
+    """
+    for row in rows:
+        if row.get("id") != entity_id:
+            continue
+        images = row.get("images") or []
+        if len(images) < min_want:
+            return set()
+        return {image["image"].rsplit("/", 1)[-1] for image in images}
+    return set()
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--quiet", action="store_true")
@@ -116,6 +133,45 @@ def main() -> int:
     # excluded by file rather than by entity, so a partial gallery can grow.
     MIN_WANT = 2
     rendered = {r["id"] for r in rows if len(r.get("images") or []) >= MIN_WANT}
+
+    # 4. Drop credit rows for photographs an entity has stopped showing.
+    #
+    # The credits table is generated from the plan, and this loop only ever adds
+    # to the plan, so a re-selected entity leaves its old rows behind. Elmina
+    # Castle had accumulated nine across runs while `apply` kept only the first
+    # MAX_PHOTOS: three photographs credited as displayed that nobody could see.
+    #
+    # Two things stop this from becoming a licence failure rather than untidiness:
+    #
+    #   * an entity with no rendered strip is left completely alone. Its rows are
+    #     the only attribution the installed files have -- apply declines to write
+    #     an array below MIN_WANT precisely so the data file never claims a
+    #     display that does not happen, and the credits table is what carries the
+    #     attribution instead. Removing those would uncredit a real photograph.
+    #   * the entity's hero is exempt even when the entity is rendered. Heroes are
+    #     credited by hand above the generated block, but that section is
+    #     incomplete: Elmina's hero `elmina-castle.jpg` is credited *only* here,
+    #     so pruning "not in the images array" would delete the sole credit for a
+    #     photograph that is on the front of the page.
+    #
+    # What is left is exactly what it should be: a row for a file that a rendered
+    # entity neither shows nor uses as its hero -- a superseded selection.
+    heroes = {r["id"]: (r.get("image") or "").rsplit("/", 1)[-1] for r in rows}
+    superseded = [
+        row
+        for row in base_rows
+        if row.get("entity") in rendered
+        and row.get("file", "").rsplit("/", 1)[-1] != heroes.get(row.get("entity"))
+        and row.get("file", "").rsplit("/", 1)[-1]
+        not in _shown_for(rows, row.get("entity"), MIN_WANT)
+    ]
+    if superseded:
+        drop_keys = {(row.get("entity"), row.get("file")) for row in superseded}
+        base_rows = [
+            row for row in base_rows if (row.get("entity"), row.get("file")) not in drop_keys
+        ]
+        say(f"  dropped {len(superseded)} superseded credit row(s) for photographs no longer shown")
+
     base_keys = {f"{r.get('entity','')}:{r.get('file','')}" for r in base_rows}
     new_rows = [
         r
@@ -124,14 +180,15 @@ def main() -> int:
         and f"{r['entity']}:{r['file']}" not in base_keys
     ]
 
-    if not new_rows:
+    if not new_rows and not superseded:
         say("  nothing new to apply")
         print(f"{before[0]}/{before[1]}")
         return 0
 
     final = base_rows + new_rows
     PLAN_OUT.write_text(json.dumps(final, indent=2, ensure_ascii=False) + "\n")
-    say(f"  adding {len(new_rows)} photograph(s) for {sorted({r['entity'] for r in new_rows})}")
+    if new_rows:
+        say(f"  adding {len(new_rows)} photograph(s) for {sorted({r['entity'] for r in new_rows})}")
 
     # 4. Apply, rebuild derivatives, verify.
     for cmd, label in (

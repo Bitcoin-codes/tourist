@@ -637,6 +637,21 @@ def assign(
     thresholded on its own.
     """
     by_id = {entity["id"]: entity for entity in entities}
+
+    # The checkpoint holds every entity any run ever searched, and `main`
+    # resumes into `passing` from it while `entities` is only this invocation's
+    # `--entity` subset. A destination-only run therefore arrives here also
+    # holding festival results, and `by_id[entity_id]` raised KeyError on the
+    # first one -- after all 113 entities had been searched and checkpointed, so
+    # it cost the install step and nothing else.
+    #
+    # Scope is set by `entities`, not by what happens to be in the checkpoint.
+    # An entity outside it was not searched by this run, and its photographs
+    # belong to whichever run does search it; assigning them here would both
+    # crash and, worse, silently install files under a selection this run never
+    # made.
+    passing = {eid: records for eid, records in passing.items() if eid in by_id}
+
     best_for_file: dict[str, tuple[int, str, dict]] = {}
 
     for entity_id, records in passing.items():

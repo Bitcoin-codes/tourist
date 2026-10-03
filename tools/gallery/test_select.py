@@ -377,6 +377,31 @@ check_that(
     DESTINATIONS[0]["id"],
 )
 
+# -- the checkpoint is a superset of any one run's scope ----------------------
+#
+# `--install --entity a --entity b` searches two entities but resumes from a
+# checkpoint that every earlier run wrote to, so `passing` arrives holding
+# festivals as well as destinations. Indexing straight by id raised KeyError --
+# after all 113 entities had been searched, which is why it cost only the
+# install step rather than the search.
+_partial = {DESTINATIONS[0]["id"]: [], "homowo-festival": []}
+_galleries, _unassigned = select.assign(_partial, DESTINATIONS[:3])
+check_that(
+    "entities outside this run's scope are skipped, not raised on",
+    _galleries is not None,
+    True,
+)
+check_that(
+    "and the in-scope entities are still all present",
+    [eid for eid in (DESTINATIONS[0]["id"], DESTINATIONS[1]["id"], DESTINATIONS[2]["id"]) if eid in _galleries],
+    [DESTINATIONS[0]["id"], DESTINATIONS[1]["id"], DESTINATIONS[2]["id"]],
+)
+check_that(
+    "the out-of-scope entity gets no gallery of its own",
+    "homowo-festival" in _galleries,
+    False,
+)
+
 # ---------------------------------------------------------------------------
 print()
 for _failure in FAILED:

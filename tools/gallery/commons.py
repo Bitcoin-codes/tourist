@@ -56,6 +56,25 @@ API = "https://commons.wikimedia.org/w/api.php"
 # 1920w full-size viewer without a single request 404ing.
 THUMB_WIDTH = 1920
 
+# How long one request will keep trying through a 429, and the shape of the wait.
+#
+# This was six attempts with a 120-second ceiling: about three minutes of
+# patience. A burst of rate-limit responses can easily outlast that, and when it
+# did the request raised `CommonsError` -- which the search loop records as a
+# *failed entity* and moves past. The entity was then permanently missing from
+# the checkpoint even though nothing was wrong with it, and the next entity ran
+# straight into the same wall. Under a hard block the run churned through
+# candidates at a few minutes each, discarding them, while the clock spent
+# waiting for a limit to clear was exactly the clock that should have been
+# waiting for the limit to clear.
+#
+# So: patient enough to sit out a real block. Worst case for a single request is
+# roughly twenty-five minutes of quiet waiting, which is still one request, and
+# the cache means a request that finally succeeds is never made again.
+RETRY_ATTEMPTS = 10
+RETRY_MAX_DELAY = 400.0
+RETRY_BASE_DELAY = 10.0
+
 # One API cache, shared by every script in this pipeline.
 #
 # It used to be one directory per script -- `gallery-select/api-cache` and
@@ -327,7 +346,7 @@ class Commons:
         url = f"{API}?{urllib.parse.urlencode(params)}"
         last_error: Exception | None = None
 
-        for attempt in range(6):
+        for attempt in range(RETRY_ATTEMPTS):
             wait = self.throttle - (time.monotonic() - self._last_call)
             if wait > 0:
                 time.sleep(wait)
@@ -366,7 +385,7 @@ class Commons:
                 # say so: silently retrying at the same speed is what got us
                 # throttled in the first place.
                 self.throttled += 1
-                delay = min(120.0, 8.0 * (2**attempt))
+                delay = min(RETRY_MAX_DELAY, RETRY_BASE_DELAY * (2**attempt))
                 print(f"  {exc.code} from Commons; waiting {delay:.0f}s", file=sys.stderr)
                 self.throttle = min(self.throttle * 1.5, 8.0)
                 time.sleep(delay)

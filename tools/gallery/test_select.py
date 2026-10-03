@@ -18,7 +18,9 @@ why it would not be caught by anyone looking at it.
 """
 from __future__ import annotations
 
+import contextlib
 import importlib.util
+import io
 import sys
 from pathlib import Path
 
@@ -185,6 +187,194 @@ check_that(
     "the map can be rebuilt and gives the same answer",
     select.RITUAL_OWNER.get("kpokpoi"),
     {"homowo-festival"},
+)
+
+# -- one local filename, three real Commons titles ---------------------------
+#
+# MediaWiki titles are case-insensitive only at the first letter; a slug is
+# case-insensitive everywhere. Three genuine files -- "A View from the Summit",
+# "A view from the Summit", "A view from the summit" -- therefore reduce to one
+# local name. Before this was guarded, all three downloaded (different bytes, so
+# the pixel check could not call them twins), each overwrote the same path, and
+# each emitted its own row: one photograph shown three times, three credits, and
+# the site agreeing with neither.
+def _plain(title: str, specificity: int = 3) -> dict:
+    return {
+        "title": title,
+        "categories": [],
+        "extmetadata": {},
+        "specificity": specificity,
+        "width": 1600,
+        "height": 1067,
+        "thumbwidth": 1600,
+    }
+
+
+_colliding, _collision_notes = select.install(
+    {
+        "mount-afadjato": [
+            _plain("File:A View from the Summit.jpg"),
+            _plain("File:A view from the Summit.jpg"),
+            _plain("File:A view from the summit.jpg"),
+        ]
+    },
+    write=False,
+    report_only=True,
+)
+check_that(
+    "three titles that slug to one filename yield one row",
+    len(_colliding),
+    1,
+)
+check_that(
+    "the first claimant keeps the photograph",
+    _colliding[0]["title"] if _colliding else None,
+    "File:A View from the Summit.jpg",
+)
+check_that(
+    "the filename really is the shared slug",
+    _colliding[0]["file"] if _colliding else None,
+    "gallery/mount-afadjato-a-view-from-the-summit.jpg",
+)
+check_that(
+    "a dropped collision is reported rather than silent",
+    len(_collision_notes),
+    2,
+)
+check_that(
+    "nothing else in the run was affected",
+    all("mount-afadjato" in note for note in _collision_notes),
+    True,
+)
+
+# Titles that do *not* collide must still get one row each, or the guard would
+# be quietly throwing away perfectly good photographs.
+_distinct, _distinct_notes = select.install(
+    {
+        "mount-afadjato": [
+            _plain("File:A View from the Summit.jpg"),
+            _plain("File:Wild fruits on the mountain.jpg"),
+            _plain("File:223m up.jpg"),
+        ]
+    },
+    write=False,
+    report_only=True,
+)
+check_that(
+    "three distinct titles still give three rows",
+    len(_distinct),
+    3,
+)
+check_that(
+    "and nothing is reported against them",
+    len(_distinct_notes),
+    0,
+)
+
+# -- a rate limit must stop the run, not be rediscovered a hundred times ------
+#
+# Commons rate limits whole clients, so a hard limit presents as a string of
+# unrelated individual failures. Grinding through every remaining entity costs a
+# few minutes each and buys nothing: none of them are checkpointed, so the run
+# would have been restarted from exactly where it was anyway.
+class _Blocked:
+    """Every request fails, the way a saturated rate limit does."""
+
+    def search(self, term: str, limit: int = 50) -> list[str]:
+        raise RuntimeError("429 Too Many Requests")
+
+    def info(self, titles: list[str]) -> dict[str, dict]:
+        raise RuntimeError("429 Too Many Requests")
+
+
+_block_buffer = io.StringIO()
+with contextlib.redirect_stdout(_block_buffer):
+    _blocked_passing, _blocked_rejected, _blocked_failed = select.collect(
+        _Blocked(),
+        DESTINATIONS[:10],
+        [e["name"] for e in DESTINATIONS[:10]],
+        checkpoint=None,
+    )
+_blocked_log = _block_buffer.getvalue()
+
+check_that(
+    "a saturated rate limit stops after four entities, not ten",
+    len(_blocked_failed),
+    select.STALL_AFTER_FAILURES,
+)
+check_that(
+    "nothing is claimed as having been searched and found empty",
+    _blocked_rejected,
+    {},
+)
+check_that(
+    "and nothing is claimed as passing",
+    _blocked_passing,
+    {},
+)
+check_that(
+    "the log says why it stopped, so a stalled run is not read as a finished one",
+    "cooldown" in _blocked_log,
+    True,
+)
+
+# A failure that is genuinely isolated must not stop anything -- otherwise the
+# guard above would turn one flaky entity into an aborted run.
+class _OneBad:
+    """The first entity fails; everything after it works."""
+
+    def __init__(self) -> None:
+        self.calls = 0
+
+    def search(self, term: str, limit: int = 50) -> list[str]:
+        self.calls += 1
+        if self.calls == 1:
+            raise RuntimeError("429 Too Many Requests")
+        return [f"File:Placeholder {self.calls}.jpg"]
+
+    def info(self, titles: list[str]) -> dict[str, dict]:
+        # Commons returns a mapping of title to record, not a list.
+        return {
+            title: {
+                "title": title,
+                "mime": "image/jpeg",
+                "sha1": f"{self.calls}-{index}",
+                "categories": [],
+                "extmetadata": {},
+                "width": 1600,
+                "height": 1067,
+                "thumbwidth": 1600,
+                "thumburl": "https://upload.wikimedia.org/x.jpg",
+                "descriptionurl": "https://commons.wikimedia.org/wiki/File:X",
+            }
+            for index, title in enumerate(titles)
+        }
+
+
+_one_buffer = io.StringIO()
+with contextlib.redirect_stdout(_one_buffer):
+    _one_passing, _one_rejected, _one_failed = select.collect(
+        _OneBad(),
+        DESTINATIONS[:10],
+        [e["name"] for e in DESTINATIONS[:10]],
+        checkpoint=None,
+    )
+check_that(
+    "one isolated failure does not stop the run",
+    len(_one_failed),
+    1,
+)
+# An entity is recorded in `passing` whether or not anything survived screening,
+# so this counts attempted entities, not successful ones.
+check_that(
+    "the entities after it are still attempted",
+    len(_one_passing),
+    9,
+)
+check_that(
+    "and the failure was recorded as a failure, not as an empty search",
+    list(_one_failed)[0],
+    DESTINATIONS[0]["id"],
 )
 
 # ---------------------------------------------------------------------------

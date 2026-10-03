@@ -113,6 +113,21 @@ MIN_SPECIFICITY = 2
 # cannot fill a thumbnail at 2x on a phone without upscaling.
 MIN_WIDTH = 1200
 
+# How many entities in a row must fail to fetch before the run stops entirely.
+#
+# One failed entity means one failed entity. Four in a row does not mean four
+# bad entities: Commons rates limits whole clients, so a hard limit looks
+# exactly like a string of unrelated individual failures. Under the old
+# behaviour the run would discover this again on every remaining entity -- a few
+# minutes each, times a hundred -- while the thing actually needed was a wait.
+# Four is the point at which "coincidence" stops being a reasonable reading:
+# the independent failure rate here is well under one in ten, and four
+# consecutive is comfortably past that.
+#
+# Nothing is checkpointed for a failed entity, so a stopped run loses no work
+# and restarting resumes from the last entity that did succeed.
+STALL_AFTER_FAILURES = 4
+
 
 # --------------------------------------------------------------------------
 # data
@@ -397,6 +412,9 @@ def collect(
     # Entities whose search or metadata fetch failed. Kept apart from `rejected`
     # on purpose: we never found out whether Commons has photographs here.
     failed: dict[str, str] = {}
+    # Consecutive fetch failures, so one rate limit reads as one rate limit
+    # instead of as many unrelated broken entities. See STALL_AFTER_FAILURES.
+    stalled = 0
 
     if checkpoint is not None and resume and checkpoint.exists():
         good = checkpoint.read_text().splitlines()
@@ -471,6 +489,17 @@ def collect(
         except Exception as error:  # noqa: BLE001 - any failure is this entity's
             failed[entity["id"]] = f"{type(error).__name__}: {error}"
             print(f"  {entity['id']}: FETCH FAILED -- {type(error).__name__}", flush=True)
+            stalled += 1
+            if stalled >= STALL_AFTER_FAILURES:
+                print(
+                    f"\n  {stalled} entities in a row could not be fetched. That is not "
+                    f"eleven bad entities, that is one rate limit, and the run is "
+                    f"spending its time discovering that over and over. Stopping here "
+                    f"so the wait is a cooldown rather than a queue; nothing was "
+                    f"checkpointed for these, so restarting picks them all back up.",
+                    flush=True,
+                )
+                break
             continue
 
         if not titles:
@@ -496,7 +525,19 @@ def collect(
         except Exception as error:  # noqa: BLE001
             failed[entity["id"]] = f"{type(error).__name__}: {error}"
             print(f"  {entity['id']}: FETCH FAILED -- {type(error).__name__}", flush=True)
+            stalled += 1
+            if stalled >= STALL_AFTER_FAILURES:
+                print(
+                    f"\n  {stalled} entities in a row could not be fetched -- the rate "
+                    f"limit has escalated, not the corpus. Stopping so this waits out "
+                    f"one cooldown instead of eleven; none of these were checkpointed.",
+                    flush=True,
+                )
+                break
             continue
+
+        # A whole entity fetched cleanly. Whatever was wrong was specific to it.
+        stalled = 0
 
         for title in non_image_titles:
             rejected.setdefault(entity["id"], []).append(

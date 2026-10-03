@@ -104,13 +104,25 @@ def main() -> int:
     else:
         harvest_rows = json.loads(harvest_path.read_text())
 
-    # 3. Add only for entities that have no gallery today.
+    # 3. Add for anything whose photo strip does not render yet.
     rows = []
     for f in ("destinations.json", "festivals.json"):
         rows += json.loads((ROOT / "backend" / "data" / f).read_text())
-    has_row = {r["id"] for r in rows if r.get("images")}
-    already = {r["entity"] for r in base_rows}
-    new_rows = [r for r in harvest_rows if r["entity"] not in has_row and r["entity"] not in already]
+    # Not simply "has no images array": an entity credited with a single
+    # photograph has a row in the credits table, so testing for that froze it at
+    # one forever -- Fort Apollonia had fifty candidates pass screening and still
+    # could not reach the two photographs the strip needs. The condition is
+    # whether the strip will actually render, and duplicates against the base are
+    # excluded by file rather than by entity, so a partial gallery can grow.
+    MIN_WANT = 2
+    rendered = {r["id"] for r in rows if len(r.get("images") or []) >= MIN_WANT}
+    base_keys = {f"{r.get('entity','')}:{r.get('file','')}" for r in base_rows}
+    new_rows = [
+        r
+        for r in harvest_rows
+        if r["entity"] not in rendered
+        and f"{r['entity']}:{r['file']}" not in base_keys
+    ]
 
     if not new_rows:
         say("  nothing new to apply")

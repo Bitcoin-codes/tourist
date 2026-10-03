@@ -43,6 +43,38 @@
     "location": "Accra, Tema, Ningo",
     "region": "Greater Accra Region",
     "image": "assets/images/homowo_festival.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/homowo-festival-teshie-homowo-366.jpg",
+        "alt": "Homowo Festival: Teshie",
+        "credit": "Jwale2, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/homowo-festival-teshie-homowo-376.jpg",
+        "alt": "Homowo Festival: Teshie",
+        "credit": "Jwale2, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/homowo-festival-in-ghana-3.jpg",
+        "alt": "Photograph of Homowo Festival",
+        "credit": "Fquasie, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/homowo-festival-50.jpg",
+        "alt": "Photograph of Homowo Festival",
+        "credit": "Jwale2, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/homowo-festival-51.jpg",
+        "alt": "Photograph of Homowo Festival",
+        "credit": "Jwale2, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/homowo-festival-55.jpg",
+        "alt": "Photograph of Homowo Festival",
+        "credit": "Jwale2, CC BY-SA 4.0"
+      }
+    ],
     "shortDesc": "Meaning 'hooting at hunger', celebrating victory over historical famine with traditional Kpokpoi food sharing and drumming.",
     "fullDesc": "Homowo is the most celebrated festival of the Ga people in Greater Accra. The word 'Homowo' literally translates to 'hooting at hunger'. It commemorates a devastating famine that plagued the Ga ancestors during their migration to Accra before a miraculous bountiful harvest. Chiefs and family heads sprinkle traditional 'Kpokpoi' (steamed cornmeal and palm oil soup) across family ancestral homes and streets while drumming and dancing.",
     "keyRituals": [

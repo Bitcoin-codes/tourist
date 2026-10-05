@@ -402,6 +402,71 @@ check_that(
     False,
 )
 
+# -- a distinctive name word must not be enough on its own --------------------
+#
+# "Daboya Fugu Weaving Village" is the only destination in the data with
+# "fugu" in its name, which makes "fugu" a distinctive token -- and Commons
+# holds a century of Japanese pufferfish under exactly that word. The search
+# returned "Fugu delivery truck in Meguro", "Fugu and lamb restaurant" and
+# "Fugu sashimi (32738795990)" for a weaving village in Ghana's Northern
+# Region, all scoring 2, all ready to install as photographs of that village.
+#
+# The word was identifying a fish, not a place. It now needs the record to also
+# say where the photograph was taken.
+check_that(
+    "a Japanese pufferfish truck is not a photograph of a Ghanaian village",
+    score("daboya-fugu-weaving-village", "Fugu delivery truck in Meguro.jpg"),
+    0,
+)
+check_that(
+    "nor a plate of sashimi",
+    score("daboya-fugu-weaving-village", "Fugu sashimi (32738795990).jpg"),
+    0,
+)
+check_that(
+    "nor a Tokyo restaurant",
+    score("daboya-fugu-weaving-village", "Fugu and lamb restaurant.jpg"),
+    0,
+)
+check_that(
+    "and not rescued by categories alone either",
+    score(
+        "daboya-fugu-weaving-village",
+        "Dress 12.jpg",
+        ["Fugu", "Pufferfish", "Japan"],
+    ),
+    0,
+)
+
+# The guard must not simply block everything, so the controls matter as much as
+# the rejections: a photograph that says where it was taken still scores, and a
+# photograph that gives the full name still scores highest of all.
+check_that(
+    "a photograph naming the park scores on the park",
+    score("kyabobo-national-park", "Bushbuck at Kyabobo National Park.jpg") >= 2,
+    True,
+)
+check_that(
+    "a photograph naming the town scores on the town",
+    score("kete-krachi-museum", "Ferry carrying passengers at Kete Krachi in Ghana.jpg") >= 2,
+    True,
+)
+check_that(
+    "the full name in a title still outranks everything",
+    score("daboya-fugu-weaving-village", "Daboya Fugu Weaving Village loom.jpg"),
+    3,
+)
+
+# And why festivals are unaffected: a name word that fails the location check
+# does not return zero, it falls through to the ritual rules below it. Only a
+# *description* carrying a distinctive name word still returns early, at the
+# weaker score of 1 -- unchanged from before this guard existed.
+check_that(
+    "a ritual still scores for the festival that owns it",
+    score("homowo-festival", "Kpokpoi sprinkling by the family head.jpg") >= 2,
+    True,
+)
+
 # ---------------------------------------------------------------------------
 print()
 for _failure in FAILED:

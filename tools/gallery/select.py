@@ -330,6 +330,39 @@ def search_terms(entity: dict[str, Any]) -> list[str]:
 # --------------------------------------------------------------------------
 # scoring
 # --------------------------------------------------------------------------
+def _located_here(text: str, entity: dict[str, Any]) -> bool:
+    """Does this text place the photograph at this destination?
+
+    Only consulted when a distinctive name word is the *only* evidence, because
+    that is where a name word can be wrong about the subject rather than about
+    the place.
+
+    "Daboya Fugu Weaving Village" has one distinctive word -- no other destination
+    in the data uses "fugu" -- and Commons holds a century of Japanese pufferfish
+    under exactly that word. A search returned "Fugu delivery truck in Meguro",
+    "Fugu and lamb restaurant" and "Fugu Sashi Feb 07 2020" for a village in the
+    Northern Region of Ghana, each scoring 2 on one shared token, each ready to
+    be installed as that village's photograph. The word was not identifying the
+    place; it was identifying a fish.
+
+    So the word now has to be corroborated by the record saying where it was
+    taken. The entity's own `region` and `location` are the two fields that name
+    a place rather than a thing -- "Northern Region", "Daboya, near Tamale" --
+    and a photograph of the village will say one of them. A photograph of a truck
+    in Tokyo says neither.
+
+    It never overrules a stronger signal: this runs only on the single-word path,
+    so a file whose title contains the full name scores 3 first, and a file
+    about the right town scores here on the town. An entity carrying no region
+    and no location has no location to corroborate with, and returning True keeps
+    it exactly as permissive as it was before.
+    """
+    host = _keys(" ".join(part for part in host_words(entity) if part))
+    if not host:
+        return True
+    return bool(host & _keys(text))
+
+
 def specificity(record: dict[str, Any], entity: dict[str, Any]) -> int:
     """How specifically does this file's metadata name this destination?
 
@@ -356,9 +389,12 @@ def specificity(record: dict[str, Any], entity: dict[str, Any]) -> int:
     distinctive = distinctive_tokens(name)
     if _matches_alternative(_keys(f"{title} {categories} {description}"), entity_keys):
         return 2
-    if distinctive & _keys(title):
+    # Corroborated by where the record says it was taken. See _located_here --
+    # one distinctive word is enough to be a word that means something else
+    # entirely, and nothing downstream re-checks it.
+    if distinctive & _keys(title) and _located_here(title, entity):
         return 2
-    if distinctive & _keys(categories):
+    if distinctive & _keys(categories) and _located_here(categories, entity):
         return 2
     if distinctive & _keys(description):
         return 1

@@ -351,16 +351,34 @@ def _located_here(text: str, entity: dict[str, Any]) -> bool:
     and a photograph of the village will say one of them. A photograph of a truck
     in Tokyo says neither.
 
+    Where it is has to mean somewhere *other than the name*. "Princess Town
+    Beach" has "Princess Town" for a location, so its own name appears in its
+    own corroboration, and one shared word -- "princess" -- passed a Japanese
+    woodblock print, two Metropolitan Museum paintings, a sarcophagus, a Mughal
+    album page and a photograph of a cake, six times over. The alternatives are
+    a word from the region or town that the name does not already contain, or
+    naming the place properly: two of the name's words in the title, not one.
+    "Kete Krachi" still passes that way; "Princess Entertaining a Visitor" does
+    not.
+
     It never overrules a stronger signal: this runs only on the single-word path,
     so a file whose title contains the full name scores 3 first, and a file
-    about the right town scores here on the town. An entity carrying no region
-    and no location has no location to corroborate with, and returning True keeps
-    it exactly as permissive as it was before.
+    about the right town scores here. An entity carrying no region and no
+    location has no location to corroborate with, and returning True keeps it
+    exactly as permissive as it was before.
     """
-    host = _keys(" ".join(part for part in host_words(entity) if part))
+    name = {t for t in _keys(entity["name"]) if len(t) > 2}
+    host = {
+        t
+        for t in _keys(" ".join(part for part in host_words(entity) if part))
+        if len(t) > 2
+    }
     if not host:
         return True
-    return bool(host & _keys(text))
+    text_keys = _keys(text)
+    if (host - name) & text_keys:
+        return True
+    return len(name & text_keys) >= 2
 
 
 def specificity(record: dict[str, Any], entity: dict[str, Any]) -> int:
@@ -866,13 +884,26 @@ def install(
                 continue
 
             twin = pixels.first_duplicate(mark, seen)
-            if twin is not None:
+            # A match against the name we are about to write is this file, found
+            # in the disk seed by its own path -- not another photograph wearing
+            # an alias. `seen` is seeded from everything already installed, and
+            # the record we are installing is usually there already, because the
+            # search's own install step put it there. Treating that as a
+            # duplicate dropped the row for a photograph that was never
+            # installed twice, which is how an entire batch reported "nothing new
+            # to apply" while 130 photographs were sitting chosen and ready.
+            #
+            # The other direction still holds: a different file holding these
+            # same pixels means the photograph is genuinely claimed elsewhere,
+            # and there is only one name it can truthfully be published under.
+            if twin is not None and twin != name:
                 notes.append(
                     f"{entity_id}/{name}: the same picture is already installed as "
                     f"{twin}, from {record['title'].rsplit(':', 1)[-1]}"
                 )
                 continue
-            seen.append((name, mark))
+            if twin != name:
+                seen.append((name, mark))
 
             if target.exists() and target.read_bytes() == data:
                 notes.append(f"{entity_id}/{name}: already installed, identical")

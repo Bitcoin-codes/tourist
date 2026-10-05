@@ -77,7 +77,11 @@ def main() -> int:
     parser.add_argument(
         "--checkpoint", default=str(select.CHECKPOINT_OUT), help="checkpoint to harvest"
     )
-    parser.add_argument("--out", default="/tmp/opencode/harvest-plan.json")
+    parser.add_argument(
+        "--out",
+        default=str(select.SCRATCH / "harvest-plan.json"),
+        help="where the plan rows are written",
+    )
     parser.add_argument("--install", action="store_true", help="download the chosen files")
     parser.add_argument("--report-only", action="store_true", help="choose but write nothing")
     args = parser.parse_args()

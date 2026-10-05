@@ -701,9 +701,19 @@ def distinctive_tokens(name: str) -> set[str]:
     The location field is deliberately not consulted. Lake Bosomtwe's location
     is "Lake Bosomtwe", so reading it as a town name strips every word of the
     name and the lake matches nothing at all.
+
+    Two letters is not a name. "Se Yo Cave" reduces to {se, yo} once "cave" is
+    removed as generic, and both are ordinary words in a sentence -- in Spanish
+    they are among the commonest there are. Six photographs were installed for
+    that Ghanaian cave: a Kansas Infantry company from the American Civil War,
+    and five Spanish captions, every one of them identifying the place by
+    agreeing with "se" or "yo". A three-letter floor drops those two, drops the
+    function words "at", "of", "st", "la" and "ii" that the same rule was
+    quietly matching on, and costs no entity in the data its entire set of
+    identifying words except Se Yo Cave, which had nothing but them.
     """
     tokens = _keys(name) - S_GENERIC
-    return {t for t in tokens if t not in _SIBLING_WORDS}
+    return {t for t in tokens if t not in _SIBLING_WORDS and len(t) > 2}
 
 
 _SIBLING_WORDS: set[str] = set()

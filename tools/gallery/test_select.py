@@ -271,6 +271,64 @@ check_that(
     0,
 )
 
+# -- the file found on disk by its own name is the file, not a twin ----------
+#
+# `seen` is seeded from everything already installed, so a photograph the search
+# downloaded a moment earlier is in there. When install reaches it, the pixels it
+# just fetched match the file at the path it is about to write -- and that was
+# read as "somebody else already has this photograph", so the row was dropped.
+#
+# Every record that had already been installed was dropped the same way, the
+# plan came back empty, and a full batch reported "nothing new to apply" while
+# 130 chosen photographs waited. It hid until now because select.py used to stop
+# at assign() before ever reaching its own install; once that was fixed, the
+# search started finishing and was always first to the files.
+import tempfile as _tempfile
+
+_SRC_BYTES = next(
+    existing.read_bytes()
+    for existing in sorted(select.GALLERY.glob("*.jpg"))
+    if not existing.stem.endswith(("-400", "-800"))
+)
+_REPRO = "mount-afadjato-a-view-from-the-summit.jpg"
+
+with _tempfile.TemporaryDirectory() as _td:
+    _td_path = Path(_td)
+    (_td_path / _REPRO).write_bytes(_SRC_BYTES)
+    _gallery_real, _fetch_real = select.GALLERY, select.fetch
+    select.GALLERY = _td_path
+    select.fetch = lambda _record: _SRC_BYTES  # bytes identical to what is on disk
+    try:
+        _reinstall, _reinstall_notes = select.install(
+            {"mount-afadjato": [_plain("File:A View from the Summit.jpg")]},
+            write=True,
+            report_only=False,
+        )
+    finally:
+        select.GALLERY, select.fetch = _gallery_real, _fetch_real
+
+check_that(
+    "a photograph already installed still earns its row",
+    len(_reinstall),
+    1,
+)
+check_that(
+    "and is recorded as already installed, not as a duplicate",
+    _reinstall_notes,
+    [f"mount-afadjato/{_REPRO}: already installed, identical"],
+)
+
+# The guard it must not lose: a genuinely different file holding these same
+# pixels really is a second name for one photograph, and is still dropped.
+check_that(
+    "a real duplicate under a different name is still rejected",
+    select.pixels.first_duplicate(
+        select.pixels.of_bytes(_SRC_BYTES),
+        [("somewhere-else.jpg", select.pixels.of_bytes(_SRC_BYTES))],
+    ),
+    "somewhere-else.jpg",
+)
+
 # -- a rate limit must stop the run, not be rediscovered a hundred times ------
 #
 # Commons rate limits whole clients, so a hard limit presents as a string of

@@ -27,7 +27,13 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent.parent
-SCRATCH = Path("/tmp/opencode")
+sys.path.insert(0, str(HERE))
+from commons import STATE_DIR  # noqa: E402  (same directory, after HERE)
+
+# With the checkpoint these plans are built from, so one restart cannot take the
+# progress while leaving the artefacts that describe it behind.
+SCRATCH = STATE_DIR / "batch"
+SCRATCH.mkdir(parents=True, exist_ok=True)
 PLAN_OUT = SCRATCH / "batch-plan.json"
 
 

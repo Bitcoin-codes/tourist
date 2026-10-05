@@ -3,6 +3,12 @@ __pycache__/
 *.pyc
 .DS_Store
 
+# Gallery pipeline state — the search checkpoint and the Commons API cache.
+# Kept in the repository so a reboot cannot throw away weeks of rate-limited
+# searching, and ignored so it never ships: it is this machine's progress, and
+# the cache is refetched rather than shared.
+.gallery-state/
+
 # Secrets — SMTP / Supabase / any API credentials
 .env
 .env.*

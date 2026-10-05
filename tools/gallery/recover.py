@@ -53,6 +53,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from commons import (  # noqa: E402
     CACHE_DIR,
     IMAGE_SUFFIXES,
+    STATE_DIR,
     Commons,
     artist_of,
     cached_records,
@@ -68,7 +69,7 @@ except ImportError:  # pragma: no cover
 
 ROOT = Path(__file__).resolve().parent.parent.parent
 GALLERY = ROOT / "assets" / "images" / "gallery"
-SCRATCH = Path("/tmp/opencode/gallery-recovery")
+SCRATCH = STATE_DIR / "recovery"
 THUMBS = SCRATCH / "thumbs"
 PLAN_OUT = SCRATCH / "gallery_plan.json"
 REPORT_OUT = SCRATCH / "recover-report.txt"

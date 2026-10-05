@@ -75,6 +75,20 @@ RETRY_ATTEMPTS = 10
 RETRY_MAX_DELAY = 400.0
 RETRY_BASE_DELAY = 10.0
 
+# Where this pipeline keeps anything it would have to work to rebuild.
+#
+# It was under /tmp, and a machine restart emptied /tmp: the search checkpoint
+# and every cached API response went with it. The code survived -- it is all in
+# git -- but the *position* did not, so a restart silently reset "79 of 143
+# searched" to zero, and re-deriving that means re-asking Commons for all of it
+# at whatever rate it is willing to serve today.
+#
+# State that is expensive to recreate belongs where a reboot cannot reach it.
+# It is inside the repository but ignored by it: the checkpoint is this
+# machine's progress, not the project's, and the cache holds responses that
+# must be refetched rather than shipped to anyone else.
+STATE_DIR = Path(__file__).resolve().parents[2] / ".gallery-state"
+
 # One API cache, shared by every script in this pipeline.
 #
 # It used to be one directory per script -- `gallery-select/api-cache` and
@@ -88,7 +102,7 @@ RETRY_BASE_DELAY = 10.0
 # Cache filenames are the SHA-256 of the request, so the same question always
 # lands on the same filename and merging two directories is a plain file copy
 # with no possibility of one run's answer overwriting another's.
-CACHE_DIR = Path("/tmp/opencode/gallery-cache")
+CACHE_DIR = STATE_DIR / "api-cache"
 
 # Licences we are willing to publish under. Anything outside this set is treated
 # as unusable, including "no known copyright restrictions" style placeholders

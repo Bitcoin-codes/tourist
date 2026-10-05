@@ -59,6 +59,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from commons import (  # noqa: E402
     CACHE_DIR,
     NON_IMAGE_SUFFIXES,
+    STATE_DIR,
     USER_AGENT,
     Commons,
     artist_of,
@@ -80,7 +81,13 @@ from filters import (  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent.parent
 GALLERY = ROOT / "assets" / "images" / "gallery"
-SCRATCH = Path("/tmp/opencode/gallery-select")
+# Under the repository, not /tmp: this is the file a restart used to destroy.
+# Everything a re-run would have to ask Commons again is here, so the directory
+# is created on the way past rather than at the point of first append -- a
+# checkpoint written into a parent that does not exist fails at the moment it
+# should be succeeding, which is the worst possible time to find out.
+SCRATCH = STATE_DIR / "select"
+SCRATCH.mkdir(parents=True, exist_ok=True)
 PLAN_OUT = SCRATCH / "select-plan.json"
 REPORT_OUT = SCRATCH / "select-report.txt"
 # Appended one line per entity as it finishes, so a run interrupted by a 429 or a

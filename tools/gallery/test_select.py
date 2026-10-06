@@ -136,6 +136,68 @@ check_that(
     True,
 )
 
+# -- the official name of a place known by its short one -----------------------
+#
+# "A guy making hand beads at the National Centre for Culture and Arts in Accra,
+# Ghana" describes the craft bazaar this site lists as the Accra Arts Centre;
+# that centre's official name is the Centre for National Culture, Accra. The
+# file's title is "Beads maker 3", which names nothing, and a distinctive word
+# in a description alone scores 1 -- below MIN_SPECIFICITY -- so thirty-six
+# photographs of the market itself were dropped as naming no destination.
+#
+# The alias carries "Accra" because the data also lists the Kumasi Centre for
+# National Culture. These phrases are matched as token sets, so without the
+# city a Kumasi caption would score for the Accra market and take it over.
+check_that(
+    "the Centre for National Culture, Accra is the Accra Arts Centre",
+    select.specificity(
+        {
+            "title": "File:Beads maker 3.jpg",
+            "categories": [],
+            "extmetadata": {
+                "ImageDescription": {
+                    "value": "A guy making hand beads at the National Centre for Culture and Arts in Accra, Ghana"
+                }
+            },
+        },
+        entity("accra-arts-centre"),
+    ),
+    2,
+)
+check_that(
+    "a Kumasi caption scores nothing for the Accra market",
+    select.specificity(
+        {
+            "title": "File:Kente seller 2.jpg",
+            "categories": [],
+            "extmetadata": {
+                "ImageDescription": {
+                    "value": "Craft stalls at the Centre for National Culture, Kumasi"
+                }
+            },
+        },
+        entity("accra-arts-centre"),
+    ),
+    0,
+)
+check_that(
+    "the Kumasi centre still scores on its own name",
+    select.specificity(
+        {
+            "title": "File:Kente seller 2.jpg",
+            "categories": [],
+            "extmetadata": {
+                "ImageDescription": {
+                    "value": "Craft stalls at the Centre for National Culture, Kumasi"
+                }
+            },
+        },
+        entity("centre-for-national-culture"),
+    )
+    >= 2,
+    True,
+)
+
 # -- search terms include the rituals ------------------------------------------
 _terms = select.search_terms(entity("aboakyer-festival"))
 check_that(

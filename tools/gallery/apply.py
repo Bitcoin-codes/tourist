@@ -58,7 +58,7 @@ MARK_HEADING = "### Destination and festival gallery photographs"
 # must agree with tools/gallery/select.py; the strip is not rendered at all
 # below MIN_WANT, so an array of one is dead weight in the file.
 MIN_WANT = 2
-MAX_PHOTOS = 6
+MAX_PHOTOS = 9
 
 DATA_FILES = {
     "destination": ROOT / "backend" / "data" / "destinations.json",
@@ -273,7 +273,13 @@ def cell(value: str) -> str:
 def link(label: str, url: str) -> str:
     if not url:
         return cell(label)
-    return f"[{cell(label)}]({url})"
+    # Brackets are stripped from the label so this can never add a level of
+    # nesting. The label arrives from the credits table it is about to
+    # overwrite, and an author cell that already carried a link used to be
+    # wrapped again on every run: two rows reached fourteen layers, each one
+    # longer than the last, before the reader was fixed.
+    label = cell(label).replace("[", "").replace("]", "")
+    return f"[{label}]({url})"
 
 
 def credits_table(rows: list[dict[str, Any]], names: dict[str, str]) -> list[str]:
@@ -343,6 +349,77 @@ def replace_credits(rows: list[dict[str, Any]], names: dict[str, str]) -> str:
     if heading not in text:
         raise SystemExit(f"cannot find {heading!r} in {CREDITS}")
     return text.replace(heading, f"{table}\n\n{heading}", 1)
+
+
+_LINK_RE = re.compile(r"\[([^\]]*)\]\(((?:[^()\s]|\([^()]*\))*)\)")
+
+
+def split_link(text: str) -> tuple[str, str]:
+    """The visible text and the URL of a table cell, or the text and no URL."""
+    match = _LINK_RE.search(text)
+    if not match:
+        return text.strip(), ""
+    # The visible text is everything before the first "](", not the regex's own
+    # first group: a cell that was ever wrapped twice carries brackets outside
+    # the link, and taking the group would hand "[[[Name" to the next write.
+    head, separator, _tail = text.partition("](")
+    label = head.lstrip("[ \t").strip() if separator else match.group(1).strip()
+    return label, match.group(2).strip()
+
+
+def parse_credits(markdown: str, names: dict[str, str]) -> list[dict[str, Any]]:
+    """The credits table read back into rows shaped like a plan's.
+
+    Written so that a plan scoped to one destination can be merged rather than
+    pasted over the whole table. `replace_credits` splices whatever it is given
+    between the markers, so handing it a nine-row `--entity` plan rewrote 447
+    rows down to 9 and took every other destination's attribution with it;
+    check.py caught it only because it compares the table against the data file.
+    """
+    start = markdown.find(MARK_START)
+    end = markdown.find(MARK_END)
+    if start == -1 or end == -1 or end < start:
+        return []
+
+    id_by_place = {place: entity for entity, place in names.items()}
+    rows: list[dict[str, Any]] = []
+    header_seen = False
+    for line in markdown[start:end].splitlines():
+        if not line.startswith("|"):
+            continue
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if len(cells) != 5:
+            continue
+        if cells[0] == "Place":
+            header_seen = True
+            continue
+        if not header_seen or set(cells[0]) <= set("-: "):
+            continue
+        place, filename, author, licence, source = cells
+        rows.append(
+            {
+                # A place the data no longer knows keeps its own label, which is
+                # how credits_table falls back to printing it unchanged.
+                "entity": id_by_place.get(place, place),
+                "file": filename.strip("`"),
+                "author": split_link(author)[0],
+                "licence": split_link(licence)[0],
+                "licence_url": split_link(licence)[1],
+                "source": split_link(source)[1] or source,
+            }
+        )
+    return rows
+
+
+def merge_credits(existing: list[dict[str, Any]], plan: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Rows for the places this plan covers, plus every other place's rows intact.
+
+    The plan is authoritative for the destinations in it -- it is what is about
+    to be written into the data file -- and says nothing about the rest, which
+    stay exactly as they were.
+    """
+    planned = {row["entity"] for row in plan}
+    return [row for row in existing if row["entity"] not in planned] + list(plan)
 
 
 # --------------------------------------------------------------------------
@@ -552,8 +629,17 @@ def main() -> int:
             f"so none was written: {', '.join(skipped)}"
         )
 
-    CREDITS.write_text(replace_credits(plan, names))
-    print("  IMAGE-CREDITS.md: gallery table written")
+    # The plan is authoritative only for the places it actually reached. A place
+    # skipped as too thin keeps the rows it already had, because its old images
+    # are still in the data file and still on screen.
+    covered = [row for row in plan if row["entity"] not in set(skipped)]
+    existing = parse_credits(CREDITS.read_text(), names)
+    merged = merge_credits(existing, covered)
+    CREDITS.write_text(replace_credits(merged, names))
+    print(
+        f"  IMAGE-CREDITS.md: {len(merged)} rows "
+        f"({len(existing)} before, {len(covered)} from this plan)"
+    )
     print("\nnext: venv/bin/python tools/build_image_variants.py")
     return 0
 

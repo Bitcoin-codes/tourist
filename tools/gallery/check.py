@@ -52,7 +52,7 @@ DATA_FILES = [
 # The strip renders only when there is a hero plus at least two more, so an array
 # of one is dead weight in the data file. Must match select.py and apply.py.
 MIN_WANT = 2
-MAX_PHOTOS = 6
+MAX_PHOTOS = 9
 
 # Slots, in CSS pixels, and the device pixel ratio each has to survive.
 #
@@ -91,9 +91,17 @@ def _unlink(text: str) -> str:
 
 
 def _link_text(text: str) -> str:
-    """The visible text of a markdown link, or the text unchanged if it is not one."""
-    match = _LINK.search(text)
-    return match.group(1).strip() if match else text.strip()
+    """The visible text of a markdown link, or the text unchanged if it is not one.
+
+    Everything before the first "](" rather than the regex's first group: a
+    cell that has been re-wrapped carries its brackets outside the link, and
+    the group would then return "[[[Kwaku Berko" as an author's name. Reading
+    the table correctly is this function's whole job -- with the old version it
+    happily reported an attribution that had been mangled fourteen levels deep
+    as fine.
+    """
+    head, separator, _tail = text.partition("](")
+    return (head if separator else text).lstrip("[ \t").strip()
 
 
 def credits_rows(markdown: str) -> list[tuple[str, str, str, str]] | None:

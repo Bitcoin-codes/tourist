@@ -160,6 +160,7 @@ GENERIC = set(
     temple tour town tower university valley village waterfall west zoo
     botanical harbour harbor creek bay hill hills grove gardens beaches
     castles forts ruins site sites view photo photos picture pictures
+    reserve reserves resource entrance
     """.split()
 )
 
@@ -168,15 +169,35 @@ GENERIC = set(
 # Coast, Ghana" differ by one word and by an ocean.
 #
 # Written as a block of text rather than a set literal purely so it can be read
-# and diffed; it is stemmed at import like every other vocabulary. This is a
+# and diffed; it is stemmed at import like every other vocabulary. It is a
 # complete country and demonym list, not a curated selection, because the
-# selection approach is what let Guyana through.
+# selection approach is what let Guyana through -- see FOREIGN_PLACES below.
+#
+# Two rules govern what goes in here.
+#
+#  * This block is DATA, not code. It is one triple-quoted string split on
+#    whitespace, so a '#' line inside it is not a comment: it is vocabulary.
+#    A comment written inside these quotes once made "Accra" a foreign country
+#    and "National" one too, and rejected every correct photograph in the file.
+#
+#  * Name each country in the form a caption uses. Most entries are demonyms
+#    ("Thai", "Togolese", "Scottish"), and a demonym does not match the country
+#    it belongs to -- so the country form is listed as well: Thailand, Togo,
+#    Scotland. Half of the list was missing both forms entirely, which is why
+#    "National Theatre Budapest" was checked against "Hungarian" and passed,
+#    and "Isle of Wight, England" was checked against nothing at all, because
+#    England was not here and neither was Japan.
+#
+# Single words only. A country spelled as two words is matched as a phrase in
+# FOREIGN_PLACES instead: "United Kingdom" reduced to tokens makes "united"
+# foreign, and every United Nations photograph taken in Accra is then a
+# photograph of somewhere else.
 _COUNTRIES = """
     Afghanistan Albania Algeria Andorra Angola Argentina Armenia Australia
     Austria Azerbaijan Bahamas Bahrain Bangladesh Barbados Belarus Belgium
     Belize Benin Bhutan Bolivia Bosnia Botswana Brazil Brunei Bulgaria
     Burkina Burundi Cambodia Cameroon Canada Chad Chile China Colombia
-    Comoros Congo Croatia Cuba Cyprus Denmark Djibouti Dominica Ecuador
+    Comoros Congo Croatia Cuba Cyprus Czechia Czech Denmark Djibouti Dominica Ecuador
     Egypt Eritrea Estonia Eswatini Ethiopia Fiji Finland France Gabon Gambia
     Georgia Germany Ghanaian Greece Grenada Guatemala Guyana Haitian
     Honduras Hungary Iceland India Indonesian Iran Iraq Ireland Israel Italy
@@ -191,6 +212,11 @@ _COUNTRIES = """
     Tajik Tanzanian Thai Togolese Tonga Tunisian Turkish Turkmenian Tuvaluan
     Ugandan Ukrainian Uruguayan Uzbek Vanuatu Venezuelan Vietnamese Yemen
     Zambian Zimbabwean
+    England Scotland Wales Japan Korea Thailand Togo Jamaica Jordan Kazakhstan
+    Kenya Kuwait Haiti Indonesia Liberia Nicaragua Paraguay Portugal Romania
+    Russia Rwanda Samoa Serbia Slovakia Somalia Spain Sweden Switzerland Syria
+    Taiwan Tanzania Trinidad Tunisia Turkey Turkmenistan Tuvalu Uganda Ukraine
+    Uruguay Uzbekistan Vatican Venezuela Vietnam Zambia Zimbabwe Norway
 """
 # "Guinea" and "Ghanaian" are removed deliberately. "Ghanaian" describes our own
 # photographs. "Guinea" cannot decide anything: it is a country, it is the old
@@ -226,6 +252,31 @@ FOREIGN_PLACES = [
     "elmina suriname", "elmina guyana",
     # Namesakes outside Ghana.
     "bibiani sierra leone",
+    # Places that were actually installed as Ghanaian destinations and had to be
+    # removed by hand, one entry per wrong answer -- "Fort Victoria" chose the
+    # Isle of Wight three times and Vancouver Island once, "National Theatre"
+    # chose London four times, Budapest and Bangkok, "Fort Royal" chose Lokrum,
+    # and "Fuller Falls" chose Bellows Falls, Vermont. A city is matched here
+    # rather than in _COUNTRIES because no city belongs to a country list, and
+    # these were never going to be caught by one.
+    "isle of wight", "london", "budapest", "bangkok", "lokrum",
+    "vancouver island", "bristol", "leith", "bellows falls", "vanadzor",
+    "meguro", "tokyo", "fiji", "fort lauderdale", "royal fort gardens",
+    "sui-ho", "shing mun", "sui wo",
+    "ambon", "sint eustatius", "st eustatius",
+    # "Czech National Theatre (1927)" scored 3 on the national-theatre name and
+    # was the only photograph that destination had: an illustration of the
+    # Prague theatre reprinted in an American student magazine. "Czech" now
+    # stops the title and "Prague" the category it sits in, and the two spellings
+    # of the country live in _COUNTRIES alongside this.
+    "prague",
+    # Countries spelled as two words, so they cannot go in _COUNTRIES without
+    # its single-word check swallowing half of every unrelated caption.
+    "ivory coast", "sierra leone", "sri lanka", "south africa", "new zealand",
+    "united kingdom", "great britain", "united states", "costa rica",
+    "saudi arabia", "czech republic", "dominican republic", "south sudan",
+    "north macedonia", "papua new guinea", "central african republic",
+    "burkina faso", "cape verde",
 ]
 
 # Markers that identify a photograph's subject as a ship rather than a building.
@@ -283,7 +334,7 @@ NOT_A_PHOTO = set(
     medals heraldry logo seal screenshot scan facsimile manuscript letter
     illustration newspaper postcard brochure advertisement blazon iconography
     sculpture sculptures bronze statue statues plaque plaques inscription
-    inscriptions tablet tablets
+    inscriptions tablet tablets sarcophagus
     """.split()
 )
 
@@ -301,6 +352,17 @@ NOT_A_PHOTO_PHRASES = [
     "photograph of a photograph",
     "old map",
     "old photograph",
+    # Museum and library accession numbers, where the subject is an object in a
+    # collection rather than a place. Six photographs were installed for
+    # "Princess Town Beach" this way -- a Met Museum painting, a Mughal album
+    # page, a sarcophagus, a Japanese woodblock print -- and five more for
+    # "Fuller Falls", all of them carrying the same accession stem. The hash
+    # after the prefix is what makes the phrase safe: a Ghanaian photograph
+    # with "met" in its caption does not have "met dp" followed by a number.
+    "met dp",
+    "dpla",
+    "folio from the",
+    "from chapter ",
 ]
 
 # Categories whose contents are not photographs of a place. "Museums" and
@@ -336,6 +398,8 @@ SUBJECT_MISMATCH = set(
     portrait portraits logo logos stamp stamps banknote banknotes coin coins
     medal medals seal flags flag poster posters timetable menu menus
     brochure passport visa mural graffiti statue statues
+    cake cakes scissors ribbon bunting
+    pda laptop cessna glider hangglider kite kites
     """.split()
 )
 S_SUBJECT_MISMATCH = _stem_set(SUBJECT_MISMATCH)
@@ -388,14 +452,14 @@ ALTERNATIVE_NAMES: dict[str, set[str]] = {
     "fort metal cross": {"metal cross", "keta"},
     "fort betase": {"betase", "sekondi"},
     "fort brittany": {"brittany fort", "amanfei", "amanfie"},
-    "fort batenstein": {"batenstein", "princes town", "princetown"},
+    "fort batenstein": {"batenstein", "princes town", "princetown", "butre"},
     "fort gross friedrichsburg": {"friedrichsburg", "keta", "kwitta"},
     "fort good hope": {"good hope", "keta", "kwatta"},
     "fort nassau": {"nassau", "mouri"},
     "fort amsterdam": {"amsterdam", "abandzi", "keta"},
     "fort apollonia": {"apollonia", "benya"},
     "fort prinstenstein": {"prinstenstein", "princes town"},
-    "fort patience": {"patience", "tadi", "tadu"},
+    "fort patience": {"patience", "tadi", "tadu", "apam"},
     "fort orange": {"orange", "keta", "kwitta"},
     "fort indigo": {"indigo", "fetu", "fetuase"},
     "fort buffalo": {"buffalo", "tanzua"},
@@ -411,6 +475,21 @@ ALTERNATIVE_NAMES: dict[str, set[str]] = {
     "fort sidney": {"sidney", "shama"},
     "fort st charles": {"st charles", "anco"},
     "fort carlos": {"carlos", "shama"},
+    # The official name of a place known by its short one, rather than a rename.
+    # The Centre for National Culture, Accra *is* the Accra Arts Centre -- the
+    # craft bazaar on John Evans Atta Mills High Street -- and Commons describes
+    # its files as "the National Centre for Culture and Arts in Accra", wording
+    # that scores 1 on a description alone and was therefore dropped for every
+    # one of thirty-six photographs of the market itself.
+    #
+    # "Accra" is carried in both phrases because the data also lists the Kumasi
+    # Centre for National Culture. The phrases are matched as token sets, so
+    # without it a Kumasi caption naming its centre would score 2 here and be
+    # installed as a photograph of the Accra market.
+    "accra arts centre": {
+        "centre for national culture accra",
+        "national centre for culture and arts accra",
+    },
 }
 
 # Ships share names with the forts. "Fort William" photographs include the
@@ -444,6 +523,60 @@ _MEDIA_WORD_RE = re.compile(
     r"nineteenth[- ]century (?:engraving|print|drawing))\b",
     re.IGNORECASE,
 )
+
+# Collection accession numbers, which name an object in a store rather than a
+# place. The Met's "DP" followed by digits is the common one; the Brooklyn
+# Museum files objects as five digits, a space and three or four more.
+#
+# This has to be a pattern and cannot be a phrase. `_norm` breaks "DP267661"
+# into the words "dp" and "267661", so a phrase of "met dp" searches for a
+# boundary that does not exist between the p and the 2 -- the rule reads
+# correct-looking titles as plain English and matches none of them.
+_ACCESSION_RE = re.compile(r"\bdp\d{4,}\b|\b\d{5} \d{3,4}\b")
+
+# Two countries joined by a hyphen are naming the border between them, not a
+# destination: "Tagbo Falls flows from the Ghana-Togo range" is a Ghanaian
+# photograph and Togo is a direction in it. Stripped before the country check,
+# because adding the neighbouring countries to that check found real mistakes
+# and this was the one correct photograph it took with them. A comma does not
+# get the same pardon -- "Cape Coast, Guyana" is the mistake the country rule
+# exists for.
+_BORDER_RE = re.compile(r"\bghana\s*[-\u2010-\u2015]\s*\w+\b|\b\w+\s*[-\u2010-\u2015]\s*ghana\b", re.IGNORECASE)
+
+# The bounding box every destination in this data sits in, generously padded
+# for coastal and border slack. Coordinates are the one signal that cannot be
+# argued with: a caption may name a shared place and a category may be copied
+# in error, but a geotag of 66.3 N, 128.6 W is Fort Good Hope in the Northwest
+# Territories and nothing else. Three live photographs were found this way --
+# an aerial view of Cape Three Points in New South Wales, the Water Fort in
+# Sint Eustatius, and Fort Good Hope in Canada -- none of which any wording in
+# their captions would have caught.
+#
+# If this site ever lists somewhere other than Ghana, this has to become
+# per-entity rather than global.
+_GHANA_BOX = (3.5, 12.0, -4.5, 2.0)  # south, north, west, east
+_COORD_CATEGORY_RE = re.compile(r"\((\d+)\s*°\s*([NS])[^)]*?(\d+)\s*°\s*([EW])")
+
+
+def _coordinates(record: dict[str, Any]) -> tuple[float, float] | None:
+    """Latitude and longitude, from the geotag or from the coordinate category.
+
+    Both are read because Commons carries them in two places: EXIF-derived
+    GPS fields for files that have them, and a category of the form
+    "(34° S, 151° E)" for files whose coordinates were never written into
+    their metadata. The wrong-place aerial photograph had only the second.
+    """
+    ext = record.get("extmetadata") or {}
+    try:
+        return float(ext["GPSLatitude"]), float(ext["GPSLongitude"])
+    except (KeyError, TypeError, ValueError):
+        pass
+    match = _COORD_CATEGORY_RE.search(" ".join(record.get("categories") or []))
+    if not match:
+        return None
+    lat = float(match.group(1)) * (1 if match.group(2) == "N" else -1)
+    lon = float(match.group(3)) * (1 if match.group(4) == "E" else -1)
+    return lat, lon
 
 # --------------------------------------------------------------------------
 # stemmed lookup tables -- built once, at import
@@ -544,6 +677,8 @@ def is_photograph(record: dict[str, Any], entity_name: str = "") -> str:
     for phrase in NOT_A_PHOTO_PHRASES:
         if _has_phrase(text, phrase):
             return f"not-a-photo: phrase {phrase!r}"
+    if _ACCESSION_RE.search(_norm(text)):
+        return "not-a-photo: museum accession number"
 
     for category in record.get("categories", []) or []:
         category_keys = _category_key(category)
@@ -586,6 +721,16 @@ def location_verdict(record: dict[str, Any], entity_name: str) -> str:
     if not _is_photo_extension(record):
         return "not-a-photo: non-raster format"
 
+    point = _coordinates(record)
+    if point is not None:
+        lat, lon = point
+        # (0, 0) is what a camera writes when it has no fix. It is an absent
+        # geotag, not a photograph in the Gulf of Guinea.
+        if not (abs(lat) < 0.01 and abs(lon) < 0.01):
+            south, north, west, east = _GHANA_BOX
+            if not (south <= lat <= north and west <= lon <= east):
+                return f"geotag: {lat:.4f}, {lon:.4f} is outside Ghana"
+
     # The foreign-country scan must not see provenance stamps, or the Dutch
     # archive photographs of Ghanaian forts -- most of the good ones -- are
     # rejected for naming the country that photographed them.
@@ -593,6 +738,7 @@ def location_verdict(record: dict[str, Any], entity_name: str) -> str:
     country_text = " ".join(
         (_title(record), _description(record), " ".join(sorted(categories)))
     )
+    country_text = _BORDER_RE.sub(" ", country_text)
     keys = _keys(country_text)
     words = set(_words(country_text))
 

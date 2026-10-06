@@ -98,6 +98,11 @@
         "image": "assets/images/gallery/boabeng-fiema-monkey-sanctuary-małpi-cmentarz-w-fiema-boabeng-monkey-sanctuary.jpg",
         "alt": "Boabeng-Fiema Monkey Sanctuary: Cmentarz",
         "credit": "Nero2022, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/boabeng-fiema-monkey-sanctuary-koczkodan-liberyjski.jpg",
+        "alt": "Boabeng-Fiema Monkey Sanctuary: Koczkodan liberyjski",
+        "credit": "Nero2022, CC BY-SA 4.0"
       }
     ],
     "rating": 4.8,
@@ -2816,16 +2821,6 @@
     "image": "assets/images/attractions/fort-amsterdam-abandzi.jpg",
     "images": [
       {
-        "image": "assets/images/gallery/fort-amsterdam-abandzi-benteng-amsterdam.jpg",
-        "alt": "Fort Amsterdam: Benteng",
-        "credit": "Kainjock, CC BY-SA 4.0"
-      },
-      {
-        "image": "assets/images/gallery/fort-amsterdam-abandzi-ruins-of-the-water-fort-st-eustatius-with-in-the-background.jpg",
-        "alt": "Fort Amsterdam: Ruins water eustatius background godet",
-        "credit": "Carib93, CC BY-SA 4.0"
-      },
-      {
         "image": "assets/images/gallery/fort-amsterdam-abandzi-ghana-abandze-fort-amsterdam-cormantijn.jpg",
         "alt": "Fort Amsterdam: Abandze cormantijn",
         "credit": "Janky, CC BY-SA 3.0"
@@ -2834,11 +2829,6 @@
         "image": "assets/images/gallery/fort-amsterdam-abandzi-fort-amsterdam-uitzicht-vanaf-fort-20651813-rce.jpg",
         "alt": "Fort Amsterdam: Uitzicht vanaf",
         "credit": "Coenraad Liebrecht Temminck Groll, CC BY-SA 4.0"
-      },
-      {
-        "image": "assets/images/gallery/fort-amsterdam-abandzi-fort-amsterdam-auf-ambon.jpg",
-        "alt": "Fort Amsterdam: Ambon",
-        "credit": "Maxdogil, CC BY-SA 4.0"
       }
     ],
     "rating": 4.5,
@@ -2867,18 +2857,6 @@
     "region": "Central Region",
     "location": "Abandzi/Elmina",
     "image": "assets/images/attractions/fort-good-hope.jpg",
-    "images": [
-      {
-        "image": "assets/images/gallery/fort-good-hope-2.jpg",
-        "alt": "Photograph of Fort Good Hope",
-        "credit": "mattcatpurple from Hay River, Canada, CC BY-SA 2.0"
-      },
-      {
-        "image": "assets/images/gallery/fort-good-hope.jpg",
-        "alt": "Photograph of Fort Good Hope",
-        "credit": "Treysam, CC BY-SA 4.0"
-      }
-    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -4233,6 +4211,53 @@
     "region": "Greater Accra",
     "location": "Accra Central",
     "image": "assets/images/attractions/accra-arts-centre.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/accra-arts-centre-national-cultural-center-of-ghana-korle-klottey-img-20230201.jpg",
+        "alt": "Accra Arts Centre: Cultural center korle klottey",
+        "credit": "Matti Blume, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/accra-arts-centre-beads-maker-3.jpg",
+        "alt": "Accra Arts Centre: Beads maker",
+        "credit": "daSupremo, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/accra-arts-centre-beads-maker-4.jpg",
+        "alt": "Accra Arts Centre: Beads maker",
+        "credit": "daSupremo, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/accra-arts-centre-beads-maker-5.jpg",
+        "alt": "Accra Arts Centre: Beads maker",
+        "credit": "daSupremo, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/accra-arts-centre-beads-maker-6.jpg",
+        "alt": "Accra Arts Centre: Beads maker",
+        "credit": "daSupremo, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/accra-arts-centre-beads-maker-7.jpg",
+        "alt": "Accra Arts Centre: Beads maker",
+        "credit": "daSupremo, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/accra-arts-centre-beads-maker-8.jpg",
+        "alt": "Accra Arts Centre: Beads maker",
+        "credit": "daSupremo, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/accra-arts-centre-beads-maker-9.jpg",
+        "alt": "Accra Arts Centre: Beads maker",
+        "credit": "daSupremo, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/accra-arts-centre-craftsman-2.jpg",
+        "alt": "Accra Arts Centre: Craftsman",
+        "credit": "daSupremo, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -5563,11 +5588,6 @@
         "image": "assets/images/gallery/cape-three-points-dsc01775-15938287522.jpg",
         "alt": "Photograph of Cape Three Points",
         "credit": "Tini Maier, CC BY 2.0"
-      },
-      {
-        "image": "assets/images/gallery/cape-three-points-from-the-air-panoramio.jpg",
-        "alt": "Cape Three Points: Points",
-        "credit": "Ray Hayward, CC BY-SA 3.0"
       }
     ],
     "rating": 4.5,
@@ -6186,6 +6206,21 @@
         "image": "assets/images/gallery/gomoa-wonderland-hand-ball-court-of-gomoa-wonderland.jpg",
         "alt": "Gomoa Wonderland: Hand ball court",
         "credit": "Pre-inz, CC BY-SA 3.0"
+      },
+      {
+        "image": "assets/images/gallery/gomoa-wonderland-play-area.jpg",
+        "alt": "Gomoa Wonderland: Play area",
+        "credit": "Pre-inz, CC BY-SA 3.0"
+      },
+      {
+        "image": "assets/images/gallery/gomoa-wonderland-gomoa-wonderland.jpg",
+        "alt": "Photograph of Gomoa Wonderland",
+        "credit": "Pre-inz, CC BY-SA 3.0"
+      },
+      {
+        "image": "assets/images/gallery/gomoa-wonderland-16.jpg",
+        "alt": "Photograph of Gomoa Wonderland",
+        "credit": "Nanakwafoa, CC BY-SA 4.0"
       }
     ],
     "rating": 4.4,

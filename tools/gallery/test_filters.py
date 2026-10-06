@@ -183,6 +183,33 @@ CASES: list[tuple[str, dict[str, Any], str, bool]] = [
         "Cape Coast Castle",
         False,
     ),
+    # "National Theatre" is three words a hundred theatres share, so a title
+    # containing the phrase scores 3 anywhere on earth. This one was the only
+    # photograph the National Theatre had: an illustration of the Prague theatre
+    # reprinted in an American student magazine, catalogued in a category about
+    # Prague's National Theatre and captioned "Czech National Theatre".
+    (
+        "the National Theatre in Prague is not Accra's",
+        rec(
+            "Czech National Theatre (1927)",
+            ["History of National Theatre in Prague"],
+            "Czech National Theatre as depicted in the Student Life, vol. 17, no. 5",
+        ),
+        "National Theatre",
+        False,
+    ),
+    # The control that matters: the rule must not take the right theatre with it.
+    (
+        "Accra's National Theatre is still accepted",
+        rec(
+            "National Theatre, Accra",
+            ["Theatres in Ghana"],
+            "The National Theatre in Accra, Ghana",
+        ),
+        "National Theatre",
+        True,
+        "Greater Accra",
+    ),
 
     # -- alternative names --------------------------------------------------
     # "Accra" is Osu Castle's city and also appears in three other destination
@@ -207,6 +234,31 @@ CASES: list[tuple[str, dict[str, Any], str, bool]] = [
         ),
         "Navrongo",
         True,
+    ),
+
+    # The Centre for National Culture, Accra is the Accra Arts Centre, and
+    # Commons describes the craft market's files in those words.
+    (
+        "the Centre for National Culture, Accra is the Accra Arts Centre",
+        rec(
+            "Beads maker 3",
+            [],
+            "A guy making hand beads at the National Centre for Culture and Arts in Accra, Ghana",
+        ),
+        "Accra Arts Centre",
+        True,
+    ),
+    # The same phrase with a different city is the Ashanti one, which the data
+    # lists separately. The aliases are token sets, so the city has to be in them.
+    (
+        "the Kumasi centre's caption is not the Accra market",
+        rec(
+            "Kente seller 2",
+            ["Centre for National Culture"],
+            "Craft stalls at the Centre for National Culture, Kumasi",
+        ),
+        "Accra Arts Centre",
+        False,
     ),
 
     # -- the subject is not the place ---------------------------------------

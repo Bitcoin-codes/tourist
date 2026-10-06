@@ -208,6 +208,92 @@ def run() -> int:
                 str(check.non_image_credits(live)[:2]),
             )
 
+    # -- a plan scoped to one place must not rewrite the whole table ---------
+    # The defect: `main` handed the plan straight to `replace_credits`, which
+    # splices between the markers and knows nothing about the rows already
+    # there. A run with `--entity accra-arts-centre` rewrote 447 rows down to 9,
+    # deleting every other destination's attribution in one command. check.py
+    # noticed only because it compares the table against the data file.
+    two_places = (
+        "<!-- gallery-credits:start -->\n"
+        "| Place | Local file | Author | Licence | Source |\n"
+        "| --- | --- | --- | --- | --- |\n"
+        f"{PHOTO_ROW}\n"
+        + PHOTO_ROW.replace("Cape Coast Castle", "Elmina Castle").replace(
+            "cape-coast-castle-34", "elmina-castle-7"
+        )
+        + "\n<!-- gallery-credits:end -->\n"
+    )
+    place_names = {
+        "cape-coast-castle": "Cape Coast Castle",
+        "elmina-castle": "Elmina Castle",
+        "accra-arts-centre": "Accra Arts Centre",
+    }
+    parsed = apply_.parse_credits(two_places, place_names)
+    check_that(
+        "the credits table reads back into rows",
+        len(parsed) == 2,
+        f"got {len(parsed)}",
+    )
+    if parsed:
+        check_that(
+            "rows read back are keyed by entity id, not by display name",
+            parsed[0]["entity"] == "cape-coast-castle",
+            parsed[0]["entity"],
+        )
+        check_that(
+            "the licence keeps its link through the round trip",
+            parsed[0]["licence"] == "CC BY-SA 4.0"
+            and parsed[0]["licence_url"].endswith("/by-sa/4.0"),
+            str(parsed[0]["licence_url"]),
+        )
+        check_that(
+            "a source URL with parentheses survives",
+            parsed[1]["source"].endswith(".jpg") and parsed[1]["source"].startswith("http"),
+            parsed[1]["source"],
+        )
+
+    plan_row = {
+        "entity": "accra-arts-centre",
+        "file": "assets/images/gallery/accra-arts-centre-beads-maker-3.jpg",
+        "author": "daSupremo",
+        "licence": "CC BY-SA 4.0",
+        "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Beads_maker_3.jpg",
+    }
+    merged = apply_.merge_credits(parsed, [plan_row])
+    check_that(
+        "a one-place plan adds its own rows",
+        len(merged) == 3,
+        f"got {len(merged)}",
+    )
+    check_that(
+        "and leaves every other place's rows exactly where they were",
+        {row["entity"] for row in merged} == {"cape-coast-castle", "elmina-castle", "accra-arts-centre"},
+        str({row["entity"] for row in merged}),
+    )
+    check_that(
+        "re-applying the same plan does not duplicate a place's rows",
+        len(apply_.merge_credits(merged, [plan_row])) == 3,
+        f"got {len(apply_.merge_credits(merged, [plan_row]))}",
+    )
+    second = {**plan_row, "file": "assets/images/gallery/accra-arts-centre-beads-maker-4.jpg"}
+    replaced = apply_.merge_credits(merged, [second])
+    check_that(
+        "a later plan replaces the rows of the place it covers",
+        len(replaced) == 3
+        and not any("beads-maker-3" in row["file"] for row in replaced),
+        str([row["file"] for row in replaced]),
+    )
+    if CREDITS_MD.exists():
+        live_text = CREDITS_MD.read_text()
+        check_that(
+            "the live table parses the same way the checker parses it",
+            len(apply_.parse_credits(live_text, {})) == len(check.credits_rows(live_text) or []),
+            f"{len(apply_.parse_credits(live_text, {}))} vs {len(check.credits_rows(live_text) or [])}",
+        )
+
+
     # -- insert_images must overwrite a stale array -------------------------
     # The regression: rebuilding a row by copying its old keys put the stale
     # `images` back after the new one, because `images` sorts after `image` and

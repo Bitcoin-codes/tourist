@@ -60,8 +60,19 @@ def unlink(text: str) -> str:
 
 
 def link_text(text: str) -> str:
-    match = _LINK.search(text)
-    return match.group(1).strip() if match else text.strip()
+    """The visible text of a markdown link, or the text unchanged.
+
+    Takes everything before the first "](" rather than the regex's first
+    group. An author cell that has been re-wrapped accumulates brackets
+    *outside* the link -- "[[[Kwaku Berko](url)](url)](url)" -- and the group
+    then begins at the outermost bracket, so the author's name comes back as
+    "[[[Kwaku Berko" and the next write wraps that, adding a level each run.
+    Two rows of the credits table reached fourteen that way before this was
+    noticed. A real author name never contains "](", which makes that the
+    reliable boundary.
+    """
+    head, separator, _tail = text.partition("](")
+    return (head if separator else text).lstrip("[ \t").strip()
 
 
 def credits_rows(markdown: str) -> list[tuple[str, str, str, str, str]]:

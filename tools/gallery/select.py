@@ -95,19 +95,27 @@ REPORT_OUT = SCRATCH / "select-report.txt"
 CHECKPOINT_OUT = SCRATCH / "select-checkpoint.jsonl"
 
 # At most this many photographs in one gallery. The UI shows a hero plus a
-# scrolling strip; more than six is unreachable behind a swipe.
-MAX_PHOTOS = 6
+# scrolling strip three at a time, so nine is three swipes -- as far as anyone
+# reads before deciding they have seen the place, and further than that the
+# strip is longer than it is useful.
+#
+# It was six until a destination turned up with nine usable photographs on
+# Commons and six of them showing, which is a shortage in the data rather than
+# a property of the design. Almost every destination has fewer than this
+# either way, so raising the ceiling costs nothing where there is nothing to
+# add. Must match apply.py and check.py.
+MAX_PHOTOS = 9
 # A gallery strip renders only when a destination has a hero plus at least two
 # more, so a second photograph is the point at which it is worth building.
 MIN_WANT = 2
 
 # How many plausible candidates to stop searching at.
 #
-# Not how many to keep -- MAX_PHOTOS does that, and it is six. This is the point
+# Not how many to keep -- MAX_PHOTOS does that, and it is nine. This is the point
 # at which another search term is judged unlikely to change what selection ends
 # up with. screen() rejects a large share for licence, subject and location, and
 # then assign() ranks what is left, so a pool of forty photographs is already far
-# more than enough to yield six that survive. It has to be generous for the same
+# more than enough to yield nine that survive. It has to be generous for the same
 # reason: stopping early with a pool that filtering then empties would show up as
 # a destination with no gallery and no explanation.
 SEARCH_ENOUGH = 40
@@ -309,8 +317,20 @@ def search_terms(entity: dict[str, Any]) -> list[str]:
     # second search on the same name plus its region, which also finds nothing.
     # Two guaranteed-zero searches against an anonymous rate limit that answers
     # bursts with 429s, before the searches that could have worked were reached.
+    # The town, ahead of the region. A region narrows a search far less than a
+    # town does, and for a name that is not unique to Ghana the difference is
+    # the whole result set: "National Theatre" returns London, Budapest and
+    # Bangkok, and "National Theatre Greater Accra" narrows that to Accra only
+    # if the uploader happened to write the region. "National Theatre Accra" is
+    # what a person photographing it would have typed, and six galleries were
+    # lost to not asking it -- along with "Fort Victoria Cape Coast", which
+    # found the Isle of Wight instead, and "Axim Beach Axim", which found a
+    # Dell handheld computer.
     bare = entity["name"].split(" (")[0].strip() or entity["name"]
     terms = [bare]
+    town = (entity.get("location") or "").split(",")[0].strip()
+    if town and town.lower() != bare.lower() and town not in terms:
+        terms.append(f"{bare} {town}")
     if entity["region"] and entity["region"] != bare:
         terms.append(f"{bare} {entity['region']}")
     distinctive = distinctive_tokens(entity["name"])
@@ -1026,13 +1046,34 @@ def main() -> int:
 
     replaced = [note for note in notes if "REPLACED" in note]
     duplicates = [note for note in notes if "same picture" in note]
-    failed = [note for note in notes if note.startswith("  ") is False and "REPLACED" not in note and "same picture" not in note]
+    # Which notes mean the file never reached disk.
+    #
+    # Every note has the same shape, "<entity>/<file>: what happened", so the
+    # outcome has to be read from the wording. The old test asked whether a note
+    # failed to start with two spaces, which no note does -- so "already
+    # installed, identical" was counted as a failure, and a run that verified
+    # all nine of its photographs reported "9 failed to fetch" underneath
+    # "9 already present and identical". A report that contradicts itself is
+    # worse than no report: the next person to read it goes looking for a
+    # network fault that was never there.
+    failed = [
+        note
+        for note in notes
+        if "not downloaded" in note
+        or "not a readable image" in note
+        or "slugs to this name" in note
+    ]
+    identical = [note for note in notes if "identical" in note]
+    # A successful write records no note at all, so what was written is what
+    # reached the plan, minus the ones that were already in place and minus the
+    # ones that overwrote a different file (counted on their own line).
+    written = len(rows) - len(identical) - len(replaced)
     lines += [
         "",
         "Installation notes",
         "-" * 60,
-        f"  already present and identical : {sum('identical' in n for n in notes)}",
-        f"  written                        : {sum('identical' not in n for n in notes if 'REPLACED' not in n and 'same picture' not in n)}",
+        f"  already present and identical : {len(identical)}",
+        f"  written                        : {written}",
         f"  replaced a different file      : {len(replaced)}",
         f"  dropped as a duplicate picture : {len(duplicates)}",
         f"  failed to fetch                : {len(failed)}",

@@ -1,7 +1,13 @@
 {
   "version": 2,
   "builds": [
-    { "src": "api/index.py", "use": "@vercel/python" },
+    {
+      "src": "api/index.py",
+      "use": "@vercel/python",
+      "config": {
+        "excludeFiles": "{assets/**,frontend/**,.gallery-state/**,tools/**,supabase/**,**/*.md}"
+      }
+    },
     { "src": "index.html", "use": "@vercel/static" },
     { "src": "booking.html", "use": "@vercel/static" },
     { "src": "planner.html", "use": "@vercel/static" },

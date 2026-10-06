@@ -25,3 +25,10 @@ supabase/.temp/
 
 # Unreferenced screenshot artifact
 hero-preview.png
+
+# Written by `vercel build` while it normalizes requirements.txt for uv.
+# Committed, they pin `requires-python` to whatever interpreter ran the local
+# build and the next build fails on it ("resolved to 3.12.15, which is
+# incompatible with ==3.14.*"); the deploy regenerates them anyway.
+pyproject.toml
+uv.lock

@@ -3011,6 +3011,28 @@
     "region": "Central Region",
     "location": "Anomabu",
     "image": "assets/images/attractions/fort-william-anomabu.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/fort-william-anomabu-fort-williams-anomabo-in-ghana-11.jpg",
+        "alt": "Fort William: Williams anomabo",
+        "credit": "Mawulicherubim, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/fort-william-anomabu-fort-william-anomabu7.jpg",
+        "alt": "Photograph of Fort William",
+        "credit": "Akonu-Atta William, CC BY-SA 3.0"
+      },
+      {
+        "image": "assets/images/gallery/fort-william-anomabu-fort-william-anomabu8.jpg",
+        "alt": "Photograph of Fort William",
+        "credit": "Akonu-Atta William, CC BY-SA 3.0"
+      },
+      {
+        "image": "assets/images/gallery/fort-william-anomabu-fort-william-anomabu9.jpg",
+        "alt": "Photograph of Fort William",
+        "credit": "Akonu-Atta William, CC BY-SA 3.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",

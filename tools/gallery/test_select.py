@@ -203,7 +203,7 @@ _terms = select.search_terms(entity("aboakyer-festival"))
 check_that(
     "the festival name leads the search",
     _terms[0],
-    "Aboakyer Festival",  # parenthetical dropped; see search_terms
+    f"Aboakyer Festival {select.GHANA_ANCHOR}",  # parenthetical dropped
 )
 check_that(
     "a parenthetical is never sent to Commons",
@@ -211,13 +211,23 @@ check_that(
     True,
 )
 check_that(
+    "every query is anchored to the country",
+    all(t.endswith(f" {select.GHANA_ANCHOR}") for t in _terms),
+    True,
+)
+check_that(
+    "the anchor is one word, so it cannot discard the name it qualifies",
+    select.GHANA_ANCHOR,
+    "Ghana",
+)
+check_that(
     "ritual phrases are searched, not just the festival name",
-    "Asafo Warrior Deer Hunt" in _terms,
+    any(t.startswith("Asafo Warrior Deer Hunt") for t in _terms),
     True,
 )
 check_that(
     "ritual phrases come after the name-derived terms",
-    _terms.index("Asafo Warrior Deer Hunt") >= 3,
+    next(i for i, t in enumerate(_terms) if t.startswith("Asafo Warrior Deer Hunt")) >= 3,
     True,
 )
 check_that("search terms are capped", len(_terms) <= 6, True)
@@ -225,6 +235,11 @@ check_that(
     "a destination searches without rituals",
     select.search_terms(DESTINATIONS[0]),
     [t for t in select.search_terms(DESTINATIONS[0]) if len(t) > 3][:6],
+)
+check_that(
+    "a destination's first query is its own name in Ghana",
+    select.search_terms(DESTINATIONS[0])[0],
+    f"{DESTINATIONS[0]['name'].split(' (')[0]} {select.GHANA_ANCHOR}",
 )
 check_that("ritual_terms returns nothing for a destination", select.ritual_terms(DESTINATIONS[0]), [])
 

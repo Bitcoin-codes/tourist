@@ -285,6 +285,17 @@ def distinctive_ritual_keys(entity: dict[str, Any]) -> set[str]:
     return mine
 
 
+# What every search query is pinned to. See search_terms -- a query of the
+# destination's name alone is answered by every namesake on earth, and the
+# fifty results it returns are fifty that a Ghanaian photograph did not get.
+#
+# A richer anchor was tried and is wrong: `Fort McCarthy (Ghana OR "Gold Coast")`
+# does not return the fort and the Gold Coast together, it discards the name and
+# returns Chicago's Gold Coast neighbourhood -- the same six street photographs
+# for three different destinations. The country is one word, so it is one word.
+GHANA_ANCHOR = "Ghana"
+
+
 def search_terms(entity: dict[str, Any]) -> list[str]:
     """What to ask Commons for, most productive first.
 
@@ -337,13 +348,30 @@ def search_terms(entity: dict[str, Any]) -> list[str]:
     if distinctive:
         terms.append(" ".join(sorted(distinctive)))
 
+    # Every query is pinned to the country, which is what stops a search for a
+    # Ghanaian place being answered by the rest of the world.
+    #
+    # The terms above are the name and parts of the name, and Commons matches
+    # them anywhere: "Fort McCarthy" returned seventeen American Navy
+    # photographs of a ship named after the same man, "National Theatre"
+    # returned Prague, "Se Yo Cave" returned a Kansas Infantry company, "Axim"
+    # returned a Dell handheld and "Daboya Fugu" a Japanese pufferfish. A
+    # filter catches each of those afterwards, but the filter is what the
+    # fifty-result budget is spent on -- every foreign file that has to be
+    # rejected is a slot a Ghanaian one did not get.
+    #
+    # The anchor is one word and is deliberately not an alternation; see
+    # GHANA_ANCHOR for the query that quietly discarded the destination's own
+    # name. It costs the photographs that say only "Gold Coast", which are the
+    # older ones, and that trade is the reason this is a comment rather than an
+    # assumption: if a fort's gallery comes back thin, this is where to look.
     out: list[str] = []
     seen: set[str] = set()
     for term in terms + ritual_terms(entity):
         key = term.lower()
         if len(term) > 3 and key not in seen:
             seen.add(key)
-            out.append(term)
+            out.append(f"{term} {GHANA_ANCHOR}")
     return out[:6]
 
 

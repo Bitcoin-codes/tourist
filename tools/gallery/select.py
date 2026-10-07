@@ -68,6 +68,7 @@ from commons import (  # noqa: E402
 )
 import pixels  # noqa: E402
 from filters import (  # noqa: E402
+    ALTERNATIVE_NAMES,
     _description,
     _category_text,
     _keys,
@@ -296,6 +297,55 @@ def distinctive_ritual_keys(entity: dict[str, Any]) -> set[str]:
 GHANA_ANCHOR = "Ghana"
 
 
+def alias_terms(entity: dict[str, Any]) -> list[str]:
+    """The destination's other documented names, as Commons search phrases.
+
+    A `gsrsearch` query matches every word it contains, and a destination's name
+    is routinely longer than the phrase its photographs were filed under:
+    "Komfo Anokye Sword Site Ghana" appears in no description on Commons, while
+    "Komfo Anokye Ghana" describes the monument itself. Such an entity comes back
+    with no candidate at all -- which is the one failure the filters cannot
+    report, because there is nothing to reject: no candidate, no rejection, no
+    row in the checkpoint saying anything went wrong. Seventeen destinations
+    failed exactly this way.
+
+    The key is matched by containment, not by a shared word, for the reason
+    `_matches_alternative` gives: "accra arts centre" shares "centre" with
+    "Gushiegu Local Textile Centre", and a photograph of the Accra market is not
+    a photograph of Gushiegu. One of the two key sets has to be contained in the
+    other, the same test the matching side already applies, so that querying and
+    accepting can never disagree about which entity an alias belongs to.
+
+    Placed after the name terms and after a festival's rituals, and capped at
+    two: they are the second attempt at finding what the name failed to find,
+    and every extra phrase is another request against a rate limit that answers
+    bursts with 429s.
+    """
+    keys = _keys(entity["name"])
+    out: list[str] = []
+    for name, alternatives in ALTERNATIVE_NAMES.items():
+        name_keys = _keys(name)
+        if not (name_keys <= keys or keys <= name_keys):
+            continue
+        for phrase in sorted(alternatives):
+            if len(phrase) > 3 and phrase not in out:
+                out.append(phrase)
+    return out[:2]
+
+
+def _asked_terms(row: dict[str, Any]) -> list[str]:
+    """Which queries this checkpoint row has already been answered on.
+
+    A row without the field is treated as having asked nothing, which is the
+    conservative direction: a query repeated costs a request, a query skipped
+    because we assumed it had been made costs the photograph it would have
+    found. Rows written from now on always carry `tried`, so the unknown case
+    shrinks to the rows that exist today -- and those are backfilled by the run
+    that needs them, not guessed at here.
+    """
+    return list(row.get("tried") or [])
+
+
 def search_terms(entity: dict[str, Any]) -> list[str]:
     """What to ask Commons for, most productive first.
 
@@ -367,7 +417,7 @@ def search_terms(entity: dict[str, Any]) -> list[str]:
     # assumption: if a fort's gallery comes back thin, this is where to look.
     out: list[str] = []
     seen: set[str] = set()
-    for term in terms + ritual_terms(entity):
+    for term in terms + ritual_terms(entity) + alias_terms(entity):
         key = term.lower()
         if len(term) > 3 and key not in seen:
             seen.add(key)
@@ -518,6 +568,9 @@ def collect(
     """
     passing: dict[str, list[dict]] = {}
     rejected: dict[str, list[dict]] = {}
+    # The raw row behind `passing`, so a retry can see which queries the entity
+    # has already been answered on. See `_asked_terms`.
+    prior: dict[str, dict[str, Any]] = {}
     # Entities whose search or metadata fetch failed. Kept apart from `rejected`
     # on purpose: we never found out whether Commons has photographs here.
     failed: dict[str, str] = {}
@@ -536,10 +589,13 @@ def collect(
                 continue  # a partial final line from a killed process
             passing[done["id"]] = done["kept"]
             rejected[done["id"]] = done["rejected"]
+            prior[done["id"]] = done
         if passing:
             print(f"  resuming: {len(passing)} entities already searched\n", flush=True)
 
-    def checkpoint_entity(entity_id: str, kept: list[dict], why: list[dict]) -> None:
+    def checkpoint_entity(
+        entity_id: str, kept: list[dict], why: list[dict], tried: list[str]
+    ) -> None:
         if checkpoint is None:
             return
         checkpoint.parent.mkdir(parents=True, exist_ok=True)
@@ -551,12 +607,35 @@ def collect(
             for line in checkpoint.read_text().splitlines()
             if line.strip() and _parses(line)
         ] if checkpoint.exists() else []
-        lines.append(json.dumps({"id": entity_id, "kept": kept, "rejected": why}, sort_keys=True))
+        lines.append(
+            json.dumps(
+                {"id": entity_id, "kept": kept, "rejected": why, "tried": tried},
+                sort_keys=True,
+            )
+        )
         checkpoint.write_text("\n".join(lines) + "\n")
 
     for entity in entities:
+        terms = search_terms(entity)
         if entity["id"] in passing:
-            continue
+            if passing[entity["id"]]:
+                continue
+            # The entity was searched and nothing survived. Ask again -- but only
+            # about queries it has not already been answered on. "Komfo Anokye
+            # Sword Site Ghana" returned nothing the first time and will return
+            # nothing again, and under a rate limit answering with 429s those four
+            # requests are the difference between a retry that costs two calls and
+            # one that costs six. The alias beside them, never yet tried, is what
+            # the retry is actually for.
+            asked = _asked_terms(prior.get(entity["id"]) or {})
+            todo = [t for t in terms if t not in set(asked)]
+            if not todo:
+                continue
+            # Reasons from the queries being repeated are not reasons about the
+            # new ones, and the report counts whatever is in this list.
+            rejected.pop(entity["id"], None)
+        else:
+            asked, todo = [], terms
 
         # One entity must never end the run.
         #
@@ -590,7 +669,7 @@ def collect(
             # still falls through to the next one, so a thinly-covered place
             # searches just as deeply as it did before.
             titles: set[str] = set()
-            for term in search_terms(entity):
+            for term in todo:
                 found = client.search(term, limit=50)
                 titles.update(found)
                 if _count_usable(titles) >= SEARCH_ENOUGH:
@@ -613,7 +692,7 @@ def collect(
 
         if not titles:
             rejected[entity["id"]] = [{"title": "", "reason": "no candidates found"}]
-            checkpoint_entity(entity["id"], [], rejected[entity["id"]])
+            checkpoint_entity(entity["id"], [], rejected[entity["id"]], asked + todo)
             continue
 
         # Drop the documents by title before asking about them.
@@ -691,7 +770,7 @@ def collect(
             kept.append(record)
 
         passing[entity["id"]] = kept
-        checkpoint_entity(entity["id"], kept, rejected.get(entity["id"], []))
+        checkpoint_entity(entity["id"], kept, rejected.get(entity["id"], []), asked + todo)
         print(
             f"  {entity['id']}: {len(kept)} of {len(records)} pass"
             + (f" ({counts.get('rejected', 0)} filtered)" if counts.get("rejected") else ""),

@@ -490,6 +490,40 @@ ALTERNATIVE_NAMES: dict[str, set[str]] = {
         "centre for national culture accra",
         "national centre for culture and arts accra",
     },
+    # A destination named by more words than anyone typed to upload it.
+    # `gsrsearch` matches every word of the query, so "Komfo Anokye Sword Site
+    # Ghana" is four words that co-occur in no file description on Commons, and
+    # the entity comes back with no candidate at all -- nothing judged unfit,
+    # nothing even seen. The short form is the name the files carry: the sword
+    # in Kumasi is "Komfo Anokye" wherever it is written, the kente village is
+    # "Adanwomase", and Akwapim is spelled with a p by half the country.
+    #
+    # Both halves have to move together, and they do: `alias_terms` in select.py
+    # queries these phrases, and the matching below accepts a file that names
+    # only them. Querying without matching finds the photograph and then rejects
+    # it for not naming the destination; matching without querying screens a
+    # candidate that was never returned.
+    #
+    # The tight ones are kept tight on purpose. "bomfobiri" is the sanctuary's
+    # own village; "techiman" alone would be every photograph in the district,
+    # so it stays welded to "museum".
+    "komfo anokye sword site": {"komfo anokye", "anokye sword"},
+    "prempeh ii jubilee museum": {"prempeh ii museum", "manhyia palace museum"},
+    "adanwomase kente village": {"adanwomase kente", "adanwomase"},
+    "nchiraa waterfalls": {"nchiraa"},
+    "ahwiaa woodcarving village": {"ahwiaa woodcarving", "ahwiaa"},
+    "techiman heritage & culture museum": {"techiman museum"},
+    "nania slave route": {"nania slave"},
+    "bunso honey & palm wine eco-park": {"bunso eco park", "bunso"},
+    "lake volta shore at dambai": {"dambai volta", "dambai"},
+    "gambaga lookout & nahiley escarpment": {"gambaga escarpment", "nahiley"},
+    "goaso cocoa & forest belt": {"goaso cocoa", "goaso"},
+    "bomfobiri wildlife sanctuary": {"bomfobiri"},
+    "akuapim ridge": {"akwapim ridge", "akwapim"},
+    "gushiegu local textile centre": {"gushiegu textile", "gushiegu"},
+    "tengzug shrine complex": {"tengzug"},
+    "sirigu pottery centre": {"sirigu pottery", "sirigu"},
+    "asumura rockfowl sanctuary": {"asumura rockfowl", "asumura"},
 }
 
 # Ships share names with the forts. "Fort William" photographs include the

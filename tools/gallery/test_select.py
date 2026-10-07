@@ -21,7 +21,9 @@ from __future__ import annotations
 import contextlib
 import importlib.util
 import io
+import json
 import sys
+import tempfile
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -242,6 +244,128 @@ check_that(
     f"{DESTINATIONS[0]['name'].split(' (')[0]} {select.GHANA_ANCHOR}",
 )
 check_that("ritual_terms returns nothing for a destination", select.ritual_terms(DESTINATIONS[0]), [])
+
+# -- an entity whose own name matches nothing still gets queries that can -----
+_alias_entity = entity("komfo-anokye-sword-site")
+_alias_terms = select.search_terms(_alias_entity)
+check_that(
+    "a four-word name queries its short form as well",
+    select.alias_terms(_alias_entity),
+    ["anokye sword", "komfo anokye"],
+)
+check_that(
+    "the short form reaches Commons as a query of its own",
+    "komfo anokye Ghana" in _alias_terms,
+    True,
+)
+check_that(
+    "the destination's own name still leads every query",
+    _alias_terms[0],
+    f"Komfo Anokye Sword Site {select.GHANA_ANCHOR}",
+)
+check_that(
+    "alias queries are pinned to the country like every other query",
+    all(t.endswith(f" {select.GHANA_ANCHOR}") for t in _alias_terms),
+    True,
+)
+check_that(
+    "a destination with no recorded alias asks for none",
+    select.alias_terms(DESTINATIONS[0]),
+    [],
+)
+check_that(
+    "an alias is not borrowed across two destinations sharing one word",
+    select.alias_terms(entity("gushiegu-textile-centre")),
+    ["gushiegu", "gushiegu textile"],
+)
+check_that(
+    "aliases are capped with everything else",
+    len(_alias_terms) <= 6,
+    True,
+)
+check_that(
+    "an alias names the place well enough to score against its own name",
+    select.specificity(
+        {"title": "Komfo Anokye Sword Site", "categories": [], "extmetadata": {}},
+        _alias_entity,
+    )
+    >= select.MIN_SPECIFICITY,
+    True,
+)
+
+# -- an entity that came back empty is re-asked, but only about what is new ----
+#
+# The alias above exists because a four-word name returns nothing at all. If a
+# retry also repeated the four queries that already returned nothing, the pass
+# would cost six requests where two would do -- and the rate limit answering
+# bursts with 429s would spend that budget rediscovering answers it has given.
+# So a row records what it asked, and an empty row is re-asked about the rest.
+class _Asks:
+    """Records the queries sent and finds nothing, so the entity stays empty."""
+
+    def __init__(self) -> None:
+        self.terms: list[str] = []
+
+    def search(self, term: str, limit: int = 50) -> list[str]:
+        self.terms.append(term)
+        return []
+
+    def info(self, titles: list[str]) -> dict[str, dict]:
+        return {}
+
+
+_retry = entity("komfo-anokye-sword-site")
+_alias_queries = {f"{a} {select.GHANA_ANCHOR}" for a in select.alias_terms(_retry)}
+_row = {
+    "id": _retry["id"],
+    "kept": [],
+    "rejected": [{"title": "", "reason": "no candidates found"}],
+    "tried": [t for t in select.search_terms(_retry) if t not in _alias_queries],
+}
+with tempfile.TemporaryDirectory() as _dir:
+    _cp = Path(_dir) / "checkpoint.jsonl"
+    _cp.write_text(json.dumps(_row) + "\n")
+
+    _first = _Asks()
+    with contextlib.redirect_stdout(io.StringIO()):
+        select.collect(_first, [_retry], [_retry["name"]], checkpoint=_cp)
+    check_that(
+        "a retry does not repeat a query that already returned nothing",
+        [t for t in _first.terms if t not in _alias_queries],
+        [],
+    )
+    check_that(
+        "it does ask the alias nobody has tried yet",
+        sorted(_first.terms),
+        sorted(_alias_queries),
+    )
+    _written = [json.loads(line) for line in _cp.read_text().splitlines() if line.strip()]
+    check_that(
+        "and the row it writes remembers every query, aliases included",
+        set(_written[-1]["tried"]),
+        set(_row["tried"]) | _alias_queries,
+    )
+
+    _second = _Asks()
+    with contextlib.redirect_stdout(io.StringIO()):
+        select.collect(_second, [_retry], [_retry["name"]], checkpoint=_cp)
+    check_that(
+        "a second retry asks nothing at all -- the question has been answered",
+        _second.terms,
+        [],
+    )
+
+    # A row holding photographs is never re-asked: its screening stands.
+    _with_photos = dict(_row, kept=[{"title": "File:Something.jpg"}], tried=[])
+    _cp.write_text(json.dumps(_with_photos) + "\n")
+    _third = _Asks()
+    with contextlib.redirect_stdout(io.StringIO()):
+        select.collect(_third, [_retry], [_retry["name"]], checkpoint=_cp)
+    check_that(
+        "an entity with photographs waiting is left exactly as it was",
+        _third.terms,
+        [],
+    )
 
 # -- the map is replaced, not accumulated --------------------------------------
 _selective = [

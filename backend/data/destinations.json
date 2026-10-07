@@ -2715,6 +2715,28 @@
     "region": "Central Region",
     "location": "Cape Coast",
     "image": "assets/images/attractions/fort-victoria.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/fort-victoria-panorama-over-town-from-fort-victoria-cape-coast-central-reg.jpg",
+        "alt": "Photograph of Fort Victoria",
+        "credit": "Adam Jones, CC BY-SA 2.0"
+      },
+      {
+        "image": "assets/images/gallery/fort-victoria-at-sunset-cape-coast-ghana-4735526340.jpg",
+        "alt": "Fort Victoria: Sunset",
+        "credit": "Adam Jones from Kelowna, BC, Canada, CC BY-SA 2.0"
+      },
+      {
+        "image": "assets/images/gallery/fort-victoria-cape-coast-b004.jpg",
+        "alt": "Photograph of Fort Victoria",
+        "credit": "Adam Jones, CC BY-SA 2.0"
+      },
+      {
+        "image": "assets/images/gallery/fort-victoria-view-over-town-from-fort-victoria-cape-coast-ghana-473779914.jpg",
+        "alt": "Photograph of Fort Victoria",
+        "credit": "Adam Jones from Kelowna, BC, Canada, CC BY-SA 2.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -3776,6 +3798,18 @@
     "region": "Greater Accra",
     "location": "Ada, Greater Accra",
     "image": "assets/images/attractions/songor-lagoon.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/songor-lagoon-songor-lagoon.jpg",
+        "alt": "Photograph of Songor Ramsar Lagoon",
+        "credit": "Kradolferp, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/songor-lagoon-palm-tress-at-the-shore-of-songor-lagoon.jpg",
+        "alt": "Songor Ramsar Lagoon: Palm tress shore",
+        "credit": "Kradolferp, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -3971,6 +4005,53 @@
     "region": "Greater Accra",
     "location": "Accra Central",
     "image": "assets/images/attractions/national-theatre.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/national-theatre-ghana-national-theatre.jpg",
+        "alt": "Photograph of National Theatre",
+        "credit": "Amuzujoe, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/national-theatre-of-ghana-46534792205.jpg",
+        "alt": "Photograph of National Theatre",
+        "credit": "Francisco Anzola from United States, CC BY 2.0"
+      },
+      {
+        "image": "assets/images/gallery/national-theatre-the-national-theater-in-ghana-01.jpg",
+        "alt": "National Theatre: Theater",
+        "credit": "Sir Amugi, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/national-theatre-the-national-theater-in-ghana-02.jpg",
+        "alt": "National Theatre: Theater",
+        "credit": "Sir Amugi, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/national-theatre-drone.jpg",
+        "alt": "National Theatre: Drone",
+        "credit": "Goldenwabbit, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/national-theatre-national-theater-of-ghana-accra.jpg",
+        "alt": "National Theatre: Theater",
+        "credit": "Amuzujoe, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/national-theatre-accra-ghana.jpg",
+        "alt": "Photograph of National Theatre",
+        "credit": "BoogieMonk, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/national-theatre-national-theatre.jpg",
+        "alt": "Photograph of National Theatre",
+        "credit": "BoogieMonk, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/national-theatre-ghana.jpg",
+        "alt": "Photograph of National Theatre",
+        "credit": "Fquasie, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",

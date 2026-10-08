@@ -1149,6 +1149,23 @@
     "region": "Ashanti Region",
     "location": "Ahwiaa, near Kumasi",
     "image": "assets/images/attractions/ahwiaa-woodcarving-village.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/ahwiaa-woodcarving-village-ahwiaa-page-banner.jpg",
+        "alt": "Ahwiaa Woodcarving Village: Page banner",
+        "credit": "ZSM, CC BY 3.0"
+      },
+      {
+        "image": "assets/images/gallery/ahwiaa-woodcarving-village-djembe-drums.jpg",
+        "alt": "Ahwiaa Woodcarving Village: Djembe drums",
+        "credit": "ZSM, CC BY 3.0"
+      },
+      {
+        "image": "assets/images/gallery/ahwiaa-woodcarving-village-djembe-ghana.jpg",
+        "alt": "Ahwiaa Woodcarving Village: Djembe",
+        "credit": "ZSM, CC BY 3.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -1784,6 +1801,28 @@
     "region": "Eastern Region",
     "location": "Bunso, Akuapem Ridge",
     "image": "assets/images/attractions/bunso-eco-park.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/bunso-eco-park-in-vitro-plant-collections-ghana-national-genebank-at-bunso.jpg",
+        "alt": "Bunso Honey & Palm Wine Eco-Park: Vitro plant collections national genebank",
+        "credit": "Luigi Guarino from Rome, Italy, CC BY 2.0"
+      },
+      {
+        "image": "assets/images/gallery/bunso-eco-park-technician-works-at-horizontal-laminar-flow-cabinet-ghana-na.jpg",
+        "alt": "Bunso Honey & Palm Wine Eco-Park: Technician works horizontal laminar flow",
+        "credit": "Luigi Guarino from Rome, Italy, CC BY 2.0"
+      },
+      {
+        "image": "assets/images/gallery/bunso-eco-park-bunso-canopy-house.jpg",
+        "alt": "Bunso Honey & Palm Wine Eco-Park: Canopy house",
+        "credit": "Roland Darko, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/bunso-eco-park-bunso-canopy-walkway.jpg",
+        "alt": "Bunso Honey & Palm Wine Eco-Park: Canopy walkway",
+        "credit": "Roland Darko, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -1815,6 +1854,33 @@
     "region": "Oti Region",
     "location": "Dambai, Oti",
     "image": "assets/images/attractions/dambai-lake-volta.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/dambai-lake-volta-ferry-sailing-over-the-dambai-lake.jpg",
+        "alt": "Lake Volta Shore at Dambai: Ferry sailing",
+        "credit": "INUSAH GANIYU, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/dambai-lake-volta-local-canoe-transportation-service-at-dambai.jpg",
+        "alt": "Lake Volta Shore at Dambai: Local canoe transportation service",
+        "credit": "Mykojo, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/dambai-lake-volta-vehicles-and-people-awaiting-the-arrival-of-the-ferry-to-tra.jpg",
+        "alt": "Lake Volta Shore at Dambai: Vehicles people awaiting arrival ferry",
+        "credit": "Mykojo, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/dambai-lake-volta-canoes-as-means-of-transportation.jpg",
+        "alt": "Lake Volta Shore at Dambai: Canoes means transportation",
+        "credit": "Ophelia.Shika, CC BY 4.0"
+      },
+      {
+        "image": "assets/images/gallery/dambai-lake-volta-volta-lake-at-dambai.jpg",
+        "alt": "Photograph of Lake Volta Shore at Dambai",
+        "credit": "Veennema, CC BY-SA 3.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -1846,6 +1912,53 @@
     "region": "North East",
     "location": "Nalerigu / Gambaga",
     "image": "assets/images/attractions/gambaga-escarpment-lookout.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/gambaga-escarpment-lookout-gambaga-escarpment.jpg",
+        "alt": "Photograph of Gambaga Lookout & Nahiley Escarpment",
+        "credit": "Christian Yakubu, CC BY 4.0"
+      },
+      {
+        "image": "assets/images/gallery/gambaga-escarpment-lookout-bird-view-into-gambaga-escarpment-02.jpg",
+        "alt": "Gambaga Lookout & Nahiley Escarpment: Bird",
+        "credit": "Tahiru Rajab, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/gambaga-escarpment-lookout-farm-houses-inside-gambaga-escarpment-01.jpg",
+        "alt": "Gambaga Lookout & Nahiley Escarpment: Farm houses inside",
+        "credit": "Tahiru Rajab, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/gambaga-escarpment-lookout-farm-houses-inside-gambaga-escarpment-02.jpg",
+        "alt": "Gambaga Lookout & Nahiley Escarpment: Farm houses inside",
+        "credit": "Tahiru Rajab, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/gambaga-escarpment-lookout-sedimentary-rocks-inside-gambaga-escarpment-03.jpg",
+        "alt": "Gambaga Lookout & Nahiley Escarpment: Sedimentary rocks inside",
+        "credit": "Tahiru Rajab, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/gambaga-escarpment-lookout-sedimentary-rocks-inside-gambaga-escarpment-06.jpg",
+        "alt": "Gambaga Lookout & Nahiley Escarpment: Sedimentary rocks inside",
+        "credit": "Tahiru Rajab, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/gambaga-escarpment-lookout-sedimentary-rocks-inside-gambaga-escarpment-07.jpg",
+        "alt": "Gambaga Lookout & Nahiley Escarpment: Sedimentary rocks inside",
+        "credit": "Tahiru Rajab, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/gambaga-escarpment-lookout-stream-inside-gambaga-escarpment-02.jpg",
+        "alt": "Gambaga Lookout & Nahiley Escarpment: Stream inside",
+        "credit": "Tahiru Rajab, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/gambaga-escarpment-lookout-bird-view-into-gambaga-escarpment-01.jpg",
+        "alt": "Gambaga Lookout & Nahiley Escarpment: Bird",
+        "credit": "Tahiru Rajab, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -1968,6 +2081,23 @@
     "region": "Ahafo Region",
     "location": "Goaso, Ahafo Region",
     "image": "assets/images/attractions/ahafo-cocoa-forest.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/ahafo-cocoa-forest-ahafo-regional-capital-goaso-under-road-construction.jpg",
+        "alt": "Goaso Cocoa & Forest Belt: Regional road construction",
+        "credit": "Emmanuel Yeboah Asiama, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/ahafo-cocoa-forest-goaso-nzongo-in-display.jpg",
+        "alt": "Goaso Cocoa & Forest Belt: Nzongo display",
+        "credit": "Emmanuel Yeboah Asiama, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/ahafo-cocoa-forest-goaso-ahafo-regional-capital-round-about.jpg",
+        "alt": "Goaso Cocoa & Forest Belt: Regional round about",
+        "credit": "Emmanuel Yeboah Asiama, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -2278,6 +2408,28 @@
     "region": "Ashanti Region",
     "location": "Kumasi",
     "image": "assets/images/attractions/prempeh-ii-jubilee-museum.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/prempeh-ii-jubilee-museum-manhyia-palace.jpg",
+        "alt": "Photograph of Prempeh II Jubilee Museum",
+        "credit": "jbdodane, CC BY 2.0"
+      },
+      {
+        "image": "assets/images/gallery/prempeh-ii-jubilee-museum-manhyia-palace-panorama.jpg",
+        "alt": "Photograph of Prempeh II Jubilee Museum",
+        "credit": "jbdodane, CC BY 2.0"
+      },
+      {
+        "image": "assets/images/gallery/prempeh-ii-jubilee-museum-manhyia-palace-museum-in-kumasi.jpg",
+        "alt": "Photograph of Prempeh II Jubilee Museum",
+        "credit": "Sir Amugi, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/prempeh-ii-jubilee-museum-entrance-to-manhyia-palace-museum.jpg",
+        "alt": "Prempeh II Jubilee Museum: Entrance",
+        "credit": "Naula Ayisabun Aningore, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -3275,6 +3427,53 @@
     "region": "Eastern Region",
     "location": "Akuapim, Eastern Region",
     "image": "assets/images/attractions/akwapim-ridge.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/akwapim-ridge-asenscion-methodist-chaple-in-akwapim-mampong.jpg",
+        "alt": "Akuapim Ridge: Asenscion methodist chaple mampong",
+        "credit": "Kwameghana(Bright Kwame Ayisi), CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/akwapim-ridge-clock-tower-of-the-methodist-church-in-akwapim-mampong.jpg",
+        "alt": "Akuapim Ridge: Clock tower methodist church mampong",
+        "credit": "Kwameghana(Bright Kwame Ayisi), CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/akwapim-ridge-house-compound-in-akwapim-mampong.jpg",
+        "alt": "Akuapim Ridge: House compound mampong",
+        "credit": "Kwameghana, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/akwapim-ridge-houses-by-the-road-in-akwapim-mampong.jpg",
+        "alt": "Akuapim Ridge: Houses road mampong",
+        "credit": "Kwameghana, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/akwapim-ridge-old-mansion-in-akwapim-mampong.jpg",
+        "alt": "Akuapim Ridge: Mansion mampong",
+        "credit": "Kwameghana, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/akwapim-ridge-old-residential-storey-building.jpg",
+        "alt": "Akuapim Ridge: Residential storey",
+        "credit": "Kwameghana, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/akwapim-ridge-outdoor-kitchen-in-a-house-compound.jpg",
+        "alt": "Akuapim Ridge: Outdoor kitchen house compound",
+        "credit": "Kwameghana, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/akwapim-ridge-clock-of-the-methodist-church-in-mampong-akwapim-001.jpg",
+        "alt": "Akuapim Ridge: Clock methodist church mampong",
+        "credit": "Kwameghana(Bright Kwame Ayisi), CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/akwapim-ridge-residential-storey-building-in-akwapim-mampong.jpg",
+        "alt": "Akuapim Ridge: Residential storey mampong",
+        "credit": "Kwameghana, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -3301,6 +3500,38 @@
     "region": "Eastern Region",
     "location": "Kwahu, Eastern Region",
     "image": "assets/images/attractions/kwahu-scarp.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/kwahu-scarp-cloud-burst-kwahu-east-0418.jpg",
+        "alt": "Kwahu Scarp: Cloud burst east",
+        "credit": "Eggi, CC BY-SA 3.0 de"
+      },
+      {
+        "image": "assets/images/gallery/kwahu-scarp-kwahu-plateau-03.jpg",
+        "alt": "Kwahu Scarp: Plateau",
+        "credit": "Kwabenabaop, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/kwahu-scarp-farmers-at-the-aboabo-grassland.jpg",
+        "alt": "Kwahu Scarp: Farmers aboabo grassland",
+        "credit": "Kwameghana, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/kwahu-scarp-forest-area-in-begoro.jpg",
+        "alt": "Kwahu Scarp: Forest area begoro",
+        "credit": "Kwameghana, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/kwahu-scarp-people-carrying-grass.jpg",
+        "alt": "Kwahu Scarp: People carrying grass",
+        "credit": "Kwameghana, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/kwahu-scarp-sunrise-in-kwahu.jpg",
+        "alt": "Kwahu Scarp: Sunrise",
+        "credit": "Robbyannafi10, CC BY 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -5066,6 +5297,38 @@
     "region": "Upper East",
     "location": "Tengzug",
     "image": "assets/images/attractions/tengzug-shrine.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/tengzug-shrine-a-tomb-from-tengzug-community.jpg",
+        "alt": "Tengzug Shrine Complex: Tomb community",
+        "credit": "Alhaj Darajaati, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/tengzug-shrine-tongo-hills-and-tengzug-shrine.jpg",
+        "alt": "Tengzug Shrine Complex: Tongo hills",
+        "credit": "Alhaj Darajaati, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/tengzug-shrine-household-gods-and-shrines-at-the-tengzug-community-in-the-u.jpg",
+        "alt": "Tengzug Shrine Complex: Household gods shrines community",
+        "credit": "Dnshitobu, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/tengzug-shrine-the-shrine-for-the-people-of-tengzug-community-in-the-upper.jpg",
+        "alt": "Tengzug Shrine Complex: People community",
+        "credit": "Dnshitobu, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/tengzug-shrine-tongo-hills-and-tengzug-shrine-ghana-2013.jpg",
+        "alt": "Tengzug Shrine Complex: Tongo hills",
+        "credit": "Maarten van der Bent, CC BY-SA 2.0"
+      },
+      {
+        "image": "assets/images/gallery/tengzug-shrine-a-visit-to-tengzug-shrines-in-the-upper-east-region-of-ghana.jpg",
+        "alt": "Tengzug Shrine Complex: Visit shrines",
+        "credit": "Anny Kataali, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -5197,6 +5460,23 @@
     "region": "Upper East",
     "location": "Sirigu, Upper East",
     "image": "assets/images/attractions/sirigu-traditional-houses.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/sirigu-traditional-houses-young-girls-from-sirigu.jpg",
+        "alt": "Sirigu Traditional Houses: Young girls",
+        "credit": "Alhaj Darajaati, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/sirigu-traditional-houses-a-lady-fetching-water-from-the-borehole-at-sirigu-upper-east.jpg",
+        "alt": "Sirigu Traditional Houses: Lady fetching water borehole",
+        "credit": "Sir Amugi, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/sirigu-traditional-houses-sirigu.jpg",
+        "alt": "Photograph of Sirigu Traditional Houses",
+        "credit": "Sir Amugi, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -5275,6 +5555,18 @@
     "region": "Upper West",
     "location": "Gbele, Wa",
     "image": "assets/images/attractions/gbele-game-reserve.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/gbele-game-reserve-wiki-loves-earth-ghana-team-at-gbele-resource-reserve.jpg",
+        "alt": "Gbele Game Reserve: Wiki loves team resource",
+        "credit": "Knowledge and philosophy, CC0"
+      },
+      {
+        "image": "assets/images/gallery/gbele-game-reserve-gbele-resource-reserve.jpg",
+        "alt": "Gbele Game Reserve: Resource",
+        "credit": "Oheneba ghana, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -6073,6 +6365,18 @@
     "region": "Western Region",
     "location": "Akwidaa, Sekondi",
     "image": "assets/images/attractions/fort-dorothea.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/fort-dorothea-akwida-ruins-dorotheenschanze-b002.jpg",
+        "alt": "Fort Dorothea: Akwida ruins dorotheenschanze",
+        "credit": "Stig Nygaard, CC BY 2.0"
+      },
+      {
+        "image": "assets/images/gallery/fort-dorothea-dorothea01.jpg",
+        "alt": "Photograph of Fort Dorothea",
+        "credit": "Joost Terrasson, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",

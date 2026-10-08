@@ -355,16 +355,41 @@ with tempfile.TemporaryDirectory() as _dir:
         [],
     )
 
-    # A row holding photographs is never re-asked: its screening stands.
-    _with_photos = dict(_row, kept=[{"title": "File:Something.jpg"}], tried=[])
+    # A pool already large enough to show is never re-asked: its screening
+    # stands, and the searches for it are over.
+    _with_photos = dict(
+        _row, kept=[{"title": "File:One.jpg"}, {"title": "File:Two.jpg"}], tried=[]
+    )
     _cp.write_text(json.dumps(_with_photos) + "\n")
     _third = _Asks()
     with contextlib.redirect_stdout(io.StringIO()):
         select.collect(_third, [_retry], [_retry["name"]], checkpoint=_cp)
     check_that(
-        "an entity with photographs waiting is left exactly as it was",
+        "an entity with photographs enough to show is left exactly as it was",
         _third.terms,
         [],
+    )
+
+    # One photograph is not a strip, so the search continues -- but only about
+    # questions still unanswered, and what the entity already holds survives a
+    # retry that finds nothing more (merge, never replace).
+    _thin = dict(_row, kept=[{"title": "File:One.jpg"}])
+    _cp.write_text(json.dumps(_thin) + "\n")
+    _fourth = _Asks()
+    with contextlib.redirect_stdout(io.StringIO()):
+        select.collect(_fourth, [_retry], [_retry["name"]], checkpoint=_cp)
+    check_that(
+        "an entity holding one photograph asks only the queries never sent",
+        _fourth.terms,
+        sorted(_alias_queries),
+    )
+    _written_thin = [
+        json.loads(line) for line in _cp.read_text().splitlines() if line.strip()
+    ]
+    check_that(
+        "and the photograph it already held is still held",
+        _written_thin[-1]["kept"],
+        [{"title": "File:One.jpg"}],
     )
 
 # -- the map is replaced, not accumulated --------------------------------------

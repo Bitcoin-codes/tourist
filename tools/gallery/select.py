@@ -618,24 +618,27 @@ def collect(
     for entity in entities:
         terms = search_terms(entity)
         if entity["id"] in passing:
-            if passing[entity["id"]]:
+            # Enough to show means the searching is done: the strip needs two
+            # photographs and a pool of two is already more than selection
+            # keeps. Below that, ask again -- but only about queries the entity
+            # has not already been answered on. "Komfo Anokye Sword Site Ghana"
+            # returned nothing the first time and will return nothing again, and
+            # under a rate limit answering with 429s those four requests are the
+            # difference between a retry that costs two calls and one that costs
+            # six. The bare town, never yet tried, is what the retry is for.
+            if len(passing[entity["id"]]) >= MIN_WANT:
                 continue
-            # The entity was searched and nothing survived. Ask again -- but only
-            # about queries it has not already been answered on. "Komfo Anokye
-            # Sword Site Ghana" returned nothing the first time and will return
-            # nothing again, and under a rate limit answering with 429s those four
-            # requests are the difference between a retry that costs two calls and
-            # one that costs six. The alias beside them, never yet tried, is what
-            # the retry is actually for.
             asked = _asked_terms(prior.get(entity["id"]) or {})
             todo = [t for t in terms if t not in set(asked)]
             if not todo:
                 continue
-            # Reasons from the queries being repeated are not reasons about the
-            # new ones, and the report counts whatever is in this list.
-            rejected.pop(entity["id"], None)
         else:
             asked, todo = [], terms
+        # What already survived an earlier run stays surviving. A retry that
+        # started from an empty pool loses nothing, but Akaa Falls searched once
+        # and holding one photograph must not have that photograph discarded
+        # because a second query found four more.
+        carried = list(passing.get(entity["id"]) or [])
 
         # One entity must never end the run.
         #
@@ -691,8 +694,13 @@ def collect(
             continue
 
         if not titles:
-            rejected[entity["id"]] = [{"title": "", "reason": "no candidates found"}]
-            checkpoint_entity(entity["id"], [], rejected[entity["id"]], asked + todo)
+            if carried:
+                # This query found nothing, and that is all it means. The
+                # photograph from the earlier search is still the entity's.
+                checkpoint_entity(entity["id"], carried, rejected.get(entity["id"], []), asked + todo)
+            else:
+                rejected[entity["id"]] = [{"title": "", "reason": "no candidates found"}]
+                checkpoint_entity(entity["id"], [], rejected[entity["id"]], asked + todo)
             continue
 
         # Drop the documents by title before asking about them.
@@ -768,6 +776,12 @@ def collect(
                 )
                 continue
             kept.append(record)
+
+        # Merge, never replace: the two pools describe the same entity from two
+        # different queries, and a title is the same title in either.
+        if carried:
+            seen_titles = {r.get("title") for r in kept}
+            kept = carried + [r for r in kept if r.get("title") not in seen_titles]
 
         passing[entity["id"]] = kept
         checkpoint_entity(entity["id"], kept, rejected.get(entity["id"], []), asked + todo)

@@ -531,6 +531,193 @@ REJECTED = [
                  'Copyrighted': 'True',
                  'License': 'cc-by-sa-2.0'}},
     ),
+    (
+        'Fort Dorothea',
+        {'title': 'File:Light bush brown (Bicyclus dorothea) underside Ankasa.jpg',
+  'categories': ['Category:Bicyclus dorothea',
+                 'Category:CC-BY-SA-4.0',
+                 'Category:Files with coordinates missing SDC location of creation',
+                 'Category:Lepidoptera of Ankasa Forest Reserve',
+                 'Category:Nymphalidae of Ghana',
+                 'Category:Photographs by Charlesjsharp',
+                 'Category:Quality images',
+                 'Category:Quality images by Charlesjsharp',
+                 'Category:Quality images missing SDC creator',
+                 'Category:Quality images of Lepidoptera by Charlesjsharp',
+                 'Category:Quality images of Lepidoptera in Ghana',
+                 'Category:Quality images of Nymphalidae',
+                 'Category:Quality images of Nymphalidae by Charlesjsharp',
+                 'Category:Quality images of butterflies by Charlesjsharp',
+                 'Category:Quality images of insects by Charlesjsharp',
+                 'Category:Self-published work'],
+  'extmetadata': {'Artist': '<bdi><a href="https://www.wikidata.org/wiki/Q54800218" '
+                            'class="extiw" title="d:Q54800218"><span title="Scottish '
+                            'wildlife photographer">Charles J. Sharp</span></a></bdi>',
+                  'Assessments': 'quality',
+                  'AttributionRequired': 'true',
+                  'Categories': 'Bicyclus dorothea|Photographs by '
+                                'Charlesjsharp|Self-published work|Files with '
+                                'coordinates missing SDC location of '
+                                'creation|Nymphalidae of Ghana|Lepidoptera of Ankasa '
+                                'Forest Reserve',
+                  'CommonsMetadataExtension': 1.2,
+                  'Copyrighted': 'True',
+                  'Credit': '<span class="int-own-work" lang="en">Own work</span>, from '
+                            '<a rel="nofollow" class="external text" '
+                            'href="https://www.sharpphotography.co.uk/">Sharp '
+                            'Photography, sharpphotography.co.uk</a>',
+                  'DateTime': '2023-12-08 21:15:38',
+                  'DateTimeOriginal': '2023-10-05 09:10:07',
+                  'GPSLatitude': '5.230000',
+                  'GPSLongitude': '-2.650000',
+                  'GPSMapDatum': 'WGS-84',
+                  'ImageDescription': 'Light bush brown (<i>Bicyclus dorothea</i>), '
+                                      'Ankasa Forest Reserve, Western Region, Ghana',
+                  'License': 'cc-by-sa-4.0',
+                  'LicenseShortName': 'CC BY-SA 4.0',
+                  'LicenseUrl': 'https://creativecommons.org/licenses/by-sa/4.0',
+                  'ObjectName': 'Light bush brown (Bicyclus dorothea) underside Ankasa',
+                  'Restrictions': '',
+                  'UsageTerms': 'Creative Commons Attribution-Share Alike 4.0'}}
+    ),
+    (
+        'Fort Dorothea',
+        {'title': 'File:Light bush brown (Bicyclus dorothea) underside on leaf.jpg',
+  'categories': ['Category:Bicyclus dorothea',
+                 'Category:CC-BY-SA-4.0',
+                 'Category:Files with coordinates missing SDC location of creation',
+                 'Category:Lepidoptera of Kakum National Park',
+                 'Category:Nymphalidae of Ghana',
+                 'Category:Photographs by Charlesjsharp',
+                 'Category:Quality images',
+                 'Category:Quality images by Charlesjsharp',
+                 'Category:Quality images missing SDC creator',
+                 'Category:Quality images of Lepidoptera by Charlesjsharp',
+                 'Category:Quality images of Lepidoptera in Ghana',
+                 'Category:Quality images of Nymphalidae',
+                 'Category:Quality images of Nymphalidae by Charlesjsharp',
+                 'Category:Quality images of butterflies by Charlesjsharp',
+                 'Category:Quality images of insects by Charlesjsharp',
+                 'Category:Self-published work'],
+  'extmetadata': {'Artist': '<bdi><a href="https://www.wikidata.org/wiki/Q54800218" '
+                            'class="extiw" title="d:Q54800218"><span title="Scottish '
+                            'wildlife photographer">Charles J. Sharp</span></a></bdi>',
+                  'Assessments': 'quality',
+                  'AttributionRequired': 'true',
+                  'Categories': 'Bicyclus dorothea|Photographs by '
+                                'Charlesjsharp|Self-published work|Files with '
+                                'coordinates missing SDC location of '
+                                'creation|Nymphalidae of Ghana|Lepidoptera of Kakum '
+                                'National Park',
+                  'CommonsMetadataExtension': 1.2,
+                  'Copyrighted': 'True',
+                  'Credit': '<span class="int-own-work" lang="en">Own work</span>, from '
+                            '<a rel="nofollow" class="external text" '
+                            'href="https://www.sharpphotography.co.uk/">Sharp '
+                            'Photography, sharpphotography.co.uk</a>',
+                  'DateTime': '2022-01-18 12:47:12',
+                  'DateTimeOriginal': '2021-11-02 10:37:32',
+                  'GPSLatitude': '5.331000',
+                  'GPSLongitude': '-1.377000',
+                  'GPSMapDatum': 'WGS-84',
+                  'ImageDescription': 'Light bush brown (<i>Bicyclus dorothea</i>), '
+                                      'Kakum National Park, Ghana',
+                  'License': 'cc-by-sa-4.0',
+                  'LicenseShortName': 'CC BY-SA 4.0',
+                  'LicenseUrl': 'https://creativecommons.org/licenses/by-sa/4.0',
+                  'ObjectName': 'Light bush brown (Bicyclus dorothea) underside on leaf',
+                  'Restrictions': '',
+                  'UsageTerms': 'Creative Commons Attribution-Share Alike 4.0'}}
+    ),
+    (
+        'Fort Dorothea',
+        {'title': 'File:Light bush brown (Bicyclus dorothea) underside.jpg',
+  'categories': ['Category:Bicyclus dorothea',
+                 'Category:CC-BY-SA-4.0',
+                 'Category:Files with coordinates missing SDC location of creation',
+                 'Category:Lepidoptera of Kakum National Park',
+                 'Category:Nymphalidae of Ghana',
+                 'Category:Photographs by Charlesjsharp',
+                 'Category:Self-published work',
+                 'Category:Valued images by Charlesjsharp',
+                 'Category:Valued images missing SDC creator',
+                 'Category:Valued images missing SDC depicts',
+                 'Category:Valued images of Ghana',
+                 'Category:Valued images of Lepidoptera by Charlesjsharp',
+                 'Category:Valued images of Nymphalidae',
+                 'Category:Valued images of Nymphalidae by Charlesjsharp',
+                 'Category:Valued images of butterflies by Charlesjsharp',
+                 'Category:Valued images of insects by Charlesjsharp',
+                 'Category:Valued images promoted 2022-01',
+                 'Category:Valued images sorted by promotion date'],
+  'extmetadata': {'Artist': '<bdi><a href="https://www.wikidata.org/wiki/Q54800218" '
+                            'class="extiw" title="d:Q54800218"><span title="Scottish '
+                            'wildlife photographer">Charles J. Sharp</span></a></bdi>',
+                  'Assessments': 'valued',
+                  'AttributionRequired': 'true',
+                  'Categories': 'Bicyclus dorothea|Photographs by '
+                                'Charlesjsharp|Self-published work|Files with '
+                                'coordinates missing SDC location of '
+                                'creation|Nymphalidae of Ghana|Lepidoptera of Kakum '
+                                'National Park',
+                  'CommonsMetadataExtension': 1.2,
+                  'Copyrighted': 'True',
+                  'Credit': '<span class="int-own-work" lang="en">Own work</span>, from '
+                            '<a rel="nofollow" class="external text" '
+                            'href="https://www.sharpphotography.co.uk/">Sharp '
+                            'Photography, sharpphotography.co.uk</a>',
+                  'DateTime': '2022-01-18 12:47:12',
+                  'DateTimeOriginal': '2021-11-02 10:37:32',
+                  'GPSLatitude': '5.331000',
+                  'GPSLongitude': '-1.377000',
+                  'GPSMapDatum': 'WGS-84',
+                  'ImageDescription': 'Light bush brown (<i>Bicyclus dorothea</i>), '
+                                      'Kakum National Park, Ghana',
+                  'License': 'cc-by-sa-4.0',
+                  'LicenseShortName': 'CC BY-SA 4.0',
+                  'LicenseUrl': 'https://creativecommons.org/licenses/by-sa/4.0',
+                  'ObjectName': 'Light bush brown (Bicyclus dorothea) underside',
+                  'Restrictions': '',
+                  'UsageTerms': 'Creative Commons Attribution-Share Alike 4.0'}}
+    ),
+    (
+        'Atiwa Forest Reserve',
+        {'title': 'File:Atiwa - tiwa (Ngaben) - Ubud, Giantar, Bali.jpg',
+  'categories': ['Category:CC-BY-SA-4.0',
+                 'Category:Cremations in Ubud',
+                 'Category:Images from WikiKaleidoskop',
+                 'Category:Self-published work',
+                 'Category:Uploaded via Campaign:wmid-wikikaleidoskop-2021'],
+  'extmetadata': {'Artist': '<a '
+                            'href="//commons.wikimedia.org/w/index.php?title=User:Gede_Agunata_Wiryatama&amp;action=edit&amp;redlink=1" '
+                            'class="new" title="User:Gede Agunata Wiryatama (page does '
+                            'not exist)">Gede Agunata Wiryatama</a>',
+                  'Assessments': '',
+                  'AttributionRequired': 'true',
+                  'Categories': 'Self-published work|Images from '
+                                'WikiKaleidoskop|Cremations in Ubud|Uploaded via '
+                                'Campaign:wmid-wikikaleidoskop-2021',
+                  'CommonsMetadataExtension': 1.2,
+                  'Copyrighted': 'True',
+                  'Credit': '<span class="int-own-work" lang="en">Own work</span>',
+                  'DateTime': '2021-08-04 04:46:31',
+                  'DateTimeOriginal': '2017-08-16 13:35:26',
+                  'ImageDescription': 'Atiwa - tiwa (Ngaben) sebuah tradisi yang sangat '
+                                      'terkenal di Bali.Upacara Ngaben sendiri '
+                                      'sebenarnya adalah prosesi pembakaran mayat atau '
+                                      'kremasi bagi penganut Hindu Bali. Ritual '
+                                      'pembakaran mayat tersebut ditujukan sebagai '
+                                      'simbol untuk menyucikan roh orang yang telah '
+                                      'meninggal. ngaben terdiri dari beberapa '
+                                      'tingkatan dari tingkat Nista (terbawah), sampai '
+                                      'tingkatan tertinggi (Utama)',
+                  'License': 'cc-by-sa-4.0',
+                  'LicenseShortName': 'CC BY-SA 4.0',
+                  'LicenseUrl': 'https://creativecommons.org/licenses/by-sa/4.0',
+                  'ObjectName': 'Atiwa - tiwa (Ngaben) - Ubud, Giantar, Bali',
+                  'Restrictions': '',
+                  'UsageTerms': 'Creative Commons Attribution-Share Alike 4.0'}}
+    ),
 ]
 
 ACCEPTED = [

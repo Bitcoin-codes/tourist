@@ -263,6 +263,12 @@ FOREIGN_PLACES = [
     "vancouver island", "bristol", "leith", "bellows falls", "vanadzor",
     "meguro", "tokyo", "fiji", "fort lauderdale", "royal fort gardens",
     "sui-ho", "shing mun", "sui wo",
+    # A Balinese cremation whose title opens "Atiwa - tiwa (Ngaben) - Ubud,
+    # Giantar, Bali" scored as Atiwa Forest Reserve and was its only candidate.
+    # The country list has Indonesia, but nothing in the record says Indonesia
+    # and no geotag was published, so the words that place the photograph are
+    # the ceremony's and the island's own.
+    "ngaben", "ubud", "bali", "gianyar", "giantar",
     "ambon", "sint eustatius", "st eustatius",
     # "Czech National Theatre (1927)" scored 3 on the national-theatre name and
     # was the only photograph that destination had: an illustration of the
@@ -524,6 +530,39 @@ ALTERNATIVE_NAMES: dict[str, set[str]] = {
     "tengzug shrine complex": {"tengzug"},
     "sirigu pottery centre": {"sirigu pottery", "sirigu"},
     "asumura rockfowl sanctuary": {"asumura rockfowl", "asumura"},
+    # The second wave, one level down: a destination whose name is longer than
+    # the town everyone actually photographed. The data already holds the town
+    # in `location` -- "Wurobo, Bono", "Kassana, near Gwollu" -- and
+    # `search_terms` asks for it welded to the full name, six words where the
+    # photograph carries one. So the town is asked on its own, and registered as
+    # a name the place answers to.
+    #
+    # Deliberately not a rule applied to every entity. A bare "axim" would hand
+    # Axim Beach twenty-two photographs of Fort Saint Anthony, and a bare
+    # "dorothea" would hand Fort Dorothea a shelf of Dorothea Lange -- each of
+    # these is the town of one destination, and where the town word is the thing
+    # itself rather than its setting, it is left out.
+    "wurobo ancestral caves": {"wurobo"},
+    "gbele game reserve": {"gbele"},
+    "dahili caves": {"dahili"},
+    "kassana slave camp": {"kassana"},
+    "sui river": {"sui"},
+    "assin manso slave river": {"assin manso"},
+    "paga slave camp": {"paga"},
+    "paga chief's palace": {"paga"},
+    "dadieso forest reserve": {"dadieso"},
+    "sefwi wiawso paramount chief's palace": {"wiawso"},
+    "kwahu scarp": {"kwahu"},
+    "liati wote waterfalls": {"wote"},
+    "wechiau community hippo sanctuary": {"wechiau"},
+    "tanoboase sacred grove": {"tanoboase"},
+    "akaa falls": {"akaa"},
+    "atiwa forest reserve": {"atiwa"},
+    "bulenga caves": {"bulenga"},
+    "duasidan monkey sanctuary": {"duasidan"},
+    "sirigu traditional houses": {"sirigu"},
+    "cocoa research institute (crig)": {"cocoa research institute of ghana", "crig"},
+    "fort dorothea": {"akwidaa"},
 }
 
 # Ships share names with the forts. "Fort William" photographs include the
@@ -961,6 +1000,58 @@ def _alternative_words(entity_keys: set[str]) -> set[str]:
 
 
 # --------------------------------------------------------------------------
+# rule: a scientific name wearing the destination's own name
+# --------------------------------------------------------------------------
+# A genus capitalised and a species below it -- the way Commons writes an
+# organism's Latin name, and the ordinary way for a title to carry two words in
+# brackets with the second one lower-case. "Cape Coast", "Western Region" and
+# "Deer Hunting Festival" all capitalise both words, so ordinary titles do not
+# resemble this; the place-name exclusion below handles the rest.
+_BRACKETED = re.compile(r"\(([A-Z][a-z]+) ([a-z]+)\)")
+
+
+def species_epithet(
+    record: dict[str, Any],
+    entity_name: str,
+    known_places: Iterable[str] = (),
+) -> str:
+    """Reject a photograph of an organism whose Latin name shares the place's.
+
+    "File:Light bush brown (Bicyclus dorothea) underside Ankasa.jpg" is a
+    butterfly -- *Bicyclus dorothea*, the light bush brown, photographed in
+    Ankasa Forest Reserve, which is why it is in Ghana, in the Western Region,
+    and why every rule before this one scored it well enough for Fort Dorothea.
+    No keyword catches it: the title never says butterfly, only the moth's
+    common name.
+
+    Three conditions keep the brackets honest:
+
+    * the second word is one of *this* destination's own words -- the name is
+      being borrowed as an epithet rather than the file being about that place;
+    * the first is not one of the destination's words, so "(Cape Coast)" beside
+      Cape Coast Castle stays a place and not a species;
+    * the first is not a known place name either, so "(Accra osu)" beside Osu
+      Castle stays one too.
+
+    A photograph of the organism is not a photograph of the place, whatever
+    region it was standing in when it was taken -- which is the whole rule, and
+    the reason it runs on the title rather than the categories.
+    """
+    title = _title(record)
+    entity_keys = _keys(entity_name)
+    place_keys = _keys(" ".join(known_places))
+    for genus, species in _BRACKETED.findall(title):
+        genus_key, species_key = _keys(genus), _keys(species)
+        if (
+            species_key <= entity_keys
+            and not genus_key & entity_keys
+            and not genus_key & place_keys
+        ):
+            return f"species-epithet: '{genus} {species}' names an organism"
+    return ""
+
+
+# --------------------------------------------------------------------------
 # rule: ambiguous place words
 # --------------------------------------------------------------------------
 def place_conflicts(
@@ -1046,6 +1137,7 @@ def screen(
         lambda: is_photograph(record, entity_name),
         lambda: location_verdict(record, entity_name),
         lambda: other_subject(record, entity_name),
+        lambda: species_epithet(record, entity_name, known_places),
         lambda: place_conflicts(record, entity_name, known_places, host_words),
     ):
         reason = check()

@@ -483,7 +483,15 @@ class Commons:
                 self.throttle = min(self.throttle * 1.5, max(8.0, asked))
                 time.sleep(delay)
                 last_error = exc
-            except urllib.error.URLError as exc:
+            # A socket read timeout is not a `URLError` -- it is raised by the
+            # SSL layer when Commons accepts the connection and then goes quiet
+            # mid-response, which under the heavy throttling this client has
+            # been earning is exactly what happens. Left out of this clause it
+            # escaped the retry loop entirely, propagated up through `collect`
+            # and `harvest`, and took the whole run down over one silent
+            # connection. It is a transient network failure like any other, so
+            # it gets the same backoff.
+            except (urllib.error.URLError, TimeoutError) as exc:
                 self._last_call = time.monotonic()
                 last_error = exc
                 time.sleep(min(60.0, 4.0 * (2**attempt)))
@@ -537,6 +545,54 @@ class Commons:
             payload = self._get(params)
             out.update(records_of(payload))
         return out
+
+    def search_categories(self, term: str, limit: int = 20) -> list[str]:
+        """Commons category-namespace search. Returns titles like 'Category:Foo'.
+
+        The same generator as `search`, pointed at namespace 14. A file search
+        matches the words a caption happens to contain; a category is Commons'
+        own filing of what a file is *of*, so a place whose photographs never
+        name it in prose is still reachable through its category.
+        """
+        params = {
+            "action": "query",
+            "generator": "search",
+            "gsrsearch": term,
+            "gsrnamespace": 14,
+            "gsrlimit": min(limit, 50),
+            "format": "json",
+            "formatversion": 1,
+        }
+        payload = self._get(params)
+        pages = payload.get("query", {}).get("pages", {})
+        return [page["title"] for page in pages.values() if page.get("title")]
+
+    def category_members(
+        self, category: str, kind: str = "file", limit: int = 50
+    ) -> list[str]:
+        """Titles directly inside a Commons category, e.g. 'File:Foo.jpg'.
+
+        Only the category's own members, never the whole tree: a place's files
+        usually sit on the place's own category, and descending is how a request
+        budget turns into a crawl. Subcategories are listed separately
+        (`kind="subcat"`) so the caller can choose to descend exactly one level
+        and no more. `category` must carry the "Category:" prefix, as
+        `search_categories` and the API both write it.
+        """
+        if not category.startswith("Category:"):
+            raise ValueError(f"cmtitle must be a category title: {category!r}")
+        params = {
+            "action": "query",
+            "list": "categorymembers",
+            "cmtitle": category,
+            "cmtype": kind,
+            "cmlimit": min(limit, 500),
+            "format": "json",
+            "formatversion": 1,
+        }
+        payload = self._get(params)
+        members = payload.get("query", {}).get("categorymembers", [])
+        return [m["title"] for m in members if m.get("title")]
 
     def categories(self, titles: list[str]) -> dict[str, list[str]]:
         """Category list per file. Separate from `info` so it can be cached

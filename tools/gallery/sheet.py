@@ -147,7 +147,9 @@ def _thumbnail(title: str, width: int = TILE_W) -> bytes | None:
         return None
 
 
-def build_checkpoint(entity: str, kept: int | None = None) -> Path:
+def build_checkpoint(
+    entity: str, kept: int | None = None, out: Path | None = None
+) -> Path:
     """Tile one entity's checkpoint candidates, fetching thumbnails as needed."""
     row: dict = {}
     with CHECKPOINT.open(encoding="utf-8") as handle:
@@ -177,7 +179,8 @@ def build_checkpoint(entity: str, kept: int | None = None) -> Path:
                 image = None
         tiles.append((f"{index}. {record.get('title', '')[5:75]}", image))
 
-    out = Path("/tmp/opencode/sheets") / f"{entity}.png"
+    if out is None:
+        out = Path("/tmp/opencode/sheets") / f"{entity}.png"
     out.parent.mkdir(parents=True, exist_ok=True)
     _draw([(entity, tiles)]).save(out)
     return out
@@ -205,7 +208,7 @@ def main() -> None:
 
     if len(args.entities) != 1:
         parser.error("exactly one entity, unless --plan is given")
-    print(build_checkpoint(args.entities[0], args.kept))
+    print(build_checkpoint(args.entities[0], args.kept, Path(args.out) if args.out else None))
 
 
 if __name__ == "__main__":

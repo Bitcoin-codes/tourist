@@ -297,7 +297,9 @@ def distinctive_ritual_keys(entity: dict[str, Any]) -> set[str]:
 GHANA_ANCHOR = "Ghana"
 
 
-def alias_terms(entity: dict[str, Any]) -> list[str]:
+def alias_terms(
+    entity: dict[str, Any], asked: list[str] | tuple[str, ...] = ()
+) -> list[str]:
     """The destination's other documented names, as Commons search phrases.
 
     A `gsrsearch` query matches every word it contains, and a destination's name
@@ -320,15 +322,27 @@ def alias_terms(entity: dict[str, Any]) -> list[str]:
     two: they are the second attempt at finding what the name failed to find,
     and every extra phrase is another request against a rate limit that answers
     bursts with 429s.
+
+    `asked` is the checkpoint's `tried`: queries this destination has already
+    been answered on. They are dropped *before* the cap, not after, because the
+    cap is about requests this run makes and the alternative is a destination
+    that can never ask anything new -- sorted alphabetically, "asumura" and
+    "asumura rockfowl" are both answered and "asumura sanctuary" would sit in
+    third place forever, never queried and never able to fail.
     """
     keys = _keys(entity["name"])
+    answered = set(asked)
     out: list[str] = []
     for name, alternatives in ALTERNATIVE_NAMES.items():
         name_keys = _keys(name)
         if not (name_keys <= keys or keys <= name_keys):
             continue
         for phrase in sorted(alternatives):
-            if len(phrase) > 3 and phrase not in out:
+            if (
+                len(phrase) > 3
+                and phrase not in out
+                and f"{phrase} {GHANA_ANCHOR}" not in answered
+            ):
                 out.append(phrase)
     return out[:2]
 
@@ -346,7 +360,9 @@ def _asked_terms(row: dict[str, Any]) -> list[str]:
     return list(row.get("tried") or [])
 
 
-def search_terms(entity: dict[str, Any]) -> list[str]:
+def search_terms(
+    entity: dict[str, Any], asked: list[str] | tuple[str, ...] = ()
+) -> list[str]:
     """What to ask Commons for, most productive first.
 
     The display name leads, because that is what an uploader would have typed.
@@ -417,7 +433,7 @@ def search_terms(entity: dict[str, Any]) -> list[str]:
     # assumption: if a fort's gallery comes back thin, this is where to look.
     out: list[str] = []
     seen: set[str] = set()
-    for term in terms + ritual_terms(entity) + alias_terms(entity):
+    for term in terms + ritual_terms(entity) + alias_terms(entity, asked):
         key = term.lower()
         if len(term) > 3 and key not in seen:
             seen.add(key)
@@ -616,7 +632,8 @@ def collect(
         checkpoint.write_text("\n".join(lines) + "\n")
 
     for entity in entities:
-        terms = search_terms(entity)
+        asked = _asked_terms(prior.get(entity["id"]) or {})
+        terms = search_terms(entity, asked)
         if entity["id"] in passing:
             # Enough to show means the searching is done: the strip needs two
             # photographs and a pool of two is already more than selection
@@ -628,12 +645,11 @@ def collect(
             # six. The bare town, never yet tried, is what the retry is for.
             if len(passing[entity["id"]]) >= MIN_WANT:
                 continue
-            asked = _asked_terms(prior.get(entity["id"]) or {})
             todo = [t for t in terms if t not in set(asked)]
             if not todo:
                 continue
         else:
-            asked, todo = [], terms
+            todo = terms
         # What already survived an earlier run stays surviving. A retry that
         # started from an empty pool loses nothing, but Akaa Falls searched once
         # and holding one photograph must not have that photograph discarded

@@ -4906,6 +4906,33 @@
     "region": "North East",
     "location": "Gambaga",
     "image": "assets/images/attractions/gambaga-chief-palace.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/gambaga-chief-palace-talking-drum-at-gambaga-chief-palace.jpg",
+        "alt": "Gambaga Chief's Palace: Talking drum",
+        "credit": "Wumbeidoo, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/gambaga-chief-palace-front-view-of-mysterious-drum-at-naa-gambaga-chief-palace.jpg",
+        "alt": "Gambaga Chief's Palace: Front mysterious drum",
+        "credit": "Hasslaebetch, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/gambaga-chief-palace-in-north-east-region.jpg",
+        "alt": "Photograph of Gambaga Chief's Palace",
+        "credit": "Hasslaebetch, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/gambaga-chief-palace-mysterious-drum-at-gambaga-chief-palace.jpg",
+        "alt": "Gambaga Chief's Palace: Mysterious drum",
+        "credit": "Hasslaebetch, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/gambaga-chief-palace-nayiri-palace-in-gambaga-upper-east-region-of-ghana.jpg",
+        "alt": "Gambaga Chief's Palace: Nayiri upper",
+        "credit": "Musahfm, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -5470,11 +5497,6 @@
         "image": "assets/images/gallery/sirigu-traditional-houses-a-lady-fetching-water-from-the-borehole-at-sirigu-upper-east.jpg",
         "alt": "Sirigu Traditional Houses: Lady fetching water borehole",
         "credit": "Sir Amugi, CC BY-SA 4.0"
-      },
-      {
-        "image": "assets/images/gallery/sirigu-traditional-houses-sirigu.jpg",
-        "alt": "Photograph of Sirigu Traditional Houses",
-        "credit": "Sir Amugi, CC BY-SA 4.0"
       }
     ],
     "rating": 4.5,
@@ -5503,6 +5525,18 @@
     "region": "Upper East",
     "location": "Sirigu, Upper East",
     "image": "assets/images/attractions/sirigu-pottery.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/sirigu-pottery-some-of-the-artistic-ornaments-made-at-sirigu-art-and-potter.jpg",
+        "alt": "Sirigu Pottery Centre: Artistic ornaments made center",
+        "credit": "Issahiddris, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/sirigu-pottery-sirigu.jpg",
+        "alt": "Photograph of Sirigu Pottery Centre",
+        "credit": "Sir Amugi, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -5529,6 +5563,18 @@
     "region": "Upper West",
     "location": "Wechiau, Black Volta",
     "image": "assets/images/attractions/wechiau-hippo-sanctuary.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/wechiau-hippo-sanctuary-great-cormorant-at-the-wechiau-hippopotamus-sanctuary.jpg",
+        "alt": "Wechiau Community Hippo Sanctuary: Great cormorant hippopotamus",
+        "credit": "Abdul-Rauf Moshie, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/wechiau-hippo-sanctuary-the-wechiau-hippopotamus-sanctuary.jpg",
+        "alt": "Wechiau Community Hippo Sanctuary: Hippopotamus",
+        "credit": "Kradolferp, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",

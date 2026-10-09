@@ -276,7 +276,18 @@ check_that(
 check_that(
     "an alias is not borrowed across two destinations sharing one word",
     select.alias_terms(entity("gushiegu-textile-centre")),
-    ["gushiegu", "gushiegu textile"],
+    ["gushiegu", "gushiegu market"],
+)
+check_that(
+    "an answered alias does not crowd out one never asked",
+    select.alias_terms(
+        entity("komfo-anokye-sword-site"),
+        asked=[
+            f"anokye sword {select.GHANA_ANCHOR}",
+            f"komfo anokye {select.GHANA_ANCHOR}",
+        ],
+    ),
+    ["manhyia sword", "sword site kumasi"],
 )
 check_that(
     "aliases are capped with everything else",
@@ -350,8 +361,19 @@ with tempfile.TemporaryDirectory() as _dir:
     with contextlib.redirect_stdout(io.StringIO()):
         select.collect(_second, [_retry], [_retry["name"]], checkpoint=_cp)
     check_that(
-        "a second retry asks nothing at all -- the question has been answered",
+        "a second retry asks the aliases still unasked, and only those",
         _second.terms,
+        ["manhyia sword Ghana", "sword site kumasi Ghana"],
+    )
+
+    # And once even those have been answered there is nothing left to ask: the
+    # checkpoint remembers every query, alias included.
+    _exhausted = _Asks()
+    with contextlib.redirect_stdout(io.StringIO()):
+        select.collect(_exhausted, [_retry], [_retry["name"]], checkpoint=_cp)
+    check_that(
+        "a third retry asks nothing at all -- the question has been answered",
+        _exhausted.terms,
         [],
     )
 

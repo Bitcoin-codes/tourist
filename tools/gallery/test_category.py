@@ -107,10 +107,18 @@ class FakeCommons:
 
 # -- category_terms --------------------------------------------------------
 daboya = entity("daboya-fugu-weaving-village")
-terms = category.category_terms(daboya)
+# An explicit limit: the live TERMS_PER_ENTITY is rate-limit tuning and moves
+# with how Commons is serving, so these check the ordering the function
+# promises, not whatever the constant happens to be this week.
+terms = category.category_terms(daboya, limit=3)
 check_that("the town leads the category terms", terms[0], "Daboya")
 check_that("the bare name follows the town", terms[1], "Daboya Fugu Weaving Village")
-check_that("no more than three category terms", len(terms) <= 3, True)
+check_that("no more than the requested number of terms", len(terms) <= 3, True)
+check_that(
+    "the live default asks for at least one term",
+    len(category.category_terms(daboya)) >= 1,
+    True,
+)
 check_that(
     "the country anchor is absent from category terms",
     any("ghana" in t.lower().split() for t in terms),
@@ -118,7 +126,7 @@ check_that(
 )
 
 # A parenthetical is dropped here as it is in file search.
-fort_royal = category.category_terms(entity("fort-royal"))
+fort_royal = category.category_terms(entity("fort-royal"), limit=3)
 check_that(
     "a parenthetical is dropped before searching categories",
     "Fort Royal (Cape Coast)" in fort_royal,
@@ -274,7 +282,16 @@ client2 = FakeCommons(
         ),
     },
 )
-passing2, _ = category.harvest(client2, [daboya], [e["name"] for e in ENTITIES], tmp2)
+# An explicit descent budget: the live SUBCATS_PER_ENTITY is rate-limit
+# tuning and is currently zero, so this exercises the marker-recording
+# mechanism independently of that tuning.
+passing2, _ = category.harvest(
+    client2,
+    [daboya],
+    [e["name"] for e in ENTITIES],
+    tmp2,
+    subcats_per_entity=3,
+)
 check_that(
     "the carried photograph stays in the pool, in place",
     [r["title"] for r in passing2["daboya-fugu-weaving-village"]],
@@ -350,7 +367,17 @@ client4 = FakeCommons(
         ),
     },
 )
-category.harvest(client4, [techiman], [e["name"] for e in ENTITIES], tmp)
+# An explicit descent budget: the live SUBCATS_PER_ENTITY is rate-limit
+# tuning and is currently zero, so this exercises the mechanism itself --
+# descend one level, no deeper -- independently of that tuning.
+category.harvest(
+    client4,
+    [techiman],
+    [e["name"] for e in ENTITIES],
+    tmp,
+    categories_per_entity=2,
+    subcats_per_entity=3,
+)
 check_that(
     "subcategories are listed for the primary category only",
     [c for c, k in client4.asked_members if k == "subcat"],

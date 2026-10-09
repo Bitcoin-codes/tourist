@@ -82,21 +82,30 @@ host_words = _select.host_words
 load_entities = _select.load_entities
 load_ritual_map = _select.load_ritual_map
 
-# Category searches per entity. Three, not six: a category namespace is far
-# smaller than the file namespace, so the town alone usually finds the one
-# category that matters, and every extra phrase is another request against a
-# rate limit that answers bursts with 429s.
-TERMS_PER_ENTITY = 3
+# Category searches per entity, categories swept, and subcategories descended.
+#
+# Three of each was the original budget, and it is what a healthy rate limit
+# affords. Under a hard one it does not work: each destination then costs six
+# to ten separate API calls, Commons answers nearly every one with a 429 and
+# orders a twenty-to-forty second wait, and twenty entities spent twenty-six
+# minutes doing nothing but honouring those waits -- seventy-seven idle seconds
+# each. Eight of those twenty had no category at all, so the budget bought
+# nothing but the knowledge that there was nothing to buy.
+#
+# So the sweep is now breadth-first: one search, one category, no descent. The
+# town's own category is where a place's files actually sit, and that is the
+# single most productive request there is; the second and third searches and
+# the subcategory walk earn far less per request than they cost in waiting.
+# Raise these again when Commons is serving normally -- nothing downstream
+# depends on the numbers, they only bound the requests this run makes.
+TERMS_PER_ENTITY = 1
+CATEGORIES_PER_ENTITY = 1
+SUBCATS_PER_ENTITY = 0
 
-# How many file categories to sweep per entity, and how many subcategories to
-# descend into. One level only, from the first -- most specific -- category:
-# a place's files usually sit on the place's own category, and an unbounded
-# descent of "Category:Waterfalls in Ghana" is a crawl of the whole country.
-CATEGORIES_PER_ENTITY = 4
-SUBCATS_PER_ENTITY = 3
 
-
-def category_terms(entity: dict[str, Any]) -> list[str]:
+def category_terms(
+    entity: dict[str, Any], limit: int | None = None
+) -> list[str]:
     """What to search the category namespace for, most specific first.
 
     The town leads because that is the category a place's files are filed
@@ -107,6 +116,10 @@ def category_terms(entity: dict[str, Any]) -> list[str]:
     category is sometimes filed under the trade rather than the place
     ("Category:Fugu" -- though see `relevant_category` for why the fish is
     usually filtered out downstream).
+
+    `limit` overrides TERMS_PER_ENTITY. The default is the live tuning, which
+    moves with the rate limit, so a test that cares about the ordering passes
+    its own number rather than asserting whatever the constant happens to be.
     """
     bare = entity["name"].split(" (")[0].strip() or entity["name"]
     town = (entity.get("location") or "").split(",")[0].strip()
@@ -118,7 +131,7 @@ def category_terms(entity: dict[str, Any]) -> list[str]:
         if len(term) > 3 and key not in seen:
             seen.add(key)
             out.append(term)
-    return out[:TERMS_PER_ENTITY]
+    return out[: TERMS_PER_ENTITY if limit is None else limit]
 
 
 def relevant_category(category: str, entity: dict[str, Any]) -> bool:
@@ -189,6 +202,9 @@ def harvest(
     entities: list[dict[str, Any]],
     known_names: list[str],
     checkpoint: Path = CHECKPOINT_OUT,
+    *,
+    categories_per_entity: int | None = None,
+    subcats_per_entity: int | None = None,
 ) -> tuple[dict[str, list[dict]], dict[str, list[dict]]]:
     """Sweep each entity's categories and merge survivors into its pool.
 
@@ -197,7 +213,18 @@ def harvest(
     the same photograph whether it arrived through a query or a category.
     Rejections accumulate too -- a file refused once for being Japanese does
     not become acceptable because it turned up again under "Category:Fugu".
+
+    The two keyword arguments override CATEGORIES_PER_ENTITY and
+    SUBCATS_PER_ENTITY. Those constants are live rate-limit tuning and move
+    with how Commons is serving today, so a test that cares about the sweep
+    *mechanism* -- one descent level, markers recorded, nothing swept twice --
+    passes its own budget instead of asserting whatever the constant happens
+    to be this week.
     """
+    if categories_per_entity is None:
+        categories_per_entity = CATEGORIES_PER_ENTITY
+    if subcats_per_entity is None:
+        subcats_per_entity = SUBCATS_PER_ENTITY
     prior = load_checkpoint(checkpoint)
     passing: dict[str, list[dict]] = {}
     rejected: dict[str, list[dict]] = {}
@@ -238,7 +265,7 @@ def harvest(
 
         # -- list members --------------------------------------------------
         titles: set[str] = set()
-        for cat in categories[:CATEGORIES_PER_ENTITY]:
+        for cat in categories[:categories_per_entity]:
             if f"category:files:{cat}" in swept:
                 continue
             tried.append(f"category:files:{cat}")
@@ -247,14 +274,23 @@ def harvest(
             except CommonsError as exc:
                 print(f"  {entity['id']}: members of {cat} failed: {exc}", flush=True)
         # One level of subcategories, from the most specific category only.
-        if categories and f"category:subcats:{categories[0]}" not in swept:
+        #
+        # Guarded on the budget as well as on the marker: with the descent cut
+        # to zero this block must not even ask for the subcategory list, or the
+        # request is spent to learn nothing -- which is the whole thing the
+        # reduced budget is there to avoid.
+        if (
+            subcats_per_entity > 0
+            and categories
+            and f"category:subcats:{categories[0]}" not in swept
+        ):
             primary = categories[0]
             tried.append(f"category:subcats:{primary}")
             try:
-                subs = client.category_members(primary, kind="subcat", limit=SUBCATS_PER_ENTITY)
+                subs = client.category_members(primary, kind="subcat", limit=subcats_per_entity)
             except CommonsError:
                 subs = []
-            for sub in subs[:SUBCATS_PER_ENTITY]:
+            for sub in subs[:subcats_per_entity]:
                 if f"category:files:{sub}" in swept:
                     continue
                 tried.append(f"category:files:{sub}")

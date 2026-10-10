@@ -630,6 +630,27 @@ def collect(
         if passing:
             print(f"  resuming: {len(passing)} entities already searched\n", flush=True)
 
+        # A verdict given by eye has to hold for every pool, including those
+        # this run will not touch.
+        #
+        # An entity whose pool already meets MIN_WANT is skipped outright, so a
+        # condemned photograph inside a pool large enough to ship would never be
+        # reconsidered. Princess Town Beach holds eighteen photographs, one of
+        # them condemned on a contact sheet, and was skipped precisely because
+        # it had enough -- which is the one condition under which the
+        # condemnation could never be applied. Purging here, for every entity,
+        # makes the verdict independent of whether the entity gets re-searched.
+        for _eid, _pool in list(passing.items()):
+            _bad = {
+                r.get("title")
+                for r in rejected.get(_eid, [])
+                if str(r.get("reason", "")).startswith(
+                    "wrong-place: rejected on contact-sheet review"
+                )
+            }
+            if _bad:
+                passing[_eid] = [r for r in _pool if r.get("title") not in _bad]
+
     def checkpoint_entity(
         entity_id: str, kept: list[dict], why: list[dict], tried: list[str]
     ) -> None:

@@ -205,6 +205,7 @@ def harvest(
     *,
     categories_per_entity: int | None = None,
     subcats_per_entity: int | None = None,
+    terms_per_entity: int | None = None,
 ) -> tuple[dict[str, list[dict]], dict[str, list[dict]]]:
     """Sweep each entity's categories and merge survivors into its pool.
 
@@ -214,17 +215,22 @@ def harvest(
     Rejections accumulate too -- a file refused once for being Japanese does
     not become acceptable because it turned up again under "Category:Fugu".
 
-    The two keyword arguments override CATEGORIES_PER_ENTITY and
-    SUBCATS_PER_ENTITY. Those constants are live rate-limit tuning and move
-    with how Commons is serving today, so a test that cares about the sweep
-    *mechanism* -- one descent level, markers recorded, nothing swept twice --
-    passes its own budget instead of asserting whatever the constant happens
-    to be this week.
+    The three keyword arguments override TERMS_PER_ENTITY,
+    CATEGORIES_PER_ENTITY and SUBCATS_PER_ENTITY. Those constants are live
+    rate-limit tuning and move with how Commons is serving today, so a test
+    that cares about the sweep *mechanism* -- one descent level, markers
+    recorded, nothing swept twice -- passes its own budget instead of
+    asserting whatever the constant happens to be this week. The same is true
+    of a deliberate deep pass over a handful of entities: raising the budget
+    on the command line asks the questions the lean run skipped, and every
+    one it already answered is still skipped by its marker.
     """
     if categories_per_entity is None:
         categories_per_entity = CATEGORIES_PER_ENTITY
     if subcats_per_entity is None:
         subcats_per_entity = SUBCATS_PER_ENTITY
+    if terms_per_entity is None:
+        terms_per_entity = TERMS_PER_ENTITY
     prior = load_checkpoint(checkpoint)
     passing: dict[str, list[dict]] = {}
     rejected: dict[str, list[dict]] = {}
@@ -247,7 +253,7 @@ def harvest(
         # -- discover categories ------------------------------------------
         categories: list[str] = []
         seen: set[str] = set()
-        for term in category_terms(entity):
+        for term in category_terms(entity, limit=terms_per_entity):
             if f"category:search:{term}" in swept:
                 continue
             tried.append(f"category:search:{term}")
@@ -372,6 +378,27 @@ def main() -> int:
     parser.add_argument(
         "--limit", type=int, default=0, help="stop after this many entities this run"
     )
+    parser.add_argument(
+        "--terms",
+        type=int,
+        default=None,
+        metavar="N",
+        help=f"category searches per entity (default {TERMS_PER_ENTITY})",
+    )
+    parser.add_argument(
+        "--categories",
+        type=int,
+        default=None,
+        metavar="N",
+        help=f"file categories swept per entity (default {CATEGORIES_PER_ENTITY})",
+    )
+    parser.add_argument(
+        "--subcats",
+        type=int,
+        default=None,
+        metavar="N",
+        help=f"subcategory levels descended per entity (default {SUBCATS_PER_ENTITY})",
+    )
     args = parser.parse_args()
 
     all_entities = load_entities()
@@ -396,7 +423,14 @@ def main() -> int:
     print(f"{len(entities)} entities to sweep\n", flush=True)
     client = Commons(CACHE_DIR, throttle=1.5)
 
-    passing, _rejected = harvest(client, entities, known_names)
+    passing, _rejected = harvest(
+        client,
+        entities,
+        known_names,
+        terms_per_entity=args.terms,
+        categories_per_entity=args.categories,
+        subcats_per_entity=args.subcats,
+    )
 
     ready = [eid for eid, pool in passing.items() if len(pool) >= MIN_WANT]
     print(

@@ -708,6 +708,46 @@ check_that(
     False,
 )
 
+# -- lowering the threshold surfaces candidates, it does not ship them ---------
+#
+# A photograph can pass every image gate -- raster, minimum width, the screen --
+# and still score 1, because the uploader wrote "Cape Coast" for a fort in Cape
+# Coast and nothing more. `install` dropped such a file before anyone saw it,
+# which is the one way this pipeline can lose a real photograph it already holds.
+# The threshold is therefore a knob for *looking*, never for shipping: apply
+# still runs only on pairs that survive the contact sheet.
+_record_one = {
+    "title": "File:Monkeys 4.jpg",
+    "categories": [],
+    "extmetadata": {"ImageDescription": {"value": "Troop near the Atome gate"}},
+    "sha1": "aaaa",
+}
+_TAFI = "tafi-atome-monkey-sanctuary"
+check_that(
+    "the record under inspection really is below the shipping threshold",
+    select.specificity(_record_one, entity(_TAFI)) < select.MIN_SPECIFICITY,
+    True,
+)
+check_that(
+    "at the default threshold it is dropped, as before",
+    select.assign({_TAFI: [_record_one]}, DESTINATIONS[:3])[0][_TAFI],
+    [],
+)
+check_that(
+    "lowering the threshold brings it up for inspection",
+    len(
+        select.assign({_TAFI: [_record_one]}, DESTINATIONS[:3], min_specificity=1)[
+            0
+        ][_TAFI]
+    ),
+    1,
+)
+check_that(
+    "and it is still assigned to exactly one destination",
+    select.assign({_TAFI: [_record_one]}, DESTINATIONS[:3], min_specificity=1)[1],
+    [],
+)
+
 # -- a distinctive name word must not be enough on its own --------------------
 #
 # "Daboya Fugu Weaving Village" is the only destination in the data with

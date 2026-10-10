@@ -3259,6 +3259,33 @@
     "region": "Central Region",
     "location": "Cape Coast",
     "image": "assets/images/attractions/posuban-shrines.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/posuban-shrines-posuban-1.jpg",
+        "alt": "Photograph of Posuban Shrines",
+        "credit": "HijabGirl1, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/posuban-shrines-posuban-2.jpg",
+        "alt": "Photograph of Posuban Shrines",
+        "credit": "HijabGirl1, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/posuban-shrines-posuban-3.jpg",
+        "alt": "Photograph of Posuban Shrines",
+        "credit": "HijabGirl1, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/posuban-shrines-posuban-4.jpg",
+        "alt": "Photograph of Posuban Shrines",
+        "credit": "HijabGirl1, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/posuban-shrines-posuban.jpg",
+        "alt": "Photograph of Posuban Shrines",
+        "credit": "HijabGirl1, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",

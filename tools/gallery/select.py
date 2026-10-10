@@ -844,15 +844,32 @@ def _count_usable(titles: set[str]) -> int:
 
 
 def assign(
-    passing: dict[str, list[dict]], entities: list[dict[str, Any]]
+    passing: dict[str, list[dict]],
+    entities: list[dict[str, Any]],
+    min_specificity: int = MIN_SPECIFICITY,
 ) -> tuple[dict[str, list[dict]], list[dict]]:
     """Give every photograph to exactly one destination: its strongest match.
 
     A photograph is used only where it names the destination at least
-    `MIN_SPECIFICITY`, and only if it names *this* destination more strongly
+    `min_specificity`, and only if it names *this* destination more strongly
     than any other. That second condition is what stops a Keta street appearing
     in both fort galleries, and it is why `specificity` is compared rather than
     thresholded on its own.
+
+    `min_specificity` defaults to `MIN_SPECIFICITY` and is only ever lowered
+    by hand, to bring sub-threshold candidates up for inspection. Those files
+    have already passed every image gate -- raster, minimum width, the screen
+    -- and are held back solely by an automated score that says the caption
+    does not name the place strongly enough. A caption is a poor witness: an
+    uploader who photographed Fort Royal often writes "Cape Coast" and nothing
+    more, and the score then reads 1 for a photograph that is entirely correct.
+    Dropping such a file without ever showing it to anyone is the one way this
+    pipeline can lose a real photograph it already has in hand.
+
+    So the number may be lowered to *see* a candidate, never to ship one: every
+    file that reaches a plan is inspected on a contact sheet, and `apply` is
+    still run only for the pairs that survive that inspection. The default is
+    unchanged, so an ordinary run behaves exactly as before.
     """
     by_id = {entity["id"]: entity for entity in entities}
 
@@ -876,7 +893,7 @@ def assign(
         entity = by_id[entity_id]
         for record in records:
             score = specificity(record, entity)
-            if score < MIN_SPECIFICITY:
+            if score < min_specificity:
                 continue
             key = record.get("sha1") or record["title"]
             current = best_for_file.get(key)
@@ -1088,6 +1105,18 @@ def main() -> int:
         help="ignore any checkpoint and search every entity again",
     )
     parser.add_argument(
+        "--min-specificity",
+        type=int,
+        default=MIN_SPECIFICITY,
+        metavar="N",
+        help=(
+            "accept photographs scoring at least N (default "
+            f"{MIN_SPECIFICITY}). Lower it only to bring sub-threshold "
+            "candidates up for hand inspection; it never bypasses the "
+            "contact sheet or apply."
+        ),
+    )
+    parser.add_argument(
         "--limit", type=int, default=0, help="stop after this many entities this run"
     )
     args = parser.parse_args()
@@ -1120,7 +1149,7 @@ def main() -> int:
     passing, rejected, failed = collect(
         client, batch, known_names, checkpoint=CHECKPOINT_OUT, resume=not args.fresh
     )
-    galleries, unassigned = assign(passing, entities)
+    galleries, unassigned = assign(passing, entities, min_specificity=args.min_specificity)
     rows, notes = install(galleries, write=args.install, report_only=args.report_only)
 
     ready = {k: v for k, v in galleries.items() if len(v) >= MIN_WANT}
@@ -1143,6 +1172,8 @@ def main() -> int:
         f"  not reached (limit) : {max(0, len(entities) - len(batch))}",
         f"  fetch failed        : {len(failed)}",
         f"galleries with >= {MIN_WANT} : {len(ready)}",
+        f"specificity threshold : {args.min_specificity}"
+        + ("" if args.min_specificity == MIN_SPECIFICITY else " (lowered for inspection)"),
         f"photographs chosen    : {len(rows)}",
         f"too thin to show      : {len(thin)}",
         f"no usable photograph : {len(entities) - len(ready) - len(thin)}",

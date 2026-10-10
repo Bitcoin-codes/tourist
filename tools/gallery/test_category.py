@@ -133,6 +133,34 @@ check_that(
     False,
 )
 
+# Both halves of a two-settlement location become queries. Searching the pair
+# whole -- "Pra Amukoe/Prampram" -- found nothing, because Commons files Fort
+# McCarthy's town under "Category:Prampram", and no query containing a slash
+# leads there.
+_mccarthy_terms = category.category_terms(entity("fort-mccarthy"), limit=3)
+check_that(
+    "the second settlement of a location is searched",
+    "Prampram" in _mccarthy_terms,
+    True,
+)
+check_that(
+    "and the first is too",
+    "Pra Amukoe" in _mccarthy_terms,
+    True,
+)
+check_that(
+    "the slash-joined pair is never searched as one phrase",
+    "Pra Amukoe/Prampram" in _mccarthy_terms,
+    False,
+)
+# A comma separates a settlement from its region, and the region is not searched
+# -- sweeping it would pull in a whole region's photographs.
+check_that(
+    "a region after a comma is not itself a search term",
+    "Western North" in category.category_terms(entity("bia-resource-reserve"), limit=3),
+    False,
+)
+
 # -- relevant_category ------------------------------------------------------
 check_that(
     "a category named for the town is relevant",
@@ -165,6 +193,27 @@ check_that(
 check_that(
     "a very short town does not match by containment alone",
     category.relevant_category("Category:Waterfalls in Ghana", entity("wa-naa-palace")),
+    False,
+)
+
+# A location naming two settlements was excluded from both of them. The old form
+# took the whole string as `town` and asked whether "pra amukoe/prampram" was a
+# substring of the category, which it can never be -- so "Category:Prampram",
+# where Fort McCarthy's photographs actually sit, was refused, and the entity's
+# own town was the one category it would not accept.
+check_that(
+    "the second settlement of a two-part location still matches",
+    category.relevant_category("Category:Prampram", entity("fort-mccarthy")),
+    True,
+)
+check_that(
+    "and so does the first",
+    category.relevant_category("Category:Pra Amukoe", entity("fort-mccarthy")),
+    True,
+)
+check_that(
+    "a neighbouring town is still not relevant to the fort",
+    category.relevant_category("Category:Elmina", entity("fort-mccarthy")),
     False,
 )
 

@@ -122,10 +122,22 @@ def category_terms(
     its own number rather than asserting whatever the constant happens to be.
     """
     bare = entity["name"].split(" (")[0].strip() or entity["name"]
-    town = (entity.get("location") or "").split(",")[0].strip()
+    # A location may name several settlements rather than one settlement and a
+    # qualifier. "Pra Amukoe/Prampram" is Fort McCarthy's own location, and as a
+    # query it found nothing at all: Commons holds "Category:Prampram", and
+    # "Pra Amukoe/Prampram" is not a string that leads there. Each settlement
+    # leads to its own category, so each is searched.
+    #
+    # A comma is different: it separates the settlement from its region or its
+    # relation to a larger town ("Bia, Western North", "Daboya, near Tamale").
+    # Only what precedes it is the place, which is what was taken before and
+    # still is -- the region is not where a place's photographs sit, and
+    # sweeping "Western North Region" would pull in the whole of it.
+    head = (entity.get("location") or "").split(",")[0]
+    towns = [p.strip() for p in head.split("/") if p.strip()]
     out: list[str] = []
     seen: set[str] = set()
-    for candidate in (town, bare, " ".join(sorted(distinctive_tokens(bare)))):
+    for candidate in (*towns, bare, " ".join(sorted(distinctive_tokens(bare)))):
         term = candidate.strip()
         key = term.lower()
         if len(term) > 3 and key not in seen:
@@ -145,9 +157,24 @@ def relevant_category(category: str, entity: dict[str, Any]) -> bool:
     ("fort", "palace") names a hundred categories that are not this one.
     """
     cat = category.removeprefix("Category:").lower()
-    town = (entity.get("location") or "").split(",")[0].strip().lower()
-    if len(town) > 3 and town in cat:
-        return True
+    # A location is a list, not a phrase. "Pra Amukoe/Prampram" names two
+    # settlements joined by a slash, and the old form took that whole string as
+    # `town` and asked whether it appeared in the category -- so
+    # "Category:Prampram", which is precisely where Fort McCarthy's photographs
+    # sit, was rejected because "pra amukoe/prampram" is not a substring of
+    # "prampram". Every destination whose location names more than one place
+    # was excluded from its own town's category, which is the single most
+    # productive category there is.
+    #
+    # So each settlement is considered on its own, in either direction: the
+    # category may be named for the town, or for a parent the town sits in.
+    loc = (entity.get("location") or "").strip().lower()
+    parts = {p.strip() for p in loc.replace("/", ",").split(",") if p.strip()}
+    if loc:
+        parts.add(loc)
+    for part in parts:
+        if len(part) > 3 and (part in cat or (len(cat) > 3 and cat in part)):
+            return True
     words = {w for w in _keys(entity["name"].split(" (")[0]) if len(w) > 3}
     return sum(1 for w in words if w in cat) >= 2
 

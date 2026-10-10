@@ -1644,6 +1644,18 @@
     "region": "Upper East",
     "location": "Nania, near Paga",
     "image": "assets/images/attractions/nania-slave-route.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/nania-slave-route-tower-for-checking-the-slaves-at-nania.jpg",
+        "alt": "Nania Slave Route: Tower checking slaves",
+        "credit": "Chirifo, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/nania-slave-route-feeding-blows-for-slaves-nania.jpg",
+        "alt": "Nania Slave Route: Feeding blows slaves",
+        "credit": "Chirifo, CC BY-SA 4.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",
@@ -2724,6 +2736,18 @@
     "region": "Bono Region",
     "location": "Tanoboase, Techiman",
     "image": "assets/images/attractions/tanoboase-sacred-grove.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/tanoboase-sacred-grove-tano-sacred-rock-rock-climbing.jpg",
+        "alt": "Tanoboase Sacred Grove: Tano rock rock climbing",
+        "credit": "Adjoajo, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/tanoboase-sacred-grove-tanoboase-rock-valley.jpg",
+        "alt": "Tanoboase Sacred Grove: Rock valley",
+        "credit": "Kelsdark, CC BY-SA 3.0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",

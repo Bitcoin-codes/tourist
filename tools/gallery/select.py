@@ -125,9 +125,30 @@ SEARCH_ENOUGH = 40
 # The scale, from weakest to strongest, is built by `specificity` below.
 MIN_SPECIFICITY = 2
 
-# A photograph needs a real licence and a real size. Anything narrower than this
-# cannot fill a thumbnail at 2x on a phone without upscaling.
-MIN_WIDTH = 1200
+# A photograph needs a real licence and a real size.
+#
+# The width that matters is the one the site actually renders: `build_image_variants`
+# emits 400w and 800w, and the tour tile is about 305px wide. A source of 1000px
+# therefore produces every derivative by downscaling, which is what "no upscaling"
+# has always meant here -- the number is a floor on where quality is lost, not a
+# taste in photographs.
+#
+# It was 1200, fifty percent above anything the site asks for, and that floor cost
+# galleries rather than sharpness. "Feeding blows for slaves Nania.jpg" and "Tano
+# Sacred Rock - rock climbing.jpg" are photographs of exactly the right places --
+# the titles say so, and every other gate passed them -- and both were refused for
+# being 1008px and 960px wide. A destination whose only fault is that its
+# photographs are a little small is a destination with a gallery, not one without.
+# Accuracy outranks sharpness, and a soft hero is visible in a way an empty gallery
+# is not: `check.py` already reports gomoa-wonderland shipping soft at 1280px for
+# exactly this reason.
+#
+# Raise it again only alongside VARIANTS in build_image_variants.py, and never past
+# the smallest derivative the site renders -- above 800 the floor starts asking for
+# resolution nothing displays. 900 is where it now stands: above the 800w it has to
+# clear, and low enough to admit the 960px and 1008px photographs that were the
+# whole reason for moving it.
+MIN_WIDTH = 900
 
 # How many entities in a row must fail to fetch before the run stops entirely.
 #
@@ -656,6 +677,37 @@ def collect(
         # because a second query found four more.
         carried = list(passing.get(entity["id"]) or [])
 
+        # A verdict given by eye is not re-opened by a later automated pass.
+        #
+        # `screen` is stateless and cannot know that a photograph was downloaded,
+        # put on a contact sheet, and found to be of the wrong place -- so on any
+        # later run the same file passes again and lands in `kept`. Nothing used
+        # to notice, because the pool merge discarded everything a retry found,
+        # condemned photographs included; with that fixed, a photograph a person
+        # rejected on sight would walk straight back into the pool and out to the
+        # site. "This stone serve as grinding. Mail at pikworo slaves..." is a
+        # Pikworo photograph, not Nania's, and its description names both towns,
+        # so it scores well and is still not of this place.
+        #
+        # Only the visual verdicts are remembered. Every other rejection is
+        # provisional and deliberately re-asked -- a photograph refused as too
+        # small under an older floor is exactly what raising MIN_WIDTH is meant
+        # to recover -- but "a person looked at this and it is not the place" is
+        # not a threshold that moves.
+        condemned = {
+            r.get("title")
+            for r in rejected.get(entity["id"], [])
+            if str(r.get("reason", "")).startswith("wrong-place: rejected on contact-sheet review")
+        }
+        # Carried too, not only what this pass finds. A condemned photograph
+        # reaches the pool from the checkpoint as readily as from a query --
+        # Princess Town Beach's "Blick auf Princess Town" was condemned on
+        # 2026-10-08 and still sat in `kept`, because the rule was only applied
+        # to records the current pass produced. A verdict that survives the
+        # checkpoint has to survive the merge as well.
+        if condemned:
+            carried = [r for r in carried if r.get("title") not in condemned]
+
         # One entity must never end the run.
         #
         # A 429 is not a per-entity condition: Commons hands them out to whole
@@ -687,9 +739,20 @@ def collect(
             # than enough to leave 6 that survive. A term that returns little
             # still falls through to the next one, so a thinly-covered place
             # searches just as deeply as it did before.
+            # Only the terms actually put to Commons. The break below exists to
+            # stop paying for results selection will not use, and it used to leave
+            # the whole of `todo` recorded as asked -- so a term the loop never
+            # reached was recorded as a term that had been answered, and no later
+            # run would ever ask it. Alias terms come last by construction, which
+            # is precisely where it bit: "Princess Town Beach" searched four name
+            # terms, broke on "princess Ghana" returning forty-five usable titles,
+            # and never asked "princes town beach" -- the alternative name it was
+            # built for -- while recording that it had.
+            asked_now: list[str] = []
             titles: set[str] = set()
             for term in todo:
                 found = client.search(term, limit=50)
+                asked_now.append(term)
                 titles.update(found)
                 if _count_usable(titles) >= SEARCH_ENOUGH:
                     break
@@ -713,10 +776,10 @@ def collect(
             if carried:
                 # This query found nothing, and that is all it means. The
                 # photograph from the earlier search is still the entity's.
-                checkpoint_entity(entity["id"], carried, rejected.get(entity["id"], []), asked + todo)
+                checkpoint_entity(entity["id"], carried, rejected.get(entity["id"], []), asked + asked_now)
             else:
                 rejected[entity["id"]] = [{"title": "", "reason": "no candidates found"}]
-                checkpoint_entity(entity["id"], [], rejected[entity["id"]], asked + todo)
+                checkpoint_entity(entity["id"], [], rejected[entity["id"]], asked + asked_now)
             continue
 
         # Drop the documents by title before asking about them.
@@ -791,16 +854,33 @@ def collect(
                     {"title": title, "reason": f"too small: {record.get('width')}px"}
                 )
                 continue
+            if title in condemned:
+                rejected.setdefault(entity["id"], []).append(
+                    {
+                        "title": title,
+                        "reason": "wrong-place: rejected on contact-sheet review; not re-opened",
+                    }
+                )
+                continue
             kept.append(record)
 
         # Merge, never replace: the two pools describe the same entity from two
         # different queries, and a title is the same title in either.
+        #
+        # The set of titles to drop is the one the entity already holds, taken
+        # from `carried`. Built from `kept` instead -- as it was -- it filtered
+        # the new pool against itself, which removes every new record and leaves
+        # `carried` standing alone. A retry then found photographs and discarded
+        # all of them while reporting the merge as done, and because only an
+        # entity below MIN_WANT retries at all, it cost precisely the entities
+        # that most needed the help: Nania Slave Route held one photograph, found
+        # three, and kept the one it started with.
         if carried:
-            seen_titles = {r.get("title") for r in kept}
+            seen_titles = {r.get("title") for r in carried}
             kept = carried + [r for r in kept if r.get("title") not in seen_titles]
 
         passing[entity["id"]] = kept
-        checkpoint_entity(entity["id"], kept, rejected.get(entity["id"], []), asked + todo)
+        checkpoint_entity(entity["id"], kept, rejected.get(entity["id"], []), asked + asked_now)
         print(
             f"  {entity['id']}: {len(kept)} of {len(records)} pass"
             + (f" ({counts.get('rejected', 0)} filtered)" if counts.get("rejected") else ""),

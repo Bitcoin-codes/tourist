@@ -578,7 +578,11 @@ ALTERNATIVE_NAMES: dict[str, set[str]] = {
     "kukuo pottery centre": {"kukuo pottery", "kukuo pots"},
     "axim beach": {"axim shore", "axim beach nzema"},
     "princess town beach": {"princes town beach"},
-    "bia resource reserve": {"bia reserve", "bia wildlife sanctuary"},
+    # "Entrance to Bia Forest reserve.jpg" is the destination's own accepted
+    # photograph, so Commons files the reserve under both names -- but the file
+    # search asked only "bia resource reserve" and its other aliases, and the
+    # forest-reserve phrasing is how the photographs are actually titled.
+    "bia resource reserve": {"bia reserve", "bia wildlife sanctuary", "bia forest reserve"},
 }
 
 # Ships share names with the forts. "Fort William" photographs include the

@@ -414,6 +414,224 @@ with tempfile.TemporaryDirectory() as _dir:
         [{"title": "File:One.jpg"}],
     )
 
+# -- the early break must not record queries it never made ---------------------
+#
+# SEARCH_ENOUGH stops the loop once there is enough to choose from. The row
+# used to record the whole of `todo` rather than what was actually put to
+# Commons, so a term the break had skipped was written down as answered and no
+# later run would ask it. Alias terms come last by construction, which is
+# precisely where it bit: "Princess Town Beach" flooded on "princess Ghana",
+# broke, and recorded "princes town beach" -- the alternative name it was built
+# for -- as a question that had been answered.
+class _Breaks:
+    """Floods the first query so the loop breaks before the later terms."""
+
+    def __init__(self) -> None:
+        self.terms: list[str] = []
+
+    def search(self, term: str, limit: int = 50) -> list[str]:
+        self.terms.append(term)
+        if len(self.terms) == 1:
+            return [f"File:Flood {i}.jpg" for i in range(select.SEARCH_ENOUGH + 5)]
+        return ["File:Alias Photograph.jpg"]
+
+    def info(self, titles: list[str]) -> dict[str, dict]:
+        return {}
+
+
+_flood = entity("princess-town-beach")
+_flood_terms = [
+    *select.search_terms(_flood),
+    *(f"{a} {select.GHANA_ANCHOR}" for a in select.alias_terms(_flood)),
+]
+with tempfile.TemporaryDirectory() as _dir:
+    _bcp = Path(_dir) / "checkpoint.jsonl"
+    _breaker = _Breaks()
+    with contextlib.redirect_stdout(io.StringIO()):
+        select.collect(_breaker, [_flood], [_flood["name"]], checkpoint=_bcp)
+    check_that(
+        "the flood trips the break before every term is asked",
+        len(_breaker.terms) < len(_flood_terms),
+        True,
+    )
+    _brow = [json.loads(line) for line in _bcp.read_text().splitlines() if line.strip()][-1]
+    check_that(
+        "and the row records a question only if it was actually asked",
+        set(_brow["tried"]) - set(_breaker.terms),
+        set(),
+    )
+    check_that(
+        "so the alias the break skipped is still unasked next run",
+        select.alias_terms(_flood, _brow["tried"]),
+        select.alias_terms(_flood),
+    )
+
+# -- a retry must add what it finds, not keep only what it carried -------------
+#
+# The merge built its "already present" set from the new pool instead of the
+# carried one, so it filtered the new records against themselves, removed every
+# one, and left `carried` standing alone. Only an entity below MIN_WANT retries
+# at all, so this cost precisely the entities that most needed the help: Nania
+# Slave Route held one photograph, its queries found three, and it kept the one
+# it started with -- while the run reported the merge as done.
+class _Merges:
+    """Finds one photograph the entity does not yet hold."""
+
+    def __init__(self) -> None:
+        self.terms: list[str] = []
+
+    def search(self, term: str, limit: int = 50) -> list[str]:
+        self.terms.append(term)
+        return ["File:Feeding blows for slaves Nania.jpg"]
+
+    def info(self, titles: list[str]) -> dict[str, dict]:
+        return {
+            title: {
+                "title": title,
+                "width": 1600,
+                "height": 1200,
+                "sha1": f"newsha-{title}",
+                "mime": "image/jpeg",
+                "categories": [],
+                "descriptionurl": "https://commons.wikimedia.org/wiki/File:x",
+                "extmetadata": {
+                    "LicenseShortName": {"value": "CC BY-SA 4.0"},
+                    "LicenseUrl": {"value": "https://creativecommons.org/licenses/by-sa/4.0"},
+                    "ImageDescription": {"value": "Feeding blows for the slaves at Nania"},
+                },
+            }
+            for title in titles
+        }
+
+
+_nania = entity("nania-slave-route")
+_held = {
+    "title": "File:Tower for checking the slaves at Nania.jpg",
+    "width": 1920,
+    "height": 2560,
+    "sha1": "oldsha",
+    "categories": [],
+    "descriptionurl": "https://commons.wikimedia.org/wiki/File:y",
+    "extmetadata": {"LicenseShortName": {"value": "CC BY-SA 4.0"}},
+}
+with tempfile.TemporaryDirectory() as _dir:
+    _mcp = Path(_dir) / "checkpoint.jsonl"
+    _mcp.write_text(
+        json.dumps({"id": _nania["id"], "kept": [_held], "rejected": [], "tried": []}) + "\n"
+    )
+    with contextlib.redirect_stdout(io.StringIO()):
+        select.collect(_Merges(), [_nania], [_nania["name"]], checkpoint=_mcp)
+    _mrow = [json.loads(line) for line in _mcp.read_text().splitlines() if line.strip()][-1]
+    _titles = {r["title"] for r in _mrow["kept"]}
+    check_that(
+        "a retry keeps the photograph the entity already held",
+        "File:Tower for checking the slaves at Nania.jpg" in _titles,
+        True,
+    )
+    check_that(
+        "and keeps what the retry found, which the broken merge discarded",
+        "File:Feeding blows for slaves Nania.jpg" in _titles,
+        True,
+    )
+    check_that(
+        "so the pool grows by exactly the new photograph",
+        len(_mrow["kept"]),
+        2,
+    )
+
+# -- a photograph condemned by eye does not come back --------------------------
+#
+# screen is stateless, so on any later run the same file passes again and lands
+# in kept. Nothing used to notice because the broken merge discarded everything
+# a retry found, condemned photographs included. With the merge fixed, a
+# verdict given on a contact sheet has to be remembered or it is silently
+# overturned by the next pass.
+class _Condemned:
+    """Returns a title the entity was already told, by eye, is the wrong place."""
+
+    def search(self, term: str, limit: int = 50) -> list[str]:
+        return ["File:Pikworo stone.jpg"]
+
+    def info(self, titles: list[str]) -> dict[str, dict]:
+        return {
+            title: {
+                "title": title,
+                "width": 2000,
+                "height": 1500,
+                "sha1": f"pik-{title}",
+                "mime": "image/jpeg",
+                "categories": [],
+                "descriptionurl": "https://commons.wikimedia.org/wiki/File:z",
+                "extmetadata": {
+                    "LicenseShortName": {"value": "CC BY-SA 4.0"},
+                    "LicenseUrl": {"value": "https://creativecommons.org/licenses/by-sa/4.0"},
+                    "ImageDescription": {"value": "Feeding blows for the slaves at Nania"},
+                },
+            }
+            for title in titles
+        }
+
+
+with tempfile.TemporaryDirectory() as _dir:
+    _ccp = Path(_dir) / "checkpoint.jsonl"
+    _ccp.write_text(
+        json.dumps(
+            {
+                "id": _nania["id"],
+                "kept": [],
+                "rejected": [
+                    {
+                        "title": "File:Pikworo stone.jpg",
+                        "reason": "wrong-place: rejected on contact-sheet review, 2026-10-08",
+                    }
+                ],
+                "tried": [],
+            }
+        )
+        + "\n"
+    )
+    with contextlib.redirect_stdout(io.StringIO()):
+        select.collect(_Condemned(), [_nania], [_nania["name"]], checkpoint=_ccp)
+    _crow = [json.loads(line) for line in _ccp.read_text().splitlines() if line.strip()][-1]
+    check_that(
+        "a photograph rejected on a contact sheet does not re-enter the pool",
+        [r["title"] for r in _crow["kept"]],
+        [],
+    )
+    check_that(
+        "and the reason it was kept out is recorded, not silently applied",
+        any(
+            "rejected on contact-sheet review" in str(r.get("reason"))
+            for r in _crow["rejected"]
+        ),
+        True,
+    )
+
+# But a rejection that was never a judgement of place must still be re-opened:
+# raising MIN_WIDTH is only worth anything if a photograph refused as too small
+# under the old floor can come back under the new one.
+with tempfile.TemporaryDirectory() as _dir:
+    _rcp = Path(_dir) / "checkpoint.jsonl"
+    _rcp.write_text(
+        json.dumps(
+            {
+                "id": _nania["id"],
+                "kept": [],
+                "rejected": [{"title": "File:Pikworo stone.jpg", "reason": "too small: 490px"}],
+                "tried": [],
+            }
+        )
+        + "\n"
+    )
+    with contextlib.redirect_stdout(io.StringIO()):
+        select.collect(_Condemned(), [_nania], [_nania["name"]], checkpoint=_rcp)
+    _rrow = [json.loads(line) for line in _rcp.read_text().splitlines() if line.strip()][-1]
+    check_that(
+        "a refusal for size alone is still re-opened on the next pass",
+        [r["title"] for r in _rrow["kept"]],
+        ["File:Pikworo stone.jpg"],
+    )
+
 # -- the map is replaced, not accumulated --------------------------------------
 _selective = [
     entity("homowo-festival"),
@@ -706,6 +924,31 @@ check_that(
     "the out-of-scope entity gets no gallery of its own",
     "homowo-festival" in _galleries,
     False,
+)
+
+# -- the width floor must stay above the widest derivative ---------------------
+#
+# The floor and VARIANTS in build_image_variants.py are one decision expressed
+# twice. Above the widest derivative, a photograph is upscaled to fill it -- the
+# thing MIN_WIDTH exists to prevent. Below it, and a photograph that can serve
+# every size the site renders is refused anyway. Neither is visible from the
+# number alone, so the relationship is what gets pinned.
+_vend = importlib.util.spec_from_file_location(
+    "_variants", Path(__file__).resolve().parents[1] / "build_image_variants.py"
+)
+_variants = importlib.util.module_from_spec(_vend)
+assert _vend.loader is not None
+_vend.loader.exec_module(_variants)
+_widest = max(_variants.VARIANTS)
+check_that(
+    "the width floor clears the widest derivative the site renders",
+    select.MIN_WIDTH > _widest,
+    True,
+)
+check_that(
+    "and is not so far above it that real photographs are lost for nothing",
+    select.MIN_WIDTH <= _widest * 1.5,
+    True,
 )
 
 # -- lowering the threshold surfaces candidates, it does not ship them ---------

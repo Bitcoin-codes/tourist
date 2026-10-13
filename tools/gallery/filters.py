@@ -548,7 +548,17 @@ ALTERNATIVE_NAMES: dict[str, set[str]] = {
     "kassana slave camp": {"kassana", "kassana slave route", "gwollu kassana"},
     "sui river": {"sui", "sui bridge", "sui town river"},
     "assin manso slave river": {"assin manso", "nnonkwe", "assin manso river"},
-    "paga slave camp": {"paga", "paga slave market"},
+    # The camp is filed on Commons as "Pikworo Slave Camp" -- its documented
+    # name, at Paga Nania about 3 km west of Paga (visitghana.com; Wikipedia
+    # "Pikworo Slave camp"). This destination is that camp: its location is
+    # "Paga, near Nania", and there is no other slave camp at Paga.
+    #
+    # The distinction from Nania Slave Route is real and has cost photographs
+    # before. Pikworo is the camp where slaves were held; Nania is the route
+    # they were marched along. The same file is wrong for one and right for the
+    # other, which is why "This stone serve as grinding. Mail at pikworo
+    # slaves..." was condemned for Nania and is exactly what this entity wants.
+    "paga slave camp": {"paga", "paga slave market", "pikworo", "pikworo slave camp"},
     "paga chief's palace": {"paga", "paga naa palace"},
     "dadieso forest reserve": {"dadieso", "dadieso forest", "dadieso reserve"},
     "sefwi wiawso paramount chief's palace": {"wiawso", "wiawso palace", "sefwi wiawso palace"},
@@ -557,7 +567,20 @@ ALTERNATIVE_NAMES: dict[str, set[str]] = {
     "wechiau community hippo sanctuary": {"wechiau", "wechiau sanctuary", "wechiau village"},
     "tanoboase sacred grove": {"tanoboase", "tanoboase shrine"},
     "akaa falls": {"akaa", "akaa waterfall"},
-    "atiwa forest reserve": {"atiwa", "atiwa forest", "atiwa hills"},
+    # "Atiwa" is the older spelling; Commons files the reserve as "Atewa Range"
+    # or "Atewa Range Forest Reserve". Without those, every query for this
+    # destination asked for a name no uploader used and found nothing, while a
+    # well-photographed and frequently hiked forest sat under its other name.
+    # The same trap that hid Bia under "Bia Forest Reserve".
+    "atiwa forest reserve": {
+        "atiwa",
+        "atiwa forest",
+        "atiwa hills",
+        "atewa",
+        "atewa range",
+        "atewa forest",
+        "atewa range forest reserve",
+    },
     "bulenga caves": {"bulenga", "bulenga caves wa"},
     "duasidan monkey sanctuary": {"duasidan"},
     "sirigu traditional houses": {"sirigu"},

@@ -218,6 +218,8 @@ window.IMAGE_VARIANTS = {
     "assets/images/gallery/ankasa-forest-reserve-ankasa-conservation-6.jpg": [400, 800],
     "assets/images/gallery/ankasa-forest-reserve-ankasa-conservation.jpg": [400, 800],
     "assets/images/gallery/ankasa-forest-reserve-pel-s-anomalure.jpg": [400, 800],
+    "assets/images/gallery/atiwa-forest-reserve-atewa-range-forest-national-biodiversity-park.jpg": [400, 800],
+    "assets/images/gallery/atiwa-forest-reserve-spathodea-campanulata-atewa-range-ghana-1.jpg": [400, 800],
     "assets/images/gallery/bakatue-festival-2.jpg": [400, 800],
     "assets/images/gallery/bakatue-festival-boat-boats.jpg": [400, 800],
     "assets/images/gallery/bakatue-festival-boats-fishing.jpg": [400, 800],

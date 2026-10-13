@@ -3609,6 +3609,18 @@
     "region": "Eastern Region",
     "location": "Atiwa, Eastern Region",
     "image": "assets/images/attractions/atiwa-forest-reserve.jpg",
+    "images": [
+      {
+        "image": "assets/images/gallery/atiwa-forest-reserve-atewa-range-forest-national-biodiversity-park.jpg",
+        "alt": "Atiwa Forest Reserve: National biodiversity",
+        "credit": "Popezmens, CC BY-SA 4.0"
+      },
+      {
+        "image": "assets/images/gallery/atiwa-forest-reserve-spathodea-campanulata-atewa-range-ghana-1.jpg",
+        "alt": "Atiwa Forest Reserve: Spathodea campanulata",
+        "credit": "simontonge, CC0"
+      }
+    ],
     "rating": 4.5,
     "reviews": 0,
     "fee": "Free Entry",

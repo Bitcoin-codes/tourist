@@ -273,6 +273,73 @@ check_that(
     select.alias_terms(DESTINATIONS[0]),
     [],
 )
+
+# -- a destination filed under a different spelling ---------------------------
+#
+# Atiwa Forest Reserve is the older name; Commons files the reserve as "Atewa
+# Range" or "Atewa Range Forest Reserve". Every alias here said "atiwa", so
+# every query asked for a name no uploader had used, the destination came back
+# with no candidate at all, and the absence looked exactly like a place that
+# happens not to be photographed. It is a well-photographed, frequently hiked
+# biodiversity park that was invisible for want of one letter.
+_atewa = entity("atiwa-forest-reserve")
+check_that(
+    "Atiwa Forest Reserve is also searched as Atewa, its Commons name",
+    "atewa" in select.alias_terms(_atewa),
+    True,
+)
+check_that(
+    "and that spelling reaches Commons as a query of its own",
+    "atewa Ghana" in select.search_terms(_atewa),
+    True,
+)
+
+# The matching side has to agree, or the query finds the photograph and the
+# filter then rejects it for not naming the destination. That is what happened
+# for Paga Slave Camp: "pikworo" was added as a query alias, the Pikworo tombs
+# were retrieved, and every one came back "off-subject: no mention of 'Paga
+# Slave Camp'" -- found and discarded in the same run.
+_paga = entity("paga-slave-camp")
+check_that(
+    "Paga Slave Camp is searched under the name its camp is filed as",
+    "pikworo" in select.alias_terms(_paga, ["paga Ghana", "paga slave market Ghana"]),
+    True,
+)
+
+# Through the real filter chain, not a private helper: `screen` is what the
+# pipeline calls, and "off-subject" is the verdict it returned.
+_pikworo_rec = {
+    "title": "A tomb of a slave at Pikworo slave camp in Paga Nania.jpg",
+    "width": 3024,
+    "height": 2016,
+    "categories": ["Category:Slavery in Ghana"],
+    "extmetadata": {
+        "LicenseShortName": {"value": "CC BY-SA 4.0"},
+        "LicenseUrl": {"value": "https://creativecommons.org/licenses/by-sa/4.0"},
+    },
+}
+_paga_known = [x["name"] for x in DESTINATIONS + FESTIVALS]
+check_that(
+    "a Pikworo caption names Paga Slave Camp and is not called off-subject",
+    select.screen(_pikworo_rec, _paga["name"], _paga_known, select.host_words(_paga)),
+    "",
+)
+
+_grave_rec = {
+    "title": "Grób Lesława Pagi.jpg",
+    "width": 3024,
+    "height": 2016,
+    "categories": [],
+    "extmetadata": {
+        "LicenseShortName": {"value": "CC BY-SA 4.0"},
+        "LicenseUrl": {"value": "https://creativecommons.org/licenses/by-sa/4.0"},
+    },
+}
+check_that(
+    "a grave in Poland is still refused for Paga Slave Camp",
+    bool(select.screen(_grave_rec, _paga["name"], _paga_known, select.host_words(_paga))),
+    True,
+)
 check_that(
     "an alias is not borrowed across two destinations sharing one word",
     select.alias_terms(entity("gushiegu-textile-centre")),

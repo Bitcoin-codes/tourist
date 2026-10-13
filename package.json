@@ -16,8 +16,5 @@
   "bugs": {
     "url": "https://github.com/Bitcoin-codes/tourist/issues"
   },
-  "homepage": "https://github.com/Bitcoin-codes/tourist#readme",
-  "devDependencies": {
-    "typescript": "^7.0.2"
-  }
+  "homepage": "https://github.com/Bitcoin-codes/tourist#readme"
 }

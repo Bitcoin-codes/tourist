@@ -563,6 +563,13 @@ ALTERNATIVE_NAMES: dict[str, set[str]] = {
     "dadieso forest reserve": {"dadieso", "dadieso forest", "dadieso reserve"},
     "sefwi wiawso paramount chief's palace": {"wiawso", "wiawso palace", "sefwi wiawso palace"},
     "kwahu scarp": {"kwahu"},
+    # NB: Tagbo Falls is a SEPARATE destination in this data set (id
+    # `tagbo-falls`, also at Liati Wote, already installed with six
+    # photographs). Aliasing it here would move another entity's photographs
+    # into this one. Whether "Liati Wote Waterfalls" and "Tagbo Falls" are one
+    # waterfall entered twice is a question for a person to settle, not for the
+    # filter to decide by assignment -- so this entity is searched only under
+    # its own name.
     "liati wote waterfalls": {"wote", "liati wote waterfall", "liati wote afadjato"},
     "wechiau community hippo sanctuary": {"wechiau", "wechiau sanctuary", "wechiau village"},
     "tanoboase sacred grove": {"tanoboase", "tanoboase shrine"},
@@ -591,11 +598,27 @@ ALTERNATIVE_NAMES: dict[str, set[str]] = {
     # only with photographs judged not to be of them, and the pools that were
     # purged today. The same rule as wave 2 -- the entity's own town or subject,
     # asked a way it has not been asked yet ("tried" is what keeps these honest).
-    "fuller falls": {"fuller waterfall", "fuller kintampo"},
+    # "Fuller Waterfalls" is the same falls under Wikipedia's spelling, so it
+    # is safe. "Yabraso" is NOT: it is the town the falls are in (7 km west of
+    # Kintampo), and an alias is used to accept as well as to query -- adding
+    # it would accept a photograph of the town as a photograph of the falls.
+    # A containing place is not an alternative name.
+    "fuller falls": {"fuller waterfall", "fuller kintampo", "fuller waterfalls"},
     "fort royal": {"royal fort cape coast"},
     "fort mccarthy": {"prampram fort", "fort mccarthy prampram"},
     "posuban shrines": {"posuban shrine", "asafo posuban"},
-    "se yo cave": {"seyo cave", "se yo cave winneba"},
+    # Se Yo Cave is one of Shai Hills Resource Reserve's ancestral caves --
+    # "the Se Yo and Adwuku caves, which were once inhabited by the Shai
+    # people". The phrase is kept to the cave's own name so that a general
+    # Shai Hills photograph is not accepted here: Shai Hills Resource Reserve
+    # is a separate destination with its own gallery, and a caption saying only
+    # "Shai Hills" belongs to it, not to this cave.
+    #
+    # Whether Commons' "Sayu caveBat Cave" series depicts this cave is NOT
+    # settled: sources list the reserve's caves as {Sayu, Adwuku} and as
+    # {Se Yo, Adwuku}, swapping the name between lists, and those files carry
+    # no description to break the tie. Left for a person to decide.
+    "se yo cave": {"seyo cave", "se yo cave shai"},
     "gambaga chief palace": {"gambaga palace"},
     "daboya fugu weaving village": {"daboya weaving", "daboya smock"},
     "kukuo pottery centre": {"kukuo pottery", "kukuo pots"},

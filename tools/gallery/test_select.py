@@ -340,6 +340,51 @@ check_that(
     bool(select.screen(_grave_rec, _paga["name"], _paga_known, select.host_words(_paga))),
     True,
 )
+
+# -- a containing place is not an alternative name ----------------------------
+#
+# These phrases are used to query AND to accept, so an alias has to denote the
+# SAME place, never a place that merely holds it. "Yabraso" is the town Fuller
+# Falls is in; "Shai Hills" is the reserve that holds Se Yo Cave. Admitting
+# either would install a photograph of the town or of the reserve as a
+# photograph of the falls or the cave -- and for Se Yo Cave it would take
+# photographs belonging to Shai Hills Resource Reserve, a separate destination
+# that already has its own gallery. The distinction that matters: Atewa IS
+# Atiwa, Pikworo IS the Paga camp, while Yabraso merely CONTAINS the falls.
+check_that(
+    "Fuller Falls is not searched by the town that contains it",
+    "yabraso" in select.alias_terms(entity("fuller-falls")),
+    False,
+)
+check_that(
+    "Se Yo Cave is not searched by the reserve that contains it",
+    "shai hills" in select.alias_terms(entity("se-yo-cave")),
+    False,
+)
+_shai_rec = {
+    "title": "A rock in the middle of the Shai Hills Reserve.jpg",
+    "width": 2024,
+    "height": 1349,
+    "categories": ["Category:Shai Hills Resource Reserve"],
+    "extmetadata": {
+        "LicenseShortName": {"value": "CC BY-SA 4.0"},
+        "LicenseUrl": {"value": "https://creativecommons.org/licenses/by-sa/4.0"},
+    },
+}
+check_that(
+    "and a caption naming only that reserve is refused for the cave",
+    bool(
+        select.screen(
+            _shai_rec, "Se Yo Cave", _paga_known, select.host_words(entity("se-yo-cave"))
+        )
+    ),
+    True,
+)
+check_that(
+    "a district name is not an alias either, however true the district",
+    "kumawu" in select.alias_terms(entity("bomfobiri-wildlife-sanctuary")),
+    False,
+)
 check_that(
     "an alias is not borrowed across two destinations sharing one word",
     select.alias_terms(entity("gushiegu-textile-centre")),
